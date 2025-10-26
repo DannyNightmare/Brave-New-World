@@ -327,6 +327,8 @@ test_plan:
     - "Test complete power creation flow: create shop item with power checkbox -> select category -> verify saved"
     - "Test power purchase flow: buy power item -> verify appears in both Inventory and Powers tabs"
     - "Test Powers page displays items grouped by category with expand/collapse functionality"
+    - "Test power tier system: create items with different tiers (Base, Peak Human, Enhanced, Superhuman, Absolute)"
+    - "Test power leveling system: level up powers and verify max level enforcement"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"

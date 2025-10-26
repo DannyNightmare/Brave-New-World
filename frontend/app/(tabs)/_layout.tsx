@@ -123,10 +123,8 @@ const styles = StyleSheet.create({
     paddingRight: 16,
   },
   menuContainer: {
-    backgroundColor: '#1F2937',
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#374151',
     minWidth: 200,
     overflow: 'hidden',
   },
@@ -138,7 +136,6 @@ const styles = StyleSheet.create({
   },
   menuItemText: {
     fontSize: 16,
-    color: '#F9FAFB',
     fontWeight: '600',
   },
 });

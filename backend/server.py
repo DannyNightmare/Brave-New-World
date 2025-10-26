@@ -244,6 +244,12 @@ async def get_shop_items():
     items = await db.shop_items.find().to_list(1000)
     return [ShopItem(**item) for item in items]
 
+@api_router.post("/shop", response_model=ShopItem)
+async def create_shop_item(item: ShopItemCreate):
+    item_obj = ShopItem(**item.dict())
+    await db.shop_items.insert_one(item_obj.dict())
+    return item_obj
+
 @api_router.delete("/shop/clear-all")
 async def clear_all_shop_items():
     result = await db.shop_items.delete_many({})

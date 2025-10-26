@@ -106,11 +106,14 @@ export default function ShopScreen() {
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [actionModalVisible, setActionModalVisible] = useState(false);
   const [detailModalVisible, setDetailModalVisible] = useState(false);
+  const [powerCategoryModalVisible, setPowerCategoryModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState<ShopItem | null>(null);
   const [viewingItem, setViewingItem] = useState<ShopItem | null>(null);
   const [editingItem, setEditingItem] = useState<ShopItem | null>(null);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [existingPowerCategories, setExistingPowerCategories] = useState<string[]>([]);
+  const [customPowerCategory, setCustomPowerCategory] = useState('');
   const [newItem, setNewItem] = useState({
     name: '',
     description: '',
@@ -119,6 +122,7 @@ export default function ShopScreen() {
     category: 'general',
     image: '',
     is_power: false,
+    power_category: '',
     item_type: 'weapon',
     strength_boost: 0,
     intelligence_boost: 0,

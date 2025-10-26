@@ -59,18 +59,43 @@ export default function QuestsScreen() {
     }
 
     try {
+      const attribute_rewards: { [key: string]: number } = {};
+      if (newQuest.strength_reward > 0) attribute_rewards.strength = newQuest.strength_reward;
+      if (newQuest.intelligence_reward > 0) attribute_rewards.intelligence = newQuest.intelligence_reward;
+      if (newQuest.vitality_reward > 0) attribute_rewards.vitality = newQuest.vitality_reward;
+
+      const payload: any = {
+        user_id: user.id,
+        title: newQuest.title,
+        description: newQuest.description,
+        xp_reward: newQuest.xp_reward,
+        gold_reward: newQuest.gold_reward,
+      };
+
+      if (newQuest.item_reward.trim()) {
+        payload.item_reward = newQuest.item_reward;
+      }
+
+      if (Object.keys(attribute_rewards).length > 0) {
+        payload.attribute_rewards = attribute_rewards;
+      }
+
       const response = await fetch(`${API_URL}/api/quests`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          user_id: user.id,
-          title: newQuest.title,
-          description: newQuest.description,
-          difficulty: newQuest.difficulty,
-        }),
+        body: JSON.stringify(payload),
       });
       await response.json();
-      setNewQuest({ title: '', description: '', difficulty: 'easy' });
+      setNewQuest({ 
+        title: '', 
+        description: '', 
+        xp_reward: 50,
+        gold_reward: 10,
+        item_reward: '',
+        strength_reward: 0,
+        intelligence_reward: 0,
+        vitality_reward: 0,
+      });
       setModalVisible(false);
       fetchQuests();
     } catch (error) {

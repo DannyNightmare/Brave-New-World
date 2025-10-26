@@ -130,10 +130,24 @@ async def get_all_users():
 # Quest endpoints
 @api_router.post("/quests", response_model=Quest)
 async def create_quest(quest: QuestCreate):
-    xp_reward, gold_reward = calculate_rewards(quest.difficulty)
     quest_dict = quest.dict()
-    quest_dict["xp_reward"] = xp_reward
-    quest_dict["gold_reward"] = gold_reward
+    
+    # If rewards not specified, calculate based on difficulty
+    if quest_dict.get("xp_reward") is None and quest_dict.get("difficulty"):
+        xp_reward, gold_reward = calculate_rewards(quest_dict["difficulty"])
+        quest_dict["xp_reward"] = xp_reward
+        quest_dict["gold_reward"] = gold_reward
+    elif quest_dict.get("xp_reward") is None:
+        # Default rewards if nothing specified
+        quest_dict["xp_reward"] = 50
+        quest_dict["gold_reward"] = 10
+    
+    if quest_dict.get("gold_reward") is None:
+        quest_dict["gold_reward"] = 10
+    
+    if not quest_dict.get("difficulty"):
+        quest_dict["difficulty"] = "custom"
+    
     quest_obj = Quest(**quest_dict)
     await db.quests.insert_one(quest_obj.dict())
     return quest_obj

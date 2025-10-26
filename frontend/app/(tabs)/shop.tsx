@@ -48,7 +48,11 @@ const ShopItemCard = ({ item, onLongPress, onPress, onPurchase }: {
   };
 
   return (
-    <TouchableWithoutFeedback onLongPress={onLongPress} delayLongPress={800}>
+    <TouchableWithoutFeedback 
+      onLongPress={onLongPress} 
+      onPress={onPress}
+      delayLongPress={800}
+    >
       <View style={styles.itemCard}>
         <View style={[styles.itemIcon, { backgroundColor: getItemColor(item.item_type) + '20' }]}>
           {item.image ? (

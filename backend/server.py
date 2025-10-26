@@ -139,6 +139,28 @@ async def get_all_users():
     users = await db.users.find().to_list(100)
     return [User(**user) for user in users]
 
+@api_router.post("/users/{user_id}/reset")
+async def reset_user_stats(user_id: str):
+    user = await db.users.find_one({"id": user_id})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Reset user to default values
+    await db.users.update_one(
+        {"id": user_id},
+        {"$set": {
+            "level": 1,
+            "xp": 0,
+            "gold": 100,
+            "strength": 10,
+            "intelligence": 10,
+            "vitality": 10
+        }}
+    )
+    
+    updated_user = await db.users.find_one({"id": user_id})
+    return {"message": "User stats reset to default", "user": User(**updated_user)}
+
 
 # Quest endpoints
 @api_router.post("/quests", response_model=Quest)

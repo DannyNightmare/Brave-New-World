@@ -163,8 +163,19 @@ export default function ShopScreen() {
     }
   };
 
+  const fetchPowerCategories = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/powers/categories/all`);
+      const data = await response.json();
+      setExistingPowerCategories(data.categories || []);
+    } catch (error) {
+      console.error('Failed to fetch power categories:', error);
+    }
+  };
+
   useEffect(() => {
     fetchShopItems();
+    fetchPowerCategories();
   }, []);
 
   const handleItemLongPress = (item: ShopItem) => {

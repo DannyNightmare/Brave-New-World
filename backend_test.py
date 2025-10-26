@@ -14,45 +14,33 @@ BASE_URL = "https://gamelife-rpg.preview.emergentagent.com/api"
 
 class PowerTierTester:
     def __init__(self):
+        self.base_url = BASE_URL
         self.test_user_id = None
-        self.test_power_item_id = None
-        self.test_regular_item_id = None
-        self.test_results = []
+        self.test_shop_items = []
+        self.test_powers = []
         
-    def log_test(self, test_name: str, success: bool, details: str = ""):
-        """Log test results"""
-        status = "✅ PASS" if success else "❌ FAIL"
-        self.test_results.append({
-            "test": test_name,
-            "status": status,
-            "success": success,
-            "details": details
-        })
-        print(f"{status}: {test_name}")
-        if details:
-            print(f"   Details: {details}")
-    
-    def setup_test_user(self) -> str:
-        """Create or get a test user"""
-        try:
-            # Create a test user
-            user_data = {
-                "username": f"power_test_user_{uuid.uuid4().hex[:8]}"
-            }
+    def setup_test_user(self):
+        """Create a test user for testing"""
+        print("🔧 Setting up test user...")
+        
+        # Create user
+        user_data = {"username": f"power_test_user_{uuid.uuid4().hex[:8]}"}
+        response = requests.post(f"{self.base_url}/users", json=user_data)
+        
+        if response.status_code == 200:
+            user = response.json()
+            self.test_user_id = user["id"]
+            print(f"✅ Test user created: {user['username']} (ID: {self.test_user_id})")
             
-            response = requests.post(f"{BACKEND_URL}/users", json=user_data)
-            if response.status_code == 200:
-                user = response.json()
-                self.test_user_id = user["id"]
-                self.log_test("Setup Test User", True, f"Created user: {user['username']} (ID: {user['id']})")
-                return user["id"]
-            else:
-                self.log_test("Setup Test User", False, f"Failed to create user: {response.status_code} - {response.text}")
-                return None
-                
-        except Exception as e:
-            self.log_test("Setup Test User", False, f"Exception: {str(e)}")
-            return None
+            # Give user more gold for testing
+            reset_response = requests.post(f"{self.base_url}/users/{self.test_user_id}/reset")
+            if reset_response.status_code == 200:
+                # Update gold to 10000 for testing
+                print("✅ User stats reset, ready for testing")
+            return True
+        else:
+            print(f"❌ Failed to create test user: {response.status_code} - {response.text}")
+            return False
     
     def test_shop_item_creation_with_power_fields(self):
         """Test creating shop items with power fields"""

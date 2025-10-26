@@ -106,6 +106,7 @@ export default function ShopScreen() {
   const [viewingItem, setViewingItem] = useState<ShopItem | null>(null);
   const [editingItem, setEditingItem] = useState<ShopItem | null>(null);
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
   const [newItem, setNewItem] = useState({
     name: '',
     description: '',

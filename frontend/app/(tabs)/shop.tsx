@@ -193,6 +193,8 @@ export default function ShopScreen() {
         stock: selectedItem.stock || 1,
         category: selectedItem.category || 'general',
         image: selectedItem.image || '',
+        is_power: selectedItem.is_power || false,
+        power_category: selectedItem.power_category || '',
         item_type: selectedItem.item_type,
         strength_boost: selectedItem.stat_boost?.strength || 0,
         intelligence_boost: selectedItem.stat_boost?.intelligence || 0,
@@ -200,6 +202,21 @@ export default function ShopScreen() {
       });
       setActionModalVisible(false);
       setEditModalVisible(true);
+    }
+  };
+
+  const handlePowerCategorySelect = (category: string) => {
+    setNewItem({ ...newItem, power_category: category });
+    setPowerCategoryModalVisible(false);
+  };
+
+  const handleAddPowerToggle = () => {
+    if (!newItem.is_power) {
+      // User is checking the "Add to Powers" checkbox
+      setPowerCategoryModalVisible(true);
+    } else {
+      // User is unchecking, clear the power category
+      setNewItem({ ...newItem, is_power: false, power_category: '' });
     }
   };
 

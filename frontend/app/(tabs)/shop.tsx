@@ -92,11 +92,13 @@ export default function ShopScreen() {
   const [actionModalVisible, setActionModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState<ShopItem | null>(null);
   const [editingItem, setEditingItem] = useState<ShopItem | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [newItem, setNewItem] = useState({
     name: '',
     description: '',
     price: 50,
     stock: 1,
+    category: 'general',
     item_type: 'weapon',
     strength_boost: 0,
     intelligence_boost: 0,

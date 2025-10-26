@@ -479,12 +479,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
     justifyContent: 'flex-end',
   },
+  modalScrollView: {
+    flex: 1,
+  },
   modalContent: {
     backgroundColor: '#1F2937',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     padding: 24,
-    minHeight: 400,
+    minHeight: 500,
   },
   modalHeader: {
     flexDirection: 'row',

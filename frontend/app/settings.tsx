@@ -233,6 +233,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
   },
+  dangerItem: {
+    borderWidth: 2,
+  },
   versionContainer: {
     alignItems: 'center',
     paddingVertical: 24,

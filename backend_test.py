@@ -221,11 +221,11 @@ class PowerTierTester:
         # Purchase multiple powers in different categories with different tiers
         test_results = []
         
-        # Create a power in a different category
+        # Create a power in a different category with lower price
         mental_power_data = {
             "name": "Telepathy",
             "description": "Read minds and communicate telepathically",
-            "price": 200,
+            "price": 50,  # Lower price to ensure user can afford it
             "category": "powers",
             "is_power": True,
             "power_category": "Mental Abilities",

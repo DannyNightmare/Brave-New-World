@@ -351,10 +351,14 @@ export default function ShopScreen() {
   // Get unique categories from items
   const categories = ['all', ...Array.from(new Set(items.map(item => item.category || 'general')))];
   
-  // Filter items based on selected category
-  const filteredItems = selectedCategory === 'all' 
-    ? items 
-    : items.filter(item => (item.category || 'general') === selectedCategory);
+  // Filter items based on category and search query
+  const filteredItems = items.filter(item => {
+    const matchesCategory = selectedCategory === 'all' || (item.category || 'general') === selectedCategory;
+    const matchesSearch = searchQuery.trim() === '' || 
+      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.description.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   if (loading) {
     return (

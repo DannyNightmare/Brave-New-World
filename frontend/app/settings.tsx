@@ -14,63 +14,54 @@ export default function SettingsScreen() {
   const { isDarkMode, toggleDarkMode, colors } = useTheme();
   const { user } = useUser();
   const [autoSave, setAutoSave] = useState(true);
+  const [resetModalVisible, setResetModalVisible] = useState(false);
 
   const handleFactoryReset = () => {
-    Alert.alert(
-      '⚠️ Factory Reset',
-      'This will permanently delete ALL your data:\n\n• All Quests\n• All Inventory Items\n• All Shop Items\n• Player Level (reset to 1)\n• Experience Points (reset to 0)\n• Gold (reset to 100)\n• All Stats (reset to 10)\n\nThis action CANNOT be undone!\n\nAre you absolutely sure?',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {
-          text: 'Yes, Reset Everything',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              if (!user?.id) return;
-              
-              // Delete all quests
-              const questsResponse = await fetch(`${API_URL}/api/quests/${user.id}`);
-              const quests = await questsResponse.json();
-              for (const quest of quests) {
-                await fetch(`${API_URL}/api/quests/${quest.id}`, { method: 'DELETE' });
-              }
-              
-              // Delete all inventory items
-              const inventoryResponse = await fetch(`${API_URL}/api/inventory/${user.id}`);
-              const inventory = await inventoryResponse.json();
-              for (const item of inventory) {
-                await fetch(`${API_URL}/api/inventory/${item.id}`, { method: 'DELETE' });
-              }
-              
-              // Clear all shop items
-              await fetch(`${API_URL}/api/shop/clear-all`, { method: 'DELETE' });
-              
-              // Reset user stats to default
-              await fetch(`${API_URL}/api/users/${user.id}/reset`, {
-                method: 'POST',
-              });
-              
-              Alert.alert(
-                '✅ Reset Complete', 
-                'All your data has been reset to default values. Please restart the app to see the changes.',
-                [
-                  {
-                    text: 'OK',
-                    onPress: () => router.back(),
-                  }
-                ]
-              );
-            } catch (error) {
-              console.error('Factory reset failed:', error);
-              Alert.alert('Error', 'Failed to reset data. Please try again.');
-            }
-          },
-        },
-      ]
-    );
+    setResetModalVisible(true);
+  };
+
+  const confirmFactoryReset = async () => {
+    try {
+      if (!user?.id) return;
+      
+      // Delete all quests
+      const questsResponse = await fetch(`${API_URL}/api/quests/${user.id}`);
+      const quests = await questsResponse.json();
+      for (const quest of quests) {
+        await fetch(`${API_URL}/api/quests/${quest.id}`, { method: 'DELETE' });
+      }
+      
+      // Delete all inventory items
+      const inventoryResponse = await fetch(`${API_URL}/api/inventory/${user.id}`);
+      const inventory = await inventoryResponse.json();
+      for (const item of inventory) {
+        await fetch(`${API_URL}/api/inventory/${item.id}`, { method: 'DELETE' });
+      }
+      
+      // Clear all shop items
+      await fetch(`${API_URL}/api/shop/clear-all`, { method: 'DELETE' });
+      
+      // Reset user stats to default
+      await fetch(`${API_URL}/api/users/${user.id}/reset`, {
+        method: 'POST',
+      });
+      
+      setResetModalVisible(false);
+      Alert.alert(
+        '✅ Reset Complete', 
+        'All your data has been reset to default values. Please restart the app to see the changes.',
+        [
+          {
+            text: 'OK',
+            onPress: () => router.back(),
+          }
+        ]
+      );
+    } catch (error) {
+      console.error('Factory reset failed:', error);
+      setResetModalVisible(false);
+      Alert.alert('Error', 'Failed to reset data. Please try again.');
+    }
   };
 
   return (

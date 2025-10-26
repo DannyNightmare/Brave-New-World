@@ -435,6 +435,30 @@ async def level_up_power(power_id: str):
         {"$set": {"current_level": new_level}}
     )
     
+    # Check if power reached max level and has next tier ability
+    if new_level >= power["max_level"] and power.get("next_tier_ability"):
+        # Search for the next tier item in shop
+        next_tier_item = await db.shop_items.find_one({
+            "name": power["next_tier_ability"],
+            "is_power": True
+        })
+        
+        # Create the next tier power automatically
+        next_power = PowerItem(
+            user_id=power["user_id"],
+            shop_item_id=next_tier_item["id"] if next_tier_item else str(uuid.uuid4()),
+            name=power["next_tier_ability"],
+            description=next_tier_item.get("description", f"Advanced form of {power['name']}") if next_tier_item else f"Advanced form of {power['name']}",
+            power_category=power["power_category"],
+            power_tier=next_tier_item.get("power_tier", "Peak Human") if next_tier_item else "Peak Human",
+            current_level=1,
+            max_level=next_tier_item.get("power_max_level", 5) if next_tier_item else 5,
+            next_tier_ability=next_tier_item.get("next_tier_ability") if next_tier_item else None,
+            image=next_tier_item.get("image") if next_tier_item else power.get("image"),
+            stat_boost=next_tier_item.get("stat_boost") if next_tier_item else power.get("stat_boost")
+        )
+        await db.powers.insert_one(next_power.dict())
+    
     updated_power = await db.powers.find_one({"id": power_id})
     return PowerItem(**updated_power)
 

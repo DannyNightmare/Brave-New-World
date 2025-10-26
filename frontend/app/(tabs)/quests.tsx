@@ -109,10 +109,15 @@ export default function QuestsScreen() {
       const response = await fetch(`${API_URL}/api/quests/${questId}/complete`, {
         method: 'POST',
       });
-      await response.json();
+      const result = await response.json();
       await refreshUser();
       fetchQuests();
-      Alert.alert('Quest Complete!', 'You earned XP and gold!');
+      
+      let message = 'You earned XP and gold!';
+      if (result.item_reward) {
+        message += `\n\nItem Reward: ${result.item_reward}`;
+      }
+      Alert.alert('Quest Complete!', message);
     } catch (error) {
       console.error('Failed to complete quest:', error);
       Alert.alert('Error', 'Failed to complete quest');

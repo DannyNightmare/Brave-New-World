@@ -125,6 +125,7 @@ export default function ShopScreen() {
     power_category: '',
     power_tier: 'Base',
     power_max_level: 5,
+    next_tier_ability: '',
     item_type: 'weapon',
     strength_boost: 0,
     intelligence_boost: 0,

@@ -122,38 +122,33 @@ export default function ShopScreen() {
   }, []);
 
   const handleItemLongPress = (item: ShopItem) => {
-    Alert.alert(
-      item.name,
-      'Choose an action',
-      [
-        {
-          text: 'Edit',
-          onPress: () => {
-            setEditingItem(item);
-            setNewItem({
-              name: item.name,
-              description: item.description,
-              price: item.price,
-              stock: item.stock || 1,
-              item_type: item.item_type,
-              strength_boost: item.stat_boost?.strength || 0,
-              intelligence_boost: item.stat_boost?.intelligence || 0,
-              vitality_boost: item.stat_boost?.vitality || 0,
-            });
-            setEditModalVisible(true);
-          },
-        },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: () => deleteShopItem(item),
-        },
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-      ]
-    );
+    setSelectedItem(item);
+    setActionModalVisible(true);
+  };
+
+  const handleEdit = () => {
+    if (selectedItem) {
+      setEditingItem(selectedItem);
+      setNewItem({
+        name: selectedItem.name,
+        description: selectedItem.description,
+        price: selectedItem.price,
+        stock: selectedItem.stock || 1,
+        item_type: selectedItem.item_type,
+        strength_boost: selectedItem.stat_boost?.strength || 0,
+        intelligence_boost: selectedItem.stat_boost?.intelligence || 0,
+        vitality_boost: selectedItem.stat_boost?.vitality || 0,
+      });
+      setActionModalVisible(false);
+      setEditModalVisible(true);
+    }
+  };
+
+  const handleDelete = () => {
+    if (selectedItem) {
+      deleteShopItem(selectedItem);
+      setActionModalVisible(false);
+    }
   };
 
   const deleteShopItem = async (item: ShopItem) => {

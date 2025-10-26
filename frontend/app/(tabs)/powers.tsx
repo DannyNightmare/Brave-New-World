@@ -50,7 +50,7 @@ export default function PowersScreen() {
     }
   };
 
-  const levelUpPower = async (powerId: string) => {
+  const levelUpPower = async (powerId: string, powerName: string, nextTierAbility?: string) => {
     try {
       const response = await fetch(`${API_URL}/api/powers/${powerId}/levelup`, {
         method: 'POST',
@@ -59,6 +59,16 @@ export default function PowersScreen() {
       if (response.ok) {
         // Refresh powers after level up
         await fetchPowers();
+        
+        // If this was the max level and has next tier, show unlock message
+        const updatedPower = powers.find(p => p.id === powerId);
+        if (updatedPower && updatedPower.current_level + 1 >= updatedPower.max_level && nextTierAbility) {
+          Alert.alert(
+            '🎉 Power Maxed Out!',
+            `${powerName} has reached MAX level!\n\n✨ ${nextTierAbility} has been unlocked and added to your powers!`,
+            [{ text: 'Awesome!', style: 'default' }]
+          );
+        }
       } else {
         const error = await response.json();
         alert(error.detail || 'Failed to level up power');

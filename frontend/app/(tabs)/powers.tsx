@@ -39,6 +39,25 @@ export default function PowersScreen() {
     }
   };
 
+  const levelUpPower = async (powerId: string) => {
+    try {
+      const response = await fetch(`${API_URL}/api/powers/${powerId}/levelup`, {
+        method: 'POST',
+      });
+      
+      if (response.ok) {
+        // Refresh powers after level up
+        await fetchPowers();
+      } else {
+        const error = await response.json();
+        alert(error.detail || 'Failed to level up power');
+      }
+    } catch (error) {
+      console.error('Failed to level up power:', error);
+      alert('Failed to level up power');
+    }
+  };
+
   useEffect(() => {
     fetchPowers();
   }, [user]);

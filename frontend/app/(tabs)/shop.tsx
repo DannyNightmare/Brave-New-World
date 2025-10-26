@@ -1182,8 +1182,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   previewImage: {
-    width: 120,
-    height: 120,
+    width: 200,
+    height: 150,
     borderRadius: 12,
   },
   removeImageButton: {
@@ -1194,8 +1194,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   itemImage: {
-    width: 32,
-    height: 32,
-    borderRadius: 8,
+    width: '100%',
+    height: '100%',
+    borderRadius: 12,
   },
 });

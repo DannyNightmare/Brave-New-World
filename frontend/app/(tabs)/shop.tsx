@@ -274,6 +274,7 @@ export default function ShopScreen() {
         power_category: newItem.power_category || null,
         power_tier: newItem.power_tier || null,
         power_max_level: newItem.power_max_level || null,
+        next_tier_ability: newItem.next_tier_ability || null,
       };
 
       if (newItem.image) {
@@ -346,6 +347,7 @@ export default function ShopScreen() {
         power_category: newItem.power_category || null,
         power_tier: newItem.power_tier || null,
         power_max_level: newItem.power_max_level || null,
+        next_tier_ability: newItem.next_tier_ability || null,
       };
 
       if (newItem.image) {

@@ -21,9 +21,10 @@ interface ShopItem {
 }
 
 // Shop Item Component with long press support
-const ShopItemCard = ({ item, onLongPress, onPurchase }: { 
+const ShopItemCard = ({ item, onLongPress, onPress, onPurchase }: { 
   item: ShopItem; 
-  onLongPress: () => void; 
+  onLongPress: () => void;
+  onPress: () => void; 
   onPurchase: () => void; 
 }) => {
   const getItemIcon = (type: string) => {

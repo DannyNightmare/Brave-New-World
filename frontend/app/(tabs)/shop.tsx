@@ -552,6 +552,32 @@ export default function ShopScreen() {
                 onChangeText={(text) => setNewItem({ ...newItem, category: text })}
               />
 
+              {/* Existing Categories Selection */}
+              {categories.length > 1 && (
+                <>
+                  <Text style={styles.label}>Or Select Existing Category</Text>
+                  <View style={styles.existingCategoriesContainer}>
+                    {categories.filter(cat => cat !== 'all').map(category => (
+                      <TouchableOpacity
+                        key={category}
+                        style={[
+                          styles.existingCategoryChip,
+                          newItem.category === category && styles.existingCategoryChipSelected,
+                        ]}
+                        onPress={() => setNewItem({ ...newItem, category: category })}
+                      >
+                        <Text style={[
+                          styles.existingCategoryChipText,
+                          newItem.category === category && styles.existingCategoryChipTextSelected
+                        ]}>
+                          {category.charAt(0).toUpperCase() + category.slice(1)}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                </>
+              )}
+
               <Text style={styles.label}>Item Details</Text>
               <View style={styles.rewardRow}>
                 <View style={styles.rewardInput}>

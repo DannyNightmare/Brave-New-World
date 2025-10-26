@@ -415,6 +415,24 @@ async def delete_power(power_id: str):
         raise HTTPException(status_code=404, detail="Power not found")
     return {"message": "Power deleted"}
 
+@api_router.post("/powers/{power_id}/levelup")
+async def level_up_power(power_id: str):
+    power = await db.powers.find_one({"id": power_id})
+    if not power:
+        raise HTTPException(status_code=404, detail="Power not found")
+    
+    if power["current_level"] >= power["max_level"]:
+        raise HTTPException(status_code=400, detail="Power is already at max level")
+    
+    new_level = power["current_level"] + 1
+    await db.powers.update_one(
+        {"id": power_id},
+        {"$set": {"current_level": new_level}}
+    )
+    
+    updated_power = await db.powers.find_one({"id": power_id})
+    return PowerItem(**updated_power)
+
 
 # Include the router in the main app
 app.include_router(api_router)

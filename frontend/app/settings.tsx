@@ -12,30 +12,41 @@ const API_URL = Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL || '';
 export default function SettingsScreen() {
   const router = useRouter();
   const { isDarkMode, toggleDarkMode, colors } = useTheme();
-  const { user } = useUser();
+  const { user, refreshUser } = useUser();
   const [autoSave, setAutoSave] = useState(true);
   const [resetModalVisible, setResetModalVisible] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
 
   const handleFactoryReset = () => {
     setResetModalVisible(true);
   };
 
   const confirmFactoryReset = async () => {
+    setIsResetting(true);
+    
     try {
-      if (!user?.id) return;
+      if (!user?.id) {
+        Alert.alert('Error', 'User not found. Please restart the app.');
+        setIsResetting(false);
+        return;
+      }
       
       // Delete all quests
       const questsResponse = await fetch(`${API_URL}/api/quests/${user.id}`);
-      const quests = await questsResponse.json();
-      for (const quest of quests) {
-        await fetch(`${API_URL}/api/quests/${quest.id}`, { method: 'DELETE' });
+      if (questsResponse.ok) {
+        const quests = await questsResponse.json();
+        for (const quest of quests) {
+          await fetch(`${API_URL}/api/quests/${quest.id}`, { method: 'DELETE' });
+        }
       }
       
       // Delete all inventory items
       const inventoryResponse = await fetch(`${API_URL}/api/inventory/${user.id}`);
-      const inventory = await inventoryResponse.json();
-      for (const item of inventory) {
-        await fetch(`${API_URL}/api/inventory/${item.id}`, { method: 'DELETE' });
+      if (inventoryResponse.ok) {
+        const inventory = await inventoryResponse.json();
+        for (const item of inventory) {
+          await fetch(`${API_URL}/api/inventory/${item.id}`, { method: 'DELETE' });
+        }
       }
       
       // Clear all shop items
@@ -46,10 +57,15 @@ export default function SettingsScreen() {
         method: 'POST',
       });
       
+      // Refresh user data
+      await refreshUser();
+      
+      setIsResetting(false);
       setResetModalVisible(false);
+      
       Alert.alert(
         '✅ Reset Complete', 
-        'All your data has been reset to default values. Please restart the app to see the changes.',
+        'All your data has been reset to default values:\n\n• Level: 1\n• XP: 0\n• Gold: 100\n• All Stats: 10\n\nYour app has been refreshed!',
         [
           {
             text: 'OK',
@@ -59,8 +75,9 @@ export default function SettingsScreen() {
       );
     } catch (error) {
       console.error('Factory reset failed:', error);
+      setIsResetting(false);
       setResetModalVisible(false);
-      Alert.alert('Error', 'Failed to reset data. Please try again.');
+      Alert.alert('Error', 'Failed to reset data. Please try again or contact support.');
     }
   };
 

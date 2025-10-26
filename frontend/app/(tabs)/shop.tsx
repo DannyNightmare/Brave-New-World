@@ -105,11 +105,34 @@ export default function ShopScreen() {
     price: 50,
     stock: 1,
     category: 'general',
+    image: '',
     item_type: 'weapon',
     strength_boost: 0,
     intelligence_boost: 0,
     vitality_boost: 0,
   });
+
+  const pickImage = async () => {
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    
+    if (permissionResult.granted === false) {
+      Alert.alert('Permission Required', 'Permission to access camera roll is required!');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.5,
+      base64: true,
+    });
+
+    if (!result.canceled && result.assets[0].base64) {
+      const base64Image = `data:image/${result.assets[0].uri.split('.').pop()};base64,${result.assets[0].base64}`;
+      setNewItem({ ...newItem, image: base64Image });
+    }
+  };
 
   const fetchShopItems = async () => {
     try {

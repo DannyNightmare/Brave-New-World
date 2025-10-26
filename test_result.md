@@ -286,3 +286,5 @@ test_plan:
 agent_communication:
   - agent: "main"
     message: "Implemented full 'Add to Powers' feature. Backend now supports power_category field in shop items and has a separate powers collection. When items with is_power=true are purchased, they're added to both inventory and powers. Frontend has checkbox in shop modals that opens category selection popup. Powers page now displays all user powers grouped by expandable categories. Ready for backend testing."
+  - agent: "testing"
+    message: "✅ BACKEND TESTING COMPLETE: All 6 backend tasks for 'Add to Powers' feature are working perfectly. Comprehensive testing performed covering: 1) Shop item creation with power fields, 2) Power categories endpoint, 3) Purchase flow with dual collection insertion, 4) Powers retrieval, 5) Regular item purchase (inventory only), 6) Category updates after purchases. All 15 test scenarios passed. Backend implementation is solid and ready for production."

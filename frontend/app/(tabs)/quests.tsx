@@ -160,7 +160,6 @@ export default function QuestsScreen() {
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
         <View style={styles.header}>
           <View>
-            <Text style={styles.title}>Quests</Text>
             <Text style={styles.subtitle}>{activeQuests.length} active</Text>
           </View>
           <TouchableOpacity style={styles.addButton} onPress={() => setModalVisible(true)}>

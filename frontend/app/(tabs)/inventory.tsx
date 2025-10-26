@@ -72,7 +72,6 @@ export default function InventoryScreen() {
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
         <View style={styles.header}>
           <View>
-            <Text style={styles.title}>Inventory</Text>
             <Text style={styles.subtitle}>{items.length} items</Text>
           </View>
         </View>

@@ -297,7 +297,7 @@ export default function PowersScreen() {
                         {!isMaxLevel && (
                           <TouchableOpacity 
                             style={styles.levelUpButton}
-                            onPress={() => levelUpPower(power.id)}
+                            onPress={() => levelUpPower(power.id, power.name, power.next_tier_ability)}
                           >
                             <Ionicons name="arrow-up-circle" size={20} color="#FFF" />
                             <Text style={styles.levelUpButtonText}>Level Up</Text>

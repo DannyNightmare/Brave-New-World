@@ -358,70 +358,14 @@ export default function ShopScreen() {
           </View>
         </View>
 
-        {items.map(item => {
-          const canAfford = (user?.gold || 0) >= item.price;
-          const longPressTimer = useRef<NodeJS.Timeout | null>(null);
-          
-          const handlePressIn = () => {
-            longPressTimer.current = setTimeout(() => {
-              handleItemLongPress(item);
-            }, 500);
-          };
-          
-          const handlePressOut = () => {
-            if (longPressTimer.current) {
-              clearTimeout(longPressTimer.current);
-              longPressTimer.current = null;
-            }
-          };
-          
-          return (
-            <View
-              key={item.id}
-              style={styles.itemCard}
-              onTouchStart={handlePressIn}
-              onTouchEnd={handlePressOut}
-              onMouseDown={Platform.OS === 'web' ? handlePressIn : undefined}
-              onMouseUp={Platform.OS === 'web' ? handlePressOut : undefined}
-              onMouseLeave={Platform.OS === 'web' ? handlePressOut : undefined}
-            >
-              <View style={[styles.itemIcon, { backgroundColor: getItemColor(item.item_type) + '20' }]}>
-                <Ionicons name={getItemIcon(item.item_type) as any} size={32} color={getItemColor(item.item_type)} />
-              </View>
-              
-              <View style={styles.itemInfo}>
-                <Text style={styles.itemName}>{item.name}</Text>
-                <Text style={styles.itemDescription}>{item.description}</Text>
-                
-                {item.stat_boost && (
-                  <View style={styles.statBoosts}>
-                    {Object.entries(item.stat_boost).map(([stat, value]) => (
-                      <View key={stat} style={styles.statBoost}>
-                        <Ionicons 
-                          name={stat === 'strength' ? 'barbell' : stat === 'intelligence' ? 'bulb' : 'heart'} 
-                          size={12} 
-                          color="#10B981" 
-                        />
-                        <Text style={styles.statBoostText}>+{value} {stat}</Text>
-                      </View>
-                    ))}
-                  </View>
-                )}
-              </View>
-              
-              <TouchableOpacity 
-                style={[styles.buyButton, !canAfford && styles.buyButtonDisabled]}
-                onPress={() => purchaseItem(item)}
-                disabled={!canAfford}
-              >
-                <Ionicons name="logo-bitcoin" size={16} color={canAfford ? "#FFF" : "#6B7280"} />
-                <Text style={[styles.buyButtonText, !canAfford && styles.buyButtonTextDisabled]}>
-                  {item.price}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          );
-        })}
+        {items.map(item => (
+          <ShopItemCard
+            key={item.id}
+            item={item}
+            onLongPress={() => handleItemLongPress(item)}
+            onPurchase={() => purchaseItem(item)}
+          />
+        ))}
       </ScrollView>
 
       {/* Floating Action Button */}

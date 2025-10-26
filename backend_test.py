@@ -357,6 +357,6 @@ class PowerTierTester:
         return overall_result
 
 if __name__ == "__main__":
-    tester = PowersBackendTester()
+    tester = PowerTierTester()
     success = tester.run_all_tests()
     exit(0 if success else 1)

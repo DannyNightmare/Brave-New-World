@@ -15,6 +15,7 @@ interface ShopItem {
   price: number;
   stock?: number;
   category: string;
+  image?: string;
   item_type: string;
   stat_boost?: { [key: string]: number };
 }
@@ -49,7 +50,11 @@ const ShopItemCard = ({ item, onLongPress, onPurchase }: {
     <TouchableWithoutFeedback onLongPress={onLongPress} delayLongPress={800}>
       <View style={styles.itemCard}>
         <View style={[styles.itemIcon, { backgroundColor: getItemColor(item.item_type) + '20' }]}>
-          <Ionicons name={getItemIcon(item.item_type) as any} size={32} color={getItemColor(item.item_type)} />
+          {item.image ? (
+            <Image source={{ uri: item.image }} style={styles.itemImage} />
+          ) : (
+            <Ionicons name={getItemIcon(item.item_type) as any} size={32} color={getItemColor(item.item_type)} />
+          )}
         </View>
         
         <View style={styles.itemInfo}>

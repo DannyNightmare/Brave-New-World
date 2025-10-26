@@ -720,6 +720,16 @@ export default function ShopScreen() {
                     onChangeText={(text) => setNewItem({ ...newItem, power_max_level: parseInt(text) || 5 })}
                     keyboardType="numeric"
                   />
+
+                  <Text style={styles.label}>Next Tier Ability (Optional)</Text>
+                  <Text style={styles.helperText}>What ability unlocks when this is maxed?</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="e.g., Enhanced Strength, Peak Human Agility"
+                    placeholderTextColor="#6B7280"
+                    value={newItem.next_tier_ability}
+                    onChangeText={(text) => setNewItem({ ...newItem, next_tier_ability: text })}
+                  />
                 </>
               )}
 

@@ -164,6 +164,7 @@ export default function ShopScreen() {
         price: selectedItem.price,
         stock: selectedItem.stock || 1,
         category: selectedItem.category || 'general',
+        image: selectedItem.image || '',
         item_type: selectedItem.item_type,
         strength_boost: selectedItem.stat_boost?.strength || 0,
         intelligence_boost: selectedItem.stat_boost?.intelligence || 0,

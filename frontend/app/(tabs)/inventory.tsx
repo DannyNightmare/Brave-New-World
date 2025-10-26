@@ -108,7 +108,7 @@ export default function InventoryScreen() {
             <Text style={styles.emptySubtext}>Visit the shop to purchase items</Text>
           </View>
         ) : (
-          items.map(item => (
+          filteredItems.map(item => (
             <View key={item.id} style={styles.itemCard}>
               <View style={[styles.itemIcon, { backgroundColor: getItemColor(item.item_type) + '20' }]}>
                 <Ionicons name={getItemIcon(item.item_type) as any} size={32} color={getItemColor(item.item_type)} />

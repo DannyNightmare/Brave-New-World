@@ -144,41 +144,69 @@ export default function PowersScreen() {
 
               {isExpanded && (
                 <View style={styles.powersList}>
-                  {categoryPowers.map((power) => (
-                    <View key={power.id} style={styles.powerCard}>
-                      <View style={styles.powerCardHeader}>
-                        {power.image ? (
-                          <Image source={{ uri: power.image }} style={styles.powerImage} />
-                        ) : (
-                          <View style={styles.powerIconPlaceholder}>
-                            <Ionicons name="flash" size={32} color="#8B5CF6" />
+                  {categoryPowers.map((power) => {
+                    const isMaxLevel = power.current_level >= power.max_level;
+                    
+                    return (
+                      <View key={power.id} style={styles.powerCard}>
+                        <View style={styles.powerCardHeader}>
+                          {power.image ? (
+                            <Image source={{ uri: power.image }} style={styles.powerImage} />
+                          ) : (
+                            <View style={styles.powerIconPlaceholder}>
+                              <Ionicons name="flash" size={32} color="#8B5CF6" />
+                            </View>
+                          )}
+                          
+                          <View style={styles.powerInfo}>
+                            <View style={styles.powerNameRow}>
+                              <Text style={styles.powerName}>{power.name}</Text>
+                              {isMaxLevel && (
+                                <View style={styles.maxBadge}>
+                                  <Text style={styles.maxBadgeText}>MAX</Text>
+                                </View>
+                              )}
+                            </View>
+                            <View style={styles.powerTierRow}>
+                              <Text style={styles.powerTierText}>{power.power_tier}</Text>
+                              <Text style={styles.powerLevelText}>
+                                LvL {power.current_level}/{power.max_level}
+                              </Text>
+                            </View>
+                            <Text style={styles.powerDescription} numberOfLines={2}>
+                              {power.description}
+                            </Text>
+                          </View>
+                        </View>
+
+                        {power.stat_boost && Object.keys(power.stat_boost).length > 0 && (
+                          <View style={styles.statBoosts}>
+                            {Object.entries(power.stat_boost).map(([stat, value]) => (
+                              <View key={stat} style={styles.statBoost}>
+                                <Ionicons 
+                                  name={stat === 'strength' ? 'barbell' : stat === 'intelligence' ? 'bulb' : 'heart'} 
+                                  size={14} 
+                                  color="#10B981" 
+                                />
+                                <Text style={styles.statBoostText}>+{value} {stat}</Text>
+                              </View>
+                            ))}
                           </View>
                         )}
-                        
-                        <View style={styles.powerInfo}>
-                          <Text style={styles.powerName}>{power.name}</Text>
-                          <Text style={styles.powerDescription} numberOfLines={2}>
-                            {power.description}
-                          </Text>
-                        </View>
-                      </View>
 
-                      {power.stat_boost && Object.keys(power.stat_boost).length > 0 && (
-                        <View style={styles.statBoosts}>
-                          {Object.entries(power.stat_boost).map(([stat, value]) => (
-                            <View key={stat} style={styles.statBoost}>
-                              <Ionicons 
-                                name={stat === 'strength' ? 'barbell' : stat === 'intelligence' ? 'bulb' : 'heart'} 
-                                size={14} 
-                                color="#10B981" 
-                              />
-                              <Text style={styles.statBoostText}>+{value} {stat}</Text>
-                            </View>
-                          ))}
-                        </View>
-                      )}
-                    </View>
-                  ))}
+                        {/* Level Up Button */}
+                        {!isMaxLevel && (
+                          <TouchableOpacity 
+                            style={styles.levelUpButton}
+                            onPress={() => levelUpPower(power.id)}
+                          >
+                            <Ionicons name="arrow-up-circle" size={20} color="#FFF" />
+                            <Text style={styles.levelUpButtonText}>Level Up</Text>
+                          </TouchableOpacity>
+                        )}
+                      </View>
+                    );
+                  })}
                 </View>
               )}
             </View>

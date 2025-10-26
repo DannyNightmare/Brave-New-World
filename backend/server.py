@@ -233,20 +233,12 @@ async def delete_quest(quest_id: str):
 @api_router.get("/shop", response_model=List[ShopItem])
 async def get_shop_items():
     items = await db.shop_items.find().to_list(1000)
-    if not items:
-        # Initialize shop with default items
-        default_items = [
-            ShopItem(name="Iron Sword", description="A sturdy blade for warriors", price=50, stat_boost={"strength": 5}, item_type="weapon"),
-            ShopItem(name="Wizard Staff", description="Enhances magical abilities", price=75, stat_boost={"intelligence": 5}, item_type="weapon"),
-            ShopItem(name="Health Potion", description="Increases vitality", price=30, stat_boost={"vitality": 3}, item_type="potion"),
-            ShopItem(name="Leather Armor", description="Basic protection", price=40, stat_boost={"vitality": 4}, item_type="armor"),
-            ShopItem(name="Ring of Power", description="Boosts all stats", price=150, stat_boost={"strength": 3, "intelligence": 3, "vitality": 3}, item_type="accessory"),
-            ShopItem(name="Training Manual", description="Gain knowledge", price=60, stat_boost={"intelligence": 7}, item_type="accessory"),
-        ]
-        for item in default_items:
-            await db.shop_items.insert_one(item.dict())
-        return default_items
     return [ShopItem(**item) for item in items]
+
+@api_router.delete("/shop/clear-all")
+async def clear_all_shop_items():
+    result = await db.shop_items.delete_many({})
+    return {"message": f"Deleted {result.deleted_count} items from shop"}
 
 @api_router.delete("/shop/{item_id}")
 async def delete_shop_item(item_id: str):

@@ -1322,11 +1322,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
-  detailModalContent: {
-    flex: 1,
-  },
   detailImageContainer: {
-    height: '50%',
+    height: '40%',
     backgroundColor: '#1F2937',
     justifyContent: 'center',
     alignItems: 'center',
@@ -1345,8 +1342,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 12,
   },
+  detailDescriptionScroll: {
+    flex: 1,
+  },
   detailDescriptionContainer: {
     padding: 24,
+    paddingBottom: 40,
   },
   detailItemName: {
     fontSize: 28,

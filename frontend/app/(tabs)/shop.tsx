@@ -1767,4 +1767,32 @@ const styles = StyleSheet.create({
     backgroundColor: '#4B5563',
     opacity: 0.5,
   },
+  powerTierContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginBottom: 16,
+  },
+  tierOption: {
+    backgroundColor: '#374151',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#4B5563',
+    minWidth: 100,
+    alignItems: 'center',
+  },
+  tierOptionSelected: {
+    backgroundColor: '#8B5CF6',
+    borderColor: '#8B5CF6',
+  },
+  tierOptionText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#9CA3AF',
+  },
+  tierOptionTextSelected: {
+    color: '#FFF',
+  },
 });

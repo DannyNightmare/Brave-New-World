@@ -1,85 +1,96 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { useTheme } from '../contexts/ThemeContext';
 
 export default function SettingsScreen() {
   const router = useRouter();
+  const { isDarkMode, toggleDarkMode, colors } = useTheme();
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <View style={styles.header}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top']}>
+      <View style={[styles.header, { borderBottomColor: colors.border }]}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={28} color="#F9FAFB" />
+          <Ionicons name="arrow-back" size={28} color={colors.text} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Settings</Text>
+        <Text style={[styles.headerTitle, { color: colors.text }]}>Settings</Text>
         <View style={styles.placeholder} />
       </View>
 
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Account</Text>
+          <Text style={[styles.sectionTitle, { color: colors.textSecondary }]}>Appearance</Text>
           
-          <TouchableOpacity style={styles.settingItem}>
+          <View style={[styles.settingItem, { backgroundColor: colors.cardBackground, borderColor: colors.border }]}>
             <View style={styles.settingLeft}>
-              <Ionicons name="person-outline" size={24} color="#8B5CF6" />
-              <Text style={styles.settingText}>Profile</Text>
+              <Ionicons name="moon-outline" size={24} color={colors.primary} />
+              <Text style={[styles.settingText, { color: colors.text }]}>Dark Mode</Text>
             </View>
-            <Ionicons name="chevron-forward" size={24} color="#6B7280" />
+            <Switch
+              value={isDarkMode}
+              onValueChange={toggleDarkMode}
+              trackColor={{ false: '#D1D5DB', true: colors.primary }}
+              thumbColor="#FFFFFF"
+            />
+          </View>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: colors.textSecondary }]}>Account</Text>
+          
+          <TouchableOpacity style={[styles.settingItem, { backgroundColor: colors.cardBackground, borderColor: colors.border }]}>
+            <View style={styles.settingLeft}>
+              <Ionicons name="person-outline" size={24} color={colors.primary} />
+              <Text style={[styles.settingText, { color: colors.text }]}>Profile</Text>
+            </View>
+            <Ionicons name="chevron-forward" size={24} color={colors.textSecondary} />
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.settingItem}>
+          <TouchableOpacity style={[styles.settingItem, { backgroundColor: colors.cardBackground, borderColor: colors.border }]}>
             <View style={styles.settingLeft}>
-              <Ionicons name="notifications-outline" size={24} color="#8B5CF6" />
-              <Text style={styles.settingText}>Notifications</Text>
+              <Ionicons name="notifications-outline" size={24} color={colors.primary} />
+              <Text style={[styles.settingText, { color: colors.text }]}>Notifications</Text>
             </View>
-            <Ionicons name="chevron-forward" size={24} color="#6B7280" />
+            <Ionicons name="chevron-forward" size={24} color={colors.textSecondary} />
           </TouchableOpacity>
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>General</Text>
+          <Text style={[styles.sectionTitle, { color: colors.textSecondary }]}>General</Text>
           
-          <TouchableOpacity style={styles.settingItem}>
+          <TouchableOpacity style={[styles.settingItem, { backgroundColor: colors.cardBackground, borderColor: colors.border }]}>
             <View style={styles.settingLeft}>
-              <Ionicons name="color-palette-outline" size={24} color="#8B5CF6" />
-              <Text style={styles.settingText}>Appearance</Text>
+              <Ionicons name="language-outline" size={24} color={colors.primary} />
+              <Text style={[styles.settingText, { color: colors.text }]}>Language</Text>
             </View>
-            <Ionicons name="chevron-forward" size={24} color="#6B7280" />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.settingItem}>
-            <View style={styles.settingLeft}>
-              <Ionicons name="language-outline" size={24} color="#8B5CF6" />
-              <Text style={styles.settingText}>Language</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={24} color="#6B7280" />
+            <Ionicons name="chevron-forward" size={24} color={colors.textSecondary} />
           </TouchableOpacity>
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>About</Text>
+          <Text style={[styles.sectionTitle, { color: colors.textSecondary }]}>About</Text>
           
-          <TouchableOpacity style={styles.settingItem}>
+          <TouchableOpacity style={[styles.settingItem, { backgroundColor: colors.cardBackground, borderColor: colors.border }]}>
             <View style={styles.settingLeft}>
-              <Ionicons name="information-circle-outline" size={24} color="#8B5CF6" />
-              <Text style={styles.settingText}>About App</Text>
+              <Ionicons name="information-circle-outline" size={24} color={colors.primary} />
+              <Text style={[styles.settingText, { color: colors.text }]}>About App</Text>
             </View>
-            <Ionicons name="chevron-forward" size={24} color="#6B7280" />
+            <Ionicons name="chevron-forward" size={24} color={colors.textSecondary} />
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.settingItem}>
+          <TouchableOpacity style={[styles.settingItem, { backgroundColor: colors.cardBackground, borderColor: colors.border }]}>
             <View style={styles.settingLeft}>
-              <Ionicons name="help-circle-outline" size={24} color="#8B5CF6" />
-              <Text style={styles.settingText}>Help & Support</Text>
+              <Ionicons name="help-circle-outline" size={24} color={colors.primary} />
+              <Text style={[styles.settingText, { color: colors.text }]}>Help & Support</Text>
             </View>
-            <Ionicons name="chevron-forward" size={24} color="#6B7280" />
+            <Ionicons name="chevron-forward" size={24} color={colors.textSecondary} />
           </TouchableOpacity>
         </View>
 
         <View style={styles.versionContainer}>
-          <Text style={styles.versionText}>Version 1.0.0</Text>
+          <Text style={[styles.versionText, { color: colors.textSecondary }]}>Version 1.0.0</Text>
         </View>
       </ScrollView>
     </SafeAreaView>

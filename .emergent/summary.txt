@@ -1,0 +1,76 @@
+<analysis>
+The previous AI engineer successfully developed an RPG-styled life gamification app from scratch, focusing on mobile-first Expo development with a FastAPI backend and MongoDB. The initial phase established a 5-tab navigation (Quests, Status, Inventory, Shop, Powers). Subsequent iterations involved adding core RPG features like character stats, quest creation, and a dynamic shop system. Challenges included ensuring  functionality across web and mobile platforms and handling React Hooks rules. The engineer demonstrated strong problem-solving skills, iteratively refining features like item editing/deletion, category filtering, image uploads, and a detailed item view, all while integrating user-requested UI changes like dark mode and a settings page with factory reset. The work concludes with the implementation of an Add to Powers checkbox in item creation, which is currently in progress.
+</analysis>
+
+<product_requirements>
+The user requested an RPG-styled phone app to gamify real-life tasks. The application features five main functional areas accessible via bottom tab navigation: Quests, Status, Inventory, Shop, and Powers.
+Key functionalities built so far include:
+- A character status system tracking level, XP, gold, strength, intelligence, and vitality.
+- A quest system allowing users to create custom quests with name, description, XP, gold, item rewards, and attribute boosts. Quests can be completed to update user stats.
+- An inventory page to store collected items.
+- A shop page where users can create, edit, delete, and purchase items. Items support custom names, descriptions, prices, stock, categories, stat boosts, and base64-encoded images (PNG, GIF, WEBP). The shop includes filtering by categories and a search bar.
+- A detailed item view modal (on tap) with a fixed image section and scrollable description.
+- A hamburger menu leading to a Settings page, which includes a Dark Mode toggle, an Automatic Save switch, and a Factory Reset option with visual feedback.
+All pages are designed with a consistent dark RPG theme, supporting dynamic theme switching.
+</product_requirements>
+
+<key_technical_concepts>
+- **Expo/React Native**: Cross-platform mobile development framework.
+- **Expo Router**: File-based routing for navigation.
+- **FastAPI**: Backend API development with Python.
+- **MongoDB**: NoSQL database for data storage.
+- **Zustand**: State management (implicitly used for global state, e.g., theme).
+- ****: For image selection and base64 encoding.
+- **/**: Handling touch/long-press gestures.
+- ****: Global state for managing dark/light mode.
+</key_technical_concepts>
+
+<code_architecture>
+The application uses a monorepo-like structure with  (Expo app) and  (FastAPI app) directories within the  root.
+
+
+
+-   **/app/backend/server.py**:
+    -   **Summary**: Central FastAPI backend. Handles all API endpoints for user management, quests, shop items, and inventory. Interacts with MongoDB.
+    -   **Changes**: Initially set up with basic user, quest, shop models and CRUD operations. Extended to include custom quest fields, shop item categories, image storage (base64), and endpoints for deleting shop items, resetting user stats, and deleting inventory items.
+-   **/app/frontend/app/(tabs)/_layout.tsx**:
+    -   **Summary**: Defines the bottom tab navigator and global header (including the hamburger menu).
+    -   **Changes**: Configured the five main tabs. Updated to remove hardcoded titles, integrate  for dynamic colors, and add a hamburger menu button leading to the settings page.
+-   **/app/frontend/app/(tabs)/shop.tsx**:
+    -   **Summary**: Implements the Shop page UI and logic, including displaying items, filtering, searching, item creation, editing, deletion, and detail view.
+    -   **Changes**: Extensive modifications to support dynamic item loading, long-press for edit/delete with custom modal, item creation modal with various fields (name, description, price, stock, category, image, stat boosts), category filter bar, search functionality, condensed descriptions, fixed image in detail modal, and dynamic theme colors.
+-   **/app/frontend/app/(tabs)/quests.tsx**:
+    -   **Summary**: Implements the Quests page UI and logic, including displaying quests, creation, and completion.
+    -   **Changes**: Updated quest creation modal with custom fields (XP, gold, item, attribute rewards). Integrated  for dynamic colors.
+-   **/app/frontend/app/(tabs)/status.tsx**:
+    -   **Summary**: Displays the user's character status (level, XP, stats).
+    -   **Changes**: Removed Hero and Status titles, centered the Status title. Integrated  for dynamic colors.
+-   **/app/frontend/app/(tabs)/inventory.tsx**:
+    -   **Summary**: Displays the user's inventory items.
+    -   **Changes**: Added search functionality, condensed item descriptions, and integrated  for dynamic colors.
+-   **/app/frontend/app/settings.tsx**:
+    -   **Summary**: Displays the application settings (Account, General, About).
+    -   **Changes**: Added a Dark Mode toggle (linked to ), Automatic Save switch, and Factory Reset button with a confirmation modal and visual feedback. Integrated  for dynamic colors.
+-   **/app/frontend/contexts/UserContext.tsx**:
+    -   **Summary**: Manages user-related state (e.g., character data, login status).
+    -   **Changes**: Created to encapsulate user data and provide it globally.
+-   **/app/frontend/contexts/ThemeContext.tsx**:
+    -   **Summary**: Manages the application's theme (dark/light mode).
+    -   **Changes**: Created to provide a  state and  function globally. Defines color palettes for both modes.
+</code_architecture>
+
+<pending_tasks>
+- Apply theme colors to the internal content of Inventory, Shop, and Powers pages. (Initial work done for Quests, but a broader script was mentioned).
+- Implement the Automatic Save functionality in the Settings page.
+- Fully implement Add to Powers checkbox in item creation and ensure its functionality with the Powers page.
+- Implement multiple images and swipeable gallery functionality for the item detail view.
+- Implement user authentication for true privacy and security.
+</pending_tasks>
+
+<current_work>
+The AI engineer was most recently working on integrating an Add to Powers checkbox into the shop item creation modal. This involves adding a new boolean field to the backend ShopItem model and corresponding UI in the frontend item creation/edit modals. The trajectory ends with the backend model update for the  field, and the frontend work on the UI element is in progress, specifically clarifying where to add the checkbox within the Shop page's item creation. The goal is to allow users to designate an item as a power when creating it, likely for display or use on the Powers tab.
+</current_work>
+
+<optional_next_step>
+Add the Add to Powers checkbox UI element to the shop item creation and edit modals in .
+</optional_next_step>

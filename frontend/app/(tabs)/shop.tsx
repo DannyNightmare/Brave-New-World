@@ -200,6 +200,7 @@ export default function ShopScreen() {
         power_category: selectedItem.power_category || '',
         power_tier: selectedItem.power_tier || 'Base',
         power_max_level: selectedItem.power_max_level || 5,
+        next_tier_ability: selectedItem.next_tier_ability || '',
         item_type: selectedItem.item_type,
         strength_boost: selectedItem.stat_boost?.strength || 0,
         intelligence_boost: selectedItem.stat_boost?.intelligence || 0,

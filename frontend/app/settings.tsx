@@ -297,4 +297,79 @@ const styles = StyleSheet.create({
   versionText: {
     fontSize: 14,
   },
+  resetModalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  resetModalContent: {
+    borderRadius: 16,
+    padding: 24,
+    width: '100%',
+    maxWidth: 500,
+    borderWidth: 2,
+  },
+  resetModalHeader: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  resetModalTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginTop: 12,
+  },
+  resetModalText: {
+    fontSize: 16,
+    marginBottom: 16,
+    fontWeight: '600',
+  },
+  resetList: {
+    marginBottom: 20,
+    paddingLeft: 8,
+  },
+  resetListItem: {
+    fontSize: 14,
+    marginBottom: 8,
+    lineHeight: 20,
+  },
+  resetWarning: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  resetQuestion: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 24,
+    textAlign: 'center',
+  },
+  resetButtonContainer: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  resetCancelButton: {
+    flex: 1,
+    padding: 16,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  resetCancelText: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  resetConfirmButton: {
+    flex: 1,
+    backgroundColor: '#EF4444',
+    padding: 16,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  resetConfirmText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });

@@ -70,8 +70,17 @@ class ShopItem(BaseModel):
     name: str
     description: str
     price: int
+    stock: Optional[int] = None
     stat_boost: Optional[dict] = None
     item_type: str  # weapon, armor, potion, accessory
+
+class ShopItemCreate(BaseModel):
+    name: str
+    description: str
+    price: int
+    stock: Optional[int] = None
+    stat_boost: Optional[dict] = None
+    item_type: str
 
 class InventoryItem(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))

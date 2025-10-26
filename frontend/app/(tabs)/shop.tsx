@@ -12,6 +12,7 @@ interface ShopItem {
   name: string;
   description: string;
   price: number;
+  stock?: number;
   item_type: string;
   stat_boost?: { [key: string]: number };
 }
@@ -20,6 +21,17 @@ export default function ShopScreen() {
   const { user, refreshUser } = useUser();
   const [items, setItems] = useState<ShopItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [newItem, setNewItem] = useState({
+    name: '',
+    description: '',
+    price: 50,
+    stock: 1,
+    item_type: 'weapon',
+    strength_boost: 0,
+    intelligence_boost: 0,
+    vitality_boost: 0,
+  });
 
   const fetchShopItems = async () => {
     try {

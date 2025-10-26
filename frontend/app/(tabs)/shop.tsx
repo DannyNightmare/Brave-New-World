@@ -246,6 +246,11 @@ export default function ShopScreen() {
       return;
     }
 
+    if (newItem.is_power && !newItem.power_category) {
+      Alert.alert('Error', 'Please select a power category');
+      return;
+    }
+
     try {
       const stat_boost: { [key: string]: number } = {};
       if (newItem.strength_boost > 0) stat_boost.strength = newItem.strength_boost;
@@ -259,6 +264,8 @@ export default function ShopScreen() {
         stock: newItem.stock,
         category: newItem.category,
         item_type: newItem.item_type,
+        is_power: newItem.is_power,
+        power_category: newItem.power_category || null,
       };
 
       if (newItem.image) {
@@ -283,6 +290,8 @@ export default function ShopScreen() {
           stock: 1,
           category: 'general',
           image: '',
+          is_power: false,
+          power_category: '',
           item_type: 'weapon',
           strength_boost: 0,
           intelligence_boost: 0,

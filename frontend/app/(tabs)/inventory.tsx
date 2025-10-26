@@ -123,7 +123,9 @@ export default function InventoryScreen() {
                     </Text>
                   </View>
                 </View>
-                <Text style={styles.itemDescription}>{item.item_description}</Text>
+                <Text style={styles.itemDescription} numberOfLines={2} ellipsizeMode="tail">
+                  {item.item_description}
+                </Text>
                 
                 {item.stat_boost && (
                   <View style={styles.statBoosts}>

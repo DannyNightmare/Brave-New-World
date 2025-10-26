@@ -1825,4 +1825,10 @@ const styles = StyleSheet.create({
   tierOptionTextSelected: {
     color: '#FFF',
   },
+  helperText: {
+    fontSize: 12,
+    color: '#9CA3AF',
+    marginBottom: 8,
+    marginTop: -8,
+  },
 });

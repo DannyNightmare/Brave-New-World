@@ -1159,4 +1159,42 @@ const styles = StyleSheet.create({
   existingCategoryChipTextSelected: {
     color: '#FFF',
   },
+  imagePickerButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#374151',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#4B5563',
+    gap: 12,
+  },
+  imagePickerText: {
+    fontSize: 16,
+    color: '#9CA3AF',
+    fontWeight: '600',
+  },
+  imagePreview: {
+    position: 'relative',
+    alignSelf: 'center',
+    marginBottom: 16,
+  },
+  previewImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 12,
+  },
+  removeImageButton: {
+    position: 'absolute',
+    top: -8,
+    right: -8,
+    backgroundColor: '#1F2937',
+    borderRadius: 12,
+  },
+  itemImage: {
+    width: 32,
+    height: 32,
+    borderRadius: 8,
+  },
 });

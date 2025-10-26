@@ -44,41 +44,44 @@ const ShopItemCard = ({ item, onLongPress, onPurchase }: {
   };
 
   return (
-    <TouchableWithoutFeedback onLongPress={onLongPress} delayLongPress={800}>
-      <View style={styles.itemCard}>
-        <View style={[styles.itemIcon, { backgroundColor: getItemColor(item.item_type) + '20' }]}>
-          <Ionicons name={getItemIcon(item.item_type) as any} size={32} color={getItemColor(item.item_type)} />
+    <View style={styles.itemCard}>
+      {/* Touchable grey background area for long press */}
+      <TouchableWithoutFeedback onLongPress={onLongPress} delayLongPress={800}>
+        <View style={styles.longPressArea}>
+          <View style={[styles.itemIcon, { backgroundColor: getItemColor(item.item_type) + '20' }]}>
+            <Ionicons name={getItemIcon(item.item_type) as any} size={32} color={getItemColor(item.item_type)} />
+          </View>
         </View>
+      </TouchableWithoutFeedback>
+      
+      <View style={styles.itemInfo}>
+        <Text style={styles.itemName}>{item.name}</Text>
+        <Text style={styles.itemDescription}>{item.description}</Text>
         
-        <View style={styles.itemInfo}>
-          <Text style={styles.itemName}>{item.name}</Text>
-          <Text style={styles.itemDescription}>{item.description}</Text>
-          
-          {item.stat_boost && (
-            <View style={styles.statBoosts}>
-              {Object.entries(item.stat_boost).map(([stat, value]) => (
-                <View key={stat} style={styles.statBoost}>
-                  <Ionicons 
-                    name={stat === 'strength' ? 'barbell' : stat === 'intelligence' ? 'bulb' : 'heart'} 
-                    size={12} 
-                    color="#10B981" 
-                  />
-                  <Text style={styles.statBoostText}>+{value} {stat}</Text>
-                </View>
-              ))}
-            </View>
-          )}
-        </View>
-        
-        <TouchableOpacity 
-          style={styles.buyButton}
-          onPress={onPurchase}
-        >
-          <Ionicons name="logo-bitcoin" size={16} color="#FFF" />
-          <Text style={styles.buyButtonText}>{item.price}</Text>
-        </TouchableOpacity>
+        {item.stat_boost && (
+          <View style={styles.statBoosts}>
+            {Object.entries(item.stat_boost).map(([stat, value]) => (
+              <View key={stat} style={styles.statBoost}>
+                <Ionicons 
+                  name={stat === 'strength' ? 'barbell' : stat === 'intelligence' ? 'bulb' : 'heart'} 
+                  size={12} 
+                  color="#10B981" 
+                />
+                <Text style={styles.statBoostText}>+{value} {stat}</Text>
+              </View>
+            ))}
+          </View>
+        )}
       </View>
-    </TouchableWithoutFeedback>
+      
+      <TouchableOpacity 
+        style={styles.buyButton}
+        onPress={onPurchase}
+      >
+        <Ionicons name="logo-bitcoin" size={16} color="#FFF" />
+        <Text style={styles.buyButtonText}>{item.price}</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 

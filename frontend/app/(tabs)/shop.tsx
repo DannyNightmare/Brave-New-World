@@ -588,6 +588,34 @@ export default function ShopScreen() {
           </ScrollView>
         </View>
       </Modal>
+
+      {/* Action Selection Modal */}
+      <Modal visible={actionModalVisible} animationType="fade" transparent={true}>
+        <TouchableWithoutFeedback onPress={() => setActionModalVisible(false)}>
+          <View style={styles.actionModalOverlay}>
+            <TouchableWithoutFeedback>
+              <View style={styles.actionModalContent}>
+                <Text style={styles.actionModalTitle}>{selectedItem?.name}</Text>
+                <Text style={styles.actionModalSubtitle}>Choose an action</Text>
+                
+                <TouchableOpacity style={styles.actionButton} onPress={handleEdit}>
+                  <Ionicons name="create-outline" size={24} color="#8B5CF6" />
+                  <Text style={styles.actionButtonText}>Edit Item</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity style={[styles.actionButton, styles.deleteButton]} onPress={handleDelete}>
+                  <Ionicons name="trash-outline" size={24} color="#EF4444" />
+                  <Text style={[styles.actionButtonText, styles.deleteButtonText]}>Delete Item</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity style={styles.cancelButton} onPress={() => setActionModalVisible(false)}>
+                  <Text style={styles.cancelButtonText}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
     </SafeAreaView>
   );
 }

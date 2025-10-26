@@ -1053,4 +1053,30 @@ const styles = StyleSheet.create({
   categoryTabTextSelected: {
     color: '#FFF',
   },
+  existingCategoriesContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginBottom: 16,
+  },
+  existingCategoryChip: {
+    backgroundColor: '#374151',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#4B5563',
+  },
+  existingCategoryChipSelected: {
+    backgroundColor: '#8B5CF6',
+    borderColor: '#8B5CF6',
+  },
+  existingCategoryChipText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#9CA3AF',
+  },
+  existingCategoryChipTextSelected: {
+    color: '#FFF',
+  },
 });

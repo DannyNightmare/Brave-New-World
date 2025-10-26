@@ -13,6 +13,7 @@ interface ShopItem {
   description: string;
   price: number;
   stock?: number;
+  category: string;
   item_type: string;
   stat_boost?: { [key: string]: number };
 }

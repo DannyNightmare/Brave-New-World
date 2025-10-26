@@ -69,6 +69,64 @@ export default function PowersScreen() {
     }
   };
 
+  const handlePowerLongPress = (power: PowerItem) => {
+    setEditingPower(power);
+    setEditForm({
+      name: power.name,
+      description: power.description,
+      max_level: power.max_level,
+      sub_abilities: power.sub_abilities || [],
+      newSubAbility: '',
+    });
+    setEditModalVisible(true);
+  };
+
+  const addSubAbility = () => {
+    if (editForm.newSubAbility.trim()) {
+      setEditForm({
+        ...editForm,
+        sub_abilities: [...editForm.sub_abilities, editForm.newSubAbility.trim()],
+        newSubAbility: '',
+      });
+    }
+  };
+
+  const removeSubAbility = (index: number) => {
+    setEditForm({
+      ...editForm,
+      sub_abilities: editForm.sub_abilities.filter((_, i) => i !== index),
+    });
+  };
+
+  const savePowerEdit = async () => {
+    if (!editingPower) return;
+
+    try {
+      const response = await fetch(`${API_URL}/api/powers/${editingPower.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: editForm.name,
+          description: editForm.description,
+          max_level: editForm.max_level,
+          sub_abilities: editForm.sub_abilities,
+        }),
+      });
+
+      if (response.ok) {
+        await fetchPowers();
+        setEditModalVisible(false);
+        setEditingPower(null);
+        Alert.alert('Success', 'Power updated successfully!');
+      } else {
+        Alert.alert('Error', 'Failed to update power');
+      }
+    } catch (error) {
+      console.error('Failed to update power:', error);
+      Alert.alert('Error', 'Failed to update power');
+    }
+  };
+
   useEffect(() => {
     fetchPowers();
   }, [user]);

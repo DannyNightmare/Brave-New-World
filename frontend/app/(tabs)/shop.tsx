@@ -100,7 +100,6 @@ export default function ShopScreen() {
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
         <View style={styles.header}>
           <View>
-            <Text style={styles.title}>Shop</Text>
             <Text style={styles.subtitle}>Purchase items and upgrades</Text>
           </View>
           <View style={styles.goldDisplay}>

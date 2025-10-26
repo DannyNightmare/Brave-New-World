@@ -304,15 +304,13 @@ export default function PowersScreen() {
                           </TouchableOpacity>
                         )}
 
-                        {/* Next Tier Ability Notification */}
-                        {isMaxLevel && power.next_tier_ability && (
-                          <View style={styles.nextTierNotification}>
-                            <Ionicons name="lock-open" size={20} color="#10B981" />
-                            <View style={styles.nextTierContent}>
-                              <Text style={styles.nextTierLabel}>Ready to Unlock:</Text>
-                              <Text style={styles.nextTierAbility}>{power.next_tier_ability}</Text>
-                              <Text style={styles.nextTierHint}>Find this item in the Shop to upgrade!</Text>
-                            </View>
+                        {/* Next Tier Preview - Shows what unlocks when maxed */}
+                        {!isMaxLevel && power.next_tier_ability && power.current_level === power.max_level - 1 && (
+                          <View style={styles.nextTierPreview}>
+                            <Ionicons name="arrow-forward-circle" size={18} color="#8B5CF6" />
+                            <Text style={styles.nextTierPreviewText}>
+                              Next: {power.next_tier_ability}
+                            </Text>
                           </View>
                         )}
                       </Pressable>

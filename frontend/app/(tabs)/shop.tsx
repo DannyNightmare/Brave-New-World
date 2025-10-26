@@ -140,7 +140,12 @@ export default function ShopScreen() {
         {items.map(item => {
           const canAfford = (user?.gold || 0) >= item.price;
           return (
-            <View key={item.id} style={styles.itemCard}>
+            <Pressable
+              key={item.id}
+              style={styles.itemCard}
+              onLongPress={() => deleteShopItem(item)}
+              delayLongPress={500}
+            >
               <View style={[styles.itemIcon, { backgroundColor: getItemColor(item.item_type) + '20' }]}>
                 <Ionicons name={getItemIcon(item.item_type) as any} size={32} color={getItemColor(item.item_type)} />
               </View>
@@ -175,7 +180,7 @@ export default function ShopScreen() {
                   {item.price}
                 </Text>
               </TouchableOpacity>
-            </View>
+            </Pressable>
           );
         })}
       </ScrollView>

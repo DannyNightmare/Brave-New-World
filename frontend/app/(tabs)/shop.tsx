@@ -408,6 +408,10 @@ export default function ShopScreen() {
           <ShopItemCard
             key={item.id}
             item={item}
+            onPress={() => {
+              setViewingItem(item);
+              setDetailModalVisible(true);
+            }}
             onLongPress={() => handleItemLongPress(item)}
             onPurchase={() => purchaseItem(item)}
           />

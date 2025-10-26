@@ -49,6 +49,8 @@ class Quest(BaseModel):
     difficulty: str  # easy, medium, hard
     xp_reward: int
     gold_reward: int
+    item_reward: Optional[str] = None
+    attribute_rewards: Optional[dict] = None  # {"strength": 2, "intelligence": 1, "vitality": 1}
     completed: bool = False
     created_at: datetime = Field(default_factory=datetime.utcnow)
     completed_at: Optional[datetime] = None
@@ -57,7 +59,11 @@ class QuestCreate(BaseModel):
     user_id: str
     title: str
     description: str
-    difficulty: str
+    difficulty: Optional[str] = None
+    xp_reward: Optional[int] = None
+    gold_reward: Optional[int] = None
+    item_reward: Optional[str] = None
+    attribute_rewards: Optional[dict] = None
 
 class ShopItem(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))

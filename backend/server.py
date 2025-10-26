@@ -375,6 +375,7 @@ async def purchase_item(purchase: PurchaseRequest):
             power_tier=item.get("power_tier", "Base"),
             current_level=1,
             max_level=item.get("power_max_level", 5),
+            next_tier_ability=item.get("next_tier_ability"),
             image=item.get("image"),
             stat_boost=item.get("stat_boost")
         )

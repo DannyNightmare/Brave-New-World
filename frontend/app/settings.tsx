@@ -100,7 +100,6 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#111827',
   },
   header: {
     flexDirection: 'row',
@@ -109,7 +108,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#374151',
   },
   backButton: {
     padding: 8,
@@ -117,7 +115,6 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#F9FAFB',
   },
   placeholder: {
     width: 44,
@@ -134,7 +131,6 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#9CA3AF',
     marginBottom: 12,
     marginLeft: 4,
     textTransform: 'uppercase',
@@ -144,12 +140,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#1F2937',
     padding: 16,
     borderRadius: 12,
     marginBottom: 8,
     borderWidth: 1,
-    borderColor: '#374151',
   },
   settingLeft: {
     flexDirection: 'row',
@@ -158,7 +152,6 @@ const styles = StyleSheet.create({
   },
   settingText: {
     fontSize: 16,
-    color: '#F9FAFB',
     fontWeight: '500',
   },
   versionContainer: {
@@ -167,6 +160,5 @@ const styles = StyleSheet.create({
   },
   versionText: {
     fontSize: 14,
-    color: '#6B7280',
   },
 });

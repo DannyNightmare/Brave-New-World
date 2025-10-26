@@ -248,6 +248,13 @@ async def get_shop_items():
         return default_items
     return [ShopItem(**item) for item in items]
 
+@api_router.delete("/shop/{item_id}")
+async def delete_shop_item(item_id: str):
+    result = await db.shop_items.delete_one({"id": item_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Shop item not found")
+    return {"message": "Shop item deleted"}
+
 @api_router.post("/shop/purchase")
 async def purchase_item(purchase: PurchaseRequest):
     # Get user

@@ -677,6 +677,42 @@ export default function ShopScreen() {
                 </View>
               )}
 
+              {/* Power Tier and Max Level - Only show if is_power is checked */}
+              {newItem.is_power && (
+                <>
+                  <Text style={styles.label}>Power Tier</Text>
+                  <View style={styles.powerTierContainer}>
+                    {['Base', 'Peak Human', 'Enhanced', 'Superhuman', 'Absolute'].map((tier) => (
+                      <TouchableOpacity
+                        key={tier}
+                        style={[
+                          styles.tierOption,
+                          newItem.power_tier === tier && styles.tierOptionSelected,
+                        ]}
+                        onPress={() => setNewItem({ ...newItem, power_tier: tier })}
+                      >
+                        <Text style={[
+                          styles.tierOptionText,
+                          newItem.power_tier === tier && styles.tierOptionTextSelected
+                        ]}>
+                          {tier}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+
+                  <Text style={styles.label}>Max Level</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="5"
+                    placeholderTextColor="#6B7280"
+                    value={String(newItem.power_max_level)}
+                    onChangeText={(text) => setNewItem({ ...newItem, power_max_level: parseInt(text) || 5 })}
+                    keyboardType="numeric"
+                  />
+                </>
+              )}
+
               <TouchableOpacity style={styles.createButton} onPress={createItem}>
                 <Text style={styles.createButtonText}>Create Item</Text>
               </TouchableOpacity>

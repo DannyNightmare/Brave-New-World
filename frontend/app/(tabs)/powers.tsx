@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator, Image, Modal, TextInput, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUser } from '../../contexts/UserContext';
 import { Ionicons } from '@expo/vector-icons';
@@ -16,6 +16,7 @@ interface PowerItem {
   current_level: number;
   max_level: number;
   next_tier_ability?: string;
+  sub_abilities?: string[];
   image?: string;
   stat_boost?: { [key: string]: number };
 }

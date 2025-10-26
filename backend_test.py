@@ -42,326 +42,319 @@ class PowerTierTester:
             print(f"❌ Failed to create test user: {response.status_code} - {response.text}")
             return False
     
-    def test_shop_item_creation_with_power_fields(self):
-        """Test creating shop items with power fields"""
-        print("\n=== Testing Shop Item Creation with Power Fields ===")
+    def test_shop_item_creation_with_power_tiers(self):
+        """Test creating shop items with different power tiers"""
+        print("\n🧪 Testing Shop Item Creation with Power Tiers...")
         
-        # Test 1: Create power item with is_power=true and power_category
-        try:
-            power_item_data = {
-                "name": "Super Strength Serum",
-                "description": "Increases physical strength dramatically",
-                "price": 80,  # Reduced price so test user can afford it
-                "category": "consumables",
-                "item_type": "potion",
+        power_tiers = ["Base", "Peak Human", "Enhanced", "Superhuman", "Absolute"]
+        test_results = []
+        
+        for i, tier in enumerate(power_tiers):
+            item_data = {
+                "name": f"Test Power {tier}",
+                "description": f"A {tier} level power for testing",
+                "price": 100 + (i * 50),
+                "category": "powers",
                 "is_power": True,
                 "power_category": "Physical Abilities",
-                "stat_boost": {"strength": 5}
+                "power_tier": tier,
+                "power_max_level": 3 + i,  # Different max levels for each tier
+                "stat_boost": {"strength": 5 + i},
+                "item_type": "power"
             }
             
-            response = requests.post(f"{BACKEND_URL}/shop", json=power_item_data)
+            response = requests.post(f"{self.base_url}/shop", json=item_data)
+            
             if response.status_code == 200:
                 item = response.json()
-                self.test_power_item_id = item["id"]
+                self.test_shop_items.append(item)
                 
                 # Verify all fields are saved correctly
                 if (item["is_power"] == True and 
                     item["power_category"] == "Physical Abilities" and
-                    item["stat_boost"]["strength"] == 5):
-                    self.log_test("Create Power Item", True, f"Power item created with ID: {item['id']}")
+                    item["power_tier"] == tier and
+                    item["power_max_level"] == 3 + i):
+                    print(f"✅ {tier} tier item created successfully")
+                    test_results.append(True)
                 else:
-                    self.log_test("Create Power Item", False, f"Power fields not saved correctly: {item}")
+                    print(f"❌ {tier} tier item fields not saved correctly")
+                    print(f"   Expected: is_power=True, power_category='Physical Abilities', power_tier='{tier}', power_max_level={3+i}")
+                    print(f"   Got: is_power={item['is_power']}, power_category={item.get('power_category')}, power_tier={item.get('power_tier')}, power_max_level={item.get('power_max_level')}")
+                    test_results.append(False)
             else:
-                self.log_test("Create Power Item", False, f"Failed to create power item: {response.status_code} - {response.text}")
-                
-        except Exception as e:
-            self.log_test("Create Power Item", False, f"Exception: {str(e)}")
+                print(f"❌ Failed to create {tier} tier item: {response.status_code} - {response.text}")
+                test_results.append(False)
         
-        # Test 2: Create regular item with is_power=false
-        try:
-            regular_item_data = {
-                "name": "Health Potion",
-                "description": "Restores health",
-                "price": 15,  # Reduced price so user can afford it after buying power item
-                "category": "consumables", 
-                "item_type": "potion",
-                "is_power": False,
-                "stat_boost": {"vitality": 2}
-            }
-            
-            response = requests.post(f"{BACKEND_URL}/shop", json=regular_item_data)
-            if response.status_code == 200:
-                item = response.json()
-                self.test_regular_item_id = item["id"]
-                
-                # Verify power_category is optional when is_power=false
-                if item["is_power"] == False and item.get("power_category") is None:
-                    self.log_test("Create Regular Item", True, f"Regular item created with ID: {item['id']}")
-                else:
-                    self.log_test("Create Regular Item", False, f"Regular item fields incorrect: {item}")
-            else:
-                self.log_test("Create Regular Item", False, f"Failed to create regular item: {response.status_code} - {response.text}")
-                
-        except Exception as e:
-            self.log_test("Create Regular Item", False, f"Exception: {str(e)}")
+        return all(test_results)
     
-    def test_power_categories_endpoint(self):
-        """Test power categories endpoint"""
-        print("\n=== Testing Power Categories Endpoint ===")
+    def test_purchase_flow_with_tier_system(self):
+        """Test purchasing power items and verifying tier/level system"""
+        print("\n🧪 Testing Purchase Flow with Tier System...")
         
-        try:
-            # Test when no powers exist yet
-            response = requests.get(f"{BACKEND_URL}/powers/categories/all")
-            if response.status_code == 200:
-                data = response.json()
-                if "categories" in data and isinstance(data["categories"], list):
-                    self.log_test("Power Categories Endpoint Structure", True, f"Returns categories array: {data['categories']}")
-                else:
-                    self.log_test("Power Categories Endpoint Structure", False, f"Invalid response structure: {data}")
-            else:
-                self.log_test("Power Categories Endpoint Structure", False, f"Failed to get categories: {response.status_code} - {response.text}")
-                
-        except Exception as e:
-            self.log_test("Power Categories Endpoint Structure", False, f"Exception: {str(e)}")
-    
-    def test_purchase_flow_with_powers(self):
-        """Test purchasing power items and verifying they appear in both inventory and powers"""
-        print("\n=== Testing Purchase Flow with Powers ===")
+        if not self.test_shop_items:
+            print("❌ No test shop items available for purchase testing")
+            return False
         
-        if not self.test_user_id or not self.test_power_item_id:
-            self.log_test("Purchase Flow Setup", False, "Missing test user or power item")
-            return
+        test_results = []
         
-        try:
-            # Get user's initial gold
-            user_response = requests.get(f"{BACKEND_URL}/users/{self.test_user_id}")
-            if user_response.status_code != 200:
-                self.log_test("Get User Before Purchase", False, f"Failed to get user: {user_response.text}")
-                return
+        # Test purchasing the first power item (Base tier)
+        base_item = self.test_shop_items[0]  # Should be "Base" tier
+        
+        purchase_data = {
+            "user_id": self.test_user_id,
+            "item_id": base_item["id"]
+        }
+        
+        response = requests.post(f"{self.base_url}/shop/purchase", json=purchase_data)
+        
+        if response.status_code == 200:
+            print("✅ Power item purchased successfully")
             
-            initial_user = user_response.json()
-            initial_gold = initial_user["gold"]
-            initial_strength = initial_user["strength"]
+            # Verify item appears in powers with correct tier/level info
+            powers_response = requests.get(f"{self.base_url}/powers/{self.test_user_id}")
             
-            # Purchase the power item
-            purchase_data = {
-                "user_id": self.test_user_id,
-                "item_id": self.test_power_item_id
-            }
-            
-            purchase_response = requests.post(f"{BACKEND_URL}/shop/purchase", json=purchase_data)
-            if purchase_response.status_code == 200:
-                purchase_result = purchase_response.json()
-                
-                # Verify gold was deducted
-                new_gold = purchase_result["user"]["gold"]
-                item_price = purchase_result["item"]["price"]
-                
-                if new_gold == initial_gold - item_price:
-                    self.log_test("Gold Deduction", True, f"Gold reduced from {initial_gold} to {new_gold}")
-                else:
-                    self.log_test("Gold Deduction", False, f"Gold calculation incorrect: {initial_gold} - {item_price} != {new_gold}")
-                
-                # Verify stat boost was applied
-                new_strength = purchase_result["user"]["strength"]
-                if new_strength == initial_strength + 5:  # +5 from stat_boost
-                    self.log_test("Stat Boost Applied", True, f"Strength increased from {initial_strength} to {new_strength}")
-                else:
-                    self.log_test("Stat Boost Applied", False, f"Strength boost incorrect: {initial_strength} + 5 != {new_strength}")
-                
-            else:
-                self.log_test("Purchase Power Item", False, f"Purchase failed: {purchase_response.status_code} - {purchase_response.text}")
-                return
-            
-            # Test inventory contains the item
-            inventory_response = requests.get(f"{BACKEND_URL}/inventory/{self.test_user_id}")
-            if inventory_response.status_code == 200:
-                inventory = inventory_response.json()
-                power_item_in_inventory = any(item["item_id"] == self.test_power_item_id for item in inventory)
-                
-                if power_item_in_inventory:
-                    self.log_test("Item in Inventory", True, "Power item found in user inventory")
-                else:
-                    self.log_test("Item in Inventory", False, f"Power item not found in inventory: {inventory}")
-            else:
-                self.log_test("Item in Inventory", False, f"Failed to get inventory: {inventory_response.text}")
-            
-            # Test powers contains the item
-            powers_response = requests.get(f"{BACKEND_URL}/powers/{self.test_user_id}")
             if powers_response.status_code == 200:
                 powers = powers_response.json()
-                power_item_in_powers = any(power["shop_item_id"] == self.test_power_item_id for power in powers)
                 
-                if power_item_in_powers:
-                    # Verify power item has all required fields
-                    power_item = next(power for power in powers if power["shop_item_id"] == self.test_power_item_id)
-                    required_fields = ["id", "user_id", "shop_item_id", "name", "description", "power_category"]
+                if len(powers) > 0:
+                    power = powers[0]
+                    self.test_powers.append(power)
                     
-                    missing_fields = [field for field in required_fields if field not in power_item]
-                    if not missing_fields:
-                        self.log_test("Item in Powers", True, f"Power item found in powers with all required fields")
-                        
-                        # Verify power_category is correct
-                        if power_item["power_category"] == "Physical Abilities":
-                            self.log_test("Power Category Correct", True, f"Power category: {power_item['power_category']}")
-                        else:
-                            self.log_test("Power Category Correct", False, f"Wrong power category: {power_item['power_category']}")
-                    else:
-                        self.log_test("Item in Powers", False, f"Power item missing fields: {missing_fields}")
-                else:
-                    self.log_test("Item in Powers", False, f"Power item not found in powers: {powers}")
-            else:
-                self.log_test("Item in Powers", False, f"Failed to get powers: {powers_response.text}")
-                
-        except Exception as e:
-            self.log_test("Purchase Flow with Powers", False, f"Exception: {str(e)}")
-    
-    def test_powers_retrieval(self):
-        """Test powers retrieval endpoint"""
-        print("\n=== Testing Powers Retrieval ===")
-        
-        if not self.test_user_id:
-            self.log_test("Powers Retrieval Setup", False, "Missing test user")
-            return
-        
-        try:
-            response = requests.get(f"{BACKEND_URL}/powers/{self.test_user_id}")
-            if response.status_code == 200:
-                powers = response.json()
-                
-                if isinstance(powers, list):
-                    self.log_test("Powers Endpoint Returns List", True, f"Found {len(powers)} powers")
+                    # Verify power has correct initial values
+                    expected_values = {
+                        "current_level": 1,
+                        "max_level": base_item["power_max_level"],
+                        "power_tier": base_item["power_tier"],
+                        "power_category": base_item["power_category"]
+                    }
                     
-                    # If we have powers, verify structure
-                    if powers:
-                        power = powers[0]
-                        required_fields = ["id", "user_id", "shop_item_id", "name", "description", "power_category", "acquired_at"]
-                        missing_fields = [field for field in required_fields if field not in power]
-                        
-                        if not missing_fields:
-                            self.log_test("Power Item Structure", True, "All required fields present")
-                        else:
-                            self.log_test("Power Item Structure", False, f"Missing fields: {missing_fields}")
+                    all_correct = True
+                    for field, expected in expected_values.items():
+                        if power.get(field) != expected:
+                            print(f"❌ Power field {field}: expected {expected}, got {power.get(field)}")
+                            all_correct = False
+                    
+                    if all_correct:
+                        print("✅ Power created with correct tier/level information")
+                        test_results.append(True)
                     else:
-                        self.log_test("Powers List Empty", True, "No powers found (expected if no purchases made)")
+                        test_results.append(False)
+                        
+                    # Verify item also appears in inventory
+                    inventory_response = requests.get(f"{self.base_url}/inventory/{self.test_user_id}")
+                    if inventory_response.status_code == 200:
+                        inventory = inventory_response.json()
+                        if any(item["item_name"] == base_item["name"] for item in inventory):
+                            print("✅ Power item also appears in inventory")
+                            test_results.append(True)
+                        else:
+                            print("❌ Power item not found in inventory")
+                            test_results.append(False)
+                    else:
+                        print(f"❌ Failed to get inventory: {inventory_response.status_code}")
+                        test_results.append(False)
                 else:
-                    self.log_test("Powers Endpoint Returns List", False, f"Expected list, got: {type(powers)}")
+                    print("❌ No powers found after purchase")
+                    test_results.append(False)
             else:
-                self.log_test("Powers Retrieval", False, f"Failed to get powers: {response.status_code} - {response.text}")
-                
-        except Exception as e:
-            self.log_test("Powers Retrieval", False, f"Exception: {str(e)}")
+                print(f"❌ Failed to get user powers: {powers_response.status_code}")
+                test_results.append(False)
+        else:
+            print(f"❌ Failed to purchase power item: {response.status_code} - {response.text}")
+            test_results.append(False)
+        
+        return all(test_results)
     
-    def test_non_power_item_purchase(self):
-        """Test that regular items don't go to powers collection"""
-        print("\n=== Testing Non-Power Item Purchase ===")
+    def test_level_up_functionality(self):
+        """Test the level up functionality"""
+        print("\n🧪 Testing Level Up Functionality...")
         
-        if not self.test_user_id or not self.test_regular_item_id:
-            self.log_test("Non-Power Purchase Setup", False, "Missing test user or regular item")
-            return
+        if not self.test_powers:
+            print("❌ No test powers available for level up testing")
+            return False
         
-        try:
-            # Get initial powers count
-            powers_response = requests.get(f"{BACKEND_URL}/powers/{self.test_user_id}")
-            initial_powers_count = len(powers_response.json()) if powers_response.status_code == 200 else 0
+        test_results = []
+        power = self.test_powers[0]
+        power_id = power["id"]
+        max_level = power["max_level"]
+        
+        print(f"Testing power: {power['name']} (max level: {max_level})")
+        
+        # Test leveling up to max level
+        for expected_level in range(2, max_level + 1):
+            response = requests.post(f"{self.base_url}/powers/{power_id}/levelup")
             
-            # Purchase regular item
+            if response.status_code == 200:
+                updated_power = response.json()
+                if updated_power["current_level"] == expected_level:
+                    print(f"✅ Successfully leveled up to level {expected_level}")
+                    test_results.append(True)
+                else:
+                    print(f"❌ Level up failed: expected level {expected_level}, got {updated_power['current_level']}")
+                    test_results.append(False)
+            else:
+                print(f"❌ Level up request failed: {response.status_code} - {response.text}")
+                test_results.append(False)
+                break
+        
+        # Test trying to level up beyond max level (should fail)
+        response = requests.post(f"{self.base_url}/powers/{power_id}/levelup")
+        
+        if response.status_code == 400:
+            error_data = response.json()
+            if "already at max level" in error_data.get("detail", "").lower():
+                print("✅ Correctly prevented leveling beyond max level")
+                test_results.append(True)
+            else:
+                print(f"❌ Wrong error message: {error_data.get('detail')}")
+                test_results.append(False)
+        else:
+            print(f"❌ Should have failed with 400 error, got: {response.status_code}")
+            test_results.append(False)
+        
+        return all(test_results)
+    
+    def test_powers_retrieval_with_levels(self):
+        """Test retrieving powers with all tier/level fields"""
+        print("\n🧪 Testing Powers Retrieval with Levels...")
+        
+        # Purchase multiple powers in different categories with different tiers
+        test_results = []
+        
+        # Create a power in a different category
+        mental_power_data = {
+            "name": "Telepathy",
+            "description": "Read minds and communicate telepathically",
+            "price": 200,
+            "category": "powers",
+            "is_power": True,
+            "power_category": "Mental Abilities",
+            "power_tier": "Enhanced",
+            "power_max_level": 4,
+            "stat_boost": {"intelligence": 8},
+            "item_type": "power"
+        }
+        
+        # Create the mental power item
+        response = requests.post(f"{self.base_url}/shop", json=mental_power_data)
+        if response.status_code == 200:
+            mental_item = response.json()
+            
+            # Purchase it
             purchase_data = {
                 "user_id": self.test_user_id,
-                "item_id": self.test_regular_item_id
+                "item_id": mental_item["id"]
             }
             
-            purchase_response = requests.post(f"{BACKEND_URL}/shop/purchase", json=purchase_data)
+            purchase_response = requests.post(f"{self.base_url}/shop/purchase", json=purchase_data)
             if purchase_response.status_code == 200:
-                self.log_test("Purchase Regular Item", True, "Regular item purchased successfully")
+                print("✅ Mental power purchased successfully")
                 
-                # Verify it's in inventory
-                inventory_response = requests.get(f"{BACKEND_URL}/inventory/{self.test_user_id}")
-                if inventory_response.status_code == 200:
-                    inventory = inventory_response.json()
-                    regular_item_in_inventory = any(item["item_id"] == self.test_regular_item_id for item in inventory)
-                    
-                    if regular_item_in_inventory:
-                        self.log_test("Regular Item in Inventory", True, "Regular item found in inventory")
-                    else:
-                        self.log_test("Regular Item in Inventory", False, "Regular item not found in inventory")
+                # Test powers retrieval
+                powers_response = requests.get(f"{self.base_url}/powers/{self.test_user_id}")
                 
-                # Verify it's NOT in powers
-                powers_response = requests.get(f"{BACKEND_URL}/powers/{self.test_user_id}")
                 if powers_response.status_code == 200:
                     powers = powers_response.json()
-                    final_powers_count = len(powers)
                     
-                    if final_powers_count == initial_powers_count:
-                        self.log_test("Regular Item NOT in Powers", True, f"Powers count unchanged: {final_powers_count}")
+                    # Should have at least 2 powers now
+                    if len(powers) >= 2:
+                        print(f"✅ Retrieved {len(powers)} powers")
+                        
+                        # Verify all powers have required tier/level fields
+                        required_fields = ["power_tier", "current_level", "max_level", "power_category"]
+                        all_powers_valid = True
+                        
+                        categories = set()
+                        for power in powers:
+                            categories.add(power["power_category"])
+                            for field in required_fields:
+                                if field not in power:
+                                    print(f"❌ Power {power['name']} missing field: {field}")
+                                    all_powers_valid = False
+                        
+                        if all_powers_valid:
+                            print("✅ All powers have required tier/level fields")
+                            test_results.append(True)
+                        else:
+                            test_results.append(False)
+                        
+                        # Verify we have multiple categories
+                        if len(categories) >= 2:
+                            print(f"✅ Powers span multiple categories: {list(categories)}")
+                            test_results.append(True)
+                        else:
+                            print(f"❌ Expected multiple categories, got: {list(categories)}")
+                            test_results.append(False)
                     else:
-                        self.log_test("Regular Item NOT in Powers", False, f"Powers count changed: {initial_powers_count} -> {final_powers_count}")
-                
-            else:
-                self.log_test("Purchase Regular Item", False, f"Purchase failed: {purchase_response.status_code} - {purchase_response.text}")
-                
-        except Exception as e:
-            self.log_test("Non-Power Item Purchase", False, f"Exception: {str(e)}")
-    
-    def test_power_categories_after_purchase(self):
-        """Test that power categories endpoint returns correct categories after purchases"""
-        print("\n=== Testing Power Categories After Purchase ===")
-        
-        try:
-            response = requests.get(f"{BACKEND_URL}/powers/categories/all")
-            if response.status_code == 200:
-                data = response.json()
-                categories = data.get("categories", [])
-                
-                # Should now include "Physical Abilities" if power item was purchased
-                if "Physical Abilities" in categories:
-                    self.log_test("Power Categories Updated", True, f"Categories include 'Physical Abilities': {categories}")
+                        print(f"❌ Expected at least 2 powers, got {len(powers)}")
+                        test_results.append(False)
                 else:
-                    self.log_test("Power Categories Updated", False, f"'Physical Abilities' not found in categories: {categories}")
+                    print(f"❌ Failed to retrieve powers: {powers_response.status_code}")
+                    test_results.append(False)
             else:
-                self.log_test("Power Categories After Purchase", False, f"Failed to get categories: {response.status_code} - {response.text}")
-                
-        except Exception as e:
-            self.log_test("Power Categories After Purchase", False, f"Exception: {str(e)}")
+                print(f"❌ Failed to purchase mental power: {purchase_response.status_code}")
+                test_results.append(False)
+        else:
+            print(f"❌ Failed to create mental power item: {response.status_code}")
+            test_results.append(False)
+        
+        return all(test_results)
+    
+    def cleanup(self):
+        """Clean up test data"""
+        print("\n🧹 Cleaning up test data...")
+        
+        # Delete test shop items
+        for item in self.test_shop_items:
+            requests.delete(f"{self.base_url}/shop/{item['id']}")
+        
+        print("✅ Cleanup completed")
     
     def run_all_tests(self):
-        """Run all backend tests for the Powers feature"""
-        print("🚀 Starting Backend Tests for 'Add to Powers' Feature")
-        print(f"Backend URL: {BACKEND_URL}")
+        """Run all power tier and leveling tests"""
+        print("🚀 Starting Power Tier and Leveling System Tests")
         print("=" * 60)
         
-        # Setup
         if not self.setup_test_user():
-            print("❌ Failed to setup test user. Aborting tests.")
-            return
+            return False
         
-        # Run tests in order
-        self.test_shop_item_creation_with_power_fields()
-        self.test_power_categories_endpoint()
-        self.test_purchase_flow_with_powers()
-        self.test_powers_retrieval()
-        self.test_non_power_item_purchase()
-        self.test_power_categories_after_purchase()
+        test_results = []
+        
+        # Test 1: Shop Item Creation with Power Tiers
+        test_results.append(self.test_shop_item_creation_with_power_tiers())
+        
+        # Test 2: Purchase Flow with Tier System
+        test_results.append(self.test_purchase_flow_with_tier_system())
+        
+        # Test 3: Level Up Functionality
+        test_results.append(self.test_level_up_functionality())
+        
+        # Test 4: Powers Retrieval with Levels
+        test_results.append(self.test_powers_retrieval_with_levels())
+        
+        # Cleanup
+        self.cleanup()
         
         # Summary
         print("\n" + "=" * 60)
         print("📊 TEST SUMMARY")
         print("=" * 60)
         
-        passed = sum(1 for result in self.test_results if result["success"])
-        total = len(self.test_results)
+        test_names = [
+            "Shop Item Creation with Power Tiers",
+            "Purchase Flow with Tier System", 
+            "Level Up Functionality",
+            "Powers Retrieval with Levels"
+        ]
         
-        for result in self.test_results:
-            print(f"{result['status']}: {result['test']}")
+        for i, (name, result) in enumerate(zip(test_names, test_results)):
+            status = "✅ PASS" if result else "❌ FAIL"
+            print(f"{i+1}. {name}: {status}")
         
-        print(f"\n🎯 Results: {passed}/{total} tests passed")
+        overall_result = all(test_results)
+        print(f"\nOverall Result: {'✅ ALL TESTS PASSED' if overall_result else '❌ SOME TESTS FAILED'}")
         
-        if passed == total:
-            print("🎉 All tests passed! Powers feature is working correctly.")
-        else:
-            print(f"⚠️  {total - passed} tests failed. See details above.")
-        
-        return passed == total
+        return overall_result
 
 if __name__ == "__main__":
     tester = PowersBackendTester()

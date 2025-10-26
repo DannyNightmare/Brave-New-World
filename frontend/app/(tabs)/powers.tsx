@@ -344,11 +344,43 @@ const styles = StyleSheet.create({
   powerInfo: {
     flex: 1,
   },
+  powerNameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
   powerName: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#F9FAFB',
+    marginRight: 8,
+  },
+  maxBadge: {
+    backgroundColor: '#EF4444',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 8,
+  },
+  maxBadgeText: {
+    color: '#FFF',
+    fontSize: 11,
+    fontWeight: 'bold',
+  },
+  powerTierRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 4,
+    gap: 8,
+  },
+  powerTierText: {
+    fontSize: 12,
+    color: '#8B5CF6',
+    fontWeight: '600',
+  },
+  powerLevelText: {
+    fontSize: 12,
+    color: '#10B981',
+    fontWeight: '600',
   },
   powerDescription: {
     fontSize: 13,

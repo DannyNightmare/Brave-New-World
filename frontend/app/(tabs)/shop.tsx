@@ -300,6 +300,14 @@ export default function ShopScreen() {
     }
   };
 
+  // Get unique categories from items
+  const categories = ['all', ...Array.from(new Set(items.map(item => item.category || 'general')))];
+  
+  // Filter items based on selected category
+  const filteredItems = selectedCategory === 'all' 
+    ? items 
+    : items.filter(item => (item.category || 'general') === selectedCategory);
+
   if (loading) {
     return (
       <SafeAreaView style={styles.container} edges={['bottom']}>
@@ -323,7 +331,33 @@ export default function ShopScreen() {
           </View>
         </View>
 
-        {items.map(item => (
+        {/* Category Filter Tabs */}
+        <ScrollView 
+          horizontal 
+          showsHorizontalScrollIndicator={false} 
+          style={styles.categoryTabs}
+          contentContainerStyle={styles.categoryTabsContent}
+        >
+          {categories.map(category => (
+            <TouchableOpacity
+              key={category}
+              style={[
+                styles.categoryTab,
+                selectedCategory === category && styles.categoryTabSelected,
+              ]}
+              onPress={() => setSelectedCategory(category)}
+            >
+              <Text style={[
+                styles.categoryTabText,
+                selectedCategory === category && styles.categoryTabTextSelected
+              ]}>
+                {category === 'all' ? 'All' : category.charAt(0).toUpperCase() + category.slice(1)}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+
+        {filteredItems.map(item => (
           <ShopItemCard
             key={item.id}
             item={item}

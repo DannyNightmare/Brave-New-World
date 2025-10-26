@@ -72,6 +72,7 @@ class ShopItem(BaseModel):
     price: int
     stock: Optional[int] = None
     category: str = "general"  # Category for filtering
+    image: Optional[str] = None  # Base64 encoded image
     stat_boost: Optional[dict] = None
     item_type: str  # weapon, armor, potion, accessory
 
@@ -81,6 +82,7 @@ class ShopItemCreate(BaseModel):
     price: int
     stock: Optional[int] = None
     category: str = "general"
+    image: Optional[str] = None
     stat_boost: Optional[dict] = None
     item_type: str
 

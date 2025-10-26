@@ -101,3 +101,170 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: "RPG life gamification app with 'Add to Powers' feature. When creating/editing a shop item, user can check 'Add to Powers' checkbox. This opens a modal to select or create a power category (e.g., 'Physical Abilities'). When the item is purchased, it goes to both Inventory and Powers tab, where powers are displayed grouped by their categories."
+
+backend:
+  - task: "Add power_category field to ShopItem model"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added power_category Optional[str] field to ShopItem and ShopItemCreate models"
+
+  - task: "Create PowerItem model for storing user powers"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created PowerItem model with user_id, shop_item_id, name, description, power_category, image, stat_boost, and acquired_at fields"
+
+  - task: "Update purchase endpoint to add power items to powers collection"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Modified /api/shop/purchase endpoint to check if item has is_power=true and power_category, then creates a PowerItem entry in the powers collection"
+
+  - task: "Add GET /api/powers/{user_id} endpoint"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created endpoint to fetch all power items for a specific user"
+
+  - task: "Add GET /api/powers/categories/all endpoint"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created endpoint to fetch all unique power categories from the powers collection"
+
+  - task: "Add DELETE /api/powers/{power_id} endpoint"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "low"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created endpoint to delete a specific power item"
+
+frontend:
+  - task: "Add 'Add to Powers' checkbox in shop item creation modal"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/app/(tabs)/shop.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added checkbox UI with handleAddPowerToggle function that shows power category modal when checked"
+
+  - task: "Add 'Add to Powers' checkbox in shop item edit modal"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/app/(tabs)/shop.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added same checkbox functionality in edit modal to support modifying power settings of existing items"
+
+  - task: "Create power category selection modal"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/app/(tabs)/shop.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created modal that displays existing power categories as buttons and allows creating new custom categories via text input"
+
+  - task: "Update createItem and updateItem to send is_power and power_category"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/app/(tabs)/shop.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Modified both functions to include is_power and power_category fields in API payload. Added validation to ensure power_category is selected when is_power is true"
+
+  - task: "Fetch and display power categories"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/app/(tabs)/shop.tsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added fetchPowerCategories function that calls /api/powers/categories/all on component mount to populate existing categories"
+
+  - task: "Implement Powers page to display user powers"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/app/(tabs)/powers.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Completely rewrote Powers page to fetch user powers, group them by category, and display in expandable category sections with power cards showing name, description, image, and stat boosts"
+
+metadata:
+  created_by: "main_agent"
+  version: "1.0"
+  test_sequence: 0
+  run_ui: false
+
+test_plan:
+  current_focus:
+    - "Test complete power creation flow: create shop item with power checkbox -> select category -> verify saved"
+    - "Test power purchase flow: buy power item -> verify appears in both Inventory and Powers tabs"
+    - "Test Powers page displays items grouped by category with expand/collapse functionality"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "main"
+    message: "Implemented full 'Add to Powers' feature. Backend now supports power_category field in shop items and has a separate powers collection. When items with is_power=true are purchased, they're added to both inventory and powers. Frontend has checkbox in shop modals that opens category selection popup. Powers page now displays all user powers grouped by expandable categories. Ready for backend testing."

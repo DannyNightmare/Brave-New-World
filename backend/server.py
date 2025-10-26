@@ -121,6 +121,7 @@ class PowerItem(BaseModel):
     current_level: int = 1  # Current level of the power
     max_level: int = 5  # Maximum level before needing to upgrade tier
     next_tier_ability: Optional[str] = None  # Name of ability that unlocks when maxed
+    sub_abilities: Optional[list] = None  # List of sub-abilities/perks
     image: Optional[str] = None
     stat_boost: Optional[dict] = None
     acquired_at: datetime = Field(default_factory=datetime.utcnow)

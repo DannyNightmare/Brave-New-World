@@ -23,8 +23,6 @@ export default function StatusScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
-        <Text style={styles.title}>Status</Text>
-        
         {/* Level Card */}
         <View style={styles.card}>
           <View style={styles.levelHeader}>

@@ -73,6 +73,7 @@ class ShopItem(BaseModel):
     stock: Optional[int] = None
     category: str = "general"  # Category for filtering
     image: Optional[str] = None  # Base64 encoded image
+    is_power: bool = False  # Whether this item appears in Powers tab
     stat_boost: Optional[dict] = None
     item_type: str  # weapon, armor, potion, accessory
 
@@ -83,6 +84,7 @@ class ShopItemCreate(BaseModel):
     stock: Optional[int] = None
     category: str = "general"
     image: Optional[str] = None
+    is_power: bool = False
     stat_boost: Optional[dict] = None
     item_type: str
 

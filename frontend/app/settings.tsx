@@ -89,6 +89,34 @@ export default function SettingsScreen() {
         </View>
 
         <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: colors.textSecondary }]}>Data Management</Text>
+          
+          <View style={[styles.settingItem, { backgroundColor: colors.cardBackground, borderColor: colors.border }]}>
+            <View style={styles.settingLeft}>
+              <Ionicons name="save-outline" size={24} color={colors.primary} />
+              <Text style={[styles.settingText, { color: colors.text }]}>Auto Save</Text>
+            </View>
+            <Switch
+              value={autoSave}
+              onValueChange={setAutoSave}
+              trackColor={{ false: '#D1D5DB', true: colors.primary }}
+              thumbColor="#FFFFFF"
+            />
+          </View>
+
+          <TouchableOpacity 
+            style={[styles.settingItem, styles.dangerItem, { backgroundColor: colors.cardBackground, borderColor: '#EF4444' }]}
+            onPress={handleFactoryReset}
+          >
+            <View style={styles.settingLeft}>
+              <Ionicons name="trash-outline" size={24} color="#EF4444" />
+              <Text style={[styles.settingText, { color: '#EF4444' }]}>Factory Reset</Text>
+            </View>
+            <Ionicons name="chevron-forward" size={24} color="#EF4444" />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.section}>
           <Text style={[styles.sectionTitle, { color: colors.textSecondary }]}>Account</Text>
           
           <TouchableOpacity style={[styles.settingItem, { backgroundColor: colors.cardBackground, borderColor: colors.border }]}>

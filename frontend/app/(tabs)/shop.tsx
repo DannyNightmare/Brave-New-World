@@ -123,6 +123,8 @@ export default function ShopScreen() {
     image: '',
     is_power: false,
     power_category: '',
+    power_tier: 'Base',
+    power_max_level: 5,
     item_type: 'weapon',
     strength_boost: 0,
     intelligence_boost: 0,

@@ -3,15 +3,17 @@ import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { TouchableOpacity, Modal, View, Text, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
+import { useTheme } from '../../contexts/ThemeContext';
 
 export default function TabLayout() {
   const [menuVisible, setMenuVisible] = useState(false);
   const router = useRouter();
+  const { colors } = useTheme();
 
   const HamburgerMenu = () => (
     <>
       <TouchableOpacity onPress={() => setMenuVisible(true)} style={{ marginRight: 16 }}>
-        <Ionicons name="menu" size={28} color="#F9FAFB" />
+        <Ionicons name="menu" size={28} color={colors.text} />
       </TouchableOpacity>
 
       <Modal visible={menuVisible} animationType="fade" transparent={true}>
@@ -20,7 +22,7 @@ export default function TabLayout() {
           activeOpacity={1} 
           onPress={() => setMenuVisible(false)}
         >
-          <View style={styles.menuContainer}>
+          <View style={[styles.menuContainer, { backgroundColor: colors.cardBackground, borderColor: colors.border }]}>
             <TouchableOpacity 
               style={styles.menuItem}
               onPress={() => {
@@ -28,8 +30,8 @@ export default function TabLayout() {
                 router.push('/settings');
               }}
             >
-              <Ionicons name="settings-outline" size={24} color="#F9FAFB" />
-              <Text style={styles.menuItemText}>Settings</Text>
+              <Ionicons name="settings-outline" size={24} color={colors.text} />
+              <Text style={[styles.menuItemText, { color: colors.text }]}>Settings</Text>
             </TouchableOpacity>
           </View>
         </TouchableOpacity>
@@ -40,11 +42,11 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#8B5CF6',
-        tabBarInactiveTintColor: '#6B7280',
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.textSecondary,
         tabBarStyle: {
-          backgroundColor: '#1F2937',
-          borderTopColor: '#374151',
+          backgroundColor: colors.tabBar,
+          borderTopColor: colors.border,
           paddingBottom: 5,
           height: 60,
         },
@@ -53,9 +55,9 @@ export default function TabLayout() {
           fontWeight: '600',
         },
         headerStyle: {
-          backgroundColor: '#111827',
+          backgroundColor: colors.header,
         },
-        headerTintColor: '#F9FAFB',
+        headerTintColor: colors.text,
         headerTitleStyle: {
           fontWeight: 'bold',
         },

@@ -1,90 +1,95 @@
-diff --git a/frontend/app/(tabs)/shop.tsx b/frontend/app/(tabs)/shop.tsx
-index f773c29..8af0084 100644
---- a/frontend/app/(tabs)/shop.tsx
-+++ b/frontend/app/(tabs)/shop.tsx
-@@ -78,6 +78,57 @@ export default function ShopScreen() {
-     );
-   };
- 
-+  const createItem = async () => {
-+    if (!newItem.name.trim()) {
-+      Alert.alert('Error', 'Please enter an item name');
-+      return;
-+    }
-+
-+    try {
-+      const stat_boost: { [key: string]: number } = {};
-+      if (newItem.strength_boost > 0) stat_boost.strength = newItem.strength_boost;
-+      if (newItem.intelligence_boost > 0) stat_boost.intelligence = newItem.intelligence_boost;
-+      if (newItem.vitality_boost > 0) stat_boost.vitality = newItem.vitality_boost;
-+
-+      const payload: any = {
-+        name: newItem.name,
-+        description: newItem.description,
-+        price: newItem.price,
-+        stock: newItem.stock,
-+        item_type: newItem.item_type,
-+      };
-+
-+      if (Object.keys(stat_boost).length > 0) {
-+        payload.stat_boost = stat_boost;
-+      }
-+
-+      const response = await fetch(`${API_URL}/api/shop`, {
-+        method: 'POST',
-+        headers: { 'Content-Type': 'application/json' },
-+        body: JSON.stringify(payload),
-+      });
-+      
-+      if (response.ok) {
-+        setNewItem({
-+          name: '',
-+          description: '',
-+          price: 50,
-+          stock: 1,
-+          item_type: 'weapon',
-+          strength_boost: 0,
-+          intelligence_boost: 0,
-+          vitality_boost: 0,
-+        });
-+        setModalVisible(false);
-+        fetchShopItems();
-+        Alert.alert('Success', 'Item added to shop');
-+      }
-+    } catch (error) {
-+      console.error('Failed to create item:', error);
-+      Alert.alert('Error', 'Failed to create item');
-+    }
-+  };
-+
-   const purchaseItem = async (item: ShopItem) => {
-     if (!user?.id) return;
- 
 diff --git a/model.patch b/model.patch
-index 11999af..e69de29 100644
+index 20a5331..e69de29 100644
 --- a/model.patch
 +++ b/model.patch
-@@ -1,23 +0,0 @@
--diff --git a/backend/server.py b/backend/server.py
--index a4f1886..5e6c42b 100644
----- a/backend/server.py
--+++ b/backend/server.py
--@@ -70,9 +70,18 @@ class ShopItem(BaseModel):
--     name: str
--     description: str
--     price: int
--+    stock: Optional[int] = None
--     stat_boost: Optional[dict] = None
--     item_type: str  # weapon, armor, potion, accessory
+@@ -1,90 +0,0 @@
+-diff --git a/frontend/app/(tabs)/shop.tsx b/frontend/app/(tabs)/shop.tsx
+-index f773c29..8af0084 100644
+---- a/frontend/app/(tabs)/shop.tsx
+-+++ b/frontend/app/(tabs)/shop.tsx
+-@@ -78,6 +78,57 @@ export default function ShopScreen() {
+-     );
+-   };
 - 
--+class ShopItemCreate(BaseModel):
--+    name: str
--+    description: str
--+    price: int
--+    stock: Optional[int] = None
--+    stat_boost: Optional[dict] = None
--+    item_type: str
+-+  const createItem = async () => {
+-+    if (!newItem.name.trim()) {
+-+      Alert.alert('Error', 'Please enter an item name');
+-+      return;
+-+    }
 -+
-- class InventoryItem(BaseModel):
--     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
--     user_id: str
+-+    try {
+-+      const stat_boost: { [key: string]: number } = {};
+-+      if (newItem.strength_boost > 0) stat_boost.strength = newItem.strength_boost;
+-+      if (newItem.intelligence_boost > 0) stat_boost.intelligence = newItem.intelligence_boost;
+-+      if (newItem.vitality_boost > 0) stat_boost.vitality = newItem.vitality_boost;
+-+
+-+      const payload: any = {
+-+        name: newItem.name,
+-+        description: newItem.description,
+-+        price: newItem.price,
+-+        stock: newItem.stock,
+-+        item_type: newItem.item_type,
+-+      };
+-+
+-+      if (Object.keys(stat_boost).length > 0) {
+-+        payload.stat_boost = stat_boost;
+-+      }
+-+
+-+      const response = await fetch(`${API_URL}/api/shop`, {
+-+        method: 'POST',
+-+        headers: { 'Content-Type': 'application/json' },
+-+        body: JSON.stringify(payload),
+-+      });
+-+      
+-+      if (response.ok) {
+-+        setNewItem({
+-+          name: '',
+-+          description: '',
+-+          price: 50,
+-+          stock: 1,
+-+          item_type: 'weapon',
+-+          strength_boost: 0,
+-+          intelligence_boost: 0,
+-+          vitality_boost: 0,
+-+        });
+-+        setModalVisible(false);
+-+        fetchShopItems();
+-+        Alert.alert('Success', 'Item added to shop');
+-+      }
+-+    } catch (error) {
+-+      console.error('Failed to create item:', error);
+-+      Alert.alert('Error', 'Failed to create item');
+-+    }
+-+  };
+-+
+-   const purchaseItem = async (item: ShopItem) => {
+-     if (!user?.id) return;
+- 
+-diff --git a/model.patch b/model.patch
+-index 11999af..e69de29 100644
+---- a/model.patch
+-+++ b/model.patch
+-@@ -1,23 +0,0 @@
+--diff --git a/backend/server.py b/backend/server.py
+--index a4f1886..5e6c42b 100644
+----- a/backend/server.py
+--+++ b/backend/server.py
+--@@ -70,9 +70,18 @@ class ShopItem(BaseModel):
+--     name: str
+--     description: str
+--     price: int
+--+    stock: Optional[int] = None
+--     stat_boost: Optional[dict] = None
+--     item_type: str  # weapon, armor, potion, accessory
+-- 
+--+class ShopItemCreate(BaseModel):
+--+    name: str
+--+    description: str
+--+    price: int
+--+    stock: Optional[int] = None
+--+    stat_boost: Optional[dict] = None
+--+    item_type: str
+--+
+-- class InventoryItem(BaseModel):
+--     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+--     user_id: str

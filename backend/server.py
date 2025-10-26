@@ -437,6 +437,25 @@ async def level_up_power(power_id: str):
     updated_power = await db.powers.find_one({"id": power_id})
     return PowerItem(**updated_power)
 
+@api_router.put("/powers/{power_id}")
+async def update_power(power_id: str, updates: dict):
+    power = await db.powers.find_one({"id": power_id})
+    if not power:
+        raise HTTPException(status_code=404, detail="Power not found")
+    
+    # Only allow updating specific fields
+    allowed_fields = ["name", "description", "max_level", "sub_abilities"]
+    update_data = {k: v for k, v in updates.items() if k in allowed_fields}
+    
+    if update_data:
+        await db.powers.update_one(
+            {"id": power_id},
+            {"$set": update_data}
+        )
+    
+    updated_power = await db.powers.find_one({"id": power_id})
+    return PowerItem(**updated_power)
+
 
 # Include the router in the main app
 app.include_router(api_router)

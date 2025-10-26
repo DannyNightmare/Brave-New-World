@@ -32,11 +32,30 @@ class PowerTierTester:
             self.test_user_id = user["id"]
             print(f"✅ Test user created: {user['username']} (ID: {self.test_user_id})")
             
-            # Give user more gold for testing
+            # Give user more gold for testing by creating and completing a high-reward quest
             reset_response = requests.post(f"{self.base_url}/users/{self.test_user_id}/reset")
             if reset_response.status_code == 200:
-                # Update gold to 10000 for testing
-                print("✅ User stats reset, ready for testing")
+                print("✅ User stats reset")
+                
+                # Create a high-reward quest to give user more gold
+                quest_data = {
+                    "user_id": self.test_user_id,
+                    "title": "Test Gold Quest",
+                    "description": "Get gold for testing",
+                    "difficulty": "custom",
+                    "xp_reward": 0,
+                    "gold_reward": 1000
+                }
+                
+                quest_response = requests.post(f"{self.base_url}/quests", json=quest_data)
+                if quest_response.status_code == 200:
+                    quest = quest_response.json()
+                    # Complete the quest to give user gold
+                    complete_response = requests.post(f"{self.base_url}/quests/{quest['id']}/complete")
+                    if complete_response.status_code == 200:
+                        print("✅ User given extra gold for testing")
+                    else:
+                        print("⚠️ Failed to complete gold quest, user may not have enough gold for all tests")
             return True
         else:
             print(f"❌ Failed to create test user: {response.status_code} - {response.text}")

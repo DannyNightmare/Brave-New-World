@@ -26,6 +26,15 @@ export default function PowersScreen() {
   const [powers, setPowers] = useState<PowerItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [editingPower, setEditingPower] = useState<PowerItem | null>(null);
+  const [editForm, setEditForm] = useState({
+    name: '',
+    description: '',
+    max_level: 5,
+    sub_abilities: [] as string[],
+    newSubAbility: '',
+  });
 
   const fetchPowers = async () => {
     if (!user?.id) return;

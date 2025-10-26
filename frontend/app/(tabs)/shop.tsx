@@ -804,75 +804,73 @@ export default function ShopScreen() {
             </TouchableOpacity>
           </View>
 
-          <ScrollView style={styles.detailModalContent}>
-            {/* Image Section - Top Half */}
-            <View style={styles.detailImageContainer}>
-              {viewingItem?.image ? (
-                <Image source={{ uri: viewingItem.image }} style={styles.detailImage} resizeMode="contain" />
-              ) : (
-                <View style={styles.detailImagePlaceholder}>
-                  <Ionicons name="image-outline" size={80} color="#4B5563" />
-                  <Text style={styles.detailImagePlaceholderText}>No image available</Text>
-                </View>
-              )}
-            </View>
-
-            {/* Description Section - Bottom Half */}
-            <View style={styles.detailDescriptionContainer}>
-              <Text style={styles.detailItemName}>{viewingItem?.name}</Text>
-              
-              <View style={styles.detailPriceRow}>
-                <View style={styles.detailPriceTag}>
-                  <Ionicons name="logo-bitcoin" size={20} color="#FCD34D" />
-                  <Text style={styles.detailPrice}>{viewingItem?.price}</Text>
-                </View>
-                {viewingItem?.stock !== undefined && viewingItem.stock > 0 && (
-                  <Text style={styles.detailStock}>Stock: {viewingItem.stock}</Text>
-                )}
+          {/* Fixed Image Section - Top Half */}
+          <View style={styles.detailImageContainer}>
+            {viewingItem?.image ? (
+              <Image source={{ uri: viewingItem.image }} style={styles.detailImage} resizeMode="contain" />
+            ) : (
+              <View style={styles.detailImagePlaceholder}>
+                <Ionicons name="image-outline" size={80} color="#4B5563" />
+                <Text style={styles.detailImagePlaceholderText}>No image available</Text>
               </View>
+            )}
+          </View>
 
-              {viewingItem?.category && (
-                <View style={styles.detailCategoryTag}>
-                  <Text style={styles.detailCategoryText}>{viewingItem.category}</Text>
-                </View>
+          {/* Scrollable Description Section - Bottom Half */}
+          <ScrollView style={styles.detailDescriptionScroll} contentContainerStyle={styles.detailDescriptionContainer}>
+            <Text style={styles.detailItemName}>{viewingItem?.name}</Text>
+            
+            <View style={styles.detailPriceRow}>
+              <View style={styles.detailPriceTag}>
+                <Ionicons name="logo-bitcoin" size={20} color="#FCD34D" />
+                <Text style={styles.detailPrice}>{viewingItem?.price}</Text>
+              </View>
+              {viewingItem?.stock !== undefined && viewingItem.stock > 0 && (
+                <Text style={styles.detailStock}>Stock: {viewingItem.stock}</Text>
               )}
-
-              <Text style={styles.detailDescriptionTitle}>Description</Text>
-              <Text style={styles.detailDescription}>
-                {viewingItem?.description || 'No description available'}
-              </Text>
-
-              {viewingItem?.stat_boost && Object.keys(viewingItem.stat_boost).length > 0 && (
-                <>
-                  <Text style={styles.detailStatsTitle}>Stat Boosts</Text>
-                  <View style={styles.detailStatsList}>
-                    {Object.entries(viewingItem.stat_boost).map(([stat, value]) => (
-                      <View key={stat} style={styles.detailStatItem}>
-                        <Ionicons 
-                          name={stat === 'strength' ? 'barbell' : stat === 'intelligence' ? 'bulb' : 'heart'} 
-                          size={20} 
-                          color="#10B981" 
-                        />
-                        <Text style={styles.detailStatText}>
-                          +{value} {stat.charAt(0).toUpperCase() + stat.slice(1)}
-                        </Text>
-                      </View>
-                    ))}
-                  </View>
-                </>
-              )}
-
-              <TouchableOpacity 
-                style={styles.detailBuyButton}
-                onPress={() => {
-                  setDetailModalVisible(false);
-                  if (viewingItem) purchaseItem(viewingItem);
-                }}
-              >
-                <Ionicons name="cart" size={20} color="#FFF" />
-                <Text style={styles.detailBuyButtonText}>Purchase Item</Text>
-              </TouchableOpacity>
             </View>
+
+            {viewingItem?.category && (
+              <View style={styles.detailCategoryTag}>
+                <Text style={styles.detailCategoryText}>{viewingItem.category}</Text>
+              </View>
+            )}
+
+            <Text style={styles.detailDescriptionTitle}>Description</Text>
+            <Text style={styles.detailDescription}>
+              {viewingItem?.description || 'No description available'}
+            </Text>
+
+            {viewingItem?.stat_boost && Object.keys(viewingItem.stat_boost).length > 0 && (
+              <>
+                <Text style={styles.detailStatsTitle}>Stat Boosts</Text>
+                <View style={styles.detailStatsList}>
+                  {Object.entries(viewingItem.stat_boost).map(([stat, value]) => (
+                    <View key={stat} style={styles.detailStatItem}>
+                      <Ionicons 
+                        name={stat === 'strength' ? 'barbell' : stat === 'intelligence' ? 'bulb' : 'heart'} 
+                        size={20} 
+                        color="#10B981" 
+                      />
+                      <Text style={styles.detailStatText}>
+                        +{value} {stat.charAt(0).toUpperCase() + stat.slice(1)}
+                      </Text>
+                    </View>
+                  ))}
+                </View>
+              </>
+            )}
+
+            <TouchableOpacity 
+              style={styles.detailBuyButton}
+              onPress={() => {
+                setDetailModalVisible(false);
+                if (viewingItem) purchaseItem(viewingItem);
+              }}
+            >
+              <Ionicons name="cart" size={20} color="#FFF" />
+              <Text style={styles.detailBuyButtonText}>Purchase Item</Text>
+            </TouchableOpacity>
           </ScrollView>
         </SafeAreaView>
       </Modal>

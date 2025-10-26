@@ -91,6 +91,8 @@ export default function ShopScreen() {
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
+  const [actionModalVisible, setActionModalVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<ShopItem | null>(null);
   const [editingItem, setEditingItem] = useState<ShopItem | null>(null);
   const [newItem, setNewItem] = useState({
     name: '',

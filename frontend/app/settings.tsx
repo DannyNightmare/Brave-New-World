@@ -17,15 +17,15 @@ export default function SettingsScreen() {
 
   const handleFactoryReset = () => {
     Alert.alert(
-      'Factory Reset',
-      'This will delete ALL your data including quests, inventory, and progress. This action cannot be undone. Are you sure?',
+      '⚠️ Factory Reset',
+      'This will permanently delete ALL your data:\n\n• All Quests\n• All Inventory Items\n• All Shop Items\n• Player Level (reset to 1)\n• Experience Points (reset to 0)\n• Gold (reset to 100)\n• All Stats (reset to 10)\n\nThis action CANNOT be undone!\n\nAre you absolutely sure?',
       [
         {
           text: 'Cancel',
           style: 'cancel',
         },
         {
-          text: 'Reset Everything',
+          text: 'Yes, Reset Everything',
           style: 'destructive',
           onPress: async () => {
             try {
@@ -48,11 +48,24 @@ export default function SettingsScreen() {
               // Clear all shop items
               await fetch(`${API_URL}/api/shop/clear-all`, { method: 'DELETE' });
               
-              Alert.alert('Success', 'All data has been reset. Please restart the app.');
-              router.back();
+              // Reset user stats to default
+              await fetch(`${API_URL}/api/users/${user.id}/reset`, {
+                method: 'POST',
+              });
+              
+              Alert.alert(
+                '✅ Reset Complete', 
+                'All your data has been reset to default values. Please restart the app to see the changes.',
+                [
+                  {
+                    text: 'OK',
+                    onPress: () => router.back(),
+                  }
+                ]
+              );
             } catch (error) {
               console.error('Factory reset failed:', error);
-              Alert.alert('Error', 'Failed to reset data');
+              Alert.alert('Error', 'Failed to reset data. Please try again.');
             }
           },
         },

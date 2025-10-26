@@ -64,7 +64,9 @@ const ShopItemCard = ({ item, onLongPress, onPress, onPurchase }: {
         
         <View style={styles.itemInfo}>
           <Text style={styles.itemName}>{item.name}</Text>
-          <Text style={styles.itemDescription}>{item.description}</Text>
+          <Text style={styles.itemDescription} numberOfLines={2} ellipsizeMode="tail">
+            {item.description}
+          </Text>
           
           {item.stat_boost && (
             <View style={styles.statBoosts}>

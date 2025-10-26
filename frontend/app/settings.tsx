@@ -229,15 +229,21 @@ export default function SettingsScreen() {
               <TouchableOpacity 
                 style={[styles.resetCancelButton, { backgroundColor: colors.border }]}
                 onPress={() => setResetModalVisible(false)}
+                disabled={isResetting}
               >
                 <Text style={[styles.resetCancelText, { color: colors.text }]}>Cancel</Text>
               </TouchableOpacity>
 
               <TouchableOpacity 
-                style={styles.resetConfirmButton}
+                style={[styles.resetConfirmButton, isResetting && styles.resetButtonDisabled]}
                 onPress={confirmFactoryReset}
+                disabled={isResetting}
               >
-                <Text style={styles.resetConfirmText}>Yes, Reset Everything</Text>
+                {isResetting ? (
+                  <ActivityIndicator color="#FFFFFF" />
+                ) : (
+                  <Text style={styles.resetConfirmText}>Yes, Reset Everything</Text>
+                )}
               </TouchableOpacity>
             </View>
           </View>

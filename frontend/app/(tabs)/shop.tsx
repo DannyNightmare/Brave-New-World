@@ -478,6 +478,26 @@ export default function ShopScreen() {
                 </>
               )}
 
+              {/* Image Picker */}
+              <Text style={styles.label}>Item Image (optional)</Text>
+              <TouchableOpacity style={styles.imagePickerButton} onPress={pickImage}>
+                <Ionicons name="image-outline" size={24} color="#8B5CF6" />
+                <Text style={styles.imagePickerText}>
+                  {newItem.image ? 'Change Image' : 'Select Image'}
+                </Text>
+              </TouchableOpacity>
+              {newItem.image && (
+                <View style={styles.imagePreview}>
+                  <Image source={{ uri: newItem.image }} style={styles.previewImage} />
+                  <TouchableOpacity 
+                    style={styles.removeImageButton}
+                    onPress={() => setNewItem({ ...newItem, image: '' })}
+                  >
+                    <Ionicons name="close-circle" size={24} color="#EF4444" />
+                  </TouchableOpacity>
+                </View>
+              )}
+
               <Text style={styles.label}>Item Details</Text>
               <View style={styles.rewardRow}>
                 <View style={styles.rewardInput}>
@@ -616,6 +636,26 @@ export default function ShopScreen() {
                     ))}
                   </View>
                 </>
+              )}
+
+              {/* Image Picker */}
+              <Text style={styles.label}>Item Image (optional)</Text>
+              <TouchableOpacity style={styles.imagePickerButton} onPress={pickImage}>
+                <Ionicons name="image-outline" size={24} color="#8B5CF6" />
+                <Text style={styles.imagePickerText}>
+                  {newItem.image ? 'Change Image' : 'Select Image'}
+                </Text>
+              </TouchableOpacity>
+              {newItem.image && (
+                <View style={styles.imagePreview}>
+                  <Image source={{ uri: newItem.image }} style={styles.previewImage} />
+                  <TouchableOpacity 
+                    style={styles.removeImageButton}
+                    onPress={() => setNewItem({ ...newItem, image: '' })}
+                  >
+                    <Ionicons name="close-circle" size={24} color="#EF4444" />
+                  </TouchableOpacity>
+                </View>
               )}
 
               <Text style={styles.label}>Item Details</Text>

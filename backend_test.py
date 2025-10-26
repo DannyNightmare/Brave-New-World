@@ -95,7 +95,7 @@ class PowersBackendTester:
             regular_item_data = {
                 "name": "Health Potion",
                 "description": "Restores health",
-                "price": 50,
+                "price": 15,  # Reduced price so user can afford it after buying power item
                 "category": "consumables", 
                 "item_type": "potion",
                 "is_power": False,

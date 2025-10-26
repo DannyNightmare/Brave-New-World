@@ -298,7 +298,8 @@ class PowerTierTester:
                     print(f"❌ Failed to retrieve powers: {powers_response.status_code}")
                     test_results.append(False)
             else:
-                print(f"❌ Failed to purchase mental power: {purchase_response.status_code}")
+                error_msg = purchase_response.text if purchase_response.text else "No error details"
+                print(f"❌ Failed to purchase mental power: {purchase_response.status_code} - {error_msg}")
                 test_results.append(False)
         else:
             print(f"❌ Failed to create mental power item: {response.status_code}")

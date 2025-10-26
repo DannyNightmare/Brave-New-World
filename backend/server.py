@@ -71,6 +71,7 @@ class ShopItem(BaseModel):
     description: str
     price: int
     stock: Optional[int] = None
+    category: str = "general"  # Category for filtering
     stat_boost: Optional[dict] = None
     item_type: str  # weapon, armor, potion, accessory
 
@@ -79,6 +80,7 @@ class ShopItemCreate(BaseModel):
     description: str
     price: int
     stock: Optional[int] = None
+    category: str = "general"
     stat_boost: Optional[dict] = None
     item_type: str
 

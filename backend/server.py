@@ -186,13 +186,40 @@ async def complete_quest(quest_id: str):
         new_xp -= xp_for_level(new_level)
         new_level += 1
     
+    updates = {"xp": new_xp, "gold": new_gold, "level": new_level}
+    
+    # Apply attribute rewards if specified
+    if quest.get("attribute_rewards"):
+        for attr, value in quest["attribute_rewards"].items():
+            if attr in ["strength", "intelligence", "vitality"]:
+                updates[attr] = user.get(attr, 10) + value
+    
     await db.users.update_one(
         {"id": quest["user_id"]},
-        {"$set": {"xp": new_xp, "gold": new_gold, "level": new_level}}
+        {"$set": updates}
     )
     
+    # Handle item reward if specified
+    item_reward_name = None
+    if quest.get("item_reward"):
+        # Create a custom inventory item for the quest reward
+        inventory_item = InventoryItem(
+            user_id=quest["user_id"],
+            item_id=str(uuid.uuid4()),
+            item_name=quest["item_reward"],
+            item_description="Quest reward item",
+            item_type="quest_reward",
+            stat_boost=quest.get("attribute_rewards")
+        )
+        await db.inventory.insert_one(inventory_item.dict())
+        item_reward_name = quest["item_reward"]
+    
     updated_user = await db.users.find_one({"id": quest["user_id"]})
-    return {"quest": Quest(**{**quest, "completed": True}), "user": User(**updated_user)}
+    return {
+        "quest": Quest(**{**quest, "completed": True}), 
+        "user": User(**updated_user),
+        "item_reward": item_reward_name
+    }
 
 @api_router.delete("/quests/{quest_id}")
 async def delete_quest(quest_id: str):

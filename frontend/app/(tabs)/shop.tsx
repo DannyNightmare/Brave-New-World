@@ -78,6 +78,57 @@ export default function ShopScreen() {
     );
   };
 
+  const createItem = async () => {
+    if (!newItem.name.trim()) {
+      Alert.alert('Error', 'Please enter an item name');
+      return;
+    }
+
+    try {
+      const stat_boost: { [key: string]: number } = {};
+      if (newItem.strength_boost > 0) stat_boost.strength = newItem.strength_boost;
+      if (newItem.intelligence_boost > 0) stat_boost.intelligence = newItem.intelligence_boost;
+      if (newItem.vitality_boost > 0) stat_boost.vitality = newItem.vitality_boost;
+
+      const payload: any = {
+        name: newItem.name,
+        description: newItem.description,
+        price: newItem.price,
+        stock: newItem.stock,
+        item_type: newItem.item_type,
+      };
+
+      if (Object.keys(stat_boost).length > 0) {
+        payload.stat_boost = stat_boost;
+      }
+
+      const response = await fetch(`${API_URL}/api/shop`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      
+      if (response.ok) {
+        setNewItem({
+          name: '',
+          description: '',
+          price: 50,
+          stock: 1,
+          item_type: 'weapon',
+          strength_boost: 0,
+          intelligence_boost: 0,
+          vitality_boost: 0,
+        });
+        setModalVisible(false);
+        fetchShopItems();
+        Alert.alert('Success', 'Item added to shop');
+      }
+    } catch (error) {
+      console.error('Failed to create item:', error);
+      Alert.alert('Error', 'Failed to create item');
+    }
+  };
+
   const purchaseItem = async (item: ShopItem) => {
     if (!user?.id) return;
 

@@ -19,6 +19,7 @@ export default function InventoryScreen() {
   const { user } = useUser();
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const fetchInventory = async () => {
     if (!user?.id) return;

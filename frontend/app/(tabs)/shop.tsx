@@ -247,6 +247,139 @@ export default function ShopScreen() {
           );
         })}
       </ScrollView>
+
+      {/* Floating Action Button */}
+      <TouchableOpacity 
+        style={styles.fab} 
+        onPress={() => setModalVisible(true)}
+      >
+        <Ionicons name="add" size={28} color="#FFF" />
+      </TouchableOpacity>
+
+      {/* Create Item Modal */}
+      <Modal visible={modalVisible} animationType="slide" transparent={true}>
+        <View style={styles.modalOverlay}>
+          <ScrollView style={styles.modalScrollView}>
+            <View style={styles.modalContent}>
+              <View style={styles.modalHeader}>
+                <Text style={styles.modalTitle}>Create Shop Item</Text>
+                <TouchableOpacity onPress={() => setModalVisible(false)}>
+                  <Ionicons name="close" size={28} color="#9CA3AF" />
+                </TouchableOpacity>
+              </View>
+
+              <TextInput
+                style={styles.input}
+                placeholder="Item name *"
+                placeholderTextColor="#6B7280"
+                value={newItem.name}
+                onChangeText={(text) => setNewItem({ ...newItem, name: text })}
+              />
+
+              <TextInput
+                style={[styles.input, styles.textArea]}
+                placeholder="Description"
+                placeholderTextColor="#6B7280"
+                value={newItem.description}
+                onChangeText={(text) => setNewItem({ ...newItem, description: text })}
+                multiline
+                numberOfLines={3}
+              />
+
+              <Text style={styles.label}>Item Details</Text>
+              <View style={styles.rewardRow}>
+                <View style={styles.rewardInput}>
+                  <Text style={styles.rewardLabel}>Price</Text>
+                  <TextInput
+                    style={styles.numberInput}
+                    placeholder="50"
+                    placeholderTextColor="#6B7280"
+                    value={String(newItem.price)}
+                    onChangeText={(text) => setNewItem({ ...newItem, price: parseInt(text) || 0 })}
+                    keyboardType="numeric"
+                  />
+                </View>
+                <View style={styles.rewardInput}>
+                  <Text style={styles.rewardLabel}>Stock</Text>
+                  <TextInput
+                    style={styles.numberInput}
+                    placeholder="1"
+                    placeholderTextColor="#6B7280"
+                    value={String(newItem.stock)}
+                    onChangeText={(text) => setNewItem({ ...newItem, stock: parseInt(text) || 0 })}
+                    keyboardType="numeric"
+                  />
+                </View>
+              </View>
+
+              <Text style={styles.label}>Item Type</Text>
+              <View style={styles.itemTypeSelector}>
+                {['weapon', 'armor', 'potion', 'accessory'].map(type => (
+                  <TouchableOpacity
+                    key={type}
+                    style={[
+                      styles.typeOption,
+                      newItem.item_type === type && styles.typeOptionSelected,
+                    ]}
+                    onPress={() => setNewItem({ ...newItem, item_type: type })}
+                  >
+                    <Text style={[
+                      styles.typeOptionText,
+                      newItem.item_type === type && styles.typeOptionTextSelected
+                    ]}>
+                      {type}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+
+              <Text style={styles.label}>Stat Boosts</Text>
+              <View style={styles.attributeContainer}>
+                <View style={styles.attributeRow}>
+                  <Ionicons name="barbell" size={20} color="#EF4444" />
+                  <Text style={styles.attributeLabel}>Strength</Text>
+                  <TextInput
+                    style={styles.attributeInput}
+                    placeholder="0"
+                    placeholderTextColor="#6B7280"
+                    value={String(newItem.strength_boost)}
+                    onChangeText={(text) => setNewItem({ ...newItem, strength_boost: parseInt(text) || 0 })}
+                    keyboardType="numeric"
+                  />
+                </View>
+                <View style={styles.attributeRow}>
+                  <Ionicons name="bulb" size={20} color="#3B82F6" />
+                  <Text style={styles.attributeLabel}>Intelligence</Text>
+                  <TextInput
+                    style={styles.attributeInput}
+                    placeholder="0"
+                    placeholderTextColor="#6B7280"
+                    value={String(newItem.intelligence_boost)}
+                    onChangeText={(text) => setNewItem({ ...newItem, intelligence_boost: parseInt(text) || 0 })}
+                    keyboardType="numeric"
+                  />
+                </View>
+                <View style={styles.attributeRow}>
+                  <Ionicons name="heart" size={20} color="#10B981" />
+                  <Text style={styles.attributeLabel}>Vitality</Text>
+                  <TextInput
+                    style={styles.attributeInput}
+                    placeholder="0"
+                    placeholderTextColor="#6B7280"
+                    value={String(newItem.vitality_boost)}
+                    onChangeText={(text) => setNewItem({ ...newItem, vitality_boost: parseInt(text) || 0 })}
+                    keyboardType="numeric"
+                  />
+                </View>
+              </View>
+
+              <TouchableOpacity style={styles.createButton} onPress={createItem}>
+                <Text style={styles.createButtonText}>Create Item</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }

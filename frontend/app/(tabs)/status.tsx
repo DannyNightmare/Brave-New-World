@@ -75,7 +75,6 @@ export default function StatusScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#111827',
   },
   scrollView: {
     flex: 1,
@@ -91,22 +90,18 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#F9FAFB',
     marginBottom: 24,
     textAlign: 'center',
   },
   subtitle: {
     fontSize: 16,
-    color: '#9CA3AF',
     marginBottom: 24,
   },
   card: {
-    backgroundColor: '#1F2937',
     borderRadius: 16,
     padding: 20,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: '#374151',
   },
   levelHeader: {
     flexDirection: 'row',
@@ -117,12 +112,10 @@ const styles = StyleSheet.create({
   levelText: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#8B5CF6',
   },
   goldContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#374151',
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 20,
@@ -138,23 +131,19 @@ const styles = StyleSheet.create({
   },
   xpLabel: {
     fontSize: 14,
-    color: '#9CA3AF',
     marginBottom: 8,
   },
   xpBar: {
     height: 12,
-    backgroundColor: '#374151',
     borderRadius: 6,
     overflow: 'hidden',
   },
   xpFill: {
     height: '100%',
-    backgroundColor: '#8B5CF6',
   },
   cardTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#F9FAFB',
     marginBottom: 20,
   },
   statRow: {
@@ -166,13 +155,11 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: 12,
-    color: '#9CA3AF',
     marginTop: 8,
   },
   statValue: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#F9FAFB',
     marginTop: 4,
   },
 });

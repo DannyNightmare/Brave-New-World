@@ -438,27 +438,6 @@ export default function ShopScreen() {
                 </View>
               </View>
 
-              <Text style={styles.label}>Item Type</Text>
-              <View style={styles.itemTypeSelector}>
-                {['weapon', 'armor', 'potion', 'accessory'].map(type => (
-                  <TouchableOpacity
-                    key={type}
-                    style={[
-                      styles.typeOption,
-                      newItem.item_type === type && styles.typeOptionSelected,
-                    ]}
-                    onPress={() => setNewItem({ ...newItem, item_type: type })}
-                  >
-                    <Text style={[
-                      styles.typeOptionText,
-                      newItem.item_type === type && styles.typeOptionTextSelected
-                    ]}>
-                      {type}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-
               <Text style={styles.label}>Stat Boosts</Text>
               <View style={styles.attributeContainer}>
                 <View style={styles.attributeRow}>

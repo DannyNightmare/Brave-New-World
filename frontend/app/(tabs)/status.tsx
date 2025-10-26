@@ -2,16 +2,18 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUser } from '../../contexts/UserContext';
+import { useTheme } from '../../contexts/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function StatusScreen() {
   const { user, loading } = useUser();
+  const { colors } = useTheme();
 
   if (loading || !user) {
     return (
-      <SafeAreaView style={styles.container} edges={['bottom']}>
+      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['bottom']}>
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#8B5CF6" />
+          <ActivityIndicator size="large" color={colors.primary} />
         </View>
       </SafeAreaView>
     );
@@ -21,47 +23,47 @@ export default function StatusScreen() {
   const xpPercentage = (user.xp / xpForNextLevel) * 100;
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['bottom']}>
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
         {/* Level Card */}
-        <View style={styles.card}>
+        <View style={[styles.card, { backgroundColor: colors.cardBackground, borderColor: colors.border }]}>
           <View style={styles.levelHeader}>
-            <Text style={styles.levelText}>Level {user.level}</Text>
-            <View style={styles.goldContainer}>
+            <Text style={[styles.levelText, { color: colors.primary }]}>Level {user.level}</Text>
+            <View style={[styles.goldContainer, { backgroundColor: colors.border }]}>
               <Ionicons name="logo-bitcoin" size={20} color="#FCD34D" />
               <Text style={styles.goldText}>{user.gold}</Text>
             </View>
           </View>
           
           <View style={styles.xpContainer}>
-            <Text style={styles.xpLabel}>XP: {user.xp} / {xpForNextLevel}</Text>
-            <View style={styles.xpBar}>
-              <View style={[styles.xpFill, { width: `${xpPercentage}%` }]} />
+            <Text style={[styles.xpLabel, { color: colors.textSecondary }]}>XP: {user.xp} / {xpForNextLevel}</Text>
+            <View style={[styles.xpBar, { backgroundColor: colors.border }]}>
+              <View style={[styles.xpFill, { width: `${xpPercentage}%`, backgroundColor: colors.primary }]} />
             </View>
           </View>
         </View>
 
         {/* Stats Card */}
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Character Stats</Text>
+        <View style={[styles.card, { backgroundColor: colors.cardBackground, borderColor: colors.border }]}>
+          <Text style={[styles.cardTitle, { color: colors.text }]}>Character Stats</Text>
           
           <View style={styles.statRow}>
             <View style={styles.statItem}>
               <Ionicons name="barbell" size={24} color="#EF4444" />
-              <Text style={styles.statLabel}>Strength</Text>
-              <Text style={styles.statValue}>{user.strength}</Text>
+              <Text style={[styles.statLabel, { color: colors.textSecondary }]}>Strength</Text>
+              <Text style={[styles.statValue, { color: colors.text }]}>{user.strength}</Text>
             </View>
             
             <View style={styles.statItem}>
               <Ionicons name="bulb" size={24} color="#3B82F6" />
-              <Text style={styles.statLabel}>Intelligence</Text>
-              <Text style={styles.statValue}>{user.intelligence}</Text>
+              <Text style={[styles.statLabel, { color: colors.textSecondary }]}>Intelligence</Text>
+              <Text style={[styles.statValue, { color: colors.text }]}>{user.intelligence}</Text>
             </View>
             
             <View style={styles.statItem}>
               <Ionicons name="heart" size={24} color="#10B981" />
-              <Text style={styles.statLabel}>Vitality</Text>
-              <Text style={styles.statValue}>{user.vitality}</Text>
+              <Text style={[styles.statLabel, { color: colors.textSecondary }]}>Vitality</Text>
+              <Text style={[styles.statValue, { color: colors.text }]}>{user.vitality}</Text>
             </View>
           </View>
         </View>

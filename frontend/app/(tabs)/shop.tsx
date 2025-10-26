@@ -1016,4 +1016,31 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#9CA3AF',
   },
+  categoryTabs: {
+    marginBottom: 20,
+  },
+  categoryTabsContent: {
+    paddingHorizontal: 0,
+  },
+  categoryTab: {
+    backgroundColor: '#374151',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    marginRight: 12,
+    borderWidth: 1,
+    borderColor: '#4B5563',
+  },
+  categoryTabSelected: {
+    backgroundColor: '#8B5CF6',
+    borderColor: '#8B5CF6',
+  },
+  categoryTabText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#9CA3AF',
+  },
+  categoryTabTextSelected: {
+    color: '#FFF',
+  },
 });

@@ -38,6 +38,13 @@ export default function InventoryScreen() {
     fetchInventory();
   }, [user?.id]);
 
+  // Filter items based on search query
+  const filteredItems = items.filter(item => {
+    if (searchQuery.trim() === '') return true;
+    return item.item_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+           item.item_description.toLowerCase().includes(searchQuery.toLowerCase());
+  });
+
   const getItemIcon = (type: string) => {
     switch (type) {
       case 'weapon': return 'flash';

@@ -203,18 +203,21 @@ export default function ShopScreen() {
         {items.map(item => {
           const canAfford = (user?.gold || 0) >= item.price;
           return (
-            <Pressable
-              key={item.id}
-              style={styles.itemCard}
-              onLongPress={() => deleteShopItem(item)}
-              delayLongPress={500}
-            >
+            <View key={item.id} style={styles.itemCard}>
               <View style={[styles.itemIcon, { backgroundColor: getItemColor(item.item_type) + '20' }]}>
                 <Ionicons name={getItemIcon(item.item_type) as any} size={32} color={getItemColor(item.item_type)} />
               </View>
               
               <View style={styles.itemInfo}>
-                <Text style={styles.itemName}>{item.name}</Text>
+                <View style={styles.itemHeader}>
+                  <Text style={styles.itemName}>{item.name}</Text>
+                  <TouchableOpacity 
+                    onPress={() => deleteShopItem(item)}
+                    style={styles.deleteIcon}
+                  >
+                    <Ionicons name="close-circle" size={24} color="#EF4444" />
+                  </TouchableOpacity>
+                </View>
                 <Text style={styles.itemDescription}>{item.description}</Text>
                 
                 {item.stat_boost && (
@@ -243,7 +246,7 @@ export default function ShopScreen() {
                   {item.price}
                 </Text>
               </TouchableOpacity>
-            </Pressable>
+            </View>
           );
         })}
       </ScrollView>

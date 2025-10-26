@@ -17,6 +17,8 @@ interface ShopItem {
   category: string;
   image?: string;
   item_type: string;
+  is_power?: boolean;
+  power_category?: string;
   stat_boost?: { [key: string]: number };
 }
 

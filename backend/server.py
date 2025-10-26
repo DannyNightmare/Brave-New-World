@@ -327,6 +327,13 @@ async def get_user_inventory(user_id: str):
     items = await db.inventory.find({"user_id": user_id}).to_list(1000)
     return [InventoryItem(**item) for item in items]
 
+@api_router.delete("/inventory/{item_id}")
+async def delete_inventory_item(item_id: str):
+    result = await db.inventory.delete_one({"id": item_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Inventory item not found")
+    return {"message": "Inventory item deleted"}
+
 
 # Include the router in the main app
 app.include_router(api_router)

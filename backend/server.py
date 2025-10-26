@@ -250,6 +250,20 @@ async def create_shop_item(item: ShopItemCreate):
     await db.shop_items.insert_one(item_obj.dict())
     return item_obj
 
+@api_router.put("/shop/{item_id}", response_model=ShopItem)
+async def update_shop_item(item_id: str, item: ShopItemCreate):
+    existing = await db.shop_items.find_one({"id": item_id})
+    if not existing:
+        raise HTTPException(status_code=404, detail="Shop item not found")
+    
+    await db.shop_items.update_one(
+        {"id": item_id},
+        {"$set": item.dict()}
+    )
+    
+    updated_item = await db.shop_items.find_one({"id": item_id})
+    return ShopItem(**updated_item)
+
 @api_router.delete("/shop/clear-all")
 async def clear_all_shop_items():
     result = await db.shop_items.delete_many({})

@@ -315,26 +315,6 @@ export default function ShopScreen() {
     }
   };
 
-  const getItemIcon = (type: string) => {
-    switch (type) {
-      case 'weapon': return 'flash';
-      case 'armor': return 'shield';
-      case 'potion': return 'flask';
-      case 'accessory': return 'diamond';
-      default: return 'cube';
-    }
-  };
-
-  const getItemColor = (type: string) => {
-    switch (type) {
-      case 'weapon': return '#EF4444';
-      case 'armor': return '#3B82F6';
-      case 'potion': return '#10B981';
-      case 'accessory': return '#8B5CF6';
-      default: return '#6B7280';
-    }
-  };
-
   if (loading) {
     return (
       <SafeAreaView style={styles.container} edges={['bottom']}>

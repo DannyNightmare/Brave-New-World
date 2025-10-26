@@ -246,6 +246,12 @@ class PowerTierTester:
                 "item_id": mental_item["id"]
             }
             
+            # Check user's gold before purchase
+            user_response = requests.get(f"{self.base_url}/users/{self.test_user_id}")
+            if user_response.status_code == 200:
+                user = user_response.json()
+                print(f"User has {user['gold']} gold, mental power costs {mental_power_data['price']}")
+            
             purchase_response = requests.post(f"{self.base_url}/shop/purchase", json=purchase_data)
             if purchase_response.status_code == 200:
                 print("✅ Mental power purchased successfully")

@@ -354,6 +354,19 @@ async def purchase_item(purchase: PurchaseRequest):
     )
     await db.inventory.insert_one(inventory_item.dict())
     
+    # If this is a power item, also add to powers collection
+    if item.get("is_power") and item.get("power_category"):
+        power_item = PowerItem(
+            user_id=purchase.user_id,
+            shop_item_id=item["id"],
+            name=item["name"],
+            description=item["description"],
+            power_category=item["power_category"],
+            image=item.get("image"),
+            stat_boost=item.get("stat_boost")
+        )
+        await db.powers.insert_one(power_item.dict())
+    
     updated_user = await db.users.find_one({"id": purchase.user_id})
     return {"user": User(**updated_user), "item": ShopItem(**item)}
 

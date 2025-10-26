@@ -64,7 +64,7 @@ class PowersBackendTester:
             power_item_data = {
                 "name": "Super Strength Serum",
                 "description": "Increases physical strength dramatically",
-                "price": 150,
+                "price": 80,  # Reduced price so test user can afford it
                 "category": "consumables",
                 "item_type": "potion",
                 "is_power": True,

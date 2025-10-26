@@ -206,7 +206,7 @@ export default function ShopScreen() {
   };
 
   const handlePowerCategorySelect = (category: string) => {
-    setNewItem({ ...newItem, power_category: category });
+    setNewItem({ ...newItem, is_power: true, power_category: category });
     setPowerCategoryModalVisible(false);
   };
 

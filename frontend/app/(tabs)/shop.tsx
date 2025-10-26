@@ -275,12 +275,30 @@ export default function ShopScreen() {
 
         {items.map(item => {
           const canAfford = (user?.gold || 0) >= item.price;
+          const longPressTimer = useRef<NodeJS.Timeout | null>(null);
+          
+          const handlePressIn = () => {
+            longPressTimer.current = setTimeout(() => {
+              handleItemLongPress(item);
+            }, 500);
+          };
+          
+          const handlePressOut = () => {
+            if (longPressTimer.current) {
+              clearTimeout(longPressTimer.current);
+              longPressTimer.current = null;
+            }
+          };
+          
           return (
-            <Pressable
+            <View
               key={item.id}
               style={styles.itemCard}
-              onLongPress={() => handleItemLongPress(item)}
-              delayLongPress={500}
+              onTouchStart={handlePressIn}
+              onTouchEnd={handlePressOut}
+              onMouseDown={Platform.OS === 'web' ? handlePressIn : undefined}
+              onMouseUp={Platform.OS === 'web' ? handlePressOut : undefined}
+              onMouseLeave={Platform.OS === 'web' ? handlePressOut : undefined}
             >
               <View style={[styles.itemIcon, { backgroundColor: getItemColor(item.item_type) + '20' }]}>
                 <Ionicons name={getItemIcon(item.item_type) as any} size={32} color={getItemColor(item.item_type)} />
@@ -316,7 +334,7 @@ export default function ShopScreen() {
                   {item.price}
                 </Text>
               </TouchableOpacity>
-            </Pressable>
+            </View>
           );
         })}
       </ScrollView>

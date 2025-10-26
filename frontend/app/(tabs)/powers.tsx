@@ -15,6 +15,7 @@ interface PowerItem {
   power_tier: string;
   current_level: number;
   max_level: number;
+  next_tier_ability?: string;
   image?: string;
   stat_boost?: { [key: string]: number };
 }

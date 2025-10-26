@@ -454,11 +454,20 @@ const styles = StyleSheet.create({
   itemInfo: {
     flex: 1,
   },
+  itemHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
   itemName: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#F9FAFB',
-    marginBottom: 4,
+    flex: 1,
+  },
+  deleteIcon: {
+    padding: 4,
   },
   itemDescription: {
     fontSize: 13,

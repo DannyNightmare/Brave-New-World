@@ -14,6 +14,8 @@ interface Quest {
   difficulty: string;
   xp_reward: number;
   gold_reward: number;
+  item_reward?: string;
+  attribute_rewards?: { [key: string]: number };
   completed: boolean;
 }
 
@@ -22,7 +24,16 @@ export default function QuestsScreen() {
   const [quests, setQuests] = useState<Quest[]>([]);
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
-  const [newQuest, setNewQuest] = useState({ title: '', description: '', difficulty: 'easy' });
+  const [newQuest, setNewQuest] = useState({ 
+    title: '', 
+    description: '', 
+    xp_reward: 50,
+    gold_reward: 10,
+    item_reward: '',
+    strength_reward: 0,
+    intelligence_reward: 0,
+    vitality_reward: 0,
+  });
 
   const fetchQuests = async () => {
     if (!user?.id) return;

@@ -1443,4 +1443,26 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#374151',
+    borderRadius: 12,
+    marginBottom: 20,
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    borderColor: '#4B5563',
+  },
+  searchIcon: {
+    marginRight: 12,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    color: '#F9FAFB',
+    paddingVertical: 12,
+  },
+  clearButton: {
+    padding: 4,
+  },
 });

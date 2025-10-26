@@ -51,33 +51,104 @@ export default function ShopScreen() {
     fetchShopItems();
   }, []);
 
-  const deleteShopItem = async (item: ShopItem) => {
+  const handleItemLongPress = (item: ShopItem) => {
     Alert.alert(
-      'Delete Item',
-      `Are you sure you want to delete "${item.name}" from the shop?`,
+      item.name,
+      'Choose an action',
       [
         {
-          text: 'Cancel',
-          style: 'cancel',
+          text: 'Edit',
+          onPress: () => {
+            setEditingItem(item);
+            setNewItem({
+              name: item.name,
+              description: item.description,
+              price: item.price,
+              stock: item.stock || 1,
+              item_type: item.item_type,
+              strength_boost: item.stat_boost?.strength || 0,
+              intelligence_boost: item.stat_boost?.intelligence || 0,
+              vitality_boost: item.stat_boost?.vitality || 0,
+            });
+            setEditModalVisible(true);
+          },
         },
         {
           text: 'Delete',
           style: 'destructive',
-          onPress: async () => {
-            try {
-              await fetch(`${API_URL}/api/shop/${item.id}`, {
-                method: 'DELETE',
-              });
-              fetchShopItems();
-              Alert.alert('Success', 'Item removed from shop');
-            } catch (error) {
-              console.error('Failed to delete item:', error);
-              Alert.alert('Error', 'Failed to delete item');
-            }
-          },
+          onPress: () => deleteShopItem(item),
+        },
+        {
+          text: 'Cancel',
+          style: 'cancel',
         },
       ]
     );
+  };
+
+  const deleteShopItem = async (item: ShopItem) => {
+    try {
+      await fetch(`${API_URL}/api/shop/${item.id}`, {
+        method: 'DELETE',
+      });
+      fetchShopItems();
+      Alert.alert('Success', 'Item removed from shop');
+    } catch (error) {
+      console.error('Failed to delete item:', error);
+      Alert.alert('Error', 'Failed to delete item');
+    }
+  };
+
+  const updateItem = async () => {
+    if (!editingItem || !newItem.name.trim()) {
+      Alert.alert('Error', 'Please enter an item name');
+      return;
+    }
+
+    try {
+      const stat_boost: { [key: string]: number } = {};
+      if (newItem.strength_boost > 0) stat_boost.strength = newItem.strength_boost;
+      if (newItem.intelligence_boost > 0) stat_boost.intelligence = newItem.intelligence_boost;
+      if (newItem.vitality_boost > 0) stat_boost.vitality = newItem.vitality_boost;
+
+      const payload: any = {
+        name: newItem.name,
+        description: newItem.description,
+        price: newItem.price,
+        stock: newItem.stock,
+        item_type: newItem.item_type,
+      };
+
+      if (Object.keys(stat_boost).length > 0) {
+        payload.stat_boost = stat_boost;
+      }
+
+      const response = await fetch(`${API_URL}/api/shop/${editingItem.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      
+      if (response.ok) {
+        setNewItem({
+          name: '',
+          description: '',
+          price: 50,
+          stock: 1,
+          item_type: 'weapon',
+          strength_boost: 0,
+          intelligence_boost: 0,
+          vitality_boost: 0,
+        });
+        setEditingItem(null);
+        setEditModalVisible(false);
+        fetchShopItems();
+        Alert.alert('Success', 'Item updated');
+      }
+    } catch (error) {
+      console.error('Failed to update item:', error);
+      Alert.alert('Error', 'Failed to update item');
+    }
   };
 
   const createItem = async () => {

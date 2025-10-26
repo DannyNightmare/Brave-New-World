@@ -653,6 +653,22 @@ export default function ShopScreen() {
                 </View>
               </View>
 
+              {/* Add to Powers Checkbox */}
+              <TouchableOpacity 
+                style={styles.powerCheckboxContainer} 
+                onPress={handleAddPowerToggle}
+              >
+                <View style={[styles.checkbox, newItem.is_power && styles.checkboxChecked]}>
+                  {newItem.is_power && <Ionicons name="checkmark" size={18} color="#FFF" />}
+                </View>
+                <Text style={styles.checkboxLabel}>Add to Powers</Text>
+              </TouchableOpacity>
+              {newItem.is_power && newItem.power_category && (
+                <View style={styles.selectedCategoryBadge}>
+                  <Text style={styles.selectedCategoryText}>Category: {newItem.power_category}</Text>
+                </View>
+              )}
+
               <TouchableOpacity style={styles.createButton} onPress={createItem}>
                 <Text style={styles.createButtonText}>Create Item</Text>
               </TouchableOpacity>

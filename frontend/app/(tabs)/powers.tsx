@@ -217,7 +217,14 @@ export default function PowersScreen() {
                     const isMaxLevel = power.current_level >= power.max_level;
                     
                     return (
-                      <View key={power.id} style={styles.powerCard}>
+                      <Pressable 
+                        key={power.id}
+                        onLongPress={() => handlePowerLongPress(power)}
+                        style={({ pressed }) => [
+                          styles.powerCard,
+                          pressed && styles.powerCardPressed
+                        ]}
+                      >
                         <View style={styles.powerCardHeader}>
                           {power.image ? (
                             <Image source={{ uri: power.image }} style={styles.powerImage} />
@@ -247,6 +254,19 @@ export default function PowersScreen() {
                             </Text>
                           </View>
                         </View>
+
+                        {/* Sub-abilities display */}
+                        {power.sub_abilities && power.sub_abilities.length > 0 && (
+                          <View style={styles.subAbilitiesContainer}>
+                            <Text style={styles.subAbilitiesTitle}>Perks:</Text>
+                            {power.sub_abilities.map((subAbility, idx) => (
+                              <View key={idx} style={styles.subAbilityItem}>
+                                <Ionicons name="checkmark-circle" size={14} color="#10B981" />
+                                <Text style={styles.subAbilityText}>{subAbility}</Text>
+                              </View>
+                            ))}
+                          </View>
+                        )}
 
                         {power.stat_boost && Object.keys(power.stat_boost).length > 0 && (
                           <View style={styles.statBoosts}>
@@ -285,7 +305,7 @@ export default function PowersScreen() {
                             </View>
                           </View>
                         )}
-                      </View>
+                      </Pressable>
                     );
                   })}
                 </View>

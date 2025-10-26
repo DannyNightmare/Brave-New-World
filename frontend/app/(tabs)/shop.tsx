@@ -182,6 +182,7 @@ export default function ShopScreen() {
         description: newItem.description,
         price: newItem.price,
         stock: newItem.stock,
+        category: newItem.category,
         item_type: newItem.item_type,
       };
 
@@ -234,6 +235,7 @@ export default function ShopScreen() {
         description: newItem.description,
         price: newItem.price,
         stock: newItem.stock,
+        category: newItem.category,
         item_type: newItem.item_type,
       };
 

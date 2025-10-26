@@ -1,469 +1,494 @@
-diff --git a/frontend/app/(tabs)/shop.tsx b/frontend/app/(tabs)/shop.tsx
-index aed54ce..89a9dd3 100644
---- a/frontend/app/(tabs)/shop.tsx
-+++ b/frontend/app/(tabs)/shop.tsx
-@@ -412,6 +412,32 @@ export default function ShopScreen() {
-                 onChangeText={(text) => setNewItem({ ...newItem, category: text })}
-               />
+diff --git a/backend/server.py b/backend/server.py
+index 7c2721c..648d113 100644
+--- a/backend/server.py
++++ b/backend/server.py
+@@ -72,6 +72,7 @@ class ShopItem(BaseModel):
+     price: int
+     stock: Optional[int] = None
+     category: str = "general"  # Category for filtering
++    image: Optional[str] = None  # Base64 encoded image
+     stat_boost: Optional[dict] = None
+     item_type: str  # weapon, armor, potion, accessory
  
-+              {/* Existing Categories Selection */}
-+              {categories.length > 1 && (
-+                <>
-+                  <Text style={styles.label}>Or Select Existing Category</Text>
-+                  <View style={styles.existingCategoriesContainer}>
-+                    {categories.filter(cat => cat !== 'all').map(category => (
-+                      <TouchableOpacity
-+                        key={category}
-+                        style={[
-+                          styles.existingCategoryChip,
-+                          newItem.category === category && styles.existingCategoryChipSelected,
-+                        ]}
-+                        onPress={() => setNewItem({ ...newItem, category: category })}
-+                      >
-+                        <Text style={[
-+                          styles.existingCategoryChipText,
-+                          newItem.category === category && styles.existingCategoryChipTextSelected
-+                        ]}>
-+                          {category.charAt(0).toUpperCase() + category.slice(1)}
-+                        </Text>
-+                      </TouchableOpacity>
-+                    ))}
-+                  </View>
-+                </>
-+              )}
-+
-               <Text style={styles.label}>Item Details</Text>
-               <View style={styles.rewardRow}>
-                 <View style={styles.rewardInput}>
-@@ -526,6 +552,32 @@ export default function ShopScreen() {
-                 onChangeText={(text) => setNewItem({ ...newItem, category: text })}
-               />
+@@ -81,6 +82,7 @@ class ShopItemCreate(BaseModel):
+     price: int
+     stock: Optional[int] = None
+     category: str = "general"
++    image: Optional[str] = None
+     stat_boost: Optional[dict] = None
+     item_type: str
  
-+              {/* Existing Categories Selection */}
-+              {categories.length > 1 && (
-+                <>
-+                  <Text style={styles.label}>Or Select Existing Category</Text>
-+                  <View style={styles.existingCategoriesContainer}>
-+                    {categories.filter(cat => cat !== 'all').map(category => (
-+                      <TouchableOpacity
-+                        key={category}
-+                        style={[
-+                          styles.existingCategoryChip,
-+                          newItem.category === category && styles.existingCategoryChipSelected,
-+                        ]}
-+                        onPress={() => setNewItem({ ...newItem, category: category })}
-+                      >
-+                        <Text style={[
-+                          styles.existingCategoryChipText,
-+                          newItem.category === category && styles.existingCategoryChipTextSelected
-+                        ]}>
-+                          {category.charAt(0).toUpperCase() + category.slice(1)}
-+                        </Text>
-+                      </TouchableOpacity>
-+                    ))}
-+                  </View>
-+                </>
-+              )}
-+
-               <Text style={styles.label}>Item Details</Text>
-               <View style={styles.rewardRow}>
-                 <View style={styles.rewardInput}>
-@@ -1001,4 +1053,30 @@ const styles = StyleSheet.create({
-   categoryTabTextSelected: {
-     color: '#FFF',
-   },
-+  existingCategoriesContainer: {
-+    flexDirection: 'row',
-+    flexWrap: 'wrap',
-+    gap: 8,
-+    marginBottom: 16,
-+  },
-+  existingCategoryChip: {
-+    backgroundColor: '#374151',
-+    paddingHorizontal: 12,
-+    paddingVertical: 8,
-+    borderRadius: 16,
-+    borderWidth: 1,
-+    borderColor: '#4B5563',
-+  },
-+  existingCategoryChipSelected: {
-+    backgroundColor: '#8B5CF6',
-+    borderColor: '#8B5CF6',
-+  },
-+  existingCategoryChipText: {
-+    fontSize: 12,
-+    fontWeight: '600',
-+    color: '#9CA3AF',
-+  },
-+  existingCategoryChipTextSelected: {
-+    color: '#FFF',
-+  },
- });
-\ No newline at end of file
 diff --git a/model.patch b/model.patch
-index ab36d2a..e69de29 100644
+index 7a77b4a..e69de29 100644
 --- a/model.patch
 +++ b/model.patch
-@@ -1,362 +0,0 @@
+@@ -1,469 +0,0 @@
 -diff --git a/frontend/app/(tabs)/shop.tsx b/frontend/app/(tabs)/shop.tsx
--index a8bc66b..aed54ce 100644
+-index aed54ce..89a9dd3 100644
 ---- a/frontend/app/(tabs)/shop.tsx
 -+++ b/frontend/app/(tabs)/shop.tsx
--@@ -438,27 +438,6 @@ export default function ShopScreen() {
--                 </View>
--               </View>
+-@@ -412,6 +412,32 @@ export default function ShopScreen() {
+-                 onChangeText={(text) => setNewItem({ ...newItem, category: text })}
+-               />
 - 
---              <Text style={styles.label}>Item Type</Text>
---              <View style={styles.itemTypeSelector}>
---                {['weapon', 'armor', 'potion', 'accessory'].map(type => (
---                  <TouchableOpacity
---                    key={type}
---                    style={[
---                      styles.typeOption,
---                      newItem.item_type === type && styles.typeOptionSelected,
---                    ]}
---                    onPress={() => setNewItem({ ...newItem, item_type: type })}
---                  >
---                    <Text style={[
---                      styles.typeOptionText,
---                      newItem.item_type === type && styles.typeOptionTextSelected
---                    ]}>
---                      {type}
---                    </Text>
---                  </TouchableOpacity>
---                ))}
---              </View>
---
--               <Text style={styles.label}>Stat Boosts</Text>
--               <View style={styles.attributeContainer}>
--                 <View style={styles.attributeRow}>
--@@ -573,27 +552,6 @@ export default function ShopScreen() {
--                 </View>
--               </View>
+-+              {/* Existing Categories Selection */}
+-+              {categories.length > 1 && (
+-+                <>
+-+                  <Text style={styles.label}>Or Select Existing Category</Text>
+-+                  <View style={styles.existingCategoriesContainer}>
+-+                    {categories.filter(cat => cat !== 'all').map(category => (
+-+                      <TouchableOpacity
+-+                        key={category}
+-+                        style={[
+-+                          styles.existingCategoryChip,
+-+                          newItem.category === category && styles.existingCategoryChipSelected,
+-+                        ]}
+-+                        onPress={() => setNewItem({ ...newItem, category: category })}
+-+                      >
+-+                        <Text style={[
+-+                          styles.existingCategoryChipText,
+-+                          newItem.category === category && styles.existingCategoryChipTextSelected
+-+                        ]}>
+-+                          {category.charAt(0).toUpperCase() + category.slice(1)}
+-+                        </Text>
+-+                      </TouchableOpacity>
+-+                    ))}
+-+                  </View>
+-+                </>
+-+              )}
+-+
+-               <Text style={styles.label}>Item Details</Text>
+-               <View style={styles.rewardRow}>
+-                 <View style={styles.rewardInput}>
+-@@ -526,6 +552,32 @@ export default function ShopScreen() {
+-                 onChangeText={(text) => setNewItem({ ...newItem, category: text })}
+-               />
 - 
---              <Text style={styles.label}>Item Type</Text>
---              <View style={styles.itemTypeSelector}>
---                {['weapon', 'armor', 'potion', 'accessory'].map(type => (
---                  <TouchableOpacity
---                    key={type}
---                    style={[
---                      styles.typeOption,
---                      newItem.item_type === type && styles.typeOptionSelected,
---                    ]}
---                    onPress={() => setNewItem({ ...newItem, item_type: type })}
---                  >
---                    <Text style={[
---                      styles.typeOptionText,
---                      newItem.item_type === type && styles.typeOptionTextSelected
---                    ]}>
---                      {type}
---                    </Text>
---                  </TouchableOpacity>
---                ))}
---              </View>
---
--               <Text style={styles.label}>Stat Boosts</Text>
--               <View style={styles.attributeContainer}>
--                 <View style={styles.attributeRow}>
+-+              {/* Existing Categories Selection */}
+-+              {categories.length > 1 && (
+-+                <>
+-+                  <Text style={styles.label}>Or Select Existing Category</Text>
+-+                  <View style={styles.existingCategoriesContainer}>
+-+                    {categories.filter(cat => cat !== 'all').map(category => (
+-+                      <TouchableOpacity
+-+                        key={category}
+-+                        style={[
+-+                          styles.existingCategoryChip,
+-+                          newItem.category === category && styles.existingCategoryChipSelected,
+-+                        ]}
+-+                        onPress={() => setNewItem({ ...newItem, category: category })}
+-+                      >
+-+                        <Text style={[
+-+                          styles.existingCategoryChipText,
+-+                          newItem.category === category && styles.existingCategoryChipTextSelected
+-+                        ]}>
+-+                          {category.charAt(0).toUpperCase() + category.slice(1)}
+-+                        </Text>
+-+                      </TouchableOpacity>
+-+                    ))}
+-+                  </View>
+-+                </>
+-+              )}
+-+
+-               <Text style={styles.label}>Item Details</Text>
+-               <View style={styles.rewardRow}>
+-                 <View style={styles.rewardInput}>
+-@@ -1001,4 +1053,30 @@ const styles = StyleSheet.create({
+-   categoryTabTextSelected: {
+-     color: '#FFF',
+-   },
+-+  existingCategoriesContainer: {
+-+    flexDirection: 'row',
+-+    flexWrap: 'wrap',
+-+    gap: 8,
+-+    marginBottom: 16,
+-+  },
+-+  existingCategoryChip: {
+-+    backgroundColor: '#374151',
+-+    paddingHorizontal: 12,
+-+    paddingVertical: 8,
+-+    borderRadius: 16,
+-+    borderWidth: 1,
+-+    borderColor: '#4B5563',
+-+  },
+-+  existingCategoryChipSelected: {
+-+    backgroundColor: '#8B5CF6',
+-+    borderColor: '#8B5CF6',
+-+  },
+-+  existingCategoryChipText: {
+-+    fontSize: 12,
+-+    fontWeight: '600',
+-+    color: '#9CA3AF',
+-+  },
+-+  existingCategoryChipTextSelected: {
+-+    color: '#FFF',
+-+  },
+- });
+-\ No newline at end of file
 -diff --git a/model.patch b/model.patch
--index 69ed7d2..e69de29 100644
+-index ab36d2a..e69de29 100644
 ---- a/model.patch
 -+++ b/model.patch
--@@ -1,297 +0,0 @@
---diff --git a/backend/server.py b/backend/server.py
---index 07167ee..7c2721c 100644
------ a/backend/server.py
---+++ b/backend/server.py
---@@ -71,6 +71,7 @@ class ShopItem(BaseModel):
---     description: str
---     price: int
---     stock: Optional[int] = None
---+    category: str = "general"  # Category for filtering
---     stat_boost: Optional[dict] = None
---     item_type: str  # weapon, armor, potion, accessory
--- 
---@@ -79,6 +80,7 @@ class ShopItemCreate(BaseModel):
---     description: str
---     price: int
---     stock: Optional[int] = None
---+    category: str = "general"
---     stat_boost: Optional[dict] = None
---     item_type: str
--- 
+-@@ -1,362 +0,0 @@
 --diff --git a/frontend/app/(tabs)/shop.tsx b/frontend/app/(tabs)/shop.tsx
---index 8114aad..a8bc66b 100644
+--index a8bc66b..aed54ce 100644
 ----- a/frontend/app/(tabs)/shop.tsx
 --+++ b/frontend/app/(tabs)/shop.tsx
---@@ -13,6 +13,7 @@ interface ShopItem {
---   description: string;
---   price: number;
---   stock?: number;
---+  category: string;
---   item_type: string;
---   stat_boost?: { [key: string]: number };
--- }
---@@ -91,11 +92,13 @@ export default function ShopScreen() {
---   const [actionModalVisible, setActionModalVisible] = useState(false);
---   const [selectedItem, setSelectedItem] = useState<ShopItem | null>(null);
---   const [editingItem, setEditingItem] = useState<ShopItem | null>(null);
---+  const [selectedCategory, setSelectedCategory] = useState('all');
---   const [newItem, setNewItem] = useState({
---     name: '',
---     description: '',
---     price: 50,
---     stock: 1,
---+    category: 'general',
---     item_type: 'weapon',
---     strength_boost: 0,
---     intelligence_boost: 0,
---@@ -131,6 +134,7 @@ export default function ShopScreen() {
---         description: selectedItem.description,
---         price: selectedItem.price,
---         stock: selectedItem.stock || 1,
---+        category: selectedItem.category || 'general',
---         item_type: selectedItem.item_type,
---         strength_boost: selectedItem.stat_boost?.strength || 0,
---         intelligence_boost: selectedItem.stat_boost?.intelligence || 0,
---@@ -178,6 +182,7 @@ export default function ShopScreen() {
---         description: newItem.description,
---         price: newItem.price,
---         stock: newItem.stock,
---+        category: newItem.category,
---         item_type: newItem.item_type,
---       };
+--@@ -438,27 +438,6 @@ export default function ShopScreen() {
+--                 </View>
+--               </View>
 -- 
---@@ -197,6 +202,7 @@ export default function ShopScreen() {
---           description: '',
---           price: 50,
---           stock: 1,
---+          category: 'general',
---           item_type: 'weapon',
---           strength_boost: 0,
---           intelligence_boost: 0,
---@@ -230,6 +236,7 @@ export default function ShopScreen() {
---         description: newItem.description,
---         price: newItem.price,
---         stock: newItem.stock,
---+        category: newItem.category,
---         item_type: newItem.item_type,
---       };
+---              <Text style={styles.label}>Item Type</Text>
+---              <View style={styles.itemTypeSelector}>
+---                {['weapon', 'armor', 'potion', 'accessory'].map(type => (
+---                  <TouchableOpacity
+---                    key={type}
+---                    style={[
+---                      styles.typeOption,
+---                      newItem.item_type === type && styles.typeOptionSelected,
+---                    ]}
+---                    onPress={() => setNewItem({ ...newItem, item_type: type })}
+---                  >
+---                    <Text style={[
+---                      styles.typeOptionText,
+---                      newItem.item_type === type && styles.typeOptionTextSelected
+---                    ]}>
+---                      {type}
+---                    </Text>
+---                  </TouchableOpacity>
+---                ))}
+---              </View>
+---
+--               <Text style={styles.label}>Stat Boosts</Text>
+--               <View style={styles.attributeContainer}>
+--                 <View style={styles.attributeRow}>
+--@@ -573,27 +552,6 @@ export default function ShopScreen() {
+--                 </View>
+--               </View>
 -- 
---@@ -249,6 +256,7 @@ export default function ShopScreen() {
---           description: '',
---           price: 50,
---           stock: 1,
---+          category: 'general',
---           item_type: 'weapon',
---           strength_boost: 0,
---           intelligence_boost: 0,
---@@ -292,6 +300,14 @@ export default function ShopScreen() {
---     }
---   };
--- 
---+  // Get unique categories from items
---+  const categories = ['all', ...Array.from(new Set(items.map(item => item.category || 'general')))];
---+  
---+  // Filter items based on selected category
---+  const filteredItems = selectedCategory === 'all' 
---+    ? items 
---+    : items.filter(item => (item.category || 'general') === selectedCategory);
---+
---   if (loading) {
---     return (
---       <SafeAreaView style={styles.container} edges={['bottom']}>
---@@ -315,7 +331,33 @@ export default function ShopScreen() {
---           </View>
---         </View>
--- 
----        {items.map(item => (
---+        {/* Category Filter Tabs */}
---+        <ScrollView 
---+          horizontal 
---+          showsHorizontalScrollIndicator={false} 
---+          style={styles.categoryTabs}
---+          contentContainerStyle={styles.categoryTabsContent}
---+        >
---+          {categories.map(category => (
---+            <TouchableOpacity
---+              key={category}
---+              style={[
---+                styles.categoryTab,
---+                selectedCategory === category && styles.categoryTabSelected,
---+              ]}
---+              onPress={() => setSelectedCategory(category)}
---+            >
---+              <Text style={[
---+                styles.categoryTabText,
---+                selectedCategory === category && styles.categoryTabTextSelected
---+              ]}>
---+                {category === 'all' ? 'All' : category.charAt(0).toUpperCase() + category.slice(1)}
---+              </Text>
---+            </TouchableOpacity>
---+          ))}
---+        </ScrollView>
---+
---+        {filteredItems.map(item => (
---           <ShopItemCard
---             key={item.id}
---             item={item}
---@@ -362,6 +404,13 @@ export default function ShopScreen() {
---                 multiline
---                 numberOfLines={3}
---               />
---+              <TextInput
---+                style={styles.input}
---+                placeholder="Category (e.g., weapons, armor, consumables)"
---+                placeholderTextColor="#6B7280"
---+                value={newItem.category}
---+                onChangeText={(text) => setNewItem({ ...newItem, category: text })}
---+              />
--- 
---               <Text style={styles.label}>Item Details</Text>
---               <View style={styles.rewardRow}>
---@@ -490,6 +539,13 @@ export default function ShopScreen() {
---                 multiline
---                 numberOfLines={3}
---               />
---+              <TextInput
---+                style={styles.input}
---+                placeholder="Category (e.g., weapons, armor, consumables)"
---+                placeholderTextColor="#6B7280"
---+                value={newItem.category}
---+                onChangeText={(text) => setNewItem({ ...newItem, category: text })}
---+              />
--- 
---               <Text style={styles.label}>Item Details</Text>
---               <View style={styles.rewardRow}>
---@@ -960,4 +1016,31 @@ const styles = StyleSheet.create({
---     fontWeight: '600',
---     color: '#9CA3AF',
---   },
---+  categoryTabs: {
---+    marginBottom: 20,
---+  },
---+  categoryTabsContent: {
---+    paddingHorizontal: 0,
---+  },
---+  categoryTab: {
---+    backgroundColor: '#374151',
---+    paddingHorizontal: 16,
---+    paddingVertical: 8,
---+    borderRadius: 20,
---+    marginRight: 12,
---+    borderWidth: 1,
---+    borderColor: '#4B5563',
---+  },
---+  categoryTabSelected: {
---+    backgroundColor: '#8B5CF6',
---+    borderColor: '#8B5CF6',
---+  },
---+  categoryTabText: {
---+    fontSize: 14,
---+    fontWeight: '600',
---+    color: '#9CA3AF',
---+  },
---+  categoryTabTextSelected: {
---+    color: '#FFF',
---+  },
--- });
---\ No newline at end of file
+---              <Text style={styles.label}>Item Type</Text>
+---              <View style={styles.itemTypeSelector}>
+---                {['weapon', 'armor', 'potion', 'accessory'].map(type => (
+---                  <TouchableOpacity
+---                    key={type}
+---                    style={[
+---                      styles.typeOption,
+---                      newItem.item_type === type && styles.typeOptionSelected,
+---                    ]}
+---                    onPress={() => setNewItem({ ...newItem, item_type: type })}
+---                  >
+---                    <Text style={[
+---                      styles.typeOptionText,
+---                      newItem.item_type === type && styles.typeOptionTextSelected
+---                    ]}>
+---                      {type}
+---                    </Text>
+---                  </TouchableOpacity>
+---                ))}
+---              </View>
+---
+--               <Text style={styles.label}>Stat Boosts</Text>
+--               <View style={styles.attributeContainer}>
+--                 <View style={styles.attributeRow}>
 --diff --git a/model.patch b/model.patch
---index 64dc7a2..144ef60 100644
+--index 69ed7d2..e69de29 100644
 ----- a/model.patch
 --+++ b/model.patch
---@@ -1,95 +0,0 @@
+--@@ -1,297 +0,0 @@
+---diff --git a/backend/server.py b/backend/server.py
+---index 07167ee..7c2721c 100644
+------ a/backend/server.py
+---+++ b/backend/server.py
+---@@ -71,6 +71,7 @@ class ShopItem(BaseModel):
+---     description: str
+---     price: int
+---     stock: Optional[int] = None
+---+    category: str = "general"  # Category for filtering
+---     stat_boost: Optional[dict] = None
+---     item_type: str  # weapon, armor, potion, accessory
+--- 
+---@@ -79,6 +80,7 @@ class ShopItemCreate(BaseModel):
+---     description: str
+---     price: int
+---     stock: Optional[int] = None
+---+    category: str = "general"
+---     stat_boost: Optional[dict] = None
+---     item_type: str
+--- 
+---diff --git a/frontend/app/(tabs)/shop.tsx b/frontend/app/(tabs)/shop.tsx
+---index 8114aad..a8bc66b 100644
+------ a/frontend/app/(tabs)/shop.tsx
+---+++ b/frontend/app/(tabs)/shop.tsx
+---@@ -13,6 +13,7 @@ interface ShopItem {
+---   description: string;
+---   price: number;
+---   stock?: number;
+---+  category: string;
+---   item_type: string;
+---   stat_boost?: { [key: string]: number };
+--- }
+---@@ -91,11 +92,13 @@ export default function ShopScreen() {
+---   const [actionModalVisible, setActionModalVisible] = useState(false);
+---   const [selectedItem, setSelectedItem] = useState<ShopItem | null>(null);
+---   const [editingItem, setEditingItem] = useState<ShopItem | null>(null);
+---+  const [selectedCategory, setSelectedCategory] = useState('all');
+---   const [newItem, setNewItem] = useState({
+---     name: '',
+---     description: '',
+---     price: 50,
+---     stock: 1,
+---+    category: 'general',
+---     item_type: 'weapon',
+---     strength_boost: 0,
+---     intelligence_boost: 0,
+---@@ -131,6 +134,7 @@ export default function ShopScreen() {
+---         description: selectedItem.description,
+---         price: selectedItem.price,
+---         stock: selectedItem.stock || 1,
+---+        category: selectedItem.category || 'general',
+---         item_type: selectedItem.item_type,
+---         strength_boost: selectedItem.stat_boost?.strength || 0,
+---         intelligence_boost: selectedItem.stat_boost?.intelligence || 0,
+---@@ -178,6 +182,7 @@ export default function ShopScreen() {
+---         description: newItem.description,
+---         price: newItem.price,
+---         stock: newItem.stock,
+---+        category: newItem.category,
+---         item_type: newItem.item_type,
+---       };
+--- 
+---@@ -197,6 +202,7 @@ export default function ShopScreen() {
+---           description: '',
+---           price: 50,
+---           stock: 1,
+---+          category: 'general',
+---           item_type: 'weapon',
+---           strength_boost: 0,
+---           intelligence_boost: 0,
+---@@ -230,6 +236,7 @@ export default function ShopScreen() {
+---         description: newItem.description,
+---         price: newItem.price,
+---         stock: newItem.stock,
+---+        category: newItem.category,
+---         item_type: newItem.item_type,
+---       };
+--- 
+---@@ -249,6 +256,7 @@ export default function ShopScreen() {
+---           description: '',
+---           price: 50,
+---           stock: 1,
+---+          category: 'general',
+---           item_type: 'weapon',
+---           strength_boost: 0,
+---           intelligence_boost: 0,
+---@@ -292,6 +300,14 @@ export default function ShopScreen() {
+---     }
+---   };
+--- 
+---+  // Get unique categories from items
+---+  const categories = ['all', ...Array.from(new Set(items.map(item => item.category || 'general')))];
+---+  
+---+  // Filter items based on selected category
+---+  const filteredItems = selectedCategory === 'all' 
+---+    ? items 
+---+    : items.filter(item => (item.category || 'general') === selectedCategory);
+---+
+---   if (loading) {
+---     return (
+---       <SafeAreaView style={styles.container} edges={['bottom']}>
+---@@ -315,7 +331,33 @@ export default function ShopScreen() {
+---           </View>
+---         </View>
+--- 
+----        {items.map(item => (
+---+        {/* Category Filter Tabs */}
+---+        <ScrollView 
+---+          horizontal 
+---+          showsHorizontalScrollIndicator={false} 
+---+          style={styles.categoryTabs}
+---+          contentContainerStyle={styles.categoryTabsContent}
+---+        >
+---+          {categories.map(category => (
+---+            <TouchableOpacity
+---+              key={category}
+---+              style={[
+---+                styles.categoryTab,
+---+                selectedCategory === category && styles.categoryTabSelected,
+---+              ]}
+---+              onPress={() => setSelectedCategory(category)}
+---+            >
+---+              <Text style={[
+---+                styles.categoryTabText,
+---+                selectedCategory === category && styles.categoryTabTextSelected
+---+              ]}>
+---+                {category === 'all' ? 'All' : category.charAt(0).toUpperCase() + category.slice(1)}
+---+              </Text>
+---+            </TouchableOpacity>
+---+          ))}
+---+        </ScrollView>
+---+
+---+        {filteredItems.map(item => (
+---           <ShopItemCard
+---             key={item.id}
+---             item={item}
+---@@ -362,6 +404,13 @@ export default function ShopScreen() {
+---                 multiline
+---                 numberOfLines={3}
+---               />
+---+              <TextInput
+---+                style={styles.input}
+---+                placeholder="Category (e.g., weapons, armor, consumables)"
+---+                placeholderTextColor="#6B7280"
+---+                value={newItem.category}
+---+                onChangeText={(text) => setNewItem({ ...newItem, category: text })}
+---+              />
+--- 
+---               <Text style={styles.label}>Item Details</Text>
+---               <View style={styles.rewardRow}>
+---@@ -490,6 +539,13 @@ export default function ShopScreen() {
+---                 multiline
+---                 numberOfLines={3}
+---               />
+---+              <TextInput
+---+                style={styles.input}
+---+                placeholder="Category (e.g., weapons, armor, consumables)"
+---+                placeholderTextColor="#6B7280"
+---+                value={newItem.category}
+---+                onChangeText={(text) => setNewItem({ ...newItem, category: text })}
+---+              />
+--- 
+---               <Text style={styles.label}>Item Details</Text>
+---               <View style={styles.rewardRow}>
+---@@ -960,4 +1016,31 @@ const styles = StyleSheet.create({
+---     fontWeight: '600',
+---     color: '#9CA3AF',
+---   },
+---+  categoryTabs: {
+---+    marginBottom: 20,
+---+  },
+---+  categoryTabsContent: {
+---+    paddingHorizontal: 0,
+---+  },
+---+  categoryTab: {
+---+    backgroundColor: '#374151',
+---+    paddingHorizontal: 16,
+---+    paddingVertical: 8,
+---+    borderRadius: 20,
+---+    marginRight: 12,
+---+    borderWidth: 1,
+---+    borderColor: '#4B5563',
+---+  },
+---+  categoryTabSelected: {
+---+    backgroundColor: '#8B5CF6',
+---+    borderColor: '#8B5CF6',
+---+  },
+---+  categoryTabText: {
+---+    fontSize: 14,
+---+    fontWeight: '600',
+---+    color: '#9CA3AF',
+---+  },
+---+  categoryTabTextSelected: {
+---+    color: '#FFF',
+---+  },
+--- });
+---\ No newline at end of file
 ---diff --git a/model.patch b/model.patch
----index 20a5331..e69de29 100644
+---index 64dc7a2..144ef60 100644
 ------ a/model.patch
 ---+++ b/model.patch
----@@ -1,90 +0,0 @@
-----diff --git a/frontend/app/(tabs)/shop.tsx b/frontend/app/(tabs)/shop.tsx
-----index f773c29..8af0084 100644
-------- a/frontend/app/(tabs)/shop.tsx
-----+++ b/frontend/app/(tabs)/shop.tsx
-----@@ -78,6 +78,57 @@ export default function ShopScreen() {
-----     );
-----   };
----- 
-----+  const createItem = async () => {
-----+    if (!newItem.name.trim()) {
-----+      Alert.alert('Error', 'Please enter an item name');
-----+      return;
-----+    }
-----+
-----+    try {
-----+      const stat_boost: { [key: string]: number } = {};
-----+      if (newItem.strength_boost > 0) stat_boost.strength = newItem.strength_boost;
-----+      if (newItem.intelligence_boost > 0) stat_boost.intelligence = newItem.intelligence_boost;
-----+      if (newItem.vitality_boost > 0) stat_boost.vitality = newItem.vitality_boost;
-----+
-----+      const payload: any = {
-----+        name: newItem.name,
-----+        description: newItem.description,
-----+        price: newItem.price,
-----+        stock: newItem.stock,
-----+        item_type: newItem.item_type,
-----+      };
-----+
-----+      if (Object.keys(stat_boost).length > 0) {
-----+        payload.stat_boost = stat_boost;
-----+      }
-----+
-----+      const response = await fetch(`${API_URL}/api/shop`, {
-----+        method: 'POST',
-----+        headers: { 'Content-Type': 'application/json' },
-----+        body: JSON.stringify(payload),
-----+      });
-----+      
-----+      if (response.ok) {
-----+        setNewItem({
-----+          name: '',
-----+          description: '',
-----+          price: 50,
-----+          stock: 1,
-----+          item_type: 'weapon',
-----+          strength_boost: 0,
-----+          intelligence_boost: 0,
-----+          vitality_boost: 0,
-----+        });
-----+        setModalVisible(false);
-----+        fetchShopItems();
-----+        Alert.alert('Success', 'Item added to shop');
-----+      }
-----+    } catch (error) {
-----+      console.error('Failed to create item:', error);
-----+      Alert.alert('Error', 'Failed to create item');
-----+    }
-----+  };
-----+
-----   const purchaseItem = async (item: ShopItem) => {
-----     if (!user?.id) return;
----- 
+---@@ -1,95 +0,0 @@
 ----diff --git a/model.patch b/model.patch
-----index 11999af..e69de29 100644
+----index 20a5331..e69de29 100644
 ------- a/model.patch
 ----+++ b/model.patch
-----@@ -1,23 +0,0 @@
------diff --git a/backend/server.py b/backend/server.py
------index a4f1886..5e6c42b 100644
--------- a/backend/server.py
------+++ b/backend/server.py
------@@ -70,9 +70,18 @@ class ShopItem(BaseModel):
------     name: str
------     description: str
------     price: int
------+    stock: Optional[int] = None
------     stat_boost: Optional[dict] = None
------     item_type: str  # weapon, armor, potion, accessory
+----@@ -1,90 +0,0 @@
+-----diff --git a/frontend/app/(tabs)/shop.tsx b/frontend/app/(tabs)/shop.tsx
+-----index f773c29..8af0084 100644
+-------- a/frontend/app/(tabs)/shop.tsx
+-----+++ b/frontend/app/(tabs)/shop.tsx
+-----@@ -78,6 +78,57 @@ export default function ShopScreen() {
+-----     );
+-----   };
 ----- 
------+class ShopItemCreate(BaseModel):
------+    name: str
------+    description: str
------+    price: int
------+    stock: Optional[int] = None
------+    stat_boost: Optional[dict] = None
------+    item_type: str
+-----+  const createItem = async () => {
+-----+    if (!newItem.name.trim()) {
+-----+      Alert.alert('Error', 'Please enter an item name');
+-----+      return;
+-----+    }
 -----+
------ class InventoryItem(BaseModel):
------     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
------     user_id: str
+-----+    try {
+-----+      const stat_boost: { [key: string]: number } = {};
+-----+      if (newItem.strength_boost > 0) stat_boost.strength = newItem.strength_boost;
+-----+      if (newItem.intelligence_boost > 0) stat_boost.intelligence = newItem.intelligence_boost;
+-----+      if (newItem.vitality_boost > 0) stat_boost.vitality = newItem.vitality_boost;
+-----+
+-----+      const payload: any = {
+-----+        name: newItem.name,
+-----+        description: newItem.description,
+-----+        price: newItem.price,
+-----+        stock: newItem.stock,
+-----+        item_type: newItem.item_type,
+-----+      };
+-----+
+-----+      if (Object.keys(stat_boost).length > 0) {
+-----+        payload.stat_boost = stat_boost;
+-----+      }
+-----+
+-----+      const response = await fetch(`${API_URL}/api/shop`, {
+-----+        method: 'POST',
+-----+        headers: { 'Content-Type': 'application/json' },
+-----+        body: JSON.stringify(payload),
+-----+      });
+-----+      
+-----+      if (response.ok) {
+-----+        setNewItem({
+-----+          name: '',
+-----+          description: '',
+-----+          price: 50,
+-----+          stock: 1,
+-----+          item_type: 'weapon',
+-----+          strength_boost: 0,
+-----+          intelligence_boost: 0,
+-----+          vitality_boost: 0,
+-----+        });
+-----+        setModalVisible(false);
+-----+        fetchShopItems();
+-----+        Alert.alert('Success', 'Item added to shop');
+-----+      }
+-----+    } catch (error) {
+-----+      console.error('Failed to create item:', error);
+-----+      Alert.alert('Error', 'Failed to create item');
+-----+    }
+-----+  };
+-----+
+-----   const purchaseItem = async (item: ShopItem) => {
+-----     if (!user?.id) return;
+----- 
+-----diff --git a/model.patch b/model.patch
+-----index 11999af..e69de29 100644
+-------- a/model.patch
+-----+++ b/model.patch
+-----@@ -1,23 +0,0 @@
+------diff --git a/backend/server.py b/backend/server.py
+------index a4f1886..5e6c42b 100644
+--------- a/backend/server.py
+------+++ b/backend/server.py
+------@@ -70,9 +70,18 @@ class ShopItem(BaseModel):
+------     name: str
+------     description: str
+------     price: int
+------+    stock: Optional[int] = None
+------     stat_boost: Optional[dict] = None
+------     item_type: str  # weapon, armor, potion, accessory
+------ 
+------+class ShopItemCreate(BaseModel):
+------+    name: str
+------+    description: str
+------+    price: int
+------+    stock: Optional[int] = None
+------+    stat_boost: Optional[dict] = None
+------+    item_type: str
+------+
+------ class InventoryItem(BaseModel):
+------     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+------     user_id: str

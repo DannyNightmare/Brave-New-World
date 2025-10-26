@@ -539,6 +539,13 @@ export default function ShopScreen() {
                 multiline
                 numberOfLines={3}
               />
+              <TextInput
+                style={styles.input}
+                placeholder="Category (e.g., weapons, armor, consumables)"
+                placeholderTextColor="#6B7280"
+                value={newItem.category}
+                onChangeText={(text) => setNewItem({ ...newItem, category: text })}
+              />
 
               <Text style={styles.label}>Item Details</Text>
               <View style={styles.rewardRow}>

@@ -227,58 +227,112 @@ export default function QuestsScreen() {
 
       <Modal visible={modalVisible} animationType="slide" transparent={true}>
         <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Create Quest</Text>
-              <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <Ionicons name="close" size={28} color="#9CA3AF" />
+          <ScrollView style={styles.modalScrollView}>
+            <View style={styles.modalContent}>
+              <View style={styles.modalHeader}>
+                <Text style={styles.modalTitle}>Create Quest</Text>
+                <TouchableOpacity onPress={() => setModalVisible(false)}>
+                  <Ionicons name="close" size={28} color="#9CA3AF" />
+                </TouchableOpacity>
+              </View>
+
+              <TextInput
+                style={styles.input}
+                placeholder="Quest name *"
+                placeholderTextColor="#6B7280"
+                value={newQuest.title}
+                onChangeText={(text) => setNewQuest({ ...newQuest, title: text })}
+              />
+
+              <TextInput
+                style={[styles.input, styles.textArea]}
+                placeholder="Description"
+                placeholderTextColor="#6B7280"
+                value={newQuest.description}
+                onChangeText={(text) => setNewQuest({ ...newQuest, description: text })}
+                multiline
+                numberOfLines={3}
+              />
+
+              <Text style={styles.label}>Rewards</Text>
+              <View style={styles.rewardRow}>
+                <View style={styles.rewardInput}>
+                  <Text style={styles.rewardLabel}>XP</Text>
+                  <TextInput
+                    style={styles.numberInput}
+                    placeholder="50"
+                    placeholderTextColor="#6B7280"
+                    value={String(newQuest.xp_reward)}
+                    onChangeText={(text) => setNewQuest({ ...newQuest, xp_reward: parseInt(text) || 0 })}
+                    keyboardType="numeric"
+                  />
+                </View>
+                <View style={styles.rewardInput}>
+                  <Text style={styles.rewardLabel}>Gold</Text>
+                  <TextInput
+                    style={styles.numberInput}
+                    placeholder="10"
+                    placeholderTextColor="#6B7280"
+                    value={String(newQuest.gold_reward)}
+                    onChangeText={(text) => setNewQuest({ ...newQuest, gold_reward: parseInt(text) || 0 })}
+                    keyboardType="numeric"
+                  />
+                </View>
+              </View>
+
+              <TextInput
+                style={styles.input}
+                placeholder="Item reward (optional)"
+                placeholderTextColor="#6B7280"
+                value={newQuest.item_reward}
+                onChangeText={(text) => setNewQuest({ ...newQuest, item_reward: text })}
+              />
+
+              <Text style={styles.label}>Attribute Rewards</Text>
+              <View style={styles.attributeContainer}>
+                <View style={styles.attributeRow}>
+                  <Ionicons name="barbell" size={20} color="#EF4444" />
+                  <Text style={styles.attributeLabel}>Strength</Text>
+                  <TextInput
+                    style={styles.attributeInput}
+                    placeholder="0"
+                    placeholderTextColor="#6B7280"
+                    value={String(newQuest.strength_reward)}
+                    onChangeText={(text) => setNewQuest({ ...newQuest, strength_reward: parseInt(text) || 0 })}
+                    keyboardType="numeric"
+                  />
+                </View>
+                <View style={styles.attributeRow}>
+                  <Ionicons name="bulb" size={20} color="#3B82F6" />
+                  <Text style={styles.attributeLabel}>Intelligence</Text>
+                  <TextInput
+                    style={styles.attributeInput}
+                    placeholder="0"
+                    placeholderTextColor="#6B7280"
+                    value={String(newQuest.intelligence_reward)}
+                    onChangeText={(text) => setNewQuest({ ...newQuest, intelligence_reward: parseInt(text) || 0 })}
+                    keyboardType="numeric"
+                  />
+                </View>
+                <View style={styles.attributeRow}>
+                  <Ionicons name="heart" size={20} color="#10B981" />
+                  <Text style={styles.attributeLabel}>Vitality</Text>
+                  <TextInput
+                    style={styles.attributeInput}
+                    placeholder="0"
+                    placeholderTextColor="#6B7280"
+                    value={String(newQuest.vitality_reward)}
+                    onChangeText={(text) => setNewQuest({ ...newQuest, vitality_reward: parseInt(text) || 0 })}
+                    keyboardType="numeric"
+                  />
+                </View>
+              </View>
+
+              <TouchableOpacity style={styles.createButton} onPress={createQuest}>
+                <Text style={styles.createButtonText}>Create Quest</Text>
               </TouchableOpacity>
             </View>
-
-            <TextInput
-              style={styles.input}
-              placeholder="Quest title"
-              placeholderTextColor="#6B7280"
-              value={newQuest.title}
-              onChangeText={(text) => setNewQuest({ ...newQuest, title: text })}
-            />
-
-            <TextInput
-              style={[styles.input, styles.textArea]}
-              placeholder="Description (optional)"
-              placeholderTextColor="#6B7280"
-              value={newQuest.description}
-              onChangeText={(text) => setNewQuest({ ...newQuest, description: text })}
-              multiline
-              numberOfLines={3}
-            />
-
-            <Text style={styles.label}>Difficulty</Text>
-            <View style={styles.difficultySelector}>
-              {['easy', 'medium', 'hard'].map(diff => (
-                <TouchableOpacity
-                  key={diff}
-                  style={[
-                    styles.difficultyOption,
-                    newQuest.difficulty === diff && styles.difficultyOptionSelected,
-                    { borderColor: getDifficultyColor(diff) }
-                  ]}
-                  onPress={() => setNewQuest({ ...newQuest, difficulty: diff })}
-                >
-                  <Text style={[
-                    styles.difficultyOptionText,
-                    newQuest.difficulty === diff && { color: getDifficultyColor(diff) }
-                  ]}>
-                    {diff}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-
-            <TouchableOpacity style={styles.createButton} onPress={createQuest}>
-              <Text style={styles.createButtonText}>Create Quest</Text>
-            </TouchableOpacity>
-          </View>
+          </ScrollView>
         </View>
       </Modal>
     </SafeAreaView>

@@ -216,6 +216,10 @@ export default function ShopScreen() {
         item_type: newItem.item_type,
       };
 
+      if (newItem.image) {
+        payload.image = newItem.image;
+      }
+
       if (Object.keys(stat_boost).length > 0) {
         payload.stat_boost = stat_boost;
       }

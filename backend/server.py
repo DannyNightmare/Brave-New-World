@@ -104,6 +104,17 @@ class PurchaseRequest(BaseModel):
     user_id: str
     item_id: str
 
+class PowerItem(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    shop_item_id: str
+    name: str
+    description: str
+    power_category: str  # e.g., "Physical Abilities", "Mental Abilities"
+    image: Optional[str] = None
+    stat_boost: Optional[dict] = None
+    acquired_at: datetime = Field(default_factory=datetime.utcnow)
+
 
 # Helper function to calculate XP needed for next level
 def xp_for_level(level: int) -> int:

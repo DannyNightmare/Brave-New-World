@@ -116,6 +116,7 @@ export default function ShopScreen() {
     stock: 1,
     category: 'general',
     image: '',
+    is_power: false,
     item_type: 'weapon',
     strength_boost: 0,
     intelligence_boost: 0,

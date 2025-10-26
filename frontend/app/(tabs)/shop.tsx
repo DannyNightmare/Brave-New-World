@@ -23,21 +23,6 @@ const ShopItemCard = ({ item, onLongPress, onPurchase }: {
   onLongPress: () => void; 
   onPurchase: () => void; 
 }) => {
-  const longPressTimer = useRef<NodeJS.Timeout | null>(null);
-  
-  const handlePressIn = () => {
-    longPressTimer.current = setTimeout(() => {
-      onLongPress();
-    }, 500);
-  };
-  
-  const handlePressOut = () => {
-    if (longPressTimer.current) {
-      clearTimeout(longPressTimer.current);
-      longPressTimer.current = null;
-    }
-  };
-
   const getItemIcon = (type: string) => {
     switch (type) {
       case 'weapon': return 'flash';
@@ -59,46 +44,41 @@ const ShopItemCard = ({ item, onLongPress, onPurchase }: {
   };
 
   return (
-    <View
-      style={styles.itemCard}
-      onTouchStart={handlePressIn}
-      onTouchEnd={handlePressOut}
-      onMouseDown={Platform.OS === 'web' ? handlePressIn : undefined}
-      onMouseUp={Platform.OS === 'web' ? handlePressOut : undefined}
-      onMouseLeave={Platform.OS === 'web' ? handlePressOut : undefined}
-    >
-      <View style={[styles.itemIcon, { backgroundColor: getItemColor(item.item_type) + '20' }]}>
-        <Ionicons name={getItemIcon(item.item_type) as any} size={32} color={getItemColor(item.item_type)} />
-      </View>
-      
-      <View style={styles.itemInfo}>
-        <Text style={styles.itemName}>{item.name}</Text>
-        <Text style={styles.itemDescription}>{item.description}</Text>
+    <TouchableWithoutFeedback onLongPress={onLongPress} delayLongPress={800}>
+      <View style={styles.itemCard}>
+        <View style={[styles.itemIcon, { backgroundColor: getItemColor(item.item_type) + '20' }]}>
+          <Ionicons name={getItemIcon(item.item_type) as any} size={32} color={getItemColor(item.item_type)} />
+        </View>
         
-        {item.stat_boost && (
-          <View style={styles.statBoosts}>
-            {Object.entries(item.stat_boost).map(([stat, value]) => (
-              <View key={stat} style={styles.statBoost}>
-                <Ionicons 
-                  name={stat === 'strength' ? 'barbell' : stat === 'intelligence' ? 'bulb' : 'heart'} 
-                  size={12} 
-                  color="#10B981" 
-                />
-                <Text style={styles.statBoostText}>+{value} {stat}</Text>
-              </View>
-            ))}
-          </View>
-        )}
+        <View style={styles.itemInfo}>
+          <Text style={styles.itemName}>{item.name}</Text>
+          <Text style={styles.itemDescription}>{item.description}</Text>
+          
+          {item.stat_boost && (
+            <View style={styles.statBoosts}>
+              {Object.entries(item.stat_boost).map(([stat, value]) => (
+                <View key={stat} style={styles.statBoost}>
+                  <Ionicons 
+                    name={stat === 'strength' ? 'barbell' : stat === 'intelligence' ? 'bulb' : 'heart'} 
+                    size={12} 
+                    color="#10B981" 
+                  />
+                  <Text style={styles.statBoostText}>+{value} {stat}</Text>
+                </View>
+              ))}
+            </View>
+          )}
+        </View>
+        
+        <TouchableOpacity 
+          style={styles.buyButton}
+          onPress={onPurchase}
+        >
+          <Ionicons name="logo-bitcoin" size={16} color="#FFF" />
+          <Text style={styles.buyButtonText}>{item.price}</Text>
+        </TouchableOpacity>
       </View>
-      
-      <TouchableOpacity 
-        style={styles.buyButton}
-        onPress={onPurchase}
-      >
-        <Ionicons name="logo-bitcoin" size={16} color="#FFF" />
-        <Text style={styles.buyButtonText}>{item.price}</Text>
-      </TouchableOpacity>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 

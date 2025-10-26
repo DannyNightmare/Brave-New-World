@@ -1,19 +1,18 @@
 #!/usr/bin/env python3
 """
-Backend Testing for "Add to Powers" Feature
-Tests the complete power system implementation including shop items, purchases, and power management.
+Backend Testing Suite for Power Tier and Leveling System
+Tests the new power tier functionality and level up system
 """
 
 import requests
 import json
 import uuid
 from datetime import datetime
-from typing import Dict, List, Any
 
-# Backend URL from frontend environment
-BACKEND_URL = "https://gamelife-rpg.preview.emergentagent.com/api"
+# Backend URL from frontend .env
+BASE_URL = "https://gamelife-rpg.preview.emergentagent.com/api"
 
-class PowersBackendTester:
+class PowerTierTester:
     def __init__(self):
         self.test_user_id = None
         self.test_power_item_id = None

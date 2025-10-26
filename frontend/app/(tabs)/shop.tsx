@@ -37,6 +37,35 @@ export default function ShopScreen() {
     fetchShopItems();
   }, []);
 
+  const deleteShopItem = async (item: ShopItem) => {
+    Alert.alert(
+      'Delete Item',
+      `Are you sure you want to delete "${item.name}" from the shop?`,
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await fetch(`${API_URL}/api/shop/${item.id}`, {
+                method: 'DELETE',
+              });
+              fetchShopItems();
+              Alert.alert('Success', 'Item removed from shop');
+            } catch (error) {
+              console.error('Failed to delete item:', error);
+              Alert.alert('Error', 'Failed to delete item');
+            }
+          },
+        },
+      ]
+    );
+  };
+
   const purchaseItem = async (item: ShopItem) => {
     if (!user?.id) return;
 

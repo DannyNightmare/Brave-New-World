@@ -17,6 +17,91 @@ interface ShopItem {
   stat_boost?: { [key: string]: number };
 }
 
+// Shop Item Component with long press support
+const ShopItemCard = ({ item, onLongPress, onPurchase }: { 
+  item: ShopItem; 
+  onLongPress: () => void; 
+  onPurchase: () => void; 
+}) => {
+  const longPressTimer = useRef<NodeJS.Timeout | null>(null);
+  
+  const handlePressIn = () => {
+    longPressTimer.current = setTimeout(() => {
+      onLongPress();
+    }, 500);
+  };
+  
+  const handlePressOut = () => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
+    }
+  };
+
+  const getItemIcon = (type: string) => {
+    switch (type) {
+      case 'weapon': return 'flash';
+      case 'armor': return 'shield';
+      case 'potion': return 'flask';
+      case 'accessory': return 'diamond';
+      default: return 'cube';
+    }
+  };
+
+  const getItemColor = (type: string) => {
+    switch (type) {
+      case 'weapon': return '#EF4444';
+      case 'armor': return '#3B82F6';
+      case 'potion': return '#10B981';
+      case 'accessory': return '#8B5CF6';
+      default: return '#6B7280';
+    }
+  };
+
+  return (
+    <View
+      style={styles.itemCard}
+      onTouchStart={handlePressIn}
+      onTouchEnd={handlePressOut}
+      onMouseDown={Platform.OS === 'web' ? handlePressIn : undefined}
+      onMouseUp={Platform.OS === 'web' ? handlePressOut : undefined}
+      onMouseLeave={Platform.OS === 'web' ? handlePressOut : undefined}
+    >
+      <View style={[styles.itemIcon, { backgroundColor: getItemColor(item.item_type) + '20' }]}>
+        <Ionicons name={getItemIcon(item.item_type) as any} size={32} color={getItemColor(item.item_type)} />
+      </View>
+      
+      <View style={styles.itemInfo}>
+        <Text style={styles.itemName}>{item.name}</Text>
+        <Text style={styles.itemDescription}>{item.description}</Text>
+        
+        {item.stat_boost && (
+          <View style={styles.statBoosts}>
+            {Object.entries(item.stat_boost).map(([stat, value]) => (
+              <View key={stat} style={styles.statBoost}>
+                <Ionicons 
+                  name={stat === 'strength' ? 'barbell' : stat === 'intelligence' ? 'bulb' : 'heart'} 
+                  size={12} 
+                  color="#10B981" 
+                />
+                <Text style={styles.statBoostText}>+{value} {stat}</Text>
+              </View>
+            ))}
+          </View>
+        )}
+      </View>
+      
+      <TouchableOpacity 
+        style={styles.buyButton}
+        onPress={onPurchase}
+      >
+        <Ionicons name="logo-bitcoin" size={16} color="#FFF" />
+        <Text style={styles.buyButtonText}>{item.price}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
 export default function ShopScreen() {
   const { user, refreshUser } = useUser();
   const [items, setItems] = useState<ShopItem[]>([]);

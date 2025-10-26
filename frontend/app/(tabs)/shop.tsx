@@ -820,12 +820,13 @@ const styles = StyleSheet.create({
     borderColor: '#374151',
   },
   itemIcon: {
-    width: 60,
-    height: 60,
+    width: 120,
+    height: 90,
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 16,
+    overflow: 'hidden',
   },
   itemInfo: {
     flex: 1,

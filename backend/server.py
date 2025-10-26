@@ -77,6 +77,7 @@ class ShopItem(BaseModel):
     power_category: Optional[str] = None  # Category in Powers tab (e.g., "Physical Abilities")
     power_tier: Optional[str] = None  # Tier: "Base", "Peak Human", "Enhanced", "Superhuman", "Absolute"
     power_max_level: Optional[int] = None  # Maximum level for this power
+    next_tier_ability: Optional[str] = None  # Name of the ability that unlocks when this is maxed
     stat_boost: Optional[dict] = None
     item_type: str  # weapon, armor, potion, accessory
 
@@ -91,6 +92,7 @@ class ShopItemCreate(BaseModel):
     power_category: Optional[str] = None
     power_tier: Optional[str] = None
     power_max_level: Optional[int] = None
+    next_tier_ability: Optional[str] = None
     stat_boost: Optional[dict] = None
     item_type: str
 

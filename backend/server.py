@@ -385,6 +385,27 @@ async def delete_inventory_item(item_id: str):
     return {"message": "Inventory item deleted"}
 
 
+# Powers endpoints
+@api_router.get("/powers/{user_id}", response_model=List[PowerItem])
+async def get_user_powers(user_id: str):
+    powers = await db.powers.find({"user_id": user_id}).to_list(1000)
+    return [PowerItem(**power) for power in powers]
+
+@api_router.get("/powers/categories/all")
+async def get_all_power_categories():
+    """Get all unique power categories from powers collection"""
+    powers = await db.powers.find().to_list(10000)
+    categories = list(set([power["power_category"] for power in powers if power.get("power_category")]))
+    return {"categories": sorted(categories)}
+
+@api_router.delete("/powers/{power_id}")
+async def delete_power(power_id: str):
+    result = await db.powers.delete_one({"id": power_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Power not found")
+    return {"message": "Power deleted"}
+
+
 # Include the router in the main app
 app.include_router(api_router)
 

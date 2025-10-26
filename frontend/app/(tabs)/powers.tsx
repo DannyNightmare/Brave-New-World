@@ -638,6 +638,22 @@ const styles = StyleSheet.create({
     color: '#6EE7B7',
     fontStyle: 'italic',
   },
+  nextTierPreview: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#1F2937',
+    borderWidth: 1,
+    borderColor: '#8B5CF6',
+    borderRadius: 8,
+    padding: 10,
+    marginTop: 12,
+    gap: 8,
+  },
+  nextTierPreviewText: {
+    fontSize: 12,
+    color: '#8B5CF6',
+    fontWeight: '600',
+  },
   powerCardPressed: {
     opacity: 0.7,
     transform: [{ scale: 0.98 }],

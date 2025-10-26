@@ -436,4 +436,35 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
   },
+  nextTierNotification: {
+    flexDirection: 'row',
+    backgroundColor: '#064E3B',
+    borderWidth: 2,
+    borderColor: '#10B981',
+    borderRadius: 12,
+    padding: 12,
+    marginTop: 12,
+    gap: 12,
+  },
+  nextTierContent: {
+    flex: 1,
+  },
+  nextTierLabel: {
+    fontSize: 11,
+    color: '#6EE7B7',
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    marginBottom: 4,
+  },
+  nextTierAbility: {
+    fontSize: 15,
+    color: '#10B981',
+    fontWeight: 'bold',
+    marginBottom: 4,
+  },
+  nextTierHint: {
+    fontSize: 11,
+    color: '#6EE7B7',
+    fontStyle: 'italic',
+  },
 });

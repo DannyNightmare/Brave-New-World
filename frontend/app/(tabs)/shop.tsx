@@ -960,6 +960,71 @@ export default function ShopScreen() {
           </ScrollView>
         </SafeAreaView>
       </Modal>
+
+      {/* Power Category Selection Modal */}
+      <Modal visible={powerCategoryModalVisible} animationType="slide" transparent={true}>
+        <TouchableWithoutFeedback onPress={() => setPowerCategoryModalVisible(false)}>
+          <View style={styles.modalOverlay}>
+            <TouchableWithoutFeedback>
+              <View style={styles.powerCategoryModalContent}>
+                <Text style={styles.modalTitle}>Select Power Category</Text>
+                <Text style={styles.label}>Choose where this ability should appear</Text>
+
+                {/* Existing Categories */}
+                {existingPowerCategories.length > 0 && (
+                  <>
+                    <Text style={styles.label}>Existing Categories</Text>
+                    <View style={styles.powerCategoriesGrid}>
+                      {existingPowerCategories.map((category) => (
+                        <TouchableOpacity
+                          key={category}
+                          style={styles.powerCategoryButton}
+                          onPress={() => handlePowerCategorySelect(category)}
+                        >
+                          <Text style={styles.powerCategoryButtonText}>{category}</Text>
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  </>
+                )}
+
+                {/* Custom Category Input */}
+                <Text style={styles.label}>Or Create New Category</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="e.g., Physical Abilities, Mental Powers"
+                  placeholderTextColor="#6B7280"
+                  value={customPowerCategory}
+                  onChangeText={setCustomPowerCategory}
+                />
+
+                <TouchableOpacity
+                  style={[styles.createButton, !customPowerCategory.trim() && styles.createButtonDisabled]}
+                  onPress={() => {
+                    if (customPowerCategory.trim()) {
+                      handlePowerCategorySelect(customPowerCategory.trim());
+                      setCustomPowerCategory('');
+                    }
+                  }}
+                  disabled={!customPowerCategory.trim()}
+                >
+                  <Text style={styles.createButtonText}>Create & Select</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.cancelButton}
+                  onPress={() => {
+                    setPowerCategoryModalVisible(false);
+                    setNewItem({ ...newItem, is_power: false });
+                  }}
+                >
+                  <Text style={styles.cancelButtonText}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
     </SafeAreaView>
   );
 }

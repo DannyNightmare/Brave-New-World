@@ -176,6 +176,56 @@ export default function SettingsScreen() {
           <Text style={[styles.versionText, { color: colors.textSecondary }]}>Version 1.0.0</Text>
         </View>
       </ScrollView>
+
+      {/* Factory Reset Confirmation Modal */}
+      <Modal visible={resetModalVisible} animationType="fade" transparent={true}>
+        <View style={styles.resetModalOverlay}>
+          <View style={[styles.resetModalContent, { backgroundColor: colors.cardBackground, borderColor: colors.border }]}>
+            <View style={styles.resetModalHeader}>
+              <Ionicons name="warning" size={48} color="#EF4444" />
+              <Text style={[styles.resetModalTitle, { color: colors.text }]}>Factory Reset</Text>
+            </View>
+
+            <Text style={[styles.resetModalText, { color: colors.text }]}>
+              This will permanently delete ALL your data:
+            </Text>
+
+            <View style={styles.resetList}>
+              <Text style={[styles.resetListItem, { color: colors.textSecondary }]}>• All Quests</Text>
+              <Text style={[styles.resetListItem, { color: colors.textSecondary }]}>• All Inventory Items</Text>
+              <Text style={[styles.resetListItem, { color: colors.textSecondary }]}>• All Shop Items</Text>
+              <Text style={[styles.resetListItem, { color: colors.textSecondary }]}>• Player Level (reset to 1)</Text>
+              <Text style={[styles.resetListItem, { color: colors.textSecondary }]}>• Experience Points (reset to 0)</Text>
+              <Text style={[styles.resetListItem, { color: colors.textSecondary }]}>• Gold (reset to 100)</Text>
+              <Text style={[styles.resetListItem, { color: colors.textSecondary }]}>• All Stats (reset to 10)</Text>
+            </View>
+
+            <Text style={[styles.resetWarning, { color: '#EF4444' }]}>
+              This action CANNOT be undone!
+            </Text>
+
+            <Text style={[styles.resetQuestion, { color: colors.text }]}>
+              Are you absolutely sure?
+            </Text>
+
+            <View style={styles.resetButtonContainer}>
+              <TouchableOpacity 
+                style={[styles.resetCancelButton, { backgroundColor: colors.border }]}
+                onPress={() => setResetModalVisible(false)}
+              >
+                <Text style={[styles.resetCancelText, { color: colors.text }]}>Cancel</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity 
+                style={styles.resetConfirmButton}
+                onPress={confirmFactoryReset}
+              >
+                <Text style={styles.resetConfirmText}>Yes, Reset Everything</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }

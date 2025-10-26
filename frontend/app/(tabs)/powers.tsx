@@ -6,7 +6,6 @@ export default function PowersScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
-        <Text style={styles.title}>Powers</Text>
         <Text style={styles.subtitle}>Your abilities and skills</Text>
         
         <View style={styles.placeholder}>

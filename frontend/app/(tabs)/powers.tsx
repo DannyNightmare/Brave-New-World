@@ -314,6 +314,81 @@ export default function PowersScreen() {
           );
         })}
       </ScrollView>
+
+      {/* Edit Power Modal */}
+      <Modal visible={editModalVisible} animationType="slide" transparent={true}>
+        <View style={styles.modalOverlay}>
+          <View style={styles.editModalContent}>
+            <ScrollView>
+              <Text style={styles.modalTitle}>Edit Power</Text>
+
+              <Text style={styles.label}>Name</Text>
+              <TextInput
+                style={styles.input}
+                value={editForm.name}
+                onChangeText={(text) => setEditForm({ ...editForm, name: text })}
+                placeholder="Power name"
+                placeholderTextColor="#6B7280"
+              />
+
+              <Text style={styles.label}>Description</Text>
+              <TextInput
+                style={[styles.input, styles.textArea]}
+                value={editForm.description}
+                onChangeText={(text) => setEditForm({ ...editForm, description: text })}
+                placeholder="Power description"
+                placeholderTextColor="#6B7280"
+                multiline
+                numberOfLines={3}
+              />
+
+              <Text style={styles.label}>Max Level</Text>
+              <TextInput
+                style={styles.input}
+                value={String(editForm.max_level)}
+                onChangeText={(text) => setEditForm({ ...editForm, max_level: parseInt(text) || 5 })}
+                placeholder="5"
+                placeholderTextColor="#6B7280"
+                keyboardType="numeric"
+              />
+
+              <Text style={styles.label}>Sub-Abilities / Perks</Text>
+              {editForm.sub_abilities.map((subAbility, index) => (
+                <View key={index} style={styles.subAbilityEditItem}>
+                  <Text style={styles.subAbilityEditText}>{subAbility}</Text>
+                  <TouchableOpacity onPress={() => removeSubAbility(index)}>
+                    <Ionicons name="close-circle" size={24} color="#EF4444" />
+                  </TouchableOpacity>
+                </View>
+              ))}
+
+              <View style={styles.addSubAbilityContainer}>
+                <TextInput
+                  style={[styles.input, { flex: 1 }]}
+                  value={editForm.newSubAbility}
+                  onChangeText={(text) => setEditForm({ ...editForm, newSubAbility: text })}
+                  placeholder="Add a perk (e.g., Enhanced Reflexes)"
+                  placeholderTextColor="#6B7280"
+                />
+                <TouchableOpacity style={styles.addButton} onPress={addSubAbility}>
+                  <Ionicons name="add-circle" size={32} color="#8B5CF6" />
+                </TouchableOpacity>
+              </View>
+
+              <TouchableOpacity style={styles.saveButton} onPress={savePowerEdit}>
+                <Text style={styles.saveButtonText}>Save Changes</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity 
+                style={styles.cancelButton} 
+                onPress={() => setEditModalVisible(false)}
+              >
+                <Text style={styles.cancelButtonText}>Cancel</Text>
+              </TouchableOpacity>
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }

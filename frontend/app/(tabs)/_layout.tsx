@@ -1,7 +1,42 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { TouchableOpacity, Modal, View, Text, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
 
 export default function TabLayout() {
+  const [menuVisible, setMenuVisible] = useState(false);
+  const router = useRouter();
+
+  const HamburgerMenu = () => (
+    <>
+      <TouchableOpacity onPress={() => setMenuVisible(true)} style={{ marginRight: 16 }}>
+        <Ionicons name="menu" size={28} color="#F9FAFB" />
+      </TouchableOpacity>
+
+      <Modal visible={menuVisible} animationType="fade" transparent={true}>
+        <TouchableOpacity 
+          style={styles.menuOverlay} 
+          activeOpacity={1} 
+          onPress={() => setMenuVisible(false)}
+        >
+          <View style={styles.menuContainer}>
+            <TouchableOpacity 
+              style={styles.menuItem}
+              onPress={() => {
+                setMenuVisible(false);
+                router.push('/settings');
+              }}
+            >
+              <Ionicons name="settings-outline" size={24} color="#F9FAFB" />
+              <Text style={styles.menuItemText}>Settings</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </Modal>
+    </>
+  );
+
   return (
     <Tabs
       screenOptions={{
@@ -24,6 +59,7 @@ export default function TabLayout() {
         headerTitleStyle: {
           fontWeight: 'bold',
         },
+        headerRight: () => <HamburgerMenu />,
       }}
     >
       <Tabs.Screen

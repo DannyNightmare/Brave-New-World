@@ -92,15 +92,96 @@ export default function PowersScreen() {
   };
 
   const handlePowerLongPress = (power: PowerItem) => {
-    setEditingPower(power);
-    setEditForm({
-      name: power.name,
-      description: power.description,
-      max_level: power.max_level,
-      sub_abilities: power.sub_abilities || [],
-      newSubAbility: '',
-    });
-    setEditModalVisible(true);
+    setSelectedPower(power);
+    setPowerActionModalVisible(true);
+  };
+
+  const handleCategoryLongPress = (category: string) => {
+    setSelectedCategory(category);
+    setCategoryActionModalVisible(true);
+  };
+
+  const handleEditPower = () => {
+    if (selectedPower) {
+      setEditingPower(selectedPower);
+      setEditForm({
+        name: selectedPower.name,
+        description: selectedPower.description,
+        max_level: selectedPower.max_level,
+        sub_abilities: selectedPower.sub_abilities || [],
+        newSubAbility: '',
+      });
+      setPowerActionModalVisible(false);
+      setEditModalVisible(true);
+    }
+  };
+
+  const handleDeletePower = async () => {
+    if (!selectedPower) return;
+
+    Alert.alert(
+      'Delete Power',
+      `Are you sure you want to delete "${selectedPower.name}"?`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              const response = await fetch(`${API_URL}/api/powers/${selectedPower.id}`, {
+                method: 'DELETE',
+              });
+
+              if (response.ok) {
+                await fetchPowers();
+                setPowerActionModalVisible(false);
+                Alert.alert('Success', 'Power deleted successfully!');
+              } else {
+                Alert.alert('Error', 'Failed to delete power');
+              }
+            } catch (error) {
+              console.error('Failed to delete power:', error);
+              Alert.alert('Error', 'Failed to delete power');
+            }
+          },
+        },
+      ]
+    );
+  };
+
+  const handleEditCategory = () => {
+    if (selectedCategory) {
+      setCategoryForm({
+        name: selectedCategory,
+        subcategories: userCategories[selectedCategory] || [],
+        newSubcategory: '',
+      });
+      setCategoryActionModalVisible(false);
+    }
+  };
+
+  const handleDeleteCategory = () => {
+    if (selectedCategory) {
+      Alert.alert(
+        'Delete Category',
+        `Are you sure you want to delete "${selectedCategory}"?`,
+        [
+          { text: 'Cancel', style: 'cancel' },
+          {
+            text: 'Delete',
+            style: 'destructive',
+            onPress: () => {
+              const newCategories = { ...userCategories };
+              delete newCategories[selectedCategory];
+              setUserCategories(newCategories);
+              setCategoryActionModalVisible(false);
+              Alert.alert('Success', 'Category deleted!');
+            },
+          },
+        ]
+      );
+    }
   };
 
   const addSubAbility = () => {

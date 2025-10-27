@@ -1162,4 +1162,60 @@ const styles = StyleSheet.create({
     backgroundColor: '#4B5563',
     opacity: 0.5,
   },
+  categoryItemPressed: {
+    opacity: 0.7,
+    transform: [{ scale: 0.98 }],
+  },
+  actionModalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  actionModalContent: {
+    backgroundColor: '#1F2937',
+    borderRadius: 16,
+    padding: 24,
+    width: '80%',
+    maxWidth: 400,
+  },
+  actionModalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#F9FAFB',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  actionButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#374151',
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 12,
+    gap: 12,
+  },
+  actionButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#F9FAFB',
+  },
+  deleteActionButton: {
+    backgroundColor: '#7F1D1D',
+  },
+  deleteActionButtonText: {
+    color: '#FCA5A5',
+  },
+  cancelActionButton: {
+    backgroundColor: '#374151',
+    padding: 16,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  cancelActionButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#9CA3AF',
+  },
 });

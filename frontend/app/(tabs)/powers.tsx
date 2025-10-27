@@ -27,6 +27,7 @@ export default function PowersScreen() {
   const [loading, setLoading] = useState(true);
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
   const [editModalVisible, setEditModalVisible] = useState(false);
+  const [categoryManagerVisible, setCategoryManagerVisible] = useState(false);
   const [editingPower, setEditingPower] = useState<PowerItem | null>(null);
   const [editForm, setEditForm] = useState({
     name: '',
@@ -35,6 +36,12 @@ export default function PowersScreen() {
     sub_abilities: [] as string[],
     newSubAbility: '',
   });
+  const [categoryForm, setCategoryForm] = useState({
+    name: '',
+    subcategories: [] as string[],
+    newSubcategory: '',
+  });
+  const [userCategories, setUserCategories] = useState<{[key: string]: string[]}>({});
 
   const fetchPowers = async () => {
     if (!user?.id) return;

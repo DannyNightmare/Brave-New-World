@@ -57,8 +57,11 @@ export default function PowersScreen() {
       });
       
       if (response.ok) {
-        // Refresh powers after level up
+        // Refresh powers and user data after level up
         await fetchPowers();
+        // Import useUser hook to refresh user data
+        const { refreshUser } = useUser();
+        await refreshUser();
         
         // If this was the max level and has next tier, show unlock message
         const updatedPower = powers.find(p => p.id === powerId);

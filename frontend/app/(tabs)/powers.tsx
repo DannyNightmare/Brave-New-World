@@ -598,6 +598,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#F59E0B',
   },
+  categoryButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#1F2937',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+    gap: 4,
+    borderWidth: 1,
+    borderColor: '#8B5CF6',
+  },
+  categoryButtonText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#8B5CF6',
+  },
   subtitle: {
     fontSize: 16,
     color: '#9CA3AF',

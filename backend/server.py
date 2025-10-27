@@ -181,7 +181,8 @@ async def reset_user_stats(user_id: str):
             "gold": 100,
             "strength": 10,
             "intelligence": 10,
-            "vitality": 10
+            "vitality": 10,
+            "ability_points": 5
         }}
     )
     

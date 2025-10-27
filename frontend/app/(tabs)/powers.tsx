@@ -967,4 +967,62 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
+  categoryManagerContent: {
+    backgroundColor: '#1F2937',
+    borderRadius: 16,
+    padding: 24,
+    margin: 20,
+    maxHeight: '85%',
+    width: '90%',
+  },
+  categoryItem: {
+    backgroundColor: '#374151',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: '#4B5563',
+  },
+  categoryItemHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  categoryItemName: {
+    flex: 1,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#F9FAFB',
+  },
+  subcategoriesList: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginTop: 12,
+  },
+  subcategoryChip: {
+    backgroundColor: '#1F2937',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#8B5CF6',
+  },
+  subcategoryChipText: {
+    fontSize: 12,
+    color: '#A78BFA',
+    fontWeight: '600',
+  },
+  subcategoriesEditList: {
+    marginBottom: 12,
+  },
+  helperText: {
+    fontSize: 12,
+    color: '#9CA3AF',
+    marginBottom: 16,
+  },
+  createButtonDisabled: {
+    backgroundColor: '#4B5563',
+    opacity: 0.5,
+  },
 });

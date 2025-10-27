@@ -12,6 +12,7 @@ interface User {
   strength: number;
   intelligence: number;
   vitality: number;
+  ability_points: number;
 }
 
 interface UserContextType {

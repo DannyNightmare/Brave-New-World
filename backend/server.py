@@ -36,6 +36,7 @@ class User(BaseModel):
     strength: int = 10
     intelligence: int = 10
     vitality: int = 10
+    ability_points: int = 5  # AP for leveling up powers
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
 class UserCreate(BaseModel):

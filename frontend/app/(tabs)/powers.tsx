@@ -429,6 +429,129 @@ export default function PowersScreen() {
           </View>
         </View>
       </Modal>
+
+      {/* Category Manager Modal */}
+      <Modal visible={categoryManagerVisible} animationType="slide" transparent={true}>
+        <View style={styles.modalOverlay}>
+          <View style={styles.categoryManagerContent}>
+            <ScrollView>
+              <Text style={styles.modalTitle}>Manage Categories</Text>
+              <Text style={styles.helperText}>Organize your powers with custom categories and subcategories</Text>
+
+              {/* Display existing categories */}
+              {Object.keys(userCategories).length > 0 && (
+                <>
+                  <Text style={styles.label}>Your Categories</Text>
+                  {Object.entries(userCategories).map(([category, subcategories]) => (
+                    <View key={category} style={styles.categoryItem}>
+                      <View style={styles.categoryItemHeader}>
+                        <Ionicons name="folder" size={20} color="#8B5CF6" />
+                        <Text style={styles.categoryItemName}>{category}</Text>
+                        <TouchableOpacity onPress={() => {
+                          const newCategories = { ...userCategories };
+                          delete newCategories[category];
+                          setUserCategories(newCategories);
+                        }}>
+                          <Ionicons name="trash" size={20} color="#EF4444" />
+                        </TouchableOpacity>
+                      </View>
+                      {subcategories && subcategories.length > 0 && (
+                        <View style={styles.subcategoriesList}>
+                          {subcategories.map((sub, idx) => (
+                            <View key={idx} style={styles.subcategoryChip}>
+                              <Text style={styles.subcategoryChipText}>{sub}</Text>
+                            </View>
+                          ))}
+                        </View>
+                      )}
+                    </View>
+                  ))}
+                </>
+              )}
+
+              {/* Add new category */}
+              <Text style={styles.label}>Create New Category</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Category name (e.g., Physical Abilities)"
+                placeholderTextColor="#6B7280"
+                value={categoryForm.name}
+                onChangeText={(text) => setCategoryForm({ ...categoryForm, name: text })}
+              />
+
+              {/* Subcategories */}
+              {categoryForm.subcategories.length > 0 && (
+                <>
+                  <Text style={styles.label}>Subcategories</Text>
+                  <View style={styles.subcategoriesEditList}>
+                    {categoryForm.subcategories.map((sub, index) => (
+                      <View key={index} style={styles.subAbilityEditItem}>
+                        <Text style={styles.subAbilityEditText}>{sub}</Text>
+                        <TouchableOpacity onPress={() => {
+                          setCategoryForm({
+                            ...categoryForm,
+                            subcategories: categoryForm.subcategories.filter((_, i) => i !== index)
+                          });
+                        }}>
+                          <Ionicons name="close-circle" size={24} color="#EF4444" />
+                        </TouchableOpacity>
+                      </View>
+                    ))}
+                  </View>
+                </>
+              )}
+
+              <View style={styles.addSubAbilityContainer}>
+                <TextInput
+                  style={[styles.input, { flex: 1 }]}
+                  placeholder="Add subcategory (optional)"
+                  placeholderTextColor="#6B7280"
+                  value={categoryForm.newSubcategory}
+                  onChangeText={(text) => setCategoryForm({ ...categoryForm, newSubcategory: text })}
+                />
+                <TouchableOpacity 
+                  style={styles.addButton} 
+                  onPress={() => {
+                    if (categoryForm.newSubcategory.trim()) {
+                      setCategoryForm({
+                        ...categoryForm,
+                        subcategories: [...categoryForm.subcategories, categoryForm.newSubcategory.trim()],
+                        newSubcategory: '',
+                      });
+                    }
+                  }}
+                >
+                  <Ionicons name="add-circle" size={32} color="#8B5CF6" />
+                </TouchableOpacity>
+              </View>
+
+              <TouchableOpacity 
+                style={[styles.saveButton, !categoryForm.name.trim() && styles.createButtonDisabled]}
+                disabled={!categoryForm.name.trim()}
+                onPress={() => {
+                  if (categoryForm.name.trim()) {
+                    setUserCategories({
+                      ...userCategories,
+                      [categoryForm.name.trim()]: categoryForm.subcategories
+                    });
+                    setCategoryForm({ name: '', subcategories: [], newSubcategory: '' });
+                    Alert.alert('Success', 'Category created!');
+                  }
+                }}
+              >
+                <Text style={styles.saveButtonText}>Add Category</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity 
+                style={styles.cancelButton} 
+                onPress={() => setCategoryManagerVisible(false)}
+              >
+                <Text style={styles.cancelButtonText}>Close</Text>
+              </TouchableOpacity>
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }

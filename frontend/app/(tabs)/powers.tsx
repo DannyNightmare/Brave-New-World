@@ -637,6 +637,58 @@ export default function PowersScreen() {
           </View>
         </View>
       </Modal>
+
+      {/* Power Action Modal */}
+      <Modal visible={powerActionModalVisible} animationType="fade" transparent={true}>
+        <TouchableOpacity 
+          style={styles.actionModalOverlay}
+          activeOpacity={1}
+          onPress={() => setPowerActionModalVisible(false)}
+        >
+          <View style={styles.actionModalContent}>
+            <Text style={styles.actionModalTitle}>
+              {selectedPower?.name}
+            </Text>
+            <TouchableOpacity style={styles.actionButton} onPress={handleEditPower}>
+              <Ionicons name="create" size={24} color="#3B82F6" />
+              <Text style={styles.actionButtonText}>Edit Power</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.actionButton, styles.deleteActionButton]} onPress={handleDeletePower}>
+              <Ionicons name="trash" size={24} color="#EF4444" />
+              <Text style={[styles.actionButtonText, styles.deleteActionButtonText]}>Delete Power</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.cancelActionButton} onPress={() => setPowerActionModalVisible(false)}>
+              <Text style={styles.cancelActionButtonText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </Modal>
+
+      {/* Category Action Modal */}
+      <Modal visible={categoryActionModalVisible} animationType="fade" transparent={true}>
+        <TouchableOpacity 
+          style={styles.actionModalOverlay}
+          activeOpacity={1}
+          onPress={() => setCategoryActionModalVisible(false)}
+        >
+          <View style={styles.actionModalContent}>
+            <Text style={styles.actionModalTitle}>
+              {selectedCategory}
+            </Text>
+            <TouchableOpacity style={styles.actionButton} onPress={handleEditCategory}>
+              <Ionicons name="create" size={24} color="#3B82F6" />
+              <Text style={styles.actionButtonText}>Edit Category</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.actionButton, styles.deleteActionButton]} onPress={handleDeleteCategory}>
+              <Ionicons name="trash" size={24} color="#EF4444" />
+              <Text style={[styles.actionButtonText, styles.deleteActionButtonText]}>Delete Category</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.cancelActionButton} onPress={() => setCategoryActionModalVisible(false)}>
+              <Text style={styles.cancelActionButtonText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </Modal>
     </SafeAreaView>
   );
 }

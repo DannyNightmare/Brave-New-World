@@ -243,13 +243,19 @@ async def complete_quest(quest_id: str):
     new_xp = user["xp"] + quest["xp_reward"]
     new_gold = user["gold"] + quest["gold_reward"]
     new_level = user["level"]
+    new_ability_points = user.get("ability_points", 5)
     
     # Check for level up
+    levels_gained = 0
     while new_xp >= xp_for_level(new_level):
         new_xp -= xp_for_level(new_level)
         new_level += 1
+        levels_gained += 1
     
-    updates = {"xp": new_xp, "gold": new_gold, "level": new_level}
+    # Give 2 ability points per level gained
+    new_ability_points += levels_gained * 2
+    
+    updates = {"xp": new_xp, "gold": new_gold, "level": new_level, "ability_points": new_ability_points}
     
     # Apply attribute rewards if specified
     if quest.get("attribute_rewards"):

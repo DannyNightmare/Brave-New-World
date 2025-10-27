@@ -192,9 +192,15 @@ export default function PowersScreen() {
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
         <View style={styles.header}>
           <Text style={styles.subtitle}>Your abilities and skills</Text>
-          <View style={styles.countBadge}>
-            <Ionicons name="flash" size={16} color="#8B5CF6" />
-            <Text style={styles.countText}>{powers.length}</Text>
+          <View style={styles.headerBadges}>
+            <View style={styles.apBadge}>
+              <Ionicons name="diamond" size={16} color="#F59E0B" />
+              <Text style={styles.apText}>{user?.ability_points || 0} AP</Text>
+            </View>
+            <View style={styles.countBadge}>
+              <Ionicons name="flash" size={16} color="#8B5CF6" />
+              <Text style={styles.countText}>{powers.length}</Text>
+            </View>
           </View>
         </View>
 

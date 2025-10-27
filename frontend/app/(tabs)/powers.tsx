@@ -27,8 +27,12 @@ export default function PowersScreen() {
   const [loading, setLoading] = useState(true);
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
   const [editModalVisible, setEditModalVisible] = useState(false);
+  const [powerActionModalVisible, setPowerActionModalVisible] = useState(false);
+  const [categoryActionModalVisible, setCategoryActionModalVisible] = useState(false);
   const [categoryManagerVisible, setCategoryManagerVisible] = useState(false);
   const [editingPower, setEditingPower] = useState<PowerItem | null>(null);
+  const [selectedPower, setSelectedPower] = useState<PowerItem | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [editForm, setEditForm] = useState({
     name: '',
     description: '',

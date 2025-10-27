@@ -101,8 +101,12 @@ export default function PowersScreen() {
   };
 
   const handleCategoryLongPress = (category: string) => {
+    console.log('=== CATEGORY LONG PRESS TRIGGERED ===');
+    console.log('Category:', category);
     setSelectedCategory(category);
+    console.log('Selected category set, opening modal...');
     setCategoryActionModalVisible(true);
+    console.log('Modal visibility set to true');
   };
 
   const handleEditPower = () => {

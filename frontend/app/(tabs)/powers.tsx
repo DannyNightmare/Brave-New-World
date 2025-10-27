@@ -528,17 +528,17 @@ export default function PowersScreen() {
                 <>
                   <Text style={styles.label}>Your Categories</Text>
                   {Object.entries(userCategories).map(([category, subcategories]) => (
-                    <View key={category} style={styles.categoryItem}>
+                    <Pressable
+                      key={category}
+                      onLongPress={() => handleCategoryLongPress(category)}
+                      style={({ pressed }) => [
+                        styles.categoryItem,
+                        pressed && styles.categoryItemPressed
+                      ]}
+                    >
                       <View style={styles.categoryItemHeader}>
                         <Ionicons name="folder" size={20} color="#8B5CF6" />
                         <Text style={styles.categoryItemName}>{category}</Text>
-                        <TouchableOpacity onPress={() => {
-                          const newCategories = { ...userCategories };
-                          delete newCategories[category];
-                          setUserCategories(newCategories);
-                        }}>
-                          <Ionicons name="trash" size={20} color="#EF4444" />
-                        </TouchableOpacity>
                       </View>
                       {subcategories && subcategories.length > 0 && (
                         <View style={styles.subcategoriesList}>
@@ -549,7 +549,7 @@ export default function PowersScreen() {
                           ))}
                         </View>
                       )}
-                    </View>
+                    </Pressable>
                   ))}
                 </>
               )}

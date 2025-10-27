@@ -22,7 +22,7 @@ interface PowerItem {
 }
 
 export default function PowersScreen() {
-  const { user } = useUser();
+  const { user, refreshUser } = useUser();
   const [powers, setPowers] = useState<PowerItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);

@@ -676,6 +676,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
   },
+  levelUpButtonDisabled: {
+    backgroundColor: '#6B7280',
+    opacity: 0.6,
+  },
   nextTierNotification: {
     flexDirection: 'row',
     backgroundColor: '#064E3B',

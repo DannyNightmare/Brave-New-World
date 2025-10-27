@@ -572,6 +572,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#10B981',
   },
+  maxBadge: {
+    backgroundColor: '#EF4444',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  maxBadgeText: {
+    color: '#FFF',
+    fontSize: 11,
+    fontWeight: 'bold',
+  },
   progressBarContainer: {
     marginBottom: 12,
   },

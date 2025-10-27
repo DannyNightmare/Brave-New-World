@@ -198,10 +198,13 @@ export default function PowersScreen() {
               <Ionicons name="diamond" size={16} color="#F59E0B" />
               <Text style={styles.apText}>{user?.ability_points || 0} AP</Text>
             </View>
-            <View style={styles.countBadge}>
-              <Ionicons name="flash" size={16} color="#8B5CF6" />
-              <Text style={styles.countText}>{powers.length}</Text>
-            </View>
+            <TouchableOpacity 
+              style={styles.categoryButton}
+              onPress={() => setCategoryManagerVisible(true)}
+            >
+              <Ionicons name="filing" size={16} color="#8B5CF6" />
+              <Text style={styles.categoryButtonText}>Categories</Text>
+            </TouchableOpacity>
           </View>
         </View>
 

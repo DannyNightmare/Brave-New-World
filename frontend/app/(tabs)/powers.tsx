@@ -245,13 +245,6 @@ export default function PowersScreen() {
                         {/* Power Header with Name and Level */}
                         <View style={styles.powerHeaderRow}>
                           <View style={styles.powerNameContainer}>
-                            {power.image ? (
-                              <Image source={{ uri: power.image }} style={styles.powerImageSmall} />
-                            ) : (
-                              <View style={styles.powerIconSmallPlaceholder}>
-                                <Ionicons name="flash" size={24} color="#8B5CF6" />
-                              </View>
-                            )}
                             <View style={styles.powerNameWrapper}>
                               <Text style={styles.powerName}>{power.name}</Text>
                               <Text style={styles.powerTierText}>{power.power_tier}</Text>

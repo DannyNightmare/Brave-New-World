@@ -524,70 +524,80 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#374151',
   },
-  powerCardHeader: {
+  powerHeaderRow: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: 12,
   },
-  powerImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 12,
+  powerNameContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  powerImageSmall: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
     marginRight: 12,
   },
-  powerIconPlaceholder: {
-    width: 60,
-    height: 60,
-    borderRadius: 12,
+  powerIconSmallPlaceholder: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
     backgroundColor: '#374151',
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
   },
-  powerInfo: {
+  powerNameWrapper: {
     flex: 1,
-  },
-  powerNameRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 4,
   },
   powerName: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#F9FAFB',
-    marginRight: 8,
-  },
-  maxBadge: {
-    backgroundColor: '#EF4444',
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 8,
-  },
-  maxBadgeText: {
-    color: '#FFF',
-    fontSize: 11,
-    fontWeight: 'bold',
-  },
-  powerTierRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 4,
-    gap: 8,
   },
   powerTierText: {
-    fontSize: 12,
+    fontSize: 11,
     color: '#8B5CF6',
     fontWeight: '600',
+    marginTop: 2,
   },
-  powerLevelText: {
-    fontSize: 12,
+  levelBadgeContainer: {
+    alignItems: 'flex-end',
+  },
+  levelNumber: {
+    fontSize: 18,
+    fontWeight: 'bold',
     color: '#10B981',
+  },
+  progressBarContainer: {
+    marginBottom: 12,
+  },
+  progressBarBackground: {
+    height: 8,
+    backgroundColor: '#374151',
+    borderRadius: 4,
+    overflow: 'hidden',
+    marginBottom: 4,
+  },
+  progressBarFill: {
+    height: '100%',
+    backgroundColor: '#8B5CF6',
+    borderRadius: 4,
+  },
+  progressText: {
+    fontSize: 11,
+    color: '#9CA3AF',
+    textAlign: 'right',
     fontWeight: '600',
   },
   powerDescription: {
     fontSize: 13,
     color: '#9CA3AF',
     lineHeight: 18,
+    marginBottom: 8,
   },
   statBoosts: {
     flexDirection: 'row',

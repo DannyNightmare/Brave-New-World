@@ -431,10 +431,25 @@ async def level_up_power(power_id: str):
     if power["current_level"] >= power["max_level"]:
         raise HTTPException(status_code=400, detail="Power is already at max level")
     
+    # Check if user has enough ability points
+    user = await db.users.find_one({"id": power["user_id"]})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    if user.get("ability_points", 0) < 1:
+        raise HTTPException(status_code=400, detail="Not enough ability points")
+    
+    # Consume 1 ability point and level up the power
     new_level = power["current_level"] + 1
     await db.powers.update_one(
         {"id": power_id},
         {"$set": {"current_level": new_level}}
+    )
+    
+    # Deduct 1 ability point from user
+    await db.users.update_one(
+        {"id": power["user_id"]},
+        {"$set": {"ability_points": user["ability_points"] - 1}}
     )
     
     # Check if power reached max level and has next tier ability

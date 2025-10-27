@@ -559,21 +559,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
-  powerImageSmall: {
-    width: 40,
-    height: 40,
-    borderRadius: 8,
-    marginRight: 12,
-  },
-  powerIconSmallPlaceholder: {
-    width: 40,
-    height: 40,
-    borderRadius: 8,
-    backgroundColor: '#374151',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
   powerNameWrapper: {
     flex: 1,
   },

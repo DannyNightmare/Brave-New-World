@@ -173,26 +173,34 @@ export default function PowersScreen() {
   };
 
   const handleDeleteCategory = () => {
-    if (selectedCategory) {
-      Alert.alert(
-        'Delete Category',
-        `Are you sure you want to delete "${selectedCategory}"?`,
-        [
-          { text: 'Cancel', style: 'cancel' },
-          {
-            text: 'Delete',
-            style: 'destructive',
-            onPress: () => {
-              const newCategories = { ...userCategories };
-              delete newCategories[selectedCategory];
-              setUserCategories(newCategories);
-              setCategoryActionModalVisible(false);
-              Alert.alert('Success', 'Category deleted!');
-            },
-          },
-        ]
-      );
+    if (!selectedCategory) {
+      console.log('No category selected');
+      return;
     }
+
+    console.log('Attempting to delete category:', selectedCategory);
+
+    Alert.alert(
+      'Delete Category',
+      `Are you sure you want to delete "${selectedCategory}"?`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            console.log('Deleting category from state:', selectedCategory);
+            const newCategories = { ...userCategories };
+            delete newCategories[selectedCategory];
+            setUserCategories(newCategories);
+            setCategoryActionModalVisible(false);
+            setSelectedCategory('');
+            console.log('Category deleted, new categories:', Object.keys(newCategories));
+            Alert.alert('Success', 'Category deleted!');
+          },
+        },
+      ]
+    );
   };
 
   const addSubAbility = () => {

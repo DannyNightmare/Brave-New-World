@@ -117,7 +117,12 @@ export default function PowersScreen() {
   };
 
   const handleDeletePower = async () => {
-    if (!selectedPower) return;
+    if (!selectedPower) {
+      console.log('No power selected');
+      return;
+    }
+
+    console.log('Attempting to delete power:', selectedPower.id, selectedPower.name);
 
     Alert.alert(
       'Delete Power',
@@ -129,20 +134,26 @@ export default function PowersScreen() {
           style: 'destructive',
           onPress: async () => {
             try {
+              console.log('Calling DELETE endpoint:', `${API_URL}/api/powers/${selectedPower.id}`);
               const response = await fetch(`${API_URL}/api/powers/${selectedPower.id}`, {
                 method: 'DELETE',
               });
 
+              console.log('Delete response status:', response.status);
+              const responseText = await response.text();
+              console.log('Delete response body:', responseText);
+
               if (response.ok) {
                 await fetchPowers();
                 setPowerActionModalVisible(false);
+                setSelectedPower(null);
                 Alert.alert('Success', 'Power deleted successfully!');
               } else {
-                Alert.alert('Error', 'Failed to delete power');
+                Alert.alert('Error', `Failed to delete power: ${responseText}`);
               }
             } catch (error) {
               console.error('Failed to delete power:', error);
-              Alert.alert('Error', 'Failed to delete power');
+              Alert.alert('Error', 'Failed to delete power: ' + error);
             }
           },
         },

@@ -235,35 +235,53 @@ export default function PowersScreen() {
                           pressed && styles.powerCardPressed
                         ]}
                       >
-                        <View style={styles.powerCardHeader}>
-                          {power.image ? (
-                            <Image source={{ uri: power.image }} style={styles.powerImage} />
-                          ) : (
-                            <View style={styles.powerIconPlaceholder}>
-                              <Ionicons name="flash" size={32} color="#8B5CF6" />
-                            </View>
-                          )}
-                          
-                          <View style={styles.powerInfo}>
-                            <View style={styles.powerNameRow}>
+                        {/* Power Header with Name and Level */}
+                        <View style={styles.powerHeaderRow}>
+                          <View style={styles.powerNameContainer}>
+                            {power.image ? (
+                              <Image source={{ uri: power.image }} style={styles.powerImageSmall} />
+                            ) : (
+                              <View style={styles.powerIconSmallPlaceholder}>
+                                <Ionicons name="flash" size={24} color="#8B5CF6" />
+                              </View>
+                            )}
+                            <View style={styles.powerNameWrapper}>
                               <Text style={styles.powerName}>{power.name}</Text>
-                              {isMaxLevel && (
-                                <View style={styles.maxBadge}>
-                                  <Text style={styles.maxBadgeText}>MAX</Text>
-                                </View>
-                              )}
-                            </View>
-                            <View style={styles.powerTierRow}>
                               <Text style={styles.powerTierText}>{power.power_tier}</Text>
-                              <Text style={styles.powerLevelText}>
-                                LvL {power.current_level}/{power.max_level}
-                              </Text>
                             </View>
-                            <Text style={styles.powerDescription} numberOfLines={2}>
-                              {power.description}
-                            </Text>
+                          </View>
+                          
+                          <View style={styles.levelBadgeContainer}>
+                            {isMaxLevel && (
+                              <View style={styles.maxBadge}>
+                                <Text style={styles.maxBadgeText}>MAX</Text>
+                              </View>
+                            )}
+                            {!isMaxLevel && (
+                              <Text style={styles.levelNumber}>LvL {power.current_level}</Text>
+                            )}
                           </View>
                         </View>
+
+                        {/* Progress Bar */}
+                        <View style={styles.progressBarContainer}>
+                          <View style={styles.progressBarBackground}>
+                            <View 
+                              style={[
+                                styles.progressBarFill, 
+                                { width: `${(power.current_level / power.max_level) * 100}%` }
+                              ]} 
+                            />
+                          </View>
+                          <Text style={styles.progressText}>
+                            {power.current_level} / {power.max_level}
+                          </Text>
+                        </View>
+
+                        {/* Description */}
+                        <Text style={styles.powerDescription} numberOfLines={2}>
+                          {power.description}
+                        </Text>
 
                         {/* Sub-abilities display */}
                         {power.sub_abilities && power.sub_abilities.length > 0 && (

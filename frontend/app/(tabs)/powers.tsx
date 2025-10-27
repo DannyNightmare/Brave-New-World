@@ -92,8 +92,12 @@ export default function PowersScreen() {
   };
 
   const handlePowerLongPress = (power: PowerItem) => {
+    console.log('=== POWER LONG PRESS TRIGGERED ===');
+    console.log('Power:', power.name, power.id);
     setSelectedPower(power);
+    console.log('Selected power set, opening modal...');
     setPowerActionModalVisible(true);
+    console.log('Modal visibility set to true');
   };
 
   const handleCategoryLongPress = (category: string) => {

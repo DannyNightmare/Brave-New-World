@@ -320,11 +320,15 @@ export default function PowersScreen() {
                         {/* Level Up Button */}
                         {!isMaxLevel && (
                           <TouchableOpacity 
-                            style={styles.levelUpButton}
+                            style={[
+                              styles.levelUpButton,
+                              (user?.ability_points || 0) < 1 && styles.levelUpButtonDisabled
+                            ]}
                             onPress={() => levelUpPower(power.id, power.name, power.next_tier_ability)}
+                            disabled={(user?.ability_points || 0) < 1}
                           >
-                            <Ionicons name="arrow-up-circle" size={20} color="#FFF" />
-                            <Text style={styles.levelUpButtonText}>Level Up</Text>
+                            <Ionicons name="diamond" size={16} color="#FFF" />
+                            <Text style={styles.levelUpButtonText}>Level Up (1 AP)</Text>
                           </TouchableOpacity>
                         )}
 

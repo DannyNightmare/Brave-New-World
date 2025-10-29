@@ -328,140 +328,72 @@ export default function PowersScreen() {
         </View>
 
         {categories.map((category) => {
-          const isExpanded = expandedCategories.includes(category);
           const categoryPowers = groupedPowers[category];
           
           return (
-            <View key={category} style={styles.categorySection}>
-              <TouchableOpacity
+            <View key={category} style={styles.categoryContainer}>
+              {/* Category Header - Centered */}
+              <Pressable
+                onLongPress={() => handleCategoryLongPress(category)}
                 style={styles.categoryHeader}
-                onPress={() => toggleCategory(category)}
               >
-                <View style={styles.categoryTitleContainer}>
-                  <Ionicons 
-                    name={isExpanded ? "chevron-down" : "chevron-forward"} 
-                    size={24} 
-                    color="#8B5CF6" 
-                  />
-                  <Text style={styles.categoryTitle}>{category}</Text>
-                  <View style={styles.categoryCountBadge}>
-                    <Text style={styles.categoryCountText}>{categoryPowers.length}</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
+                <Text style={styles.categoryTitle}>{category}</Text>
+              </Pressable>
 
-              {isExpanded && (
-                <View style={styles.powersList}>
-                  {categoryPowers.map((power) => {
-                    const isMaxLevel = power.current_level >= power.max_level;
-                    
-                    return (
-                      <Pressable 
-                        key={power.id}
-                        onLongPress={() => handlePowerLongPress(power)}
-                        style={({ pressed }) => [
-                          styles.powerCard,
-                          pressed && styles.powerCardPressed
-                        ]}
-                      >
-                        {/* Power Header with Name and Level */}
-                        <View style={styles.powerHeaderRow}>
-                          <View style={styles.powerNameContainer}>
-                            <View style={styles.powerNameWrapper}>
-                              <Text style={styles.powerName}>{power.name}</Text>
-                              <Text style={styles.powerTierText}>{power.power_tier}</Text>
-                            </View>
-                          </View>
-                          
-                          <View style={styles.levelBadgeContainer}>
-                            {isMaxLevel && (
-                              <View style={styles.maxBadge}>
-                                <Text style={styles.maxBadgeText}>MAX</Text>
-                              </View>
-                            )}
-                            {!isMaxLevel && (
-                              <Text style={styles.levelNumber}>LvL {power.current_level}</Text>
-                            )}
-                          </View>
+              {/* Powers under this category */}
+              {categoryPowers.map((power) => {
+                const isMaxLevel = power.current_level >= power.max_level;
+                const progress = (power.current_level / power.max_level) * 100;
+                
+                return (
+                  <Pressable
+                    key={power.id}
+                    onLongPress={() => handlePowerLongPress(power)}
+                    style={({ pressed }) => [
+                      styles.abilityRow,
+                      pressed && styles.abilityRowPressed
+                    ]}
+                  >
+                    {/* Ability Name */}
+                    <View style={styles.abilityNameSection}>
+                      <Text style={styles.abilityName}>{power.name}</Text>
+                      <Text style={styles.abilityTier}>{power.power_tier}</Text>
+                    </View>
+
+                    {/* Progress Bar and Counter */}
+                    <View style={styles.abilityProgressSection}>
+                      <View style={styles.progressBarSmall}>
+                        <View 
+                          style={[styles.progressBarFillSmall, { width: `${progress}%` }]} 
+                        />
+                      </View>
+                      <Text style={styles.xpCounter}>
+                        {power.current_level} / {power.max_level}
+                      </Text>
+                    </View>
+
+                    {/* Level Badge or + Button */}
+                    <View style={styles.abilityActionSection}>
+                      {isMaxLevel ? (
+                        <View style={styles.maxBadgeSmall}>
+                          <Text style={styles.maxBadgeSmallText}>MAX</Text>
                         </View>
-
-                        {/* Progress Bar */}
-                        <View style={styles.progressBarContainer}>
-                          <View style={styles.progressBarBackground}>
-                            <View 
-                              style={[
-                                styles.progressBarFill, 
-                                { width: `${(power.current_level / power.max_level) * 100}%` }
-                              ]} 
-                            />
-                          </View>
-                          <Text style={styles.progressText}>
-                            {power.current_level} / {power.max_level}
-                          </Text>
-                        </View>
-
-                        {/* Description */}
-                        <Text style={styles.powerDescription} numberOfLines={2}>
-                          {power.description}
-                        </Text>
-
-                        {/* Sub-abilities display */}
-                        {power.sub_abilities && power.sub_abilities.length > 0 && (
-                          <View style={styles.subAbilitiesContainer}>
-                            <Text style={styles.subAbilitiesTitle}>Perks:</Text>
-                            {power.sub_abilities.map((subAbility, idx) => (
-                              <View key={idx} style={styles.subAbilityItem}>
-                                <Ionicons name="checkmark-circle" size={14} color="#10B981" />
-                                <Text style={styles.subAbilityText}>{subAbility}</Text>
-                              </View>
-                            ))}
-                          </View>
-                        )}
-
-                        {power.stat_boost && Object.keys(power.stat_boost).length > 0 && (
-                          <View style={styles.statBoosts}>
-                            {Object.entries(power.stat_boost).map(([stat, value]) => (
-                              <View key={stat} style={styles.statBoost}>
-                                <Ionicons 
-                                  name={stat === 'strength' ? 'barbell' : stat === 'intelligence' ? 'bulb' : 'heart'} 
-                                  size={14} 
-                                  color="#10B981" 
-                                />
-                                <Text style={styles.statBoostText}>+{value} {stat}</Text>
-                              </View>
-                            ))}
-                          </View>
-                        )}
-
-                        {/* Level Up Button */}
-                        {!isMaxLevel && (
-                          <TouchableOpacity 
-                            style={[
-                              styles.levelUpButton,
-                              (user?.ability_points || 0) < 1 && styles.levelUpButtonDisabled
-                            ]}
-                            onPress={() => levelUpPower(power.id, power.name, power.next_tier_ability)}
-                            disabled={(user?.ability_points || 0) < 1}
-                          >
-                            <Ionicons name="diamond" size={16} color="#FFF" />
-                            <Text style={styles.levelUpButtonText}>Level Up (1 AP)</Text>
-                          </TouchableOpacity>
-                        )}
-
-                        {/* Next Tier Preview - Shows what unlocks when maxed */}
-                        {!isMaxLevel && power.next_tier_ability && power.current_level === power.max_level - 1 && (
-                          <View style={styles.nextTierPreview}>
-                            <Ionicons name="arrow-forward-circle" size={18} color="#8B5CF6" />
-                            <Text style={styles.nextTierPreviewText}>
-                              Next: {power.next_tier_ability}
-                            </Text>
-                          </View>
-                        )}
-                      </Pressable>
-                    );
-                  })}
-                </View>
-              )}
+                      ) : (
+                        <TouchableOpacity
+                          style={[
+                            styles.levelUpButtonSmall,
+                            (user?.ability_points || 0) < 1 && styles.levelUpButtonSmallDisabled
+                          ]}
+                          onPress={() => levelUpPower(power.id, power.name, power.next_tier_ability)}
+                          disabled={(user?.ability_points || 0) < 1}
+                        >
+                          <Ionicons name="add" size={20} color="#FFF" />
+                        </TouchableOpacity>
+                      )}
+                    </View>
+                  </Pressable>
+                );
+              })}
             </View>
           );
         })}

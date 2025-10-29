@@ -728,6 +728,96 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#8B5CF6',
   },
+  categoryContainer: {
+    marginBottom: 32,
+  },
+  categoryHeader: {
+    paddingVertical: 12,
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  categoryTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#8B5CF6',
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
+  abilityRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#1F2937',
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 8,
+    borderWidth: 1,
+    borderColor: '#374151',
+  },
+  abilityRowPressed: {
+    opacity: 0.7,
+  },
+  abilityNameSection: {
+    flex: 2,
+  },
+  abilityName: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#F9FAFB',
+  },
+  abilityTier: {
+    fontSize: 11,
+    color: '#8B5CF6',
+    marginTop: 2,
+  },
+  abilityProgressSection: {
+    flex: 2,
+    marginHorizontal: 12,
+  },
+  progressBarSmall: {
+    height: 6,
+    backgroundColor: '#374151',
+    borderRadius: 3,
+    overflow: 'hidden',
+    marginBottom: 4,
+  },
+  progressBarFillSmall: {
+    height: '100%',
+    backgroundColor: '#8B5CF6',
+    borderRadius: 3,
+  },
+  xpCounter: {
+    fontSize: 10,
+    color: '#9CA3AF',
+    textAlign: 'right',
+  },
+  abilityActionSection: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  levelUpButtonSmall: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#8B5CF6',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  levelUpButtonSmallDisabled: {
+    backgroundColor: '#6B7280',
+    opacity: 0.6,
+  },
+  maxBadgeSmall: {
+    backgroundColor: '#EF4444',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  maxBadgeSmallText: {
+    color: '#FFF',
+    fontSize: 11,
+    fontWeight: 'bold',
+  },
   placeholder: {
     backgroundColor: '#1F2937',
     padding: 40,

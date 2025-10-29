@@ -49,6 +49,15 @@ export default function SettingsScreen() {
         }
       }
       
+      // Delete all powers
+      const powersResponse = await fetch(`${API_URL}/api/powers/${user.id}`);
+      if (powersResponse.ok) {
+        const powers = await powersResponse.json();
+        for (const power of powers) {
+          await fetch(`${API_URL}/api/powers/${power.id}`, { method: 'DELETE' });
+        }
+      }
+      
       // Clear all shop items
       await fetch(`${API_URL}/api/shop/clear-all`, { method: 'DELETE' });
       
@@ -65,7 +74,7 @@ export default function SettingsScreen() {
       
       Alert.alert(
         '✅ Reset Complete', 
-        'All your data has been reset to default values:\n\n• Level: 1\n• XP: 0\n• Gold: 100\n• All Stats: 10\n\nYour app has been refreshed!',
+        'All your data has been reset to default values:\n\n• Level: 1\n• XP: 0\n• Gold: 100\n• AP: 5\n• All Stats: 10\n• Powers: Cleared\n\nYour app has been refreshed!',
         [
           {
             text: 'OK',

@@ -205,7 +205,24 @@ const styles = StyleSheet.create({
     color: '#9CA3AF',
     marginTop: 4,
   },
-  goldSection: {
+  levelGoldSection: {
+    alignItems: 'center',
+  },
+  levelContainer: {
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  levelLabel: {
+    fontSize: 14,
+    color: '#9CA3AF',
+    marginBottom: 4,
+  },
+  levelNumber: {
+    fontSize: 48,
+    fontWeight: 'bold',
+    color: '#8B5CF6',
+  },
+  goldContainer: {
     alignItems: 'center',
   },
   goldAmount: {
@@ -218,25 +235,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#9CA3AF',
     marginTop: 4,
-  },
-  levelCard: {
-    backgroundColor: '#1F2937',
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 16,
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#374151',
-  },
-  levelLabel: {
-    fontSize: 16,
-    color: '#9CA3AF',
-    marginBottom: 8,
-  },
-  levelNumber: {
-    fontSize: 48,
-    fontWeight: 'bold',
-    color: '#8B5CF6',
   },
   card: {
     borderRadius: 16,

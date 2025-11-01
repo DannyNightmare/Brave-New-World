@@ -146,54 +146,100 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 24,
     textAlign: 'center',
+    color: '#8B5CF6',
+    letterSpacing: 2,
   },
-  subtitle: {
+  xpSection: {
+    marginBottom: 32,
+  },
+  xpBarContainer: {
+    marginBottom: 8,
+  },
+  xpBar: {
+    height: 6,
+    backgroundColor: '#374151',
+    borderRadius: 3,
+    overflow: 'hidden',
+  },
+  xpFill: {
+    height: '100%',
+    backgroundColor: '#FCD34D',
+    borderRadius: 3,
+  },
+  xpCounter: {
+    fontSize: 12,
+    color: '#9CA3AF',
+    textAlign: 'right',
+  },
+  profileGoldSection: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 32,
+  },
+  profileImageContainer: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    overflow: 'hidden',
+    backgroundColor: '#1F2937',
+    borderWidth: 3,
+    borderColor: '#8B5CF6',
+  },
+  profileImage: {
+    width: '100%',
+    height: '100%',
+  },
+  profilePlaceholder: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#374151',
+  },
+  profilePlaceholderText: {
+    fontSize: 10,
+    color: '#9CA3AF',
+    marginTop: 4,
+  },
+  goldSection: {
+    alignItems: 'center',
+  },
+  goldAmount: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#FCD34D',
+    marginTop: 8,
+  },
+  goldLabel: {
+    fontSize: 14,
+    color: '#9CA3AF',
+    marginTop: 4,
+  },
+  levelCard: {
+    backgroundColor: '#1F2937',
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 16,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#374151',
+  },
+  levelLabel: {
     fontSize: 16,
-    marginBottom: 24,
+    color: '#9CA3AF',
+    marginBottom: 8,
+  },
+  levelNumber: {
+    fontSize: 48,
+    fontWeight: 'bold',
+    color: '#8B5CF6',
   },
   card: {
     borderRadius: 16,
     padding: 20,
     marginBottom: 16,
     borderWidth: 1,
-  },
-  levelHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  levelText: {
-    fontSize: 28,
-    fontWeight: 'bold',
-  },
-  goldContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 20,
-  },
-  goldText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#FCD34D',
-    marginLeft: 6,
-  },
-  xpContainer: {
-    marginTop: 8,
-  },
-  xpLabel: {
-    fontSize: 14,
-    marginBottom: 8,
-  },
-  xpBar: {
-    height: 12,
-    borderRadius: 6,
-    overflow: 'hidden',
-  },
-  xpFill: {
-    height: '100%',
   },
   cardTitle: {
     fontSize: 20,

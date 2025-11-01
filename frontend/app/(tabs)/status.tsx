@@ -83,18 +83,21 @@ export default function StatusScreen() {
             )}
           </TouchableOpacity>
 
-          {/* Gold - Right */}
-          <View style={styles.goldSection}>
-            <Ionicons name="logo-bitcoin" size={40} color="#FCD34D" />
-            <Text style={styles.goldAmount}>{user.gold}</Text>
-            <Text style={styles.goldLabel}>Gold</Text>
+          {/* Level and Gold - Right */}
+          <View style={styles.levelGoldSection}>
+            {/* Level */}
+            <View style={styles.levelContainer}>
+              <Text style={styles.levelLabel}>Level</Text>
+              <Text style={styles.levelNumber}>{user.level}</Text>
+            </View>
+            
+            {/* Gold */}
+            <View style={styles.goldContainer}>
+              <Ionicons name="logo-bitcoin" size={40} color="#FCD34D" />
+              <Text style={styles.goldAmount}>{user.gold}</Text>
+              <Text style={styles.goldLabel}>Gold</Text>
+            </View>
           </View>
-        </View>
-
-        {/* Level Display */}
-        <View style={styles.levelCard}>
-          <Text style={styles.levelLabel}>Level</Text>
-          <Text style={styles.levelNumber}>{user.level}</Text>
         </View>
 
         {/* Stats Card */}

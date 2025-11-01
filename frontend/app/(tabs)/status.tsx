@@ -1,13 +1,15 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity, Image, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUser } from '../../contexts/UserContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function StatusScreen() {
   const { user, loading } = useUser();
   const { colors } = useTheme();
+  const [profileImage, setProfileImage] = useState<string | null>(null);
 
   if (loading || !user) {
     return (
@@ -22,25 +24,77 @@ export default function StatusScreen() {
   const xpForNextLevel = user.level * 100;
   const xpPercentage = (user.xp / xpForNextLevel) * 100;
 
+  const pickImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    
+    if (status !== 'granted') {
+      Alert.alert('Permission Required', 'We need camera roll permissions to select an image.');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.8,
+    });
+
+    if (!result.canceled && result.assets[0]) {
+      const uri = result.assets[0].uri;
+      // Convert to base64
+      const response = await fetch(uri);
+      const blob = await response.blob();
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64data = reader.result as string;
+        setProfileImage(base64data);
+      };
+      reader.readAsDataURL(blob);
+    }
+  };
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['bottom']}>
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
-        {/* Level Card */}
-        <View style={[styles.card, { backgroundColor: colors.cardBackground, borderColor: colors.border }]}>
-          <View style={styles.levelHeader}>
-            <Text style={[styles.levelText, { color: colors.primary }]}>Level {user.level}</Text>
-            <View style={[styles.goldContainer, { backgroundColor: colors.border }]}>
-              <Ionicons name="logo-bitcoin" size={20} color="#FCD34D" />
-              <Text style={styles.goldText}>{user.gold}</Text>
+        {/* STATUS Title - Centered */}
+        <Text style={styles.title}>STATUS</Text>
+
+        {/* XP Bar Section */}
+        <View style={styles.xpSection}>
+          <View style={styles.xpBarContainer}>
+            <View style={styles.xpBar}>
+              <View style={[styles.xpFill, { width: `${xpPercentage}%` }]} />
             </View>
           </View>
-          
-          <View style={styles.xpContainer}>
-            <Text style={[styles.xpLabel, { color: colors.textSecondary }]}>XP: {user.xp} / {xpForNextLevel}</Text>
-            <View style={[styles.xpBar, { backgroundColor: colors.border }]}>
-              <View style={[styles.xpFill, { width: `${xpPercentage}%`, backgroundColor: colors.primary }]} />
-            </View>
+          <Text style={styles.xpCounter}>{user.xp} / {xpForNextLevel} XP</Text>
+        </View>
+
+        {/* Profile and Gold Section */}
+        <View style={styles.profileGoldSection}>
+          {/* Profile Image - Left */}
+          <TouchableOpacity style={styles.profileImageContainer} onPress={pickImage}>
+            {profileImage ? (
+              <Image source={{ uri: profileImage }} style={styles.profileImage} />
+            ) : (
+              <View style={styles.profilePlaceholder}>
+                <Ionicons name="person" size={60} color="#6B7280" />
+                <Text style={styles.profilePlaceholderText}>Tap to add</Text>
+              </View>
+            )}
+          </TouchableOpacity>
+
+          {/* Gold - Right */}
+          <View style={styles.goldSection}>
+            <Ionicons name="logo-bitcoin" size={40} color="#FCD34D" />
+            <Text style={styles.goldAmount}>{user.gold}</Text>
+            <Text style={styles.goldLabel}>Gold</Text>
           </View>
+        </View>
+
+        {/* Level Display */}
+        <View style={styles.levelCard}>
+          <Text style={styles.levelLabel}>Level</Text>
+          <Text style={styles.levelNumber}>{user.level}</Text>
         </View>
 
         {/* Stats Card */}

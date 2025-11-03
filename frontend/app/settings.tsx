@@ -169,6 +169,17 @@ export default function SettingsScreen() {
         <View style={styles.section}>
           <Text style={[styles.sectionTitle, { color: colors.textSecondary }]}>General</Text>
           
+          <TouchableOpacity 
+            style={[styles.settingItem, { backgroundColor: colors.cardBackground, borderColor: colors.border }]}
+            onPress={() => router.push('/synthesis')}
+          >
+            <View style={styles.settingLeft}>
+              <Ionicons name="git-merge-outline" size={24} color={colors.primary} />
+              <Text style={[styles.settingText, { color: colors.text }]}>Synthesis</Text>
+            </View>
+            <Ionicons name="chevron-forward" size={24} color={colors.textSecondary} />
+          </TouchableOpacity>
+
           <TouchableOpacity style={[styles.settingItem, { backgroundColor: colors.cardBackground, borderColor: colors.border }]}>
             <View style={styles.settingLeft}>
               <Ionicons name="language-outline" size={24} color={colors.primary} />

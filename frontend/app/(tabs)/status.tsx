@@ -547,6 +547,26 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: '#FFF',
   },
+  iconPickerButton: {
+    backgroundColor: '#374151',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+    alignItems: 'center',
+  },
+  iconPreview: {
+    width: 60,
+    height: 60,
+    borderRadius: 12,
+  },
+  iconPlaceholder: {
+    alignItems: 'center',
+  },
+  iconPlaceholderText: {
+    fontSize: 12,
+    color: '#9CA3AF',
+    marginTop: 8,
+  },
   createButton: {
     backgroundColor: '#8B5CF6',
     padding: 16,

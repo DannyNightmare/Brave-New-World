@@ -214,31 +214,12 @@ const styles = StyleSheet.create({
     color: '#9CA3AF',
     marginTop: 4,
   },
-  card: {
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 16,
-    borderWidth: 1,
-  },
-  cardTitle: {
-    fontSize: 20,
+  statsTitle: {
+    fontSize: 32,
     fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  statRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  statItem: {
-    alignItems: 'center',
-  },
-  statLabel: {
-    fontSize: 12,
-    marginTop: 8,
-  },
-  statValue: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginTop: 4,
+    textAlign: 'center',
+    color: '#8B5CF6',
+    letterSpacing: 2,
+    marginTop: 16,
   },
 });

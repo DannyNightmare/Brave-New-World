@@ -191,7 +191,13 @@ export default function StatusScreen() {
             
             {/* Gold */}
             <View style={styles.goldContainer}>
-              <Ionicons name="logo-bitcoin" size={40} color="#FCD34D" />
+              <TouchableOpacity onPress={pickGoldIcon}>
+                {goldIcon ? (
+                  <Image source={{ uri: goldIcon }} style={styles.goldIconImage} />
+                ) : (
+                  <Ionicons name="logo-bitcoin" size={40} color="#FCD34D" />
+                )}
+              </TouchableOpacity>
               <Text style={styles.goldAmount}>{user.gold}</Text>
               <Text style={styles.goldLabel}>Gold</Text>
             </View>
@@ -215,7 +221,14 @@ export default function StatusScreen() {
           const percentage = (stat.value / stat.maxValue) * 100;
           return (
             <View key={stat.id} style={styles.customStatRow}>
-              <Text style={styles.customStatName}>{stat.name}</Text>
+              <View style={styles.statNameRow}>
+                {stat.icon ? (
+                  <Image source={{ uri: stat.icon }} style={styles.statIcon} />
+                ) : (
+                  <View style={styles.statIconPlaceholder} />
+                )}
+                <Text style={styles.customStatName}>{stat.name}</Text>
+              </View>
               <View style={styles.customStatBarContainer}>
                 <View style={styles.customStatBar}>
                   <View 

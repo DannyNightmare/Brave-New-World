@@ -406,6 +406,11 @@ const styles = StyleSheet.create({
   goldContainer: {
     alignItems: 'center',
   },
+  goldIconImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+  },
   goldAmount: {
     fontSize: 32,
     fontWeight: 'bold',
@@ -450,11 +455,26 @@ const styles = StyleSheet.create({
   customStatRow: {
     marginBottom: 20,
   },
+  statNameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  statIcon: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    marginRight: 8,
+  },
+  statIconPlaceholder: {
+    width: 24,
+    height: 24,
+    marginRight: 8,
+  },
   customStatName: {
     fontSize: 16,
     fontWeight: '600',
     color: '#F9FAFB',
-    marginBottom: 8,
   },
   customStatBarContainer: {
     marginBottom: 4,

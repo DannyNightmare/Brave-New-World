@@ -100,30 +100,8 @@ export default function StatusScreen() {
           </View>
         </View>
 
-        {/* Stats Card */}
-        <View style={[styles.card, { backgroundColor: colors.cardBackground, borderColor: colors.border }]}>
-          <Text style={[styles.cardTitle, { color: colors.text }]}>Character Stats</Text>
-          
-          <View style={styles.statRow}>
-            <View style={styles.statItem}>
-              <Ionicons name="barbell" size={24} color="#EF4444" />
-              <Text style={[styles.statLabel, { color: colors.textSecondary }]}>Strength</Text>
-              <Text style={[styles.statValue, { color: colors.text }]}>{user.strength}</Text>
-            </View>
-            
-            <View style={styles.statItem}>
-              <Ionicons name="bulb" size={24} color="#3B82F6" />
-              <Text style={[styles.statLabel, { color: colors.textSecondary }]}>Intelligence</Text>
-              <Text style={[styles.statValue, { color: colors.text }]}>{user.intelligence}</Text>
-            </View>
-            
-            <View style={styles.statItem}>
-              <Ionicons name="heart" size={24} color="#10B981" />
-              <Text style={[styles.statLabel, { color: colors.textSecondary }]}>Vitality</Text>
-              <Text style={[styles.statValue, { color: colors.text }]}>{user.vitality}</Text>
-            </View>
-          </View>
-        </View>
+        {/* Stats Title - Centered */}
+        <Text style={styles.statsTitle}>STATS</Text>
       </ScrollView>
     </SafeAreaView>
   );

@@ -10,13 +10,15 @@ export default function StatusScreen() {
   const { user, loading } = useUser();
   const { colors } = useTheme();
   const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [goldIcon, setGoldIcon] = useState<string | null>(null);
   const [addStatModalVisible, setAddStatModalVisible] = useState(false);
-  const [customStats, setCustomStats] = useState<Array<{id: string, name: string, color: string, value: number, maxValue: number}>>([]);
+  const [customStats, setCustomStats] = useState<Array<{id: string, name: string, color: string, value: number, maxValue: number, icon?: string}>>([]);
   const [newStat, setNewStat] = useState({
     name: '',
     color: '#8B5CF6',
     value: 0,
     maxValue: 100,
+    icon: '',
   });
 
   if (loading || !user) {

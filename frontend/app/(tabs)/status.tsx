@@ -131,10 +131,11 @@ export default function StatusScreen() {
       color: newStat.color,
       value: newStat.value,
       maxValue: newStat.maxValue,
+      icon: newStat.icon,
     };
 
     setCustomStats([...customStats, stat]);
-    setNewStat({ name: '', color: '#8B5CF6', value: 0, maxValue: 100 });
+    setNewStat({ name: '', color: '#8B5CF6', value: 0, maxValue: 100, icon: '' });
     setAddStatModalVisible(false);
     Alert.alert('Success', 'Custom stat added!');
   };

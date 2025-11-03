@@ -262,6 +262,18 @@ export default function StatusScreen() {
               onChangeText={(text) => setNewStat({ ...newStat, name: text })}
             />
 
+            <Text style={styles.label}>Stat Icon (Optional)</Text>
+            <TouchableOpacity style={styles.iconPickerButton} onPress={pickStatIcon}>
+              {newStat.icon ? (
+                <Image source={{ uri: newStat.icon }} style={styles.iconPreview} />
+              ) : (
+                <View style={styles.iconPlaceholder}>
+                  <Ionicons name="image" size={24} color="#6B7280" />
+                  <Text style={styles.iconPlaceholderText}>Tap to add icon</Text>
+                </View>
+              )}
+            </TouchableOpacity>
+
             <Text style={styles.label}>Bar Gauge Color</Text>
             <View style={styles.colorGrid}>
               {colorOptions.map((colorOption) => (

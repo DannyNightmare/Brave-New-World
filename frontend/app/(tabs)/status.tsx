@@ -140,8 +140,88 @@ export default function StatusScreen() {
         </View>
 
         {/* Stats Title - Centered */}
-        <Text style={styles.statsTitle}>STATS</Text>
+        <View style={styles.statsHeader}>
+          <Text style={styles.statsTitle}>STATS</Text>
+          <TouchableOpacity 
+            style={styles.addStatButton}
+            onPress={() => setAddStatModalVisible(true)}
+          >
+            <Ionicons name="add-circle" size={20} color="#8B5CF6" />
+            <Text style={styles.addStatButtonText}>Add Stat</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Custom Stats Display */}
+        {customStats.map((stat) => {
+          const percentage = (stat.value / stat.maxValue) * 100;
+          return (
+            <View key={stat.id} style={styles.customStatRow}>
+              <Text style={styles.customStatName}>{stat.name}</Text>
+              <View style={styles.customStatBarContainer}>
+                <View style={styles.customStatBar}>
+                  <View 
+                    style={[
+                      styles.customStatBarFill, 
+                      { width: `${percentage}%`, backgroundColor: stat.color }
+                    ]} 
+                  />
+                </View>
+                <Text style={styles.customStatCounter}>
+                  {stat.value} / {stat.maxValue}
+                </Text>
+              </View>
+            </View>
+          );
+        })}
       </ScrollView>
+
+      {/* Add Stat Modal */}
+      <Modal visible={addStatModalVisible} animationType="slide" transparent={true}>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Add Custom Stat</Text>
+
+            <Text style={styles.label}>Stat Name</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="e.g., Endurance, Charisma"
+              placeholderTextColor="#6B7280"
+              value={newStat.name}
+              onChangeText={(text) => setNewStat({ ...newStat, name: text })}
+            />
+
+            <Text style={styles.label}>Bar Gauge Color</Text>
+            <View style={styles.colorGrid}>
+              {colorOptions.map((colorOption) => (
+                <TouchableOpacity
+                  key={colorOption.value}
+                  style={[
+                    styles.colorOption,
+                    { backgroundColor: colorOption.value },
+                    newStat.color === colorOption.value && styles.colorOptionSelected
+                  ]}
+                  onPress={() => setNewStat({ ...newStat, color: colorOption.value })}
+                >
+                  {newStat.color === colorOption.value && (
+                    <Ionicons name="checkmark" size={24} color="#FFF" />
+                  )}
+                </TouchableOpacity>
+              ))}
+            </View>
+
+            <TouchableOpacity style={styles.createButton} onPress={addCustomStat}>
+              <Text style={styles.createButtonText}>Add Stat</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={styles.cancelButton} 
+              onPress={() => setAddStatModalVisible(false)}
+            >
+              <Text style={styles.cancelButtonText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }

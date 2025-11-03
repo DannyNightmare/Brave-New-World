@@ -61,6 +61,37 @@ export default function StatusScreen() {
     }
   };
 
+  const addCustomStat = () => {
+    if (!newStat.name.trim()) {
+      Alert.alert('Error', 'Please enter a stat name');
+      return;
+    }
+
+    const stat = {
+      id: Date.now().toString(),
+      name: newStat.name,
+      color: newStat.color,
+      value: newStat.value,
+      maxValue: newStat.maxValue,
+    };
+
+    setCustomStats([...customStats, stat]);
+    setNewStat({ name: '', color: '#8B5CF6', value: 0, maxValue: 100 });
+    setAddStatModalVisible(false);
+    Alert.alert('Success', 'Custom stat added!');
+  };
+
+  const colorOptions = [
+    { name: 'Purple', value: '#8B5CF6' },
+    { name: 'Red', value: '#EF4444' },
+    { name: 'Blue', value: '#3B82F6' },
+    { name: 'Green', value: '#10B981' },
+    { name: 'Yellow', value: '#FCD34D' },
+    { name: 'Pink', value: '#EC4899' },
+    { name: 'Orange', value: '#F97316' },
+    { name: 'Cyan', value: '#06B6D4' },
+  ];
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['bottom']}>
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>

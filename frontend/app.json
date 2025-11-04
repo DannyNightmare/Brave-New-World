@@ -47,7 +47,8 @@
     "extra": {
       "eas": {
         "projectId": "gamelife-rpg"
-      }
+      },
+      "EXPO_PUBLIC_BACKEND_URL": process.env.EXPO_PUBLIC_BACKEND_URL
     }
   }
 }

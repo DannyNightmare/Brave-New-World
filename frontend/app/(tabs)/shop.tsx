@@ -177,10 +177,24 @@ export default function ShopScreen() {
     }
   };
 
+  const fetchUserCategories = async () => {
+    if (!user?.id) return;
+    try {
+      const response = await fetch(`${API_URL}/api/users/${user.id}/categories`);
+      const data = await response.json();
+      setUserCategories(data || {});
+    } catch (error) {
+      console.error('Failed to fetch user categories:', error);
+    }
+  };
+
   useEffect(() => {
     fetchShopItems();
     fetchPowerCategories();
-  }, []);
+    if (user?.id) {
+      fetchUserCategories();
+    }
+  }, [user?.id]);
 
   const handleItemLongPress = (item: ShopItem) => {
     setSelectedItem(item);

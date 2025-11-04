@@ -294,6 +294,7 @@ export default function PowersScreen() {
 
   useEffect(() => {
     fetchPowers();
+    fetchUserCategories();
   }, [user]);
 
   const toggleCategory = (category: string) => {

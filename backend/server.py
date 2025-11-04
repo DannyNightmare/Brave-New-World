@@ -428,6 +428,24 @@ async def delete_power(power_id: str):
         raise HTTPException(status_code=404, detail="Power not found")
     return {"message": "Power deleted"}
 
+# User Categories endpoints
+@api_router.post("/users/{user_id}/categories")
+async def save_user_categories(user_id: str, categories: dict):
+    """Save user's custom categories and subcategories"""
+    await db.users.update_one(
+        {"id": user_id},
+        {"$set": {"custom_categories": categories}}
+    )
+    return {"message": "Categories saved", "categories": categories}
+
+@api_router.get("/users/{user_id}/categories")
+async def get_user_categories(user_id: str):
+    """Get user's custom categories"""
+    user = await db.users.find_one({"id": user_id})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user.get("custom_categories", {})
+
 @api_router.post("/powers/{power_id}/levelup")
 async def level_up_power(power_id: str):
     power = await db.powers.find_one({"id": power_id})

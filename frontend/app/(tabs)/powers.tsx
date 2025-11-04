@@ -631,6 +631,15 @@ export default function PowersScreen() {
               </TouchableOpacity>
 
               <TouchableOpacity 
+                style={[styles.completeButton, Object.keys(userCategories).length === 0 && styles.createButtonDisabled]}
+                disabled={Object.keys(userCategories).length === 0}
+                onPress={saveUserCategories}
+              >
+                <Ionicons name="checkmark-done" size={20} color="#FFF" />
+                <Text style={styles.completeButtonText}>Complete - Save to Shop</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity 
                 style={styles.cancelButton} 
                 onPress={() => setCategoryManagerVisible(false)}
               >

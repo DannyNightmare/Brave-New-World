@@ -295,7 +295,22 @@ export default function PowersScreen() {
     return (
       <SafeAreaView style={styles.container} edges={['bottom']}>
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
-          <Text style={styles.subtitle}>Your abilities and skills</Text>
+          <View style={styles.header}>
+            <Text style={styles.subtitle}>Your abilities and skills</Text>
+            <View style={styles.headerBadges}>
+              <View style={styles.apBadge}>
+                <Ionicons name="diamond" size={16} color="#F59E0B" />
+                <Text style={styles.apText}>{user?.ability_points || 0} AP</Text>
+              </View>
+              <TouchableOpacity 
+                style={styles.categoryButton}
+                onPress={() => setCategoryManagerVisible(true)}
+              >
+                <Ionicons name="filing" size={16} color="#8B5CF6" />
+                <Text style={styles.categoryButtonText}>Categories</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
           
           <View style={styles.placeholder}>
             <Ionicons name="flash-off" size={48} color="#6B7280" />
@@ -303,6 +318,9 @@ export default function PowersScreen() {
             <Text style={styles.placeholderSubtext}>Purchase items marked as "Add to Powers" from the Shop</Text>
           </View>
         </ScrollView>
+
+        {/* Category Manager Modal - Must be outside ScrollView but inside SafeAreaView */}
+        {/* Copy the entire Category Manager Modal and Action Modals here */}
       </SafeAreaView>
     );
   }

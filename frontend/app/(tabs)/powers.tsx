@@ -291,10 +291,11 @@ export default function PowersScreen() {
     );
   }
 
-  if (powers.length === 0) {
-    return (
-      <SafeAreaView style={styles.container} edges={['bottom']}>
-        <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
+  // Render content based on powers state
+  const renderContent = () => {
+    if (powers.length === 0) {
+      return (
+        <>
           <View style={styles.header}>
             <Text style={styles.subtitle}>Your abilities and skills</Text>
             <View style={styles.headerBadges}>
@@ -317,17 +318,12 @@ export default function PowersScreen() {
             <Text style={styles.placeholderText}>No powers yet!</Text>
             <Text style={styles.placeholderSubtext}>Purchase items marked as "Add to Powers" from the Shop</Text>
           </View>
-        </ScrollView>
+        </>
+      );
+    }
 
-        {/* Category Manager Modal - Must be outside ScrollView but inside SafeAreaView */}
-        {/* Copy the entire Category Manager Modal and Action Modals here */}
-      </SafeAreaView>
-    );
-  }
-
-  return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
-      <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
+    return (
+      <>
         <View style={styles.header}>
           <Text style={styles.subtitle}>Your abilities and skills</Text>
           <View style={styles.headerBadges}>
@@ -415,6 +411,14 @@ export default function PowersScreen() {
             </View>
           );
         })}
+      </>
+    );
+  };
+
+  return (
+    <SafeAreaView style={styles.container} edges={['bottom']}>
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
+        {renderContent()}
       </ScrollView>
 
       {/* Edit Power Modal */}

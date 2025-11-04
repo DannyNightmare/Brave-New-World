@@ -517,6 +517,20 @@ export default function ShopScreen() {
           ))}
         </ScrollView>
 
+        {/* Sub-categories display */}
+        {selectedCategory !== 'all' && userCategories[selectedCategory] && userCategories[selectedCategory].length > 0 && (
+          <View style={styles.subCategoriesSection}>
+            <Text style={styles.subCategoriesTitle}>Sub-categories:</Text>
+            <View style={styles.subCategoriesChips}>
+              {userCategories[selectedCategory].map((subCat, idx) => (
+                <View key={idx} style={styles.subCategoryChip}>
+                  <Text style={styles.subCategoryChipText}>{subCat}</Text>
+                </View>
+              ))}
+            </View>
+          </View>
+        )}
+
         {filteredItems.map(item => (
           <ShopItemCard
             key={item.id}

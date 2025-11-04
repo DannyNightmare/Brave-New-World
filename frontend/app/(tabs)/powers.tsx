@@ -1206,6 +1206,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
+  completeButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#10B981',
+    padding: 16,
+    borderRadius: 12,
+    marginTop: 10,
+    gap: 8,
+  },
+  completeButtonText: {
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
   categoryManagerContent: {
     backgroundColor: '#1F2937',
     borderRadius: 16,

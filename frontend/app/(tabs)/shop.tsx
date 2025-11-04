@@ -446,6 +446,9 @@ export default function ShopScreen() {
   const itemCategories = Array.from(new Set(items.map(item => item.category || 'general')));
   const userCategoryKeys = Object.keys(userCategories);
   const categories = ['all', ...itemCategories, ...userCategoryKeys];
+  console.log('[Shop] Item categories:', itemCategories);
+  console.log('[Shop] User category keys:', userCategoryKeys);
+  console.log('[Shop] Final categories:', categories);
   
   // Filter items based on category and search query
   const filteredItems = items.filter(item => {

@@ -114,6 +114,7 @@ export default function ShopScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [existingPowerCategories, setExistingPowerCategories] = useState<string[]>([]);
   const [customPowerCategory, setCustomPowerCategory] = useState('');
+  const [userCategories, setUserCategories] = useState<{[key: string]: string[]}>({});
   const [newItem, setNewItem] = useState({
     name: '',
     description: '',

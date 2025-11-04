@@ -221,6 +221,28 @@ export default function PowersScreen() {
     }
   };
 
+  const saveUserCategories = async () => {
+    if (!user?.id) return;
+
+    try {
+      const response = await fetch(`${API_URL}/api/users/${user.id}/categories`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userCategories),
+      });
+
+      if (response.ok) {
+        setCategoryManagerVisible(false);
+        Alert.alert('Success', 'Categories saved! They will now appear in the Shop page.');
+      } else {
+        Alert.alert('Error', 'Failed to save categories');
+      }
+    } catch (error) {
+      console.error('Failed to save categories:', error);
+      Alert.alert('Error', 'Failed to save categories');
+    }
+  };
+
   const removeSubAbility = (index: number) => {
     setEditForm({
       ...editForm,

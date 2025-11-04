@@ -178,10 +178,15 @@ export default function ShopScreen() {
   };
 
   const fetchUserCategories = async () => {
-    if (!user?.id) return;
+    if (!user?.id) {
+      console.log('No user ID, skipping category fetch');
+      return;
+    }
     try {
+      console.log('Fetching user categories for:', user.id);
       const response = await fetch(`${API_URL}/api/users/${user.id}/categories`);
       const data = await response.json();
+      console.log('User categories fetched:', data);
       setUserCategories(data || {});
     } catch (error) {
       console.error('Failed to fetch user categories:', error);

@@ -61,6 +61,19 @@ export default function PowersScreen() {
     }
   };
 
+  const fetchUserCategories = async () => {
+    if (!user?.id) return;
+    
+    try {
+      const response = await fetch(`${API_URL}/api/users/${user.id}/categories`);
+      const data = await response.json();
+      console.log('Fetched user categories:', data);
+      setUserCategories(data || {});
+    } catch (error) {
+      console.error('Failed to fetch user categories:', error);
+    }
+  };
+
   const levelUpPower = async (powerId: string, powerName: string, nextTierAbility?: string) => {
     try {
       const response = await fetch(`${API_URL}/api/powers/${powerId}/levelup`, {

@@ -62,15 +62,19 @@ export default function PowersScreen() {
   };
 
   const fetchUserCategories = async () => {
-    if (!user?.id) return;
+    if (!user?.id) {
+      console.log('[Powers] No user ID, skipping category fetch');
+      return;
+    }
     
     try {
+      console.log('[Powers] Fetching user categories for:', user.id);
       const response = await fetch(`${API_URL}/api/users/${user.id}/categories`);
       const data = await response.json();
-      console.log('Fetched user categories:', data);
+      console.log('[Powers] Fetched user categories:', data);
       setUserCategories(data || {});
     } catch (error) {
-      console.error('Failed to fetch user categories:', error);
+      console.error('[Powers] Failed to fetch user categories:', error);
     }
   };
 

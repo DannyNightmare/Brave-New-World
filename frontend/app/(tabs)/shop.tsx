@@ -437,8 +437,10 @@ export default function ShopScreen() {
     }
   };
 
-  // Get unique categories from items
-  const categories = ['all', ...Array.from(new Set(items.map(item => item.category || 'general')))];
+  // Get unique categories from items + user-created categories
+  const itemCategories = Array.from(new Set(items.map(item => item.category || 'general')));
+  const userCategoryKeys = Object.keys(userCategories);
+  const categories = ['all', ...itemCategories, ...userCategoryKeys];
   
   // Filter items based on category and search query
   const filteredItems = items.filter(item => {

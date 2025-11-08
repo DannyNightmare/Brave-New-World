@@ -5,7 +5,7 @@ import { useUser } from '../../contexts/UserContext';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
-const API_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
+const API_URL = 'https://liferealm-rpg.preview.emergentagent.com';
 
 interface ShopItem {
   id: string;

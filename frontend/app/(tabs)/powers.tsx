@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Pressable, Activi
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUser } from '../../contexts/UserContext';
 import { Ionicons } from '@expo/vector-icons';
-const API_URL = process.env.EXPO_PUBLIC_BACKEND_URL || '';
+const API_URL = 'https://liferealm-rpg.preview.emergentagent.com';
 
 interface PowerItem {
   id: string;

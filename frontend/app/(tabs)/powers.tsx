@@ -317,7 +317,11 @@ export default function PowersScreen() {
     return acc;
   }, {} as { [key: string]: PowerItem[] });
 
-  const categories = Object.keys(groupedPowers).sort();
+  // Combine categories from powers and user-created categories
+  const powerCategories = Object.keys(groupedPowers);
+  const userCreatedCategories = Object.keys(userCategories);
+  const allCategories = [...new Set([...powerCategories, ...userCreatedCategories])];
+  const categories = allCategories.sort();
 
   if (loading) {
     return (

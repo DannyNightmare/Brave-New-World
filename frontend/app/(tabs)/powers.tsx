@@ -384,12 +384,14 @@ export default function PowersScreen() {
           
           return (
             <View key={category} style={styles.categoryContainer}>
-              {/* Category Header - Centered */}
+              {/* Category Header - Centered with lines */}
               <Pressable
                 onLongPress={() => handleCategoryLongPress(category)}
                 style={styles.categoryHeader}
               >
+                <View style={styles.categoryHeaderLine} />
                 <Text style={styles.categoryTitle}>{category}</Text>
+                <View style={styles.categoryHeaderLine} />
               </Pressable>
 
               {/* Powers under this category */}

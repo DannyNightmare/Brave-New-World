@@ -725,29 +725,61 @@ export default function ShopScreen() {
                 </View>
               )}
 
-              {/* Power Tier and Max Level - Only show if is_power is checked */}
+              {/* Category and Subcategory - Only show if is_power is checked */}
               {newItem.is_power && (
                 <>
-                  <Text style={styles.label}>Power Tier</Text>
-                  <View style={styles.powerTierContainer}>
-                    {['Base', 'Peak Human', 'Enhanced', 'Superhuman', 'Absolute'].map((tier) => (
-                      <TouchableOpacity
-                        key={tier}
-                        style={[
-                          styles.tierOption,
-                          newItem.power_tier === tier && styles.tierOptionSelected,
-                        ]}
-                        onPress={() => setNewItem({ ...newItem, power_tier: tier })}
-                      >
-                        <Text style={[
-                          styles.tierOptionText,
-                          newItem.power_tier === tier && styles.tierOptionTextSelected
-                        ]}>
-                          {tier}
-                        </Text>
-                      </TouchableOpacity>
-                    ))}
+                  <Text style={styles.label}>Category</Text>
+                  <View style={styles.categoryDropdownContainer}>
+                    {Object.keys(userCategories).length === 0 ? (
+                      <Text style={styles.noCategoriesText}>No categories yet. Create categories in Powers page.</Text>
+                    ) : (
+                      <View style={styles.categoryOptionsContainer}>
+                        {Object.keys(userCategories).map((category) => (
+                          <TouchableOpacity
+                            key={category}
+                            style={[
+                              styles.categoryOption,
+                              newItem.power_category === category && styles.categoryOptionSelected,
+                            ]}
+                            onPress={() => setNewItem({ ...newItem, power_category: category })}
+                          >
+                            <Text style={[
+                              styles.categoryOptionText,
+                              newItem.power_category === category && styles.categoryOptionTextSelected
+                            ]}>
+                              {category}
+                            </Text>
+                          </TouchableOpacity>
+                        ))}
+                      </View>
+                    )}
                   </View>
+
+                  {/* Subcategory dropdown - Only show if selected category has subcategories */}
+                  {newItem.power_category && userCategories[newItem.power_category]?.length > 0 && (
+                    <>
+                      <Text style={styles.label}>Subcategory (Optional)</Text>
+                      <View style={styles.subcategoryOptionsContainer}>
+                        {userCategories[newItem.power_category].map((subcat) => (
+                          <TouchableOpacity
+                            key={subcat}
+                            style={[
+                              styles.subcategoryOption,
+                              newItem.power_subcategory === subcat && styles.subcategoryOptionSelected,
+                            ]}
+                            onPress={() => setNewItem({ ...newItem, power_subcategory: subcat })}
+                          >
+                            <Text style={[
+                              styles.subcategoryOptionText,
+                              newItem.power_subcategory === subcat && styles.subcategoryOptionTextSelected
+                            ]}>
+                              {subcat}
+                            </Text>
+                          </TouchableOpacity>
+                        ))}
+                      </View>
+                    </>
+                  )}
 
                   <Text style={styles.label}>Max Level</Text>
                   <TextInput

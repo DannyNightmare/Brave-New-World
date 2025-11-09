@@ -118,6 +118,7 @@ class PowerItem(BaseModel):
     name: str
     description: str
     power_category: str  # e.g., "Physical Abilities", "Mental Abilities"
+    power_subcategory: Optional[str] = None  # e.g., "Strength", "Speed"
     power_tier: str = "Base"  # "Base", "Peak Human", "Enhanced", "Superhuman", "Absolute"
     current_level: int = 1  # Current level of the power
     max_level: int = 5  # Maximum level before needing to upgrade tier

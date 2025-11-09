@@ -410,7 +410,12 @@ export default function PowersScreen() {
                   >
                     {/* Ability Name */}
                     <View style={styles.abilityNameSection}>
-                      <Text style={styles.abilityName}>{power.name}</Text>
+                      <View style={styles.abilityNameRow}>
+                        <Text style={styles.abilityName}>{power.name}</Text>
+                        <View style={styles.levelBadge}>
+                          <Text style={styles.levelBadgeText}>Lv.{power.current_level}</Text>
+                        </View>
+                      </View>
                       <Text style={styles.abilityTier}>{power.power_tier}</Text>
                     </View>
 

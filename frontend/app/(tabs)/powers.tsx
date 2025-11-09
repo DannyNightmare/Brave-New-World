@@ -248,7 +248,9 @@ export default function PowersScreen() {
 
       if (response.ok) {
         setCategoryManagerVisible(false);
-        Alert.alert('Success', 'Categories saved! They will now appear in the Shop page.');
+        // Refresh categories to show them immediately
+        await fetchUserCategories();
+        Alert.alert('Success', 'Categories saved! They are now visible on the Powers page.');
       } else {
         Alert.alert('Error', 'Failed to save categories');
       }

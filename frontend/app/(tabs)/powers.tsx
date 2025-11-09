@@ -547,6 +547,11 @@ export default function PowersScreen() {
                   </Pressable>
                 );
               })}
+                      </View>
+                    );
+                  })}
+                </>
+              )}
             </View>
           );
         })}

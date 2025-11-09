@@ -1488,4 +1488,17 @@ const styles = StyleSheet.create({
     color: '#6B7280',
     fontStyle: 'italic',
   },
+  subcategorySection: {
+    marginTop: 16,
+    marginBottom: 16,
+  },
+  subcategoryTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#A78BFA',
+    marginBottom: 12,
+    paddingLeft: 8,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
 });

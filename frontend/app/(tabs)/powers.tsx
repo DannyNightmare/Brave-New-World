@@ -803,9 +803,16 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   categoryHeader: {
-    paddingVertical: 12,
+    flexDirection: 'row',
     alignItems: 'center',
+    paddingVertical: 12,
     marginBottom: 16,
+    gap: 16,
+  },
+  categoryHeaderLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#8B5CF6',
   },
   categoryTitle: {
     fontSize: 20,
@@ -814,6 +821,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textTransform: 'uppercase',
     letterSpacing: 1,
+    paddingHorizontal: 8,
   },
   abilityRow: {
     flexDirection: 'row',

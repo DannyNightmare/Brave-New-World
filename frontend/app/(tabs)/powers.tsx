@@ -363,7 +363,6 @@ export default function PowersScreen() {
     return (
       <>
         <View style={styles.header}>
-          <Text style={styles.subtitle}>Your abilities and skills</Text>
           <View style={styles.headerBadges}>
             <View style={styles.apBadge}>
               <Ionicons name="diamond" size={16} color="#F59E0B" />

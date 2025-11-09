@@ -382,7 +382,7 @@ export default function PowersScreen() {
         </View>
 
         {categories.map((category) => {
-          const categoryPowers = groupedPowers[category];
+          const categoryPowers = groupedPowers[category] || [];
           
           return (
             <View key={category} style={styles.categoryContainer}>
@@ -397,6 +397,11 @@ export default function PowersScreen() {
               </Pressable>
 
               {/* Powers under this category */}
+              {categoryPowers.length === 0 ? (
+                <View style={styles.emptyCategoryContainer}>
+                  <Text style={styles.emptyCategoryText}>No abilities in this category yet</Text>
+                </View>
+              ) : null}
               {categoryPowers.map((power) => {
                 const isMaxLevel = power.current_level >= power.max_level;
                 const progress = (power.current_level / power.max_level) * 100;

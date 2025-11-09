@@ -76,6 +76,7 @@ class ShopItem(BaseModel):
     image: Optional[str] = None  # Base64 encoded image
     is_power: bool = False  # Whether this item appears in Powers tab
     power_category: Optional[str] = None  # Category in Powers tab (e.g., "Physical Abilities")
+    power_subcategory: Optional[str] = None  # Subcategory in Powers tab (e.g., "Strength", "Speed")
     power_tier: Optional[str] = None  # Tier: "Base", "Peak Human", "Enhanced", "Superhuman", "Absolute"
     power_max_level: Optional[int] = None  # Maximum level for this power
     next_tier_ability: Optional[str] = None  # Name of the ability that unlocks when this is maxed
@@ -91,6 +92,7 @@ class ShopItemCreate(BaseModel):
     image: Optional[str] = None
     is_power: bool = False
     power_category: Optional[str] = None
+    power_subcategory: Optional[str] = None
     power_tier: Optional[str] = None
     power_max_level: Optional[int] = None
     next_tier_ability: Optional[str] = None

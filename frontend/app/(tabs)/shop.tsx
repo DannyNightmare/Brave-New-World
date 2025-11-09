@@ -556,23 +556,27 @@ export default function ShopScreen() {
           style={styles.categoryTabs}
           contentContainerStyle={styles.categoryTabsContent}
         >
-          {categories.map(category => (
-            <TouchableOpacity
-              key={category}
-              style={[
-                styles.categoryTab,
-                selectedCategory === category && styles.categoryTabSelected,
-              ]}
-              onPress={() => setSelectedCategory(category)}
-            >
-              <Text style={[
-                styles.categoryTabText,
-                selectedCategory === category && styles.categoryTabTextSelected
-              ]}>
-                {category === 'all' ? 'All' : category.charAt(0).toUpperCase() + category.slice(1)}
-              </Text>
-            </TouchableOpacity>
-          ))}
+          {categories.map(category => {
+            const isUserCategory = userCategoryKeys.includes(category);
+            return (
+              <TouchableOpacity
+                key={category}
+                style={[
+                  styles.categoryTab,
+                  selectedCategory === category && styles.categoryTabSelected,
+                ]}
+                onPress={() => setSelectedCategory(category)}
+                onLongPress={isUserCategory ? () => deleteCategory(category) : undefined}
+              >
+                <Text style={[
+                  styles.categoryTabText,
+                  selectedCategory === category && styles.categoryTabTextSelected
+                ]}>
+                  {category === 'all' ? 'All' : category.charAt(0).toUpperCase() + category.slice(1)}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
         </ScrollView>
 
         {/* Sub-categories display */}

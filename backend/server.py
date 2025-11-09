@@ -382,6 +382,7 @@ async def purchase_item(purchase: PurchaseRequest):
             name=item["name"],
             description=item["description"],
             power_category=item["power_category"],
+            power_subcategory=item.get("power_subcategory"),
             power_tier=item.get("power_tier", "Base"),
             current_level=1,
             max_level=item.get("power_max_level", 5),

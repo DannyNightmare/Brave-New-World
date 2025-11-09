@@ -18,6 +18,10 @@ interface ShopItem {
   item_type: string;
   is_power?: boolean;
   power_category?: string;
+  power_subcategory?: string;
+  power_tier?: string;
+  power_max_level?: number;
+  next_tier_ability?: string;
   stat_boost?: { [key: string]: number };
 }
 

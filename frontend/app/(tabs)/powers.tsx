@@ -414,7 +414,6 @@ export default function PowersScreen() {
                           <Text style={styles.levelBadgeText}>Lv.{power.current_level}</Text>
                         </View>
                       </View>
-                      <Text style={styles.abilityTier}>{power.power_tier}</Text>
                     </View>
 
                     {/* Progress Bar and Counter */}

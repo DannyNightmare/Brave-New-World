@@ -1389,4 +1389,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#9CA3AF',
   },
+  emptyCategoryContainer: {
+    paddingVertical: 16,
+    alignItems: 'center',
+  },
+  emptyCategoryText: {
+    fontSize: 14,
+    color: '#6B7280',
+    fontStyle: 'italic',
+  },
 });

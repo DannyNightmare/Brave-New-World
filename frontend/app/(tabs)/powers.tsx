@@ -667,7 +667,7 @@ export default function PowersScreen() {
                 onPress={saveUserCategories}
               >
                 <Ionicons name="checkmark-done" size={20} color="#FFF" />
-                <Text style={styles.completeButtonText}>Complete - Save to Shop</Text>
+                <Text style={styles.completeButtonText}>Complete - Save Categories</Text>
               </TouchableOpacity>
 
               <TouchableOpacity 

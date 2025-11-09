@@ -844,10 +844,27 @@ const styles = StyleSheet.create({
   abilityNameSection: {
     flex: 2,
   },
+  abilityNameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
   abilityName: {
     fontSize: 15,
     fontWeight: '600',
     color: '#F9FAFB',
+    flex: 1,
+  },
+  levelBadge: {
+    backgroundColor: '#10B981',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6,
+  },
+  levelBadgeText: {
+    fontSize: 11,
+    fontWeight: 'bold',
+    color: '#FFF',
   },
   abilityTier: {
     fontSize: 11,

@@ -197,6 +197,47 @@ export default function ShopScreen() {
     }
   };
 
+  const deleteCategory = async (categoryName: string) => {
+    if (!user?.id) return;
+    
+    Alert.alert(
+      'Delete Category',
+      `Are you sure you want to delete "${categoryName}"? This will not delete abilities in this category.`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              const newCategories = { ...userCategories };
+              delete newCategories[categoryName];
+              
+              const response = await fetch(`${API_URL}/api/users/${user.id}/categories`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newCategories),
+              });
+              
+              if (response.ok) {
+                setUserCategories(newCategories);
+                if (selectedCategory === categoryName) {
+                  setSelectedCategory('all');
+                }
+                Alert.alert('Success', 'Category deleted!');
+              } else {
+                Alert.alert('Error', 'Failed to delete category');
+              }
+            } catch (error) {
+              console.error('Failed to delete category:', error);
+              Alert.alert('Error', 'Failed to delete category');
+            }
+          },
+        },
+      ]
+    );
+  };
+
   useEffect(() => {
     fetchShopItems();
     fetchPowerCategories();

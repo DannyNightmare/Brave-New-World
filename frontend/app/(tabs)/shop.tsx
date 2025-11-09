@@ -1937,6 +1937,71 @@ const styles = StyleSheet.create({
   tierOptionTextSelected: {
     color: '#FFF',
   },
+  categoryDropdownContainer: {
+    marginBottom: 16,
+  },
+  noCategoriesText: {
+    fontSize: 13,
+    color: '#9CA3AF',
+    fontStyle: 'italic',
+    textAlign: 'center',
+    paddingVertical: 12,
+  },
+  categoryOptionsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  categoryOption: {
+    backgroundColor: '#374151',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#4B5563',
+    minWidth: 100,
+    alignItems: 'center',
+  },
+  categoryOptionSelected: {
+    backgroundColor: '#8B5CF6',
+    borderColor: '#8B5CF6',
+  },
+  categoryOptionText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#9CA3AF',
+  },
+  categoryOptionTextSelected: {
+    color: '#FFF',
+  },
+  subcategoryOptionsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginBottom: 16,
+  },
+  subcategoryOption: {
+    backgroundColor: '#2D3748',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: '#4A5568',
+    minWidth: 80,
+    alignItems: 'center',
+  },
+  subcategoryOptionSelected: {
+    backgroundColor: '#6B46C1',
+    borderColor: '#6B46C1',
+  },
+  subcategoryOptionText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#A0AEC0',
+  },
+  subcategoryOptionTextSelected: {
+    color: '#FFF',
+  },
   helperText: {
     fontSize: 12,
     color: '#9CA3AF',

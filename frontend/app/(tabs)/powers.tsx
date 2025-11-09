@@ -839,12 +839,9 @@ const styles = StyleSheet.create({
   abilityRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1F2937',
-    padding: 12,
-    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 4,
     marginBottom: 8,
-    borderWidth: 1,
-    borderColor: '#374151',
   },
   abilityRowPressed: {
     opacity: 0.7,

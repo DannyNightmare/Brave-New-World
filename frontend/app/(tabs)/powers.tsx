@@ -392,6 +392,7 @@ export default function PowersScreen() {
           const powersWithoutSubcategory: PowerItem[] = [];
           
           categoryPowers.forEach((power) => {
+            console.log(`Power: ${power.name}, Subcategory: ${power.power_subcategory}`);
             if (power.power_subcategory) {
               if (!powersWithSubcategory[power.power_subcategory]) {
                 powersWithSubcategory[power.power_subcategory] = [];
@@ -401,6 +402,9 @@ export default function PowersScreen() {
               powersWithoutSubcategory.push(power);
             }
           });
+          
+          console.log(`Category: ${category}, Powers with subcategories:`, Object.keys(powersWithSubcategory));
+          console.log(`Category: ${category}, Powers without subcategories: ${powersWithoutSubcategory.length}`);
           
           return (
             <View key={category} style={styles.categoryContainer}>

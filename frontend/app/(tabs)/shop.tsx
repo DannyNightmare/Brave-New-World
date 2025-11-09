@@ -218,6 +218,7 @@ export default function ShopScreen() {
         image: selectedItem.image || '',
         is_power: selectedItem.is_power || false,
         power_category: selectedItem.power_category || '',
+        power_subcategory: selectedItem.power_subcategory || '',
         power_tier: selectedItem.power_tier || 'Base',
         power_max_level: selectedItem.power_max_level || 5,
         next_tier_ability: selectedItem.next_tier_ability || '',

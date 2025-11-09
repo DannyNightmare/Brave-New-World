@@ -385,6 +385,22 @@ export default function PowersScreen() {
 
         {categories.map((category) => {
           const categoryPowers = groupedPowers[category] || [];
+          const categorySubcategories = userCategories[category] || [];
+          
+          // Group powers by subcategory
+          const powersWithSubcategory: { [key: string]: PowerItem[] } = {};
+          const powersWithoutSubcategory: PowerItem[] = [];
+          
+          categoryPowers.forEach((power) => {
+            if (power.power_subcategory) {
+              if (!powersWithSubcategory[power.power_subcategory]) {
+                powersWithSubcategory[power.power_subcategory] = [];
+              }
+              powersWithSubcategory[power.power_subcategory].push(power);
+            } else {
+              powersWithoutSubcategory.push(power);
+            }
+          });
           
           return (
             <View key={category} style={styles.categoryContainer}>
@@ -398,13 +414,83 @@ export default function PowersScreen() {
                 <View style={styles.categoryHeaderLine} />
               </Pressable>
 
-              {/* Powers under this category */}
+              {/* Show empty state if no powers */}
               {categoryPowers.length === 0 ? (
                 <View style={styles.emptyCategoryContainer}>
                   <Text style={styles.emptyCategoryText}>No abilities in this category yet</Text>
                 </View>
-              ) : null}
-              {categoryPowers.map((power) => {
+              ) : (
+                <>
+                  {/* Display powers without subcategory first */}
+                  {powersWithoutSubcategory.map((power) => {
+                    const isMaxLevel = power.current_level >= power.max_level;
+                    const progress = (power.current_level / power.max_level) * 100;
+                    
+                    return (
+                      <Pressable
+                        key={power.id}
+                        onLongPress={() => handlePowerLongPress(power)}
+                        style={({ pressed }) => [
+                          styles.abilityRow,
+                          pressed && styles.abilityRowPressed
+                        ]}
+                      >
+                        {/* Ability Name */}
+                        <View style={styles.abilityNameSection}>
+                          <View style={styles.abilityNameRow}>
+                            <Text style={styles.abilityName}>{power.name}</Text>
+                            <View style={styles.levelBadge}>
+                              <Text style={styles.levelBadgeText}>Lv.{power.current_level}</Text>
+                            </View>
+                          </View>
+                        </View>
+
+                        {/* Progress Bar and Counter */}
+                        <View style={styles.abilityProgressSection}>
+                          <View style={styles.progressBarSmall}>
+                            <View 
+                              style={[styles.progressBarFillSmall, { width: `${progress}%` }]} 
+                            />
+                          </View>
+                          <Text style={styles.xpCounter}>
+                            {power.current_level} / {power.max_level}
+                          </Text>
+                        </View>
+
+                        {/* Level Badge or + Button */}
+                        <View style={styles.abilityActionSection}>
+                          {isMaxLevel ? (
+                            <View style={styles.maxBadgeSmall}>
+                              <Text style={styles.maxBadgeSmallText}>MAX</Text>
+                            </View>
+                          ) : (
+                            <TouchableOpacity
+                              style={[
+                                styles.levelUpButtonSmall,
+                                (user?.ability_points || 0) < 1 && styles.levelUpButtonSmallDisabled
+                              ]}
+                              onPress={() => levelUpPower(power.id, power.name, power.next_tier_ability)}
+                              disabled={(user?.ability_points || 0) < 1}
+                            >
+                              <Ionicons name="add" size={20} color="#FFF" />
+                            </TouchableOpacity>
+                          )}
+                        </View>
+                      </Pressable>
+                    );
+                  })}
+
+                  {/* Display subcategories and their powers */}
+                  {Object.keys(powersWithSubcategory).sort().map((subcategory) => {
+                    const subcategoryPowers = powersWithSubcategory[subcategory];
+                    
+                    return (
+                      <View key={subcategory} style={styles.subcategorySection}>
+                        {/* Subcategory Header */}
+                        <Text style={styles.subcategoryTitle}>{subcategory}</Text>
+                        
+                        {/* Powers in this subcategory */}
+                        {subcategoryPowers.map((power) => {
                 const isMaxLevel = power.current_level >= power.max_level;
                 const progress = (power.current_level / power.max_level) * 100;
                 

@@ -395,6 +395,7 @@ export default function ShopScreen() {
           image: '',
           is_power: false,
           power_category: '',
+          power_subcategory: '',
           power_tier: 'Base',
           power_max_level: 5,
           next_tier_ability: '',

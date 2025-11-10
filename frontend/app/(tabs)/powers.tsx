@@ -1043,7 +1043,7 @@ const styles = StyleSheet.create({
   categorySection: {
     marginBottom: 16,
   },
-  categoryHeader: {
+  categoryManagerHeader: {
     backgroundColor: '#1F2937',
     borderRadius: 12,
     padding: 16,

@@ -387,7 +387,11 @@ async def purchase_item(purchase: PurchaseRequest):
         item_name=item["name"],
         item_description=item["description"],
         item_type=item["item_type"],
-        stat_boost=item.get("stat_boost")
+        stat_boost=item.get("stat_boost"),
+        exp_amount=item.get("exp_amount"),
+        gold_amount=item.get("gold_amount"),
+        ap_amount=item.get("ap_amount"),
+        is_synthesis_material=item.get("is_synthesis_material", False)
     )
     await db.inventory.insert_one(inventory_item.dict())
     

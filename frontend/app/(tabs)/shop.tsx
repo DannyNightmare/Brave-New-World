@@ -728,6 +728,79 @@ export default function ShopScreen() {
                   />
                 </View>
               </View>
+              {/* Item Type Selector */}
+              <Text style={styles.label}>Item Type</Text>
+              <View style={styles.itemTypeContainer}>
+                {['weapon', 'armor', 'potion', 'accessory', 'exp', 'gold', 'ability_points', 'synthesis_material'].map((type) => (
+                  <TouchableOpacity
+                    key={type}
+                    style={[
+                      styles.itemTypeOption,
+                      newItem.item_type === type && styles.itemTypeOptionSelected,
+                    ]}
+                    onPress={() => setNewItem({ ...newItem, item_type: type })}
+                  >
+                    <Text style={[
+                      styles.itemTypeOptionText,
+                      newItem.item_type === type && styles.itemTypeOptionTextSelected
+                    ]}>
+                      {type === 'ability_points' ? 'AP' : type === 'synthesis_material' ? 'Synthesis' : type.charAt(0).toUpperCase() + type.slice(1)}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+
+              {/* Consumable Fields - Show based on item type */}
+              {newItem.item_type === 'exp' && (
+                <>
+                  <Text style={styles.label}>EXP Amount</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="100"
+                    placeholderTextColor="#6B7280"
+                    value={String(newItem.exp_amount)}
+                    onChangeText={(text) => setNewItem({ ...newItem, exp_amount: parseInt(text) || 0 })}
+                    keyboardType="numeric"
+                  />
+                </>
+              )}
+
+              {newItem.item_type === 'gold' && (
+                <>
+                  <Text style={styles.label}>Gold Amount</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="500"
+                    placeholderTextColor="#6B7280"
+                    value={String(newItem.gold_amount)}
+                    onChangeText={(text) => setNewItem({ ...newItem, gold_amount: parseInt(text) || 0 })}
+                    keyboardType="numeric"
+                  />
+                </>
+              )}
+
+              {newItem.item_type === 'ability_points' && (
+                <>
+                  <Text style={styles.label}>Ability Points Amount</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="5"
+                    placeholderTextColor="#6B7280"
+                    value={String(newItem.ap_amount)}
+                    onChangeText={(text) => setNewItem({ ...newItem, ap_amount: parseInt(text) || 0 })}
+                    keyboardType="numeric"
+                  />
+                </>
+              )}
+
+              {newItem.item_type === 'synthesis_material' && (
+                <View style={styles.synthesisNote}>
+                  <Ionicons name="flask" size={20} color="#8B5CF6" />
+                  <Text style={styles.synthesisNoteText}>
+                    This item can be combined with other synthesis materials in the Synthesis page
+                  </Text>
+                </View>
+              )}
 
               <Text style={styles.label}>Stat Boosts</Text>
               <View style={styles.attributeContainer}>

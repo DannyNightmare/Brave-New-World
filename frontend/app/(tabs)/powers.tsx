@@ -195,7 +195,7 @@ export default function PowersScreen() {
     }
   };
 
-  const handleDeleteCategory = () => {
+  const handleDeleteCategory = async () => {
     console.log('=== DELETE CATEGORY BUTTON PRESSED ===');
     if (!selectedCategory) {
       console.log('No category selected');
@@ -203,45 +203,39 @@ export default function PowersScreen() {
     }
 
     console.log('Attempting to delete category:', selectedCategory);
-
-    Alert.alert(
-      'Delete Category',
-      `Are you sure you want to delete "${selectedCategory}"? This will not delete abilities in this category.`,
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: async () => {
-            console.log('Deleting category from state:', selectedCategory);
-            const newCategories = { ...userCategories };
-            delete newCategories[selectedCategory];
-            
-            // Save to backend
-            try {
-              const response = await fetch(`${API_URL}/api/users/${user?.id}/categories`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newCategories),
-              });
-              
-              if (response.ok) {
-                setUserCategories(newCategories);
-                setCategoryActionModalVisible(false);
-                setSelectedCategory('');
-                console.log('Category deleted, new categories:', Object.keys(newCategories));
-                Alert.alert('Success', 'Category deleted!');
-              } else {
-                Alert.alert('Error', 'Failed to delete category from server');
-              }
-            } catch (error) {
-              console.error('Failed to delete category:', error);
-              Alert.alert('Error', 'Failed to delete category');
-            }
-          },
-        },
-      ]
-    );
+    
+    // Close action modal and proceed directly to deletion
+    setCategoryActionModalVisible(false);
+    
+    console.log('Deleting category from state:', selectedCategory);
+    const categoryToDelete = selectedCategory;
+    const newCategories = { ...userCategories };
+    delete newCategories[categoryToDelete];
+    
+    // Save to backend
+    try {
+      const response = await fetch(`${API_URL}/api/users/${user?.id}/categories`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newCategories),
+      });
+      
+      if (response.ok) {
+        setUserCategories(newCategories);
+        setSelectedCategory('');
+        console.log('Category deleted successfully, new categories:', Object.keys(newCategories));
+        // Show success via simple alert
+        setTimeout(() => {
+          alert(`Category "${categoryToDelete}" deleted successfully!`);
+        }, 100);
+      } else {
+        console.error('Failed to delete category from server');
+        alert('Failed to delete category from server');
+      }
+    } catch (error) {
+      console.error('Failed to delete category:', error);
+      alert('Failed to delete category');
+    }
   };
 
   const addSubAbility = () => {

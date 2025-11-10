@@ -276,6 +276,11 @@ export default function ShopScreen() {
         strength_boost: selectedItem.stat_boost?.strength || 0,
         intelligence_boost: selectedItem.stat_boost?.intelligence || 0,
         vitality_boost: selectedItem.stat_boost?.vitality || 0,
+        // Consumable fields
+        exp_amount: 0,
+        gold_amount: 0,
+        ap_amount: 0,
+        is_synthesis_material: false,
       });
       setActionModalVisible(false);
       setEditModalVisible(true);

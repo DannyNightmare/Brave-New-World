@@ -507,12 +507,7 @@ export default function PowersScreen() {
                   >
                     {/* Ability Name */}
                     <View style={styles.abilityNameSection}>
-                      <View style={styles.abilityNameRow}>
-                        <Text style={styles.abilityName}>{power.name}</Text>
-                        <View style={styles.levelBadge}>
-                          <Text style={styles.levelBadgeText}>Lv.{power.current_level}</Text>
-                        </View>
-                      </View>
+                      <Text style={styles.abilityName}>{power.name}</Text>
                     </View>
 
                     {/* Progress Bar and Counter */}
@@ -527,8 +522,11 @@ export default function PowersScreen() {
                       </Text>
                     </View>
 
-                    {/* Level Badge or + Button */}
+                    {/* Level Badge and Action Button */}
                     <View style={styles.abilityActionSection}>
+                      <View style={styles.levelBadge}>
+                        <Text style={styles.levelBadgeText}>Lv.{power.current_level}</Text>
+                      </View>
                       {isMaxLevel ? (
                         <View style={styles.maxBadgeSmall}>
                           <Text style={styles.maxBadgeSmallText}>MAX</Text>

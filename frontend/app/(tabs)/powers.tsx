@@ -196,6 +196,7 @@ export default function PowersScreen() {
   };
 
   const handleDeleteCategory = () => {
+    console.log('=== DELETE CATEGORY BUTTON PRESSED ===');
     if (!selectedCategory) {
       console.log('No category selected');
       return;

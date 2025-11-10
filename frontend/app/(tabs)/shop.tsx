@@ -135,6 +135,11 @@ export default function ShopScreen() {
     strength_boost: 0,
     intelligence_boost: 0,
     vitality_boost: 0,
+    // Consumable fields
+    exp_amount: 0,
+    gold_amount: 0,
+    ap_amount: 0,
+    is_synthesis_material: false,
   });
 
   const pickImage = async () => {

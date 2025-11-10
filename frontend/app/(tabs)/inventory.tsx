@@ -152,42 +152,67 @@ export default function InventoryScreen() {
             <Text style={styles.emptySubtext}>Visit the shop to purchase items</Text>
           </View>
         ) : (
-          filteredItems.map(item => (
-            <View key={item.id} style={styles.itemCard}>
-              <View style={[styles.itemIcon, { backgroundColor: getItemColor(item.item_type) + '20' }]}>
-                <Ionicons name={getItemIcon(item.item_type) as any} size={32} color={getItemColor(item.item_type)} />
-              </View>
-              
-              <View style={styles.itemInfo}>
-                <View style={styles.itemHeader}>
-                  <Text style={styles.itemName}>{item.item_name}</Text>
-                  <View style={[styles.typeBadge, { backgroundColor: getItemColor(item.item_type) + '20' }]}>
-                    <Text style={[styles.typeText, { color: getItemColor(item.item_type) }]}>
-                      {item.item_type}
-                    </Text>
-                  </View>
+          filteredItems.map(item => {
+            const isConsumable = item.item_type === 'exp' || item.item_type === 'gold' || item.item_type === 'ability_points';
+            
+            return (
+              <View key={item.id} style={styles.itemCard}>
+                <View style={[styles.itemIcon, { backgroundColor: getItemColor(item.item_type) + '20' }]}>
+                  <Ionicons name={getItemIcon(item.item_type) as any} size={32} color={getItemColor(item.item_type)} />
                 </View>
-                <Text style={styles.itemDescription} numberOfLines={2} ellipsizeMode="tail">
-                  {item.item_description}
-                </Text>
                 
-                {item.stat_boost && (
-                  <View style={styles.statBoosts}>
-                    {Object.entries(item.stat_boost).map(([stat, value]) => (
-                      <View key={stat} style={styles.statBoost}>
-                        <Ionicons 
-                          name={stat === 'strength' ? 'barbell' : stat === 'intelligence' ? 'bulb' : 'heart'} 
-                          size={12} 
-                          color="#10B981" 
-                        />
-                        <Text style={styles.statBoostText}>+{value} {stat}</Text>
-                      </View>
-                    ))}
+                <View style={styles.itemInfo}>
+                  <View style={styles.itemHeader}>
+                    <Text style={styles.itemName}>{item.item_name}</Text>
+                    <View style={[styles.typeBadge, { backgroundColor: getItemColor(item.item_type) + '20' }]}>
+                      <Text style={[styles.typeText, { color: getItemColor(item.item_type) }]}>
+                        {item.item_type}
+                      </Text>
+                    </View>
                   </View>
+                  <Text style={styles.itemDescription} numberOfLines={2} ellipsizeMode="tail">
+                    {item.item_description}
+                  </Text>
+                  
+                  {/* Show consumable amount */}
+                  {item.exp_amount && (
+                    <Text style={styles.consumableAmount}>+{item.exp_amount} EXP</Text>
+                  )}
+                  {item.gold_amount && (
+                    <Text style={styles.consumableAmount}>+{item.gold_amount} Gold</Text>
+                  )}
+                  {item.ap_amount && (
+                    <Text style={styles.consumableAmount}>+{item.ap_amount} AP</Text>
+                  )}
+                  
+                  {item.stat_boost && (
+                    <View style={styles.statBoosts}>
+                      {Object.entries(item.stat_boost).map(([stat, value]) => (
+                        <View key={stat} style={styles.statBoost}>
+                          <Ionicons 
+                            name={stat === 'strength' ? 'barbell' : stat === 'intelligence' ? 'bulb' : 'heart'} 
+                            size={12} 
+                            color="#10B981" 
+                          />
+                          <Text style={styles.statBoostText}>+{value} {stat}</Text>
+                        </View>
+                      ))}
+                    </View>
+                  )}
+                </View>
+
+                {/* Use button for consumable items */}
+                {isConsumable && (
+                  <TouchableOpacity 
+                    style={styles.useButton}
+                    onPress={() => useItem(item)}
+                  >
+                    <Text style={styles.useButtonText}>Use</Text>
+                  </TouchableOpacity>
                 )}
               </View>
-            </View>
-          ))
+            );
+          })
         )}
       </ScrollView>
     </SafeAreaView>

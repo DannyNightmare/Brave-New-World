@@ -2198,4 +2198,51 @@ const styles = StyleSheet.create({
   subcategoryOptionTextSelected: {
     color: '#FFF',
   },
+  itemTypeContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginBottom: 16,
+  },
+  itemTypeOption: {
+    flex: 1,
+    minWidth: '45%',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#4B5563',
+    alignItems: 'center',
+    backgroundColor: '#374151',
+  },
+  itemTypeOptionSelected: {
+    borderColor: '#8B5CF6',
+    backgroundColor: '#1F2937',
+  },
+  itemTypeOptionText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#9CA3AF',
+    textTransform: 'capitalize',
+  },
+  itemTypeOptionTextSelected: {
+    color: '#8B5CF6',
+  },
+  synthesisNote: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#374151',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#8B5CF6',
+    gap: 12,
+  },
+  synthesisNoteText: {
+    flex: 1,
+    fontSize: 14,
+    color: '#D1D5DB',
+    lineHeight: 20,
+  },
 });

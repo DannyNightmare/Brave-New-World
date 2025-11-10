@@ -354,4 +354,23 @@ const styles = StyleSheet.create({
   clearButton: {
     padding: 4,
   },
+  useButton: {
+    backgroundColor: '#10B981',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 8,
+    alignSelf: 'flex-end',
+    marginLeft: 12,
+  },
+  useButtonText: {
+    color: '#FFF',
+    fontWeight: '600',
+    fontSize: 14,
+  },
+  consumableAmount: {
+    fontSize: 14,
+    color: '#10B981',
+    fontWeight: '600',
+    marginTop: 4,
+  },
 });

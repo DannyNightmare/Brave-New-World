@@ -117,6 +117,11 @@ class InventoryItem(BaseModel):
     item_description: str
     item_type: str
     stat_boost: Optional[dict] = None
+    # Consumable fields
+    exp_amount: Optional[int] = None
+    gold_amount: Optional[int] = None
+    ap_amount: Optional[int] = None
+    is_synthesis_material: Optional[bool] = False
     acquired_at: datetime = Field(default_factory=datetime.utcnow)
 
 class PurchaseRequest(BaseModel):

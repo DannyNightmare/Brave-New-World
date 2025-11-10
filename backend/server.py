@@ -81,7 +81,12 @@ class ShopItem(BaseModel):
     power_max_level: Optional[int] = None  # Maximum level for this power
     next_tier_ability: Optional[str] = None  # Name of the ability that unlocks when this is maxed
     stat_boost: Optional[dict] = None
-    item_type: str  # weapon, armor, potion, accessory
+    item_type: str  # weapon, armor, potion, accessory, exp, synthesis_material, gold, ability_points
+    # Consumable item fields
+    exp_amount: Optional[int] = None  # EXP gained when used
+    gold_amount: Optional[int] = None  # Gold gained when used
+    ap_amount: Optional[int] = None  # Ability Points gained when used
+    is_synthesis_material: bool = False  # Whether this can be used in synthesis
 
 class ShopItemCreate(BaseModel):
     name: str
@@ -98,6 +103,11 @@ class ShopItemCreate(BaseModel):
     next_tier_ability: Optional[str] = None
     stat_boost: Optional[dict] = None
     item_type: str
+    # Consumable item fields
+    exp_amount: Optional[int] = None
+    gold_amount: Optional[int] = None
+    ap_amount: Optional[int] = None
+    is_synthesis_material: bool = False
 
 class InventoryItem(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))

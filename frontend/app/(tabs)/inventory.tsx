@@ -42,6 +42,46 @@ export default function InventoryScreen() {
     fetchInventory();
   }, [user?.id]);
 
+  const useItem = async (item: InventoryItem) => {
+    if (!user?.id) return;
+
+    // Check if item is consumable
+    const isConsumable = item.item_type === 'exp' || item.item_type === 'gold' || item.item_type === 'ability_points';
+    
+    if (!isConsumable) {
+      alert('This item cannot be used');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/api/inventory/${item.id}/use`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: user.id }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        
+        // Show success message with what was gained
+        let message = 'Item used successfully!\n';
+        if (result.exp_gained) message += `+${result.exp_gained} EXP\n`;
+        if (result.gold_gained) message += `+${result.gold_gained} Gold\n`;
+        if (result.ap_gained) message += `+${result.ap_gained} AP\n`;
+        
+        alert(message);
+        
+        // Refresh inventory to remove used item
+        fetchInventory();
+      } else {
+        alert('Failed to use item');
+      }
+    } catch (error) {
+      console.error('Failed to use item:', error);
+      alert('Failed to use item');
+    }
+  };
+
   // Filter items based on search query
   const filteredItems = items.filter(item => {
     if (searchQuery.trim() === '') return true;

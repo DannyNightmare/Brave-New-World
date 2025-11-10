@@ -13,6 +13,10 @@ interface InventoryItem {
   item_description: string;
   item_type: string;
   stat_boost?: { [key: string]: number };
+  exp_amount?: number;
+  gold_amount?: number;
+  ap_amount?: number;
+  is_synthesis_material?: boolean;
 }
 
 export default function InventoryScreen() {

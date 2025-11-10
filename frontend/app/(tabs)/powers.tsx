@@ -989,8 +989,10 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   abilityActionSection: {
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 8,
   },
   levelUpButtonSmall: {
     width: 32,

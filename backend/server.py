@@ -421,6 +421,50 @@ async def delete_inventory_item(item_id: str):
         raise HTTPException(status_code=404, detail="Inventory item not found")
     return {"message": "Inventory item deleted"}
 
+@api_router.post("/inventory/{item_id}/use")
+async def use_inventory_item(item_id: str, request: dict):
+    user_id = request.get("user_id")
+    if not user_id:
+        raise HTTPException(status_code=400, detail="user_id is required")
+    
+    # Get the inventory item
+    item = await db.inventory.find_one({"id": item_id})
+    if not item:
+        raise HTTPException(status_code=404, detail="Inventory item not found")
+    
+    # Get user
+    user = await db.users.find_one({"id": user_id})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    result = {}
+    
+    # Apply consumable effects based on item type
+    if item.get("item_type") == "exp" and item.get("exp_amount"):
+        # Add EXP to user
+        new_xp = user.get("xp", 0) + item["exp_amount"]
+        await db.users.update_one({"id": user_id}, {"$set": {"xp": new_xp}})
+        result["exp_gained"] = item["exp_amount"]
+        
+    elif item.get("item_type") == "gold" and item.get("gold_amount"):
+        # Add Gold to user
+        new_gold = user.get("gold", 0) + item["gold_amount"]
+        await db.users.update_one({"id": user_id}, {"$set": {"gold": new_gold}})
+        result["gold_gained"] = item["gold_amount"]
+        
+    elif item.get("item_type") == "ability_points" and item.get("ap_amount"):
+        # Add AP to user
+        new_ap = user.get("ability_points", 0) + item["ap_amount"]
+        await db.users.update_one({"id": user_id}, {"$set": {"ability_points": new_ap}})
+        result["ap_gained"] = item["ap_amount"]
+    else:
+        raise HTTPException(status_code=400, detail="Item is not consumable or has no effect")
+    
+    # Remove the item from inventory after use
+    await db.inventory.delete_one({"id": item_id})
+    
+    return result
+
 
 # Powers endpoints
 @api_router.get("/powers/{user_id}", response_model=List[PowerItem])

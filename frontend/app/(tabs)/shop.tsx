@@ -1502,6 +1502,84 @@ export default function ShopScreen() {
           </View>
         </TouchableWithoutFeedback>
       </Modal>
+
+      {/* Category Action Modal */}
+      <Modal
+        visible={categoryActionModalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setCategoryActionModalVisible(false)}
+      >
+        <TouchableWithoutFeedback onPress={() => setCategoryActionModalVisible(false)}>
+          <View style={styles.modalOverlay}>
+            <TouchableWithoutFeedback>
+              <View style={styles.actionModalContent}>
+                <Text style={styles.actionModalTitle}>Manage Category</Text>
+                <Text style={styles.actionModalSubtitle}>{selectedCategoryForAction}</Text>
+                
+                <TouchableOpacity style={styles.actionButton} onPress={openRenameModal}>
+                  <Ionicons name="pencil" size={20} color="#3B82F6" />
+                  <Text style={[styles.actionButtonText, { color: '#3B82F6' }]}>Rename Category</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.actionButton} onPress={deleteCategory}>
+                  <Ionicons name="trash" size={20} color="#EF4444" />
+                  <Text style={[styles.actionButtonText, { color: '#EF4444' }]}>Delete Category</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity 
+                  style={styles.cancelButton} 
+                  onPress={() => setCategoryActionModalVisible(false)}
+                >
+                  <Text style={styles.cancelButtonText}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+
+      {/* Rename Category Modal */}
+      <Modal
+        visible={renameCategoryModalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setRenameCategoryModalVisible(false)}
+      >
+        <TouchableWithoutFeedback onPress={() => setRenameCategoryModalVisible(false)}>
+          <View style={styles.modalOverlay}>
+            <TouchableWithoutFeedback>
+              <View style={styles.renameModalContent}>
+                <Text style={styles.actionModalTitle}>Rename Category</Text>
+                <Text style={styles.label}>New Category Name</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter new name"
+                  placeholderTextColor="#6B7280"
+                  value={newCategoryName}
+                  onChangeText={setNewCategoryName}
+                  autoFocus
+                />
+                
+                <View style={styles.renameButtonContainer}>
+                  <TouchableOpacity 
+                    style={styles.cancelButtonSmall} 
+                    onPress={() => setRenameCategoryModalVisible(false)}
+                  >
+                    <Text style={styles.cancelButtonText}>Cancel</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity 
+                    style={styles.saveButtonSmall} 
+                    onPress={renameCategory}
+                  >
+                    <Text style={styles.saveButtonText}>Rename</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
     </SafeAreaView>
   );
 }

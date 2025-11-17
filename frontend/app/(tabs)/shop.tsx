@@ -206,45 +206,85 @@ export default function ShopScreen() {
     }
   };
 
-  const deleteCategory = async (categoryName: string) => {
-    if (!user?.id) return;
+  const handleCategoryLongPress = (categoryName: string) => {
+    setSelectedCategoryForAction(categoryName);
+    setCategoryActionModalVisible(true);
+  };
+
+  const deleteCategory = async () => {
+    if (!user?.id || !selectedCategoryForAction) return;
     
-    Alert.alert(
-      'Delete Category',
-      `Are you sure you want to delete "${categoryName}"? This will not delete abilities in this category.`,
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              const newCategories = { ...userCategories };
-              delete newCategories[categoryName];
-              
-              const response = await fetch(`${API_URL}/api/users/${user.id}/categories`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newCategories),
-              });
-              
-              if (response.ok) {
-                setUserCategories(newCategories);
-                if (selectedCategory === categoryName) {
-                  setSelectedCategory('all');
-                }
-                Alert.alert('Success', 'Category deleted!');
-              } else {
-                Alert.alert('Error', 'Failed to delete category');
-              }
-            } catch (error) {
-              console.error('Failed to delete category:', error);
-              Alert.alert('Error', 'Failed to delete category');
-            }
-          },
-        },
-      ]
-    );
+    setCategoryActionModalVisible(false);
+    
+    try {
+      const newCategories = { ...userCategories };
+      delete newCategories[selectedCategoryForAction];
+      
+      const response = await fetch(`${API_URL}/api/users/${user.id}/categories`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newCategories),
+      });
+      
+      if (response.ok) {
+        setUserCategories(newCategories);
+        if (selectedCategory === selectedCategoryForAction) {
+          setSelectedCategory('all');
+        }
+        setTimeout(() => alert(`Category "${selectedCategoryForAction}" deleted successfully!`), 100);
+        setSelectedCategoryForAction('');
+      } else {
+        alert('Failed to delete category');
+      }
+    } catch (error) {
+      console.error('Failed to delete category:', error);
+      alert('Failed to delete category');
+    }
+  };
+
+  const openRenameModal = () => {
+    setNewCategoryName(selectedCategoryForAction);
+    setCategoryActionModalVisible(false);
+    setRenameCategoryModalVisible(true);
+  };
+
+  const renameCategory = async () => {
+    if (!user?.id || !selectedCategoryForAction || !newCategoryName.trim()) return;
+    
+    if (newCategoryName === selectedCategoryForAction) {
+      setRenameCategoryModalVisible(false);
+      return;
+    }
+    
+    try {
+      const newCategories = { ...userCategories };
+      // Copy subcategories to new name
+      newCategories[newCategoryName] = newCategories[selectedCategoryForAction] || [];
+      // Delete old category
+      delete newCategories[selectedCategoryForAction];
+      
+      const response = await fetch(`${API_URL}/api/users/${user.id}/categories`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newCategories),
+      });
+      
+      if (response.ok) {
+        setUserCategories(newCategories);
+        if (selectedCategory === selectedCategoryForAction) {
+          setSelectedCategory(newCategoryName);
+        }
+        setTimeout(() => alert(`Category renamed to "${newCategoryName}" successfully!`), 100);
+        setRenameCategoryModalVisible(false);
+        setSelectedCategoryForAction('');
+        setNewCategoryName('');
+      } else {
+        alert('Failed to rename category');
+      }
+    } catch (error) {
+      console.error('Failed to rename category:', error);
+      alert('Failed to rename category');
+    }
   };
 
   useEffect(() => {

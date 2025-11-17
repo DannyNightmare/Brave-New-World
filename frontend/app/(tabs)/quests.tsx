@@ -76,6 +76,7 @@ export default function QuestsScreen() {
 
   useEffect(() => {
     fetchQuests();
+    fetchCustomStats();
   }, [user?.id]);
 
   const createQuest = async () => {

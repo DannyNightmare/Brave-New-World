@@ -44,6 +44,7 @@ export default function QuestsScreen() {
     xp_reward: 50,
     gold_reward: 10,
     item_reward: '',
+    repeat_frequency: 'none',
   });
 
   const fetchQuests = async () => {

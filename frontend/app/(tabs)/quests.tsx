@@ -57,6 +57,23 @@ export default function QuestsScreen() {
     }
   };
 
+  const fetchCustomStats = async () => {
+    if (!user?.id) return;
+    try {
+      const response = await fetch(`${API_URL}/api/users/${user.id}/stats`);
+      const data = await response.json();
+      setCustomStats(data);
+      // Initialize stat rewards to 0 for each custom stat
+      const initialRewards: { [key: string]: number } = {};
+      data.forEach((stat: CustomStat) => {
+        initialRewards[stat.name] = 0;
+      });
+      setStatRewards(initialRewards);
+    } catch (error) {
+      console.error('Failed to fetch custom stats:', error);
+    }
+  };
+
   useEffect(() => {
     fetchQuests();
   }, [user?.id]);

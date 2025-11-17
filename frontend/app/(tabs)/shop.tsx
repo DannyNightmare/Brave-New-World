@@ -630,7 +630,7 @@ export default function ShopScreen() {
                   selectedCategory === category && styles.categoryTabSelected,
                 ]}
                 onPress={() => setSelectedCategory(category)}
-                onLongPress={isUserCategory ? () => deleteCategory(category) : undefined}
+                onLongPress={isUserCategory ? () => handleCategoryLongPress(category) : undefined}
               >
                 <Text style={[
                   styles.categoryTabText,

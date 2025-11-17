@@ -86,10 +86,13 @@ export default function QuestsScreen() {
     }
 
     try {
+      // Build attribute rewards from custom stats
       const attribute_rewards: { [key: string]: number } = {};
-      if (newQuest.strength_reward > 0) attribute_rewards.strength = newQuest.strength_reward;
-      if (newQuest.intelligence_reward > 0) attribute_rewards.intelligence = newQuest.intelligence_reward;
-      if (newQuest.vitality_reward > 0) attribute_rewards.vitality = newQuest.vitality_reward;
+      Object.entries(statRewards).forEach(([statName, value]) => {
+        if (value > 0) {
+          attribute_rewards[statName] = value;
+        }
+      });
 
       const payload: any = {
         user_id: user.id,

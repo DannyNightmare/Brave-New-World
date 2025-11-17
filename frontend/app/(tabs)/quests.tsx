@@ -325,6 +325,38 @@ export default function QuestsScreen() {
                 onChangeText={(text) => setNewQuest({ ...newQuest, item_reward: text })}
               />
 
+              {/* Repeat Frequency Selector */}
+              <Text style={styles.label}>Repeat Frequency</Text>
+              <View style={styles.repeatContainer}>
+                {[
+                  { value: 'none', label: 'One Time', icon: 'flash' },
+                  { value: 'daily', label: 'Daily', icon: 'today' },
+                  { value: 'weekly', label: 'Weekly', icon: 'calendar' },
+                  { value: 'monthly', label: 'Monthly', icon: 'calendar-outline' },
+                ].map((option) => (
+                  <TouchableOpacity
+                    key={option.value}
+                    style={[
+                      styles.repeatOption,
+                      newQuest.repeat_frequency === option.value && styles.repeatOptionSelected,
+                    ]}
+                    onPress={() => setNewQuest({ ...newQuest, repeat_frequency: option.value })}
+                  >
+                    <Ionicons 
+                      name={option.icon as any} 
+                      size={20} 
+                      color={newQuest.repeat_frequency === option.value ? '#FFF' : '#9CA3AF'} 
+                    />
+                    <Text style={[
+                      styles.repeatOptionText,
+                      newQuest.repeat_frequency === option.value && styles.repeatOptionTextSelected
+                    ]}>
+                      {option.label}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+
               {/* Dynamic Custom Stats Rewards */}
               {customStats.length > 0 && (
                 <>

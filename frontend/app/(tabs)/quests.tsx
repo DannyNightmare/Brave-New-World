@@ -4,9 +4,17 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUser } from '../../contexts/UserContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
-import Constants from 'expo-constants';
 
-const API_URL = Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL || '';
+const API_URL = 'https://liferealm-rpg.preview.emergentagent.com';
+
+interface CustomStat {
+  id: string;
+  name: string;
+  color: string;
+  current: number;
+  max: number;
+  icon: string;
+}
 
 interface Quest {
   id: string;

@@ -26,6 +26,8 @@ interface Quest {
   item_reward?: string;
   attribute_rewards?: { [key: string]: number };
   completed: boolean;
+  repeat_frequency?: string; // 'none', 'daily', 'weekly', 'monthly'
+  last_completed?: string; // ISO date string
 }
 
 export default function QuestsScreen() {

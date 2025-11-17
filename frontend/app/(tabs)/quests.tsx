@@ -672,4 +672,33 @@ const styles = StyleSheet.create({
     padding: 16,
     marginVertical: 8,
   },
+  repeatContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginBottom: 16,
+  },
+  repeatOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#1F2937',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: '#374151',
+    gap: 6,
+  },
+  repeatOptionSelected: {
+    backgroundColor: '#8B5CF6',
+    borderColor: '#8B5CF6',
+  },
+  repeatOptionText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#9CA3AF',
+  },
+  repeatOptionTextSelected: {
+    color: '#FFF',
+  },
 });

@@ -627,4 +627,12 @@ const styles = StyleSheet.create({
     width: 60,
     textAlign: 'center',
   },
+  noStatsText: {
+    fontSize: 14,
+    color: '#9CA3AF',
+    fontStyle: 'italic',
+    textAlign: 'center',
+    padding: 16,
+    marginVertical: 8,
+  },
 });

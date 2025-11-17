@@ -320,45 +320,33 @@ export default function QuestsScreen() {
                 onChangeText={(text) => setNewQuest({ ...newQuest, item_reward: text })}
               />
 
-              <Text style={styles.label}>Attribute Rewards</Text>
-              <View style={styles.attributeContainer}>
-                <View style={styles.attributeRow}>
-                  <Ionicons name="barbell" size={20} color="#EF4444" />
-                  <Text style={styles.attributeLabel}>Strength</Text>
-                  <TextInput
-                    style={styles.attributeInput}
-                    placeholder="0"
-                    placeholderTextColor="#6B7280"
-                    value={String(newQuest.strength_reward)}
-                    onChangeText={(text) => setNewQuest({ ...newQuest, strength_reward: parseInt(text) || 0 })}
-                    keyboardType="numeric"
-                  />
-                </View>
-                <View style={styles.attributeRow}>
-                  <Ionicons name="bulb" size={20} color="#3B82F6" />
-                  <Text style={styles.attributeLabel}>Intelligence</Text>
-                  <TextInput
-                    style={styles.attributeInput}
-                    placeholder="0"
-                    placeholderTextColor="#6B7280"
-                    value={String(newQuest.intelligence_reward)}
-                    onChangeText={(text) => setNewQuest({ ...newQuest, intelligence_reward: parseInt(text) || 0 })}
-                    keyboardType="numeric"
-                  />
-                </View>
-                <View style={styles.attributeRow}>
-                  <Ionicons name="heart" size={20} color="#10B981" />
-                  <Text style={styles.attributeLabel}>Vitality</Text>
-                  <TextInput
-                    style={styles.attributeInput}
-                    placeholder="0"
-                    placeholderTextColor="#6B7280"
-                    value={String(newQuest.vitality_reward)}
-                    onChangeText={(text) => setNewQuest({ ...newQuest, vitality_reward: parseInt(text) || 0 })}
-                    keyboardType="numeric"
-                  />
-                </View>
-              </View>
+              {/* Dynamic Custom Stats Rewards */}
+              {customStats.length > 0 && (
+                <>
+                  <Text style={styles.label}>Stat Rewards</Text>
+                  <View style={styles.attributeContainer}>
+                    {customStats.map((stat) => (
+                      <View key={stat.id} style={styles.attributeRow}>
+                        <Ionicons name={stat.icon as any} size={20} color={stat.color} />
+                        <Text style={styles.attributeLabel}>{stat.name}</Text>
+                        <TextInput
+                          style={styles.attributeInput}
+                          placeholder="0"
+                          placeholderTextColor="#6B7280"
+                          value={String(statRewards[stat.name] || 0)}
+                          onChangeText={(text) => setStatRewards({ ...statRewards, [stat.name]: parseInt(text) || 0 })}
+                          keyboardType="numeric"
+                        />
+                      </View>
+                    ))}
+                  </View>
+                </>
+              )}
+              {customStats.length === 0 && (
+                <Text style={styles.noStatsText}>
+                  No custom stats created yet. Add stats in the Status page to use them as quest rewards.
+                </Text>
+              )}
 
               <TouchableOpacity style={styles.createButton} onPress={createQuest}>
                 <Text style={styles.createButtonText}>Create Quest</Text>

@@ -116,16 +116,19 @@ export default function QuestsScreen() {
         body: JSON.stringify(payload),
       });
       await response.json();
-      setNewQuest({ 
-        title: '', 
-        description: '', 
+      setNewQuest({
+        title: '',
+        description: '',
         xp_reward: 50,
         gold_reward: 10,
         item_reward: '',
-        strength_reward: 0,
-        intelligence_reward: 0,
-        vitality_reward: 0,
       });
+      // Reset stat rewards to 0
+      const resetRewards: { [key: string]: number } = {};
+      customStats.forEach((stat) => {
+        resetRewards[stat.name] = 0;
+      });
+      setStatRewards(resetRewards);
       setModalVisible(false);
       fetchQuests();
     } catch (error) {

@@ -118,6 +118,10 @@ export default function ShopScreen() {
   const [existingPowerCategories, setExistingPowerCategories] = useState<string[]>([]);
   const [customPowerCategory, setCustomPowerCategory] = useState('');
   const [userCategories, setUserCategories] = useState<{[key: string]: string[]}>({});
+  const [categoryActionModalVisible, setCategoryActionModalVisible] = useState(false);
+  const [selectedCategoryForAction, setSelectedCategoryForAction] = useState('');
+  const [renameCategoryModalVisible, setRenameCategoryModalVisible] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState('');
   const [newItem, setNewItem] = useState({
     name: '',
     description: '',

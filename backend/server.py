@@ -97,7 +97,7 @@ class ShopItemCreate(BaseModel):
     price: int
     stock: Optional[int] = None
     category: str = "general"
-    image: Optional[str] = None
+    images: Optional[List[str]] = None
     is_power: bool = False
     power_category: Optional[str] = None
     power_subcategory: Optional[str] = None

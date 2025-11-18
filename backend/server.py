@@ -76,7 +76,7 @@ class ShopItem(BaseModel):
     price: int
     stock: Optional[int] = None
     category: str = "general"  # Category for filtering
-    image: Optional[str] = None  # Base64 encoded image
+    images: Optional[List[str]] = None  # List of Base64 encoded images (supports multiple GIF/PNG)
     is_power: bool = False  # Whether this item appears in Powers tab
     power_category: Optional[str] = None  # Category in Powers tab (e.g., "Physical Abilities")
     power_subcategory: Optional[str] = None  # Subcategory in Powers tab (e.g., "Strength", "Speed")

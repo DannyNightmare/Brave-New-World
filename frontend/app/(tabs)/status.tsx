@@ -399,6 +399,13 @@ const styles = StyleSheet.create({
     color: '#FCD34D',
     textAlign: 'right',
   },
+  apText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#F59E0B',
+    textAlign: 'right',
+    marginTop: 4,
+  },
   statsTitle: {
     fontSize: 32,
     fontWeight: 'bold',

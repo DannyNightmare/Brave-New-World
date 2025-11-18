@@ -128,7 +128,7 @@ export default function ShopScreen() {
     price: 50,
     stock: 1,
     category: 'general',
-    image: '',
+    images: [] as string[],
     is_power: false,
     power_category: '',
     power_subcategory: '',

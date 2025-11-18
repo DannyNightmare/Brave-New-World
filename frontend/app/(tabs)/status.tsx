@@ -375,40 +375,26 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   levelGoldSection: {
-    alignItems: 'center',
-  },
-  levelContainer: {
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  levelLabel: {
-    fontSize: 14,
-    color: '#9CA3AF',
-    marginBottom: 4,
+    alignItems: 'flex-end',
   },
   levelNumber: {
     fontSize: 48,
     fontWeight: 'bold',
     color: '#8B5CF6',
+    textAlign: 'right',
   },
-  goldContainer: {
-    alignItems: 'center',
-  },
-  goldIconImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-  },
-  goldAmount: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#FCD34D',
-    marginTop: 8,
-  },
-  goldLabel: {
+  levelLabel: {
     fontSize: 14,
     color: '#9CA3AF',
-    marginTop: 4,
+    marginTop: -8,
+    marginBottom: 8,
+    textAlign: 'right',
+  },
+  goldText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#FCD34D',
+    textAlign: 'right',
   },
   statsTitle: {
     fontSize: 32,

@@ -189,6 +189,9 @@ export default function StatusScreen() {
             
             {/* Gold underneath */}
             <Text style={styles.goldText}>Gold: {user.gold}</Text>
+            
+            {/* AP underneath Gold */}
+            <Text style={styles.apText}>AP: {user.ability_points || 0}</Text>
           </View>
         </View>
 

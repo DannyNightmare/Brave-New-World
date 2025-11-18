@@ -150,22 +150,30 @@ export default function ShopScreen() {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     
     if (permissionResult.granted === false) {
-      Alert.alert('Permission Required', 'Permission to access camera roll is required!');
+      alert('Permission to access camera roll is required!');
       return;
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
+      allowsEditing: false,
+      allowsMultipleSelection: true,
       quality: 0.5,
       base64: true,
     });
 
-    if (!result.canceled && result.assets[0].base64) {
-      const base64Image = `data:image/${result.assets[0].uri.split('.').pop()};base64,${result.assets[0].base64}`;
-      setNewItem({ ...newItem, image: base64Image });
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      const base64Images = result.assets
+        .filter(asset => asset.base64)
+        .map(asset => `data:image/${asset.uri.split('.').pop()};base64,${asset.base64}`);
+      
+      setNewItem({ ...newItem, images: [...newItem.images, ...base64Images] });
     }
+  };
+
+  const removeImage = (index: number) => {
+    const updatedImages = newItem.images.filter((_, i) => i !== index);
+    setNewItem({ ...newItem, images: updatedImages });
   };
 
   const fetchShopItems = async () => {

@@ -404,6 +404,11 @@ export default function ShopScreen() {
         power_tier: newItem.power_tier || null,
         power_max_level: newItem.power_max_level || null,
         next_tier_ability: newItem.next_tier_ability || null,
+        // Consumable fields
+        exp_amount: newItem.exp_amount || null,
+        gold_amount: newItem.gold_amount || null,
+        ap_amount: newItem.ap_amount || null,
+        is_synthesis_material: newItem.is_synthesis_material || false,
       };
 
       if (newItem.image) {

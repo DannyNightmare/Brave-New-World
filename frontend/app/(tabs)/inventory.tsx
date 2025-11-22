@@ -70,6 +70,9 @@ export default function InventoryScreen() {
         
         alert(message);
         
+        // Refresh user data to update AP/Gold/EXP on other pages
+        await refreshUser();
+        
         // Refresh inventory to remove used item
         fetchInventory();
       } else {

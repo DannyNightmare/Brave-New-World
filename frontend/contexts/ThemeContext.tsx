@@ -36,14 +36,14 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         header: '#111827',
       }
     : {
-        background: '#FFFFFF',
-        cardBackground: '#F3F4F6',
-        text: '#111827',
-        textSecondary: '#6B7280',
-        border: '#E5E7EB',
-        primary: '#8B5CF6',
-        tabBar: '#F9FAFB',
-        header: '#FFFFFF',
+        background: '#F0F4F8',        // Soft blue-gray background
+        cardBackground: '#FFFFFF',    // Pure white cards for contrast
+        text: '#1A202C',              // Dark blue-gray text
+        textSecondary: '#4A5568',     // Medium gray for secondary text
+        border: '#CBD5E0',            // Light blue-gray borders
+        primary: '#6B46C1',           // Deeper purple for better contrast in light mode
+        tabBar: '#FFFFFF',            // White tab bar
+        header: '#FFFFFF',            // White header
       };
 
   return (

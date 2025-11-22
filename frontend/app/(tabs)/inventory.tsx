@@ -19,7 +19,7 @@ interface InventoryItem {
 }
 
 export default function InventoryScreen() {
-  const { user } = useUser();
+  const { user, refreshUser } = useUser();
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');

@@ -1448,16 +1448,47 @@ export default function ShopScreen() {
             </TouchableOpacity>
           </View>
 
-          {/* Fixed Image Section - Top Half */}
+          {/* Fixed Image Section - Top Half with Swipeable Gallery */}
           <View style={styles.detailImageContainer}>
             {viewingItem?.images && viewingItem.images.length > 0 ? (
-              <Image source={{ uri: viewingItem.images[0] }} style={styles.detailImage} resizeMode="contain" />
+              <ScrollView 
+                horizontal 
+                pagingEnabled
+                showsHorizontalScrollIndicator={false}
+                style={styles.imageGallery}
+                onScroll={(event) => {
+                  const slideSize = event.nativeEvent.layoutMeasurement.width;
+                  const index = Math.round(event.nativeEvent.contentOffset.x / slideSize);
+                  setCurrentImageIndex(index);
+                }}
+                scrollEventThrottle={16}
+              >
+                {viewingItem.images.map((imageUri, index) => (
+                  <View key={index} style={styles.galleryImageContainer}>
+                    <Image source={{ uri: imageUri }} style={styles.detailImage} resizeMode="contain" />
+                  </View>
+                ))}
+              </ScrollView>
             ) : viewingItem?.image ? (
               <Image source={{ uri: viewingItem.image }} style={styles.detailImage} resizeMode="contain" />
             ) : (
               <View style={styles.detailImagePlaceholder}>
                 <Ionicons name="image-outline" size={80} color="#4B5563" />
                 <Text style={styles.detailImagePlaceholderText}>No image available</Text>
+              </View>
+            )}
+            {/* Image indicator dots */}
+            {viewingItem?.images && viewingItem.images.length > 1 && (
+              <View style={styles.imageIndicatorContainer}>
+                {viewingItem.images.map((_, index) => (
+                  <View 
+                    key={index} 
+                    style={[
+                      styles.imageIndicatorDot,
+                      index === currentImageIndex && styles.imageIndicatorDotActive
+                    ]} 
+                  />
+                ))}
               </View>
             )}
           </View>

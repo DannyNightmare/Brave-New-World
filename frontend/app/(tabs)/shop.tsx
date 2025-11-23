@@ -790,7 +790,27 @@ export default function ShopScreen() {
                   {newItem.images.length > 0 || newItem.image ? 'Add More Images' : 'Select Images'}
                 </Text>
               </TouchableOpacity>
-              {newItem.image && (
+              {/* Show all images */}
+              {newItem.images.length > 0 && (
+                <View style={styles.imagesPreviewContainer}>
+                  <Text style={styles.label}>Selected Images ({newItem.images.length})</Text>
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.imagesPreviewScroll}>
+                    {newItem.images.map((imageUri, index) => (
+                      <View key={index} style={styles.imagePreview}>
+                        <Image source={{ uri: imageUri }} style={styles.previewImage} />
+                        <TouchableOpacity 
+                          style={styles.removeImageButton}
+                          onPress={() => removeImage(index)}
+                        >
+                          <Ionicons name="close-circle" size={20} color="#EF4444" />
+                        </TouchableOpacity>
+                      </View>
+                    ))}
+                  </ScrollView>
+                </View>
+              )}
+              {/* Legacy single image support */}
+              {newItem.image && newItem.images.length === 0 && (
                 <View style={styles.imagePreview}>
                   <Image source={{ uri: newItem.image }} style={styles.previewImage} />
                   <TouchableOpacity 
@@ -1117,7 +1137,27 @@ export default function ShopScreen() {
                   {newItem.images.length > 0 || newItem.image ? 'Add More Images' : 'Select Images'}
                 </Text>
               </TouchableOpacity>
-              {newItem.image && (
+              {/* Show all images */}
+              {newItem.images.length > 0 && (
+                <View style={styles.imagesPreviewContainer}>
+                  <Text style={styles.label}>Selected Images ({newItem.images.length})</Text>
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.imagesPreviewScroll}>
+                    {newItem.images.map((imageUri, index) => (
+                      <View key={index} style={styles.imagePreview}>
+                        <Image source={{ uri: imageUri }} style={styles.previewImage} />
+                        <TouchableOpacity 
+                          style={styles.removeImageButton}
+                          onPress={() => removeImage(index)}
+                        >
+                          <Ionicons name="close-circle" size={20} color="#EF4444" />
+                        </TouchableOpacity>
+                      </View>
+                    ))}
+                  </ScrollView>
+                </View>
+              )}
+              {/* Legacy single image support */}
+              {newItem.image && newItem.images.length === 0 && (
                 <View style={styles.imagePreview}>
                   <Image source={{ uri: newItem.image }} style={styles.previewImage} />
                   <TouchableOpacity 

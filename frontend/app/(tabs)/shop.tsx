@@ -15,6 +15,7 @@ interface ShopItem {
   stock?: number;
   category: string;
   image?: string;
+  images?: string[];
   item_type: string;
   is_power?: boolean;
   power_category?: string;

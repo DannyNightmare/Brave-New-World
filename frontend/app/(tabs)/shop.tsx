@@ -427,6 +427,10 @@ export default function ShopScreen() {
         payload.image = newItem.image;
       }
 
+      if (newItem.images && newItem.images.length > 0) {
+        payload.images = newItem.images;
+      }
+
       if (Object.keys(stat_boost).length > 0) {
         payload.stat_boost = stat_boost;
       }
@@ -511,6 +515,10 @@ export default function ShopScreen() {
 
       if (newItem.image) {
         payload.image = newItem.image;
+      }
+
+      if (newItem.images && newItem.images.length > 0) {
+        payload.images = newItem.images;
       }
 
       if (Object.keys(stat_boost).length > 0) {

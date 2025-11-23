@@ -2192,7 +2192,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   galleryImageContainer: {
-    width: 300, // Fixed width for each image
+    width: Dimensions.get('window').width,
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',

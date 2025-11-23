@@ -1398,7 +1398,9 @@ export default function ShopScreen() {
 
           {/* Fixed Image Section - Top Half */}
           <View style={styles.detailImageContainer}>
-            {viewingItem?.image ? (
+            {viewingItem?.images && viewingItem.images.length > 0 ? (
+              <Image source={{ uri: viewingItem.images[0] }} style={styles.detailImage} resizeMode="contain" />
+            ) : viewingItem?.image ? (
               <Image source={{ uri: viewingItem.image }} style={styles.detailImage} resizeMode="contain" />
             ) : (
               <View style={styles.detailImagePlaceholder}>

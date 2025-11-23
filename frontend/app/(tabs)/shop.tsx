@@ -2048,6 +2048,23 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 12,
   },
+  imageCountBadge: {
+    position: 'absolute',
+    top: 4,
+    right: 4,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    borderRadius: 10,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 2,
+  },
+  imageCountText: {
+    color: '#FFF',
+    fontSize: 10,
+    fontWeight: 'bold',
+  },
   detailModalContainer: {
     flex: 1,
     backgroundColor: '#111827',

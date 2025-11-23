@@ -787,7 +787,7 @@ export default function ShopScreen() {
               <TouchableOpacity style={styles.imagePickerButton} onPress={pickImage}>
                 <Ionicons name="image-outline" size={24} color="#8B5CF6" />
                 <Text style={styles.imagePickerText}>
-                  {newItem.image ? 'Change Image' : 'Select Image'}
+                  {newItem.images.length > 0 || newItem.image ? 'Add More Images' : 'Select Images'}
                 </Text>
               </TouchableOpacity>
               {newItem.image && (
@@ -1114,7 +1114,7 @@ export default function ShopScreen() {
               <TouchableOpacity style={styles.imagePickerButton} onPress={pickImage}>
                 <Ionicons name="image-outline" size={24} color="#8B5CF6" />
                 <Text style={styles.imagePickerText}>
-                  {newItem.image ? 'Change Image' : 'Select Image'}
+                  {newItem.images.length > 0 || newItem.image ? 'Add More Images' : 'Select Images'}
                 </Text>
               </TouchableOpacity>
               {newItem.image && (

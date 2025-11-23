@@ -704,6 +704,7 @@ export default function ShopScreen() {
             item={item}
             onPress={() => {
               setViewingItem(item);
+              setCurrentImageIndex(0);
               setDetailModalVisible(true);
             }}
             onLongPress={() => handleItemLongPress(item)}

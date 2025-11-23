@@ -795,7 +795,7 @@ export default function ShopScreen() {
                   <Image source={{ uri: newItem.image }} style={styles.previewImage} />
                   <TouchableOpacity 
                     style={styles.removeImageButton}
-                    onPress={() => setNewItem({ ...newItem, image: '' })}
+                    onPress={() => setNewItem({ ...newItem, image: '', images: [] })}
                   >
                     <Ionicons name="close-circle" size={24} color="#EF4444" />
                   </TouchableOpacity>
@@ -1122,7 +1122,7 @@ export default function ShopScreen() {
                   <Image source={{ uri: newItem.image }} style={styles.previewImage} />
                   <TouchableOpacity 
                     style={styles.removeImageButton}
-                    onPress={() => setNewItem({ ...newItem, image: '' })}
+                    onPress={() => setNewItem({ ...newItem, image: '', images: [] })}
                   >
                     <Ionicons name="close-circle" size={24} color="#EF4444" />
                   </TouchableOpacity>

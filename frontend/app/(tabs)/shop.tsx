@@ -123,6 +123,7 @@ export default function ShopScreen() {
   const [powerCategoryModalVisible, setPowerCategoryModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState<ShopItem | null>(null);
   const [viewingItem, setViewingItem] = useState<ShopItem | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [editingItem, setEditingItem] = useState<ShopItem | null>(null);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');

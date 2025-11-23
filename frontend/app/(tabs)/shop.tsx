@@ -61,7 +61,17 @@ const ShopItemCard = ({ item, onLongPress, onPress, onPurchase }: {
     >
       <View style={styles.itemCard}>
         <View style={[styles.itemIcon, { backgroundColor: getItemColor(item.item_type) + '20' }]}>
-          {item.image ? (
+          {item.images && item.images.length > 0 ? (
+            <>
+              <Image source={{ uri: item.images[0] }} style={styles.itemImage} />
+              {item.images.length > 1 && (
+                <View style={styles.imageCountBadge}>
+                  <Text style={styles.imageCountText}>{item.images.length}</Text>
+                  <Ionicons name="images" size={12} color="#FFF" />
+                </View>
+              )}
+            </>
+          ) : item.image ? (
             <Image source={{ uri: item.image }} style={styles.itemImage} />
           ) : (
             <Ionicons name={getItemIcon(item.item_type) as any} size={32} color={getItemColor(item.item_type)} />

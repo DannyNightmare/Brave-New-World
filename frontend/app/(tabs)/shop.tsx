@@ -329,6 +329,7 @@ export default function ShopScreen() {
         stock: selectedItem.stock || 1,
         category: selectedItem.category || 'general',
         image: selectedItem.image || '',
+        images: selectedItem.images || [],
         is_power: selectedItem.is_power || false,
         power_category: selectedItem.power_category || '',
         power_subcategory: selectedItem.power_subcategory || '',

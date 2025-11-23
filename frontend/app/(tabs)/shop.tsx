@@ -2186,6 +2186,38 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 12,
   },
+  imageGallery: {
+    width: '100%',
+    height: '100%',
+  },
+  galleryImageContainer: {
+    width: 300, // Fixed width for each image
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  imageIndicatorContainer: {
+    position: 'absolute',
+    bottom: 20,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  imageIndicatorDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: 'rgba(255, 255, 255, 0.4)',
+    marginHorizontal: 4,
+  },
+  imageIndicatorDotActive: {
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+  },
   detailDescriptionScroll: {
     flex: 1,
   },

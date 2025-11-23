@@ -2083,6 +2083,13 @@ const styles = StyleSheet.create({
     position: 'relative',
     alignSelf: 'center',
     marginBottom: 16,
+    marginRight: 12,
+  },
+  imagesPreviewContainer: {
+    marginBottom: 16,
+  },
+  imagesPreviewScroll: {
+    marginTop: 8,
   },
   previewImage: {
     width: 200,

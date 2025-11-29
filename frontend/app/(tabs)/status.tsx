@@ -357,9 +357,9 @@ const getStyles = (colors: any) => StyleSheet.create({
     height: 120,
     borderRadius: 60,
     overflow: 'hidden',
-    backgroundColor: '#1F2937',
+    backgroundColor: colors.cardBackground,
     borderWidth: 3,
-    borderColor: '#8B5CF6',
+    borderColor: colors.primary,
   },
   profileImage: {
     width: '100%',

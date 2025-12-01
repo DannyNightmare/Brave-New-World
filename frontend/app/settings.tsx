@@ -422,4 +422,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  sectionDescription: {
+    fontSize: 13,
+    marginTop: 8,
+    marginHorizontal: 16,
+    lineHeight: 18,
+  },
 });

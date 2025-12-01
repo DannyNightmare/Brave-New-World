@@ -22,6 +22,8 @@ interface PowerItem {
 
 export default function PowersScreen() {
   const { user, refreshUser } = useUser();
+  const { colors } = useTheme();
+  const styles = getStyles(colors);
   const [powers, setPowers] = useState<PowerItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedCategories, setExpandedCategories] = useState<string[]>([]);

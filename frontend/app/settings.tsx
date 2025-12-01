@@ -5,9 +5,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useTheme } from '../contexts/ThemeContext';
 import { useUser } from '../contexts/UserContext';
-import Constants from 'expo-constants';
 
-const API_URL = Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL || '';
+const API_URL = 'https://liferealm-rpg.preview.emergentagent.com';
 
 export default function SettingsScreen() {
   const router = useRouter();

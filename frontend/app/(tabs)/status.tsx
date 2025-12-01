@@ -9,6 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 export default function StatusScreen() {
   const { user, loading } = useUser();
   const { colors } = useTheme();
+  const styles = getStyles(colors);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [goldIcon, setGoldIcon] = useState<string | null>(null);
   const [addStatModalVisible, setAddStatModalVisible] = useState(false);

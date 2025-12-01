@@ -845,7 +845,7 @@ export default function PowersScreen() {
 const getStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#111827',
+    backgroundColor: colors.background,
   },
   scrollView: {
     flex: 1,

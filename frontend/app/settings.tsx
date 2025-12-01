@@ -105,8 +105,10 @@ export default function SettingsScreen() {
           
           <View style={[styles.settingItem, { backgroundColor: colors.cardBackground, borderColor: colors.border }]}>
             <View style={styles.settingLeft}>
-              <Ionicons name="moon-outline" size={24} color={colors.primary} />
-              <Text style={[styles.settingText, { color: colors.text }]}>Dark Mode</Text>
+              <Ionicons name={isDarkMode ? "moon-outline" : "sunny-outline"} size={24} color={colors.primary} />
+              <Text style={[styles.settingText, { color: colors.text }]}>
+                {isDarkMode ? "Dark Mode" : "Light Mode"}
+              </Text>
             </View>
             <Switch
               value={isDarkMode}
@@ -115,6 +117,12 @@ export default function SettingsScreen() {
               thumbColor="#FFFFFF"
             />
           </View>
+          
+          <Text style={[styles.sectionDescription, { color: colors.textSecondary }]}>
+            {isDarkMode 
+              ? "Toggle off for light theme with soft blue-gray backgrounds" 
+              : "Toggle on for dark theme with RPG-style colors"}
+          </Text>
         </View>
 
         <View style={styles.section}>

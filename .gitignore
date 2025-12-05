@@ -106,3 +106,7 @@ android-sdk/ -e
 *.env
 *.env.*
 app_for_apk.zip
+-e 
+# Environment files
+*.env
+*.env.*

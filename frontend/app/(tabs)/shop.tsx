@@ -79,8 +79,8 @@ const ShopItemCard = ({ item, onLongPress, onPress, onPurchase }: {
         </View>
         
         <View style={styles.itemInfo}>
-          <Text style={styles.itemName}>{item.name}</Text>
-          <Text style={styles.itemDescription} numberOfLines={2} ellipsizeMode="tail">
+          <Text style={styles.itemName} selectable={false}>{item.name}</Text>
+          <Text style={styles.itemDescription} numberOfLines={2} ellipsizeMode="tail" selectable={false}>
             {item.description}
           </Text>
           
@@ -93,7 +93,7 @@ const ShopItemCard = ({ item, onLongPress, onPress, onPurchase }: {
                     size={12} 
                     color="#10B981" 
                   />
-                  <Text style={styles.statBoostText}>+{value} {stat}</Text>
+                  <Text style={styles.statBoostText} selectable={false}>+{value} {stat}</Text>
                 </View>
               ))}
             </View>

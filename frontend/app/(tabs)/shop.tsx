@@ -105,7 +105,7 @@ const ShopItemCard = ({ item, onLongPress, onPress, onPurchase }: {
           onPress={onPurchase}
         >
           <Ionicons name="logo-bitcoin" size={16} color="#FFF" />
-          <Text style={styles.buyButtonText}>{item.price}</Text>
+          <Text style={styles.buyButtonText} selectable={false}>{item.price}</Text>
         </TouchableOpacity>
       </View>
     </TouchableWithoutFeedback>

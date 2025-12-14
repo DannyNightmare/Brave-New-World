@@ -10,7 +10,7 @@ import uuid
 from datetime import datetime
 
 # Backend URL from frontend .env
-BASE_URL = "https://liferealm-rpg.preview.emergentagent.com/api"
+BASE_URL = "https://rpg-gamify.preview.emergentagent.com/api"
 
 class PowerTierTester:
     def __init__(self):

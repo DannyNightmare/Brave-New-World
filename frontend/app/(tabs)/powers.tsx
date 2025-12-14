@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUser } from '../../contexts/UserContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
-const API_URL = 'https://liferealm-rpg.preview.emergentagent.com';
+const API_URL = 'https://rpg-gamify.preview.emergentagent.com';
 
 interface PowerItem {
   id: string;

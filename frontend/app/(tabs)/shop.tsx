@@ -66,7 +66,7 @@ const ShopItemCard = ({ item, onLongPress, onPress, onPurchase }: {
               <Image source={{ uri: item.images[0] }} style={styles.itemImage} />
               {item.images.length > 1 && (
                 <View style={styles.imageCountBadge}>
-                  <Text style={styles.imageCountText}>{item.images.length}</Text>
+                  <Text style={styles.imageCountText} selectable={false}>{item.images.length}</Text>
                   <Ionicons name="images" size={12} color="#FFF" />
                 </View>
               )}

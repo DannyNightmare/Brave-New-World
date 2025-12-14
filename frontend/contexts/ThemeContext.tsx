@@ -26,24 +26,36 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   const colors = isDarkMode
     ? {
-        background: '#111827',
-        cardBackground: '#1F2937',
-        text: '#F9FAFB',
-        textSecondary: '#9CA3AF',
-        border: '#374151',
-        primary: '#8B5CF6',
-        tabBar: '#1F2937',
-        header: '#111827',
+        // Solo Leveling System Theme - Dark Mode
+        background: '#0A0E27',           // Deep navy/black background
+        cardBackground: '#151B3D',       // Dark blue cards with depth
+        text: '#E5E7EB',                 // Silver/white text
+        textSecondary: '#9CA3AF',        // Gray secondary text
+        border: '#00D4FF',               // Bright cyan borders (System glow)
+        primary: '#00E5FF',              // Electric cyan accent (iconic Solo Leveling blue)
+        secondary: '#7C3AED',            // Purple for secondary accents
+        tabBar: '#0D1117',               // Very dark bar
+        header: '#0A0E27',               // Match background
+        glow: '#00F0FF',                 // Bright cyan for glowing effects
+        success: '#10B981',              // Keep green for success
+        warning: '#F59E0B',              // Keep orange for warnings
+        danger: '#EF4444',               // Keep red for danger
       }
     : {
-        background: '#F0F4F8',        // Soft blue-gray background
-        cardBackground: '#FFFFFF',    // Pure white cards for contrast
-        text: '#1A202C',              // Dark blue-gray text
-        textSecondary: '#4A5568',     // Medium gray for secondary text
-        border: '#CBD5E0',            // Light blue-gray borders
-        primary: '#6B46C1',           // Deeper purple for better contrast in light mode
-        tabBar: '#FFFFFF',            // White tab bar
-        header: '#FFFFFF',            // White header
+        // Light Mode (keeping your previous light theme)
+        background: '#F0F4F8',
+        cardBackground: '#FFFFFF',
+        text: '#1A202C',
+        textSecondary: '#4A5568',
+        border: '#CBD5E0',
+        primary: '#00D4FF',              // Use cyan in light mode too
+        secondary: '#6B46C1',
+        tabBar: '#FFFFFF',
+        header: '#FFFFFF',
+        glow: '#00D4FF',
+        success: '#10B981',
+        warning: '#F59E0B',
+        danger: '#EF4444',
       };
 
   return (

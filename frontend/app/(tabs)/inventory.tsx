@@ -54,6 +54,9 @@ export default function InventoryScreen() {
       return;
     }
 
+    // Store old level before using item
+    const oldLevel = user.level;
+
     try {
       const response = await fetch(`${API_URL}/api/inventory/${item.id}/use`, {
         method: 'POST',
@@ -64,16 +67,25 @@ export default function InventoryScreen() {
       if (response.ok) {
         const result = await response.json();
         
-        // Show success message with what was gained
-        let message = 'Item used successfully!\n';
-        if (result.exp_gained) message += `+${result.exp_gained} EXP\n`;
-        if (result.gold_gained) message += `+${result.gold_gained} Gold\n`;
-        if (result.ap_gained) message += `+${result.ap_gained} AP\n`;
-        
-        alert(message);
-        
         // Refresh user data to update AP/Gold/EXP on other pages
         await refreshUser();
+        
+        // Show success notification with what was gained
+        let message = '';
+        const rewards: string[] = [];
+        if (result.exp_gained) rewards.push(`+${result.exp_gained} EXP`);
+        if (result.gold_gained) rewards.push(`+${result.gold_gained} Gold`);
+        if (result.ap_gained) rewards.push(`+${result.ap_gained} AP`);
+        
+        if (rewards.length > 0) {
+          message = rewards.join(' • ');
+          showNotification(`✨ ${item.item_name} used!\n${message}`, 'success', 3000);
+        }
+        
+        // Check if user leveled up and show level up notification
+        if (result.level_up && result.new_level) {
+          showLevelUp(oldLevel, result.new_level);
+        }
         
         // Refresh inventory to remove used item
         fetchInventory();

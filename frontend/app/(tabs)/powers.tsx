@@ -82,6 +82,10 @@ export default function PowersScreen() {
   };
 
   const levelUpPower = async (powerId: string, powerName: string, nextTierAbility?: string) => {
+    // Get current level before updating
+    const currentPower = powers.find(p => p.id === powerId);
+    const oldLevel = currentPower?.current_level || 0;
+    
     try {
       const response = await fetch(`${API_URL}/api/powers/${powerId}/levelup`, {
         method: 'POST',
@@ -91,6 +95,9 @@ export default function PowersScreen() {
         // Refresh powers and user data after level up
         await fetchPowers();
         await refreshUser();
+        
+        // Show notification with level increase
+        showPowerLevelUp(powerName, oldLevel, oldLevel + 1);
         
         // If this was the max level and has next tier, show unlock message
         const updatedPower = powers.find(p => p.id === powerId);

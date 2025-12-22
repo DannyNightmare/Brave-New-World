@@ -450,6 +450,8 @@ async def use_inventory_item(item_id: str, request: dict):
         raise HTTPException(status_code=404, detail="User not found")
     
     result = {}
+    old_level = user.get("level", 1)
+    new_xp = user.get("xp", 0)
     
     # Apply consumable effects based on item type
     if item.get("item_type") == "exp" and item.get("exp_amount"):
@@ -471,6 +473,30 @@ async def use_inventory_item(item_id: str, request: dict):
         result["ap_gained"] = item["ap_amount"]
     else:
         raise HTTPException(status_code=400, detail="Item is not consumable or has no effect")
+    
+    # Check for level up (XP threshold: level * 100)
+    new_level = old_level
+    while new_xp >= (new_level * 100):
+        new_level += 1
+    
+    if new_level > old_level:
+        # User leveled up! Update level and grant rewards
+        gold_reward = 50 * (new_level - old_level)
+        ap_reward = 5 * (new_level - old_level)
+        
+        await db.users.update_one(
+            {"id": user_id},
+            {"$set": {
+                "level": new_level,
+                "gold": user.get("gold", 0) + gold_reward,
+                "ability_points": user.get("ability_points", 0) + ap_reward
+            }}
+        )
+        
+        result["level_up"] = True
+        result["new_level"] = new_level
+        result["gold_reward"] = gold_reward
+        result["ap_reward"] = ap_reward
     
     # Remove the item from inventory after use
     await db.inventory.delete_one({"id": item_id})

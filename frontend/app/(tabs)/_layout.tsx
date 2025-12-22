@@ -69,7 +69,7 @@ export default function TabLayout() {
         options={{
           title: 'Quests',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="map" size={size} color={color} />
+            <Ionicons name="document-text" size={size} color={color} />
           ),
         }}
       />
@@ -78,7 +78,7 @@ export default function TabLayout() {
         options={{
           title: 'Status',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="stats-chart" size={size} color={color} />
+            <Ionicons name="shield-checkmark" size={size} color={color} />
           ),
         }}
       />
@@ -87,7 +87,7 @@ export default function TabLayout() {
         options={{
           title: 'Inventory',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="backpack" size={size} color={color} />
+            <Ionicons name="file-tray-full" size={size} color={color} />
           ),
         }}
       />
@@ -96,7 +96,7 @@ export default function TabLayout() {
         options={{
           title: 'Shop',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="cart" size={size} color={color} />
+            <Ionicons name="storefront" size={size} color={color} />
           ),
         }}
       />
@@ -105,7 +105,7 @@ export default function TabLayout() {
         options={{
           title: 'Powers',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="flash" size={size} color={color} />
+            <Ionicons name="sparkles" size={size} color={color} />
           ),
         }}
       />

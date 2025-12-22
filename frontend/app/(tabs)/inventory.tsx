@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TextInput, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUser } from '../../contexts/UserContext';
+import { useNotification } from '../../contexts/NotificationContext';
 import { Ionicons } from '@expo/vector-icons';
 
 const API_URL = 'https://rpg-gamify.preview.emergentagent.com';

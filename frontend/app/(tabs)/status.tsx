@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity, Image, Alert, Modal, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUser } from '../../contexts/UserContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+
+const API_URL = 'https://rpg-gamify.preview.emergentagent.com';
 
 export default function StatusScreen() {
   const { user, loading } = useUser();
@@ -13,14 +15,35 @@ export default function StatusScreen() {
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [goldIcon, setGoldIcon] = useState<string | null>(null);
   const [addStatModalVisible, setAddStatModalVisible] = useState(false);
-  const [customStats, setCustomStats] = useState<Array<{id: string, name: string, color: string, value: number, maxValue: number, icon?: string}>>([]);
+  const [customStats, setCustomStats] = useState<Array<{id: string, name: string, color: string, current: number, max: number, icon?: string}>>([]);
   const [newStat, setNewStat] = useState({
     name: '',
     color: '#8B5CF6',
-    value: 0,
-    maxValue: 100,
+    current: 0,
+    max: 100,
     icon: '',
   });
+
+  // Fetch custom stats from backend
+  useEffect(() => {
+    if (user?.id) {
+      fetchCustomStats();
+    }
+  }, [user?.id]);
+
+  const fetchCustomStats = async () => {
+    if (!user?.id) return;
+    
+    try {
+      const response = await fetch(`${API_URL}/api/users/${user.id}/stats`);
+      if (response.ok) {
+        const stats = await response.json();
+        setCustomStats(stats);
+      }
+    } catch (error) {
+      console.error('Failed to fetch custom stats:', error);
+    }
+  };
 
   if (loading || !user) {
     return (

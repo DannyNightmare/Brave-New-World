@@ -259,6 +259,14 @@ export default function QuestsScreen() {
         )}
       </ScrollView>
 
+      {/* Floating Action Button */}
+      <TouchableOpacity 
+        style={styles.fab} 
+        onPress={() => setModalVisible(true)}
+      >
+        <Ionicons name="add" size={28} color="#FFF" />
+      </TouchableOpacity>
+
       <Modal visible={modalVisible} animationType="slide" transparent={true}>
         <View style={styles.modalOverlay}>
           <ScrollView style={styles.modalScrollView}>

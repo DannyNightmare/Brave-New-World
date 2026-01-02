@@ -148,6 +148,24 @@ class PowerItem(BaseModel):
     stat_boost: Optional[dict] = None
     acquired_at: datetime = Field(default_factory=datetime.utcnow)
 
+class CustomStat(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    name: str
+    color: str
+    current: int
+    max: int
+    icon: Optional[str] = None
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class CustomStatCreate(BaseModel):
+    user_id: str
+    name: str
+    color: str
+    current: int
+    max: int
+    icon: Optional[str] = None
+
 
 # Helper function to calculate XP needed for next level
 def xp_for_level(level: int) -> int:

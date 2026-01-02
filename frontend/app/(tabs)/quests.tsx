@@ -200,9 +200,6 @@ export default function QuestsScreen() {
           <View>
             <Text style={styles.subtitle}>{activeQuests.length} active</Text>
           </View>
-          <TouchableOpacity style={styles.addButton} onPress={() => setModalVisible(true)}>
-            <Ionicons name="add" size={24} color="#FFF" />
-          </TouchableOpacity>
         </View>
 
         {activeQuests.length === 0 && completedQuests.length === 0 && (

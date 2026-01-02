@@ -143,25 +143,41 @@ export default function StatusScreen() {
     }
   };
 
-  const addCustomStat = () => {
+  const addCustomStat = async () => {
     if (!newStat.name.trim()) {
       Alert.alert('Error', 'Please enter a stat name');
       return;
     }
 
-    const stat = {
-      id: Date.now().toString(),
-      name: newStat.name,
-      color: newStat.color,
-      value: newStat.value,
-      maxValue: newStat.maxValue,
-      icon: newStat.icon,
-    };
+    if (!user?.id) return;
 
-    setCustomStats([...customStats, stat]);
-    setNewStat({ name: '', color: '#8B5CF6', value: 0, maxValue: 100, icon: '' });
-    setAddStatModalVisible(false);
-    Alert.alert('Success', 'Custom stat added!');
+    try {
+      const response = await fetch(`${API_URL}/api/users/${user.id}/stats`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: user.id,
+          name: newStat.name,
+          color: newStat.color,
+          current: newStat.current,
+          max: newStat.max,
+          icon: newStat.icon,
+        }),
+      });
+
+      if (response.ok) {
+        const stat = await response.json();
+        setCustomStats([...customStats, stat]);
+        setNewStat({ name: '', color: '#8B5CF6', current: 0, max: 100, icon: '' });
+        setAddStatModalVisible(false);
+        Alert.alert('Success', 'Custom stat added!');
+      } else {
+        Alert.alert('Error', 'Failed to add custom stat');
+      }
+    } catch (error) {
+      console.error('Failed to add custom stat:', error);
+      Alert.alert('Error', 'Failed to add custom stat');
+    }
   };
 
   const colorOptions = [

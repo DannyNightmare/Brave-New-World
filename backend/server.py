@@ -637,6 +637,53 @@ async def update_power(power_id: str, updates: dict):
     return PowerItem(**updated_power)
 
 
+# Custom Stats endpoints
+@api_router.get("/users/{user_id}/stats", response_model=List[CustomStat])
+async def get_user_stats(user_id: str):
+    """Get all custom stats for a user"""
+    stats = await db.custom_stats.find({"user_id": user_id}).to_list(1000)
+    return [CustomStat(**stat) for stat in stats]
+
+@api_router.post("/users/{user_id}/stats", response_model=CustomStat)
+async def create_custom_stat(user_id: str, stat: CustomStatCreate):
+    """Create a new custom stat"""
+    stat_dict = stat.dict()
+    stat_dict["user_id"] = user_id
+    stat_dict["id"] = str(uuid.uuid4())
+    stat_dict["created_at"] = datetime.utcnow()
+    
+    await db.custom_stats.insert_one(stat_dict)
+    return CustomStat(**stat_dict)
+
+@api_router.put("/users/{user_id}/stats/{stat_id}")
+async def update_custom_stat(user_id: str, stat_id: str, updates: dict):
+    """Update a custom stat"""
+    stat = await db.custom_stats.find_one({"id": stat_id, "user_id": user_id})
+    if not stat:
+        raise HTTPException(status_code=404, detail="Custom stat not found")
+    
+    # Allow updating name, color, current, max, icon
+    allowed_fields = ["name", "color", "current", "max", "icon"]
+    update_data = {k: v for k, v in updates.items() if k in allowed_fields}
+    
+    if update_data:
+        await db.custom_stats.update_one(
+            {"id": stat_id, "user_id": user_id},
+            {"$set": update_data}
+        )
+    
+    updated_stat = await db.custom_stats.find_one({"id": stat_id})
+    return CustomStat(**updated_stat)
+
+@api_router.delete("/users/{user_id}/stats/{stat_id}")
+async def delete_custom_stat(user_id: str, stat_id: str):
+    """Delete a custom stat"""
+    result = await db.custom_stats.delete_one({"id": stat_id, "user_id": user_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Custom stat not found")
+    return {"message": "Custom stat deleted successfully"}
+
+
 # Include the router in the main app
 app.include_router(api_router)
 

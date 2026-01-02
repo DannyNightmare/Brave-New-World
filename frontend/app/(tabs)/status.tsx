@@ -249,7 +249,7 @@ export default function StatusScreen() {
 
         {/* Custom Stats Display */}
         {customStats.map((stat) => {
-          const percentage = (stat.value / stat.maxValue) * 100;
+          const percentage = (stat.current / stat.max) * 100;
           return (
             <View key={stat.id} style={styles.customStatRow}>
               <View style={styles.statNameRow}>
@@ -270,7 +270,7 @@ export default function StatusScreen() {
                   />
                 </View>
                 <Text style={styles.customStatCounter}>
-                  {stat.value} / {stat.maxValue}
+                  {stat.current} / {stat.max}
                 </Text>
               </View>
             </View>

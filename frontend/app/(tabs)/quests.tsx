@@ -157,6 +157,10 @@ export default function QuestsScreen() {
 
   const completeQuest = async (questId: string) => {
     try {
+      // Store old user values before completing quest
+      const oldLevel = user?.level || 1;
+      const oldGold = user?.gold || 0;
+      
       const response = await fetch(`${API_URL}/api/quests/${questId}/complete`, {
         method: 'POST',
       });
@@ -169,20 +173,51 @@ export default function QuestsScreen() {
       await refreshUser();
       fetchQuests();
       
-      // Show celebration notification
-      let rewards = [];
-      if (result.xp_reward) rewards.push(`+${result.xp_reward} XP`);
-      if (result.gold_reward) rewards.push(`+${result.gold_reward} Gold`);
+      // Build comprehensive reward message
+      let rewardDetails = [];
       
-      const rewardMessage = rewards.length > 0 ? '\n' + rewards.join(' • ') : '';
-      showNotification(`🎉 ${questName} Complete!${rewardMessage}`, 'success', 4000);
-      
-      // Show additional alert if there's an item reward
-      if (result.item_reward) {
-        setTimeout(() => {
-          Alert.alert('Item Reward!', `You received: ${result.item_reward}`);
-        }, 500);
+      // XP and Gold
+      if (result.quest?.xp_reward) {
+        rewardDetails.push(`+${result.quest.xp_reward} XP`);
       }
+      if (result.quest?.gold_reward) {
+        const goldGained = result.quest.gold_reward;
+        rewardDetails.push(`+${goldGained} Gold (${oldGold} → ${oldGold + goldGained})`);
+      }
+      
+      // Level up detection
+      if (result.user?.level > oldLevel) {
+        const levelsGained = result.user.level - oldLevel;
+        rewardDetails.push(`\n🎉 LEVEL UP! ${oldLevel} → ${result.user.level}`);
+        // Calculate AP gained (2 per level)
+        const apGained = levelsGained * 2;
+        rewardDetails.push(`+${apGained} Ability Points`);
+      }
+      
+      // Stat boosts from quest rewards
+      if (result.quest?.attribute_rewards) {
+        rewardDetails.push('\n📈 Stats Boosted:');
+        for (const [stat, value] of Object.entries(result.quest.attribute_rewards)) {
+          rewardDetails.push(`  +${value} ${stat.charAt(0).toUpperCase() + stat.slice(1)}`);
+        }
+      }
+      
+      // Item reward
+      if (result.item_reward) {
+        rewardDetails.push(`\n🎁 Item: ${result.item_reward}`);
+      }
+      
+      const message = rewardDetails.length > 0 
+        ? rewardDetails.join('\n')
+        : 'Quest completed!';
+      
+      // Show comprehensive alert
+      Alert.alert(
+        `✅ ${questName} Complete!`,
+        message,
+        [{ text: 'Awesome!', style: 'default' }]
+      );
+      
     } catch (error) {
       console.error('Failed to complete quest:', error);
       Alert.alert('Error', 'Failed to complete quest');

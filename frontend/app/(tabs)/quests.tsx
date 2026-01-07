@@ -418,57 +418,102 @@ export default function QuestsScreen() {
               </View>
 
               <Text style={styles.label}>Item Reward (Optional)</Text>
-              <View style={styles.itemRewardContainer}>
-                <ScrollView 
-                  horizontal 
-                  showsHorizontalScrollIndicator={false}
-                  style={styles.itemScrollView}
-                >
+              {shopItems.length === 0 ? (
+                <Text style={styles.noItemsText}>
+                  No shop items available. Create items in the Shop page first.
+                </Text>
+              ) : (
+                <View style={styles.itemRewardContainer}>
+                  {/* Category Selector */}
                   <TouchableOpacity
-                    style={[
-                      styles.itemChip,
-                      newQuest.item_reward === '' && styles.itemChipSelected
-                    ]}
-                    onPress={() => setNewQuest({ ...newQuest, item_reward: '' })}
+                    style={styles.categoryDropdown}
+                    onPress={() => setCategoryDropdownOpen(!categoryDropdownOpen)}
                   >
-                    <Text style={[
-                      styles.itemChipText,
-                      newQuest.item_reward === '' && styles.itemChipTextSelected
-                    ]}>
-                      No Item
+                    <Ionicons name="grid" size={20} color="#8B5CF6" />
+                    <Text style={styles.categoryDropdownText}>
+                      {selectedCategory || 'Select Category'}
                     </Text>
+                    <Ionicons 
+                      name={categoryDropdownOpen ? "chevron-up" : "chevron-down"} 
+                      size={20} 
+                      color="#8B5CF6" 
+                    />
                   </TouchableOpacity>
-                  
-                  {shopItems.map((item) => (
+
+                  {/* Category Dropdown */}
+                  {categoryDropdownOpen && (
+                    <View style={styles.categoryList}>
+                      {itemCategories.map((category) => (
+                        <TouchableOpacity
+                          key={category}
+                          style={[
+                            styles.categoryItem,
+                            selectedCategory === category && styles.categoryItemSelected
+                          ]}
+                          onPress={() => {
+                            setSelectedCategory(category);
+                            setCategoryDropdownOpen(false);
+                          }}
+                        >
+                          <Text style={[
+                            styles.categoryItemText,
+                            selectedCategory === category && styles.categoryItemTextSelected
+                          ]}>
+                            {category}
+                          </Text>
+                          {selectedCategory === category && (
+                            <Ionicons name="checkmark" size={20} color="#8B5CF6" />
+                          )}
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  )}
+
+                  {/* Item List */}
+                  <Text style={styles.itemListLabel}>Select Item:</Text>
+                  <ScrollView style={styles.itemList} nestedScrollEnabled>
                     <TouchableOpacity
-                      key={item.id}
                       style={[
-                        styles.itemChip,
-                        newQuest.item_reward === item.name && styles.itemChipSelected
+                        styles.itemRow,
+                        newQuest.item_reward === '' && styles.itemRowSelected
                       ]}
-                      onPress={() => setNewQuest({ ...newQuest, item_reward: item.name })}
+                      onPress={() => setNewQuest({ ...newQuest, item_reward: '' })}
                     >
-                      <Ionicons 
-                        name="gift" 
-                        size={16} 
-                        color={newQuest.item_reward === item.name ? '#FFFFFF' : '#8B5CF6'} 
-                      />
+                      <Ionicons name="close-circle" size={20} color="#9CA3AF" />
                       <Text style={[
-                        styles.itemChipText,
-                        newQuest.item_reward === item.name && styles.itemChipTextSelected
+                        styles.itemRowText,
+                        newQuest.item_reward === '' && styles.itemRowTextSelected
                       ]}>
-                        {item.name}
+                        No Item
                       </Text>
                     </TouchableOpacity>
-                  ))}
-                </ScrollView>
-                
-                {shopItems.length === 0 && (
-                  <Text style={styles.noItemsText}>
-                    No shop items available. Create items in the Shop page first.
-                  </Text>
-                )}
-              </View>
+
+                    {shopItems
+                      .filter(item => selectedCategory === 'All' || item.category === selectedCategory)
+                      .map((item) => (
+                        <TouchableOpacity
+                          key={item.id}
+                          style={[
+                            styles.itemRow,
+                            newQuest.item_reward === item.name && styles.itemRowSelected
+                          ]}
+                          onPress={() => setNewQuest({ ...newQuest, item_reward: item.name })}
+                        >
+                          <Ionicons name="gift" size={20} color="#8B5CF6" />
+                          <Text style={[
+                            styles.itemRowText,
+                            newQuest.item_reward === item.name && styles.itemRowTextSelected
+                          ]}>
+                            {item.name}
+                          </Text>
+                          {newQuest.item_reward === item.name && (
+                            <Ionicons name="checkmark-circle" size={20} color="#10B981" />
+                          )}
+                        </TouchableOpacity>
+                      ))}
+                  </ScrollView>
+                </View>
+              )}
 
               {/* Repeat Frequency Selector */}
               <Text style={styles.label}>Repeat Frequency</Text>

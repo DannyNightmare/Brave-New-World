@@ -61,6 +61,10 @@ export default function QuestsScreen() {
     repeat_frequency: 'none',
   });
 
+  // Reward modal state
+  const [rewardModalVisible, setRewardModalVisible] = useState(false);
+  const [rewardData, setRewardData] = useState<any>(null);
+
   const fetchQuests = async () => {
     if (!user?.id) return;
     try {

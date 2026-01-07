@@ -11,19 +11,12 @@ export default function TabLayout() {
   const router = useRouter();
   const { colors } = useTheme();
 
-  const HeaderButtons = () => (
-    <View style={styles.headerButtons}>
-      {/* Customize Button */}
-      <TouchableOpacity onPress={() => setCustomizeVisible(true)} style={{ marginRight: 12 }}>
-        <Ionicons name="color-palette" size={26} color={colors.primary} />
-      </TouchableOpacity>
-
-      {/* Hamburger Menu Button */}
+  const HamburgerMenu = () => (
+    <>
       <TouchableOpacity onPress={() => setMenuVisible(true)} style={{ marginRight: 16 }}>
         <Ionicons name="menu" size={28} color={colors.text} />
       </TouchableOpacity>
 
-      {/* Hamburger Menu Modal */}
       <Modal visible={menuVisible} animationType="fade" transparent={true}>
         <TouchableOpacity 
           style={styles.menuOverlay} 
@@ -31,6 +24,19 @@ export default function TabLayout() {
           onPress={() => setMenuVisible(false)}
         >
           <View style={[styles.menuContainer, { backgroundColor: colors.cardBackground, borderColor: colors.border }]}>
+            {/* Customize Option */}
+            <TouchableOpacity 
+              style={styles.menuItem}
+              onPress={() => {
+                setMenuVisible(false);
+                setCustomizeVisible(true);
+              }}
+            >
+              <Ionicons name="color-palette" size={24} color={colors.primary} />
+              <Text style={[styles.menuItemText, { color: colors.text }]}>Customize</Text>
+            </TouchableOpacity>
+
+            {/* Settings Option */}
             <TouchableOpacity 
               style={styles.menuItem}
               onPress={() => {
@@ -72,10 +78,8 @@ export default function TabLayout() {
           </View>
         </View>
       </Modal>
-    </View>
+    </>
   );
-
-  const HamburgerMenu = () => <HeaderButtons />;
 
   return (
     <Tabs

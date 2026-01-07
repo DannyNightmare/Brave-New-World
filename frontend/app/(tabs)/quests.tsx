@@ -188,7 +188,8 @@ export default function QuestsScreen() {
         goldGained: result.gold_reward,
         oldLevel: result.old_level,
         newLevel: result.levels_gained ? result.old_level + result.levels_gained : undefined,
-        apGained: result.levels_gained ? result.levels_gained * 2 : undefined,
+        apGained: (result.levels_gained ? result.levels_gained * 2 : 0) + (result.quest?.ap_reward || 0),
+        questApReward: result.quest?.ap_reward,
         statBoosts: result.quest?.attribute_rewards,
         itemReward: result.item_reward,
       };

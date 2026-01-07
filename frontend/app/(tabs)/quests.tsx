@@ -393,13 +393,58 @@ export default function QuestsScreen() {
                 </View>
               </View>
 
-              <TextInput
-                style={styles.input}
-                placeholder="Item reward (optional)"
-                placeholderTextColor="#6B7280"
-                value={newQuest.item_reward}
-                onChangeText={(text) => setNewQuest({ ...newQuest, item_reward: text })}
-              />
+              <Text style={styles.label}>Item Reward (Optional)</Text>
+              <View style={styles.itemRewardContainer}>
+                <ScrollView 
+                  horizontal 
+                  showsHorizontalScrollIndicator={false}
+                  style={styles.itemScrollView}
+                >
+                  <TouchableOpacity
+                    style={[
+                      styles.itemChip,
+                      newQuest.item_reward === '' && styles.itemChipSelected
+                    ]}
+                    onPress={() => setNewQuest({ ...newQuest, item_reward: '' })}
+                  >
+                    <Text style={[
+                      styles.itemChipText,
+                      newQuest.item_reward === '' && styles.itemChipTextSelected
+                    ]}>
+                      No Item
+                    </Text>
+                  </TouchableOpacity>
+                  
+                  {shopItems.map((item) => (
+                    <TouchableOpacity
+                      key={item.id}
+                      style={[
+                        styles.itemChip,
+                        newQuest.item_reward === item.name && styles.itemChipSelected
+                      ]}
+                      onPress={() => setNewQuest({ ...newQuest, item_reward: item.name })}
+                    >
+                      <Ionicons 
+                        name="gift" 
+                        size={16} 
+                        color={newQuest.item_reward === item.name ? '#FFFFFF' : '#8B5CF6'} 
+                      />
+                      <Text style={[
+                        styles.itemChipText,
+                        newQuest.item_reward === item.name && styles.itemChipTextSelected
+                      ]}>
+                        {item.name}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+                
+                {shopItems.length === 0 && (
+                  <Text style={styles.noItemsText}>
+                    No shop items available. Create items in the Shop page first.
+                  </Text>
+                )}
+              </View>
 
               {/* Repeat Frequency Selector */}
               <Text style={styles.label}>Repeat Frequency</Text>

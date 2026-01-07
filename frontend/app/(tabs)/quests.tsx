@@ -52,6 +52,7 @@ export default function QuestsScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [customStats, setCustomStats] = useState<CustomStat[]>([]);
   const [statRewards, setStatRewards] = useState<{ [key: string]: number }>({});
+  const [shopItems, setShopItems] = useState<Array<{id: string, name: string}>>([]);
   const [newQuest, setNewQuest] = useState({ 
     title: '', 
     description: '', 

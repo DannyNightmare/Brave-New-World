@@ -60,24 +60,6 @@ export default function QuestsScreen() {
     repeat_frequency: 'none',
   });
 
-  // FAB pulse animation
-  const fabScale = useSharedValue(1);
-  
-  useEffect(() => {
-    fabScale.value = withRepeat(
-      withSequence(
-        withTiming(1.15, { duration: 800, easing: Easing.inOut(Easing.ease) }),
-        withTiming(1, { duration: 800, easing: Easing.inOut(Easing.ease) })
-      ),
-      -1,
-      true
-    );
-  }, []);
-
-  const fabAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: fabScale.value }],
-  }));
-
   const fetchQuests = async () => {
     if (!user?.id) return;
     try {

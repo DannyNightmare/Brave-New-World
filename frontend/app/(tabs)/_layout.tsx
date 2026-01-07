@@ -156,10 +156,6 @@ export default function TabLayout() {
 }
 
 const styles = StyleSheet.create({
-  headerButtons: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   menuOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',

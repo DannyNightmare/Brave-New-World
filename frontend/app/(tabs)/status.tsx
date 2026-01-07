@@ -251,11 +251,17 @@ export default function StatusScreen() {
             <Text style={styles.levelNumber}>{user.level}</Text>
             <Text style={styles.levelLabel}>Level</Text>
             
-            {/* Gold underneath */}
-            <Text style={styles.goldText}>Gold: {user.gold}</Text>
+            {/* Gold with coin icon */}
+            <View style={styles.currencyRow}>
+              <Ionicons name="logo-bitcoin" size={20} color="#F59E0B" />
+              <Text style={styles.currencyValue}>{user.gold}</Text>
+            </View>
             
-            {/* AP underneath Gold */}
-            <Text style={styles.apText}>AP: {user.ability_points || 0}</Text>
+            {/* AP with star icon */}
+            <View style={styles.currencyRow}>
+              <Ionicons name="star" size={20} color="#8B5CF6" />
+              <Text style={styles.currencyValue}>{user.ability_points || 0}</Text>
+            </View>
           </View>
         </View>
 

@@ -276,7 +276,7 @@ async def complete_quest(quest_id: str):
         {"$set": {"completed": True, "completed_at": datetime.utcnow()}}
     )
     
-    # Update user XP and gold
+    # Update user XP, gold, and AP
     user = await db.users.find_one({"id": quest["user_id"]})
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -284,7 +284,7 @@ async def complete_quest(quest_id: str):
     new_xp = user["xp"] + quest["xp_reward"]
     new_gold = user["gold"] + quest["gold_reward"]
     new_level = user["level"]
-    new_ability_points = user.get("ability_points", 5)
+    new_ability_points = user.get("ability_points", 5) + quest.get("ap_reward", 0)
     
     # Check for level up
     levels_gained = 0

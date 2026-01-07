@@ -157,6 +157,7 @@ class CustomStat(BaseModel):
     color: str
     current: int
     max: int
+    level: int = 1
     icon: Optional[str] = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
@@ -166,6 +167,7 @@ class CustomStatCreate(BaseModel):
     color: str
     current: int
     max: int
+    level: Optional[int] = 1
     icon: Optional[str] = None
 
 

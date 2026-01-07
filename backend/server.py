@@ -50,6 +50,7 @@ class Quest(BaseModel):
     difficulty: str  # easy, medium, hard
     xp_reward: int
     gold_reward: int
+    ap_reward: int = 0
     item_reward: Optional[str] = None
     attribute_rewards: Optional[dict] = None  # {"strength": 2, "intelligence": 1, "vitality": 1}
     completed: bool = False
@@ -65,6 +66,7 @@ class QuestCreate(BaseModel):
     difficulty: Optional[str] = None
     xp_reward: Optional[int] = None
     gold_reward: Optional[int] = None
+    ap_reward: Optional[int] = 0
     item_reward: Optional[str] = None
     attribute_rewards: Optional[dict] = None
     repeat_frequency: Optional[str] = "none"

@@ -522,10 +522,27 @@ const getStyles = (colors: any) => StyleSheet.create({
     height: 24,
     marginRight: 8,
   },
+  statNameContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   customStatName: {
     fontSize: 16,
     fontWeight: '600',
     color: '#F9FAFB',
+  },
+  statLevel: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#8B5CF6',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    backgroundColor: 'rgba(139, 92, 246, 0.15)',
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#8B5CF6',
   },
   customStatBarContainer: {
     marginBottom: 4,

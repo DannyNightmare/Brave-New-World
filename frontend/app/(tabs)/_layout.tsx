@@ -7,15 +7,23 @@ import { useTheme } from '../../contexts/ThemeContext';
 
 export default function TabLayout() {
   const [menuVisible, setMenuVisible] = useState(false);
+  const [customizeVisible, setCustomizeVisible] = useState(false);
   const router = useRouter();
   const { colors } = useTheme();
 
-  const HamburgerMenu = () => (
-    <>
+  const HeaderButtons = () => (
+    <View style={styles.headerButtons}>
+      {/* Customize Button */}
+      <TouchableOpacity onPress={() => setCustomizeVisible(true)} style={{ marginRight: 12 }}>
+        <Ionicons name="color-palette" size={26} color={colors.primary} />
+      </TouchableOpacity>
+
+      {/* Hamburger Menu Button */}
       <TouchableOpacity onPress={() => setMenuVisible(true)} style={{ marginRight: 16 }}>
         <Ionicons name="menu" size={28} color={colors.text} />
       </TouchableOpacity>
 
+      {/* Hamburger Menu Modal */}
       <Modal visible={menuVisible} animationType="fade" transparent={true}>
         <TouchableOpacity 
           style={styles.menuOverlay} 
@@ -36,8 +44,38 @@ export default function TabLayout() {
           </View>
         </TouchableOpacity>
       </Modal>
-    </>
+
+      {/* Customize Modal */}
+      <Modal visible={customizeVisible} animationType="slide" transparent={true}>
+        <View style={styles.customizeOverlay}>
+          <View style={[styles.customizeContainer, { backgroundColor: colors.cardBackground }]}>
+            <View style={styles.customizeHeader}>
+              <Text style={[styles.customizeTitle, { color: colors.text }]}>Customize</Text>
+              <TouchableOpacity onPress={() => setCustomizeVisible(false)}>
+                <Ionicons name="close" size={28} color={colors.text} />
+              </TouchableOpacity>
+            </View>
+
+            <Text style={[styles.customizeSubtitle, { color: colors.textSecondary }]}>
+              Personalize your app experience
+            </Text>
+
+            {/* Customization options will go here */}
+            <View style={styles.customizeContent}>
+              <Text style={[styles.comingSoonText, { color: colors.textTertiary }]}>
+                🎨 Icon Customization
+              </Text>
+              <Text style={[styles.comingSoonText, { color: colors.textTertiary }]}>
+                Coming soon...
+              </Text>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    </View>
   );
+
+  const HamburgerMenu = () => <HeaderButtons />;
 
   return (
     <Tabs

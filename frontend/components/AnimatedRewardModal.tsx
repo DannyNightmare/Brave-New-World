@@ -36,6 +36,9 @@ const AnimatedNumber: React.FC<{ value: number; duration?: number; delay?: numbe
   const [displayValue, setDisplayValue] = useState(0);
 
   useEffect(() => {
+    // Safety check: if value is NaN or undefined, default to 0
+    const safeValue = isNaN(value) ? 0 : (value || 0);
+    
     const timeout = setTimeout(() => {
       const startTime = Date.now();
       const animate = () => {
@@ -44,7 +47,7 @@ const AnimatedNumber: React.FC<{ value: number; duration?: number; delay?: numbe
         
         // Easing function for smooth animation
         const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-        const currentValue = Math.floor(easeOutQuart * value);
+        const currentValue = Math.floor(easeOutQuart * safeValue);
         
         setDisplayValue(currentValue);
         

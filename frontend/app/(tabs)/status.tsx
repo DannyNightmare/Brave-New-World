@@ -135,7 +135,7 @@ export default function StatusScreen() {
       const reader = new FileReader();
       reader.onloadend = () => {
         const base64data = reader.result as string;
-        setGoldIcon(base64data);
+        setLocalGoldIcon(base64data);
       };
       reader.readAsDataURL(blob);
     }

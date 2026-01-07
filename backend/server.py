@@ -269,13 +269,19 @@ async def complete_quest(quest_id: str):
     if not quest:
         raise HTTPException(status_code=404, detail="Quest not found")
     
-    if quest["completed"]:
+    # For limitless quests, allow re-completion. For others, check if already completed
+    if quest["completed"] and quest.get("repeat_frequency") != "limitless":
         raise HTTPException(status_code=400, detail="Quest already completed")
     
-    # Update quest
+    # Update quest - For limitless quests, keep completed as False so it can be done again
+    is_limitless = quest.get("repeat_frequency") == "limitless"
     await db.quests.update_one(
         {"id": quest_id},
-        {"$set": {"completed": True, "completed_at": datetime.utcnow()}}
+        {"$set": {
+            "completed": False if is_limitless else True, 
+            "completed_at": datetime.utcnow(),
+            "last_completed": datetime.utcnow()
+        }}
     )
     
     # Update user XP, gold, and AP

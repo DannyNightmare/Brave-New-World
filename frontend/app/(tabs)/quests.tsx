@@ -45,6 +45,7 @@ interface Quest {
 export default function QuestsScreen() {
   const { user, refreshUser } = useUser();
   const { colors } = useTheme();
+  const { showNotification } = useNotification();
   const [quests, setQuests] = useState<Quest[]>([]);
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
@@ -58,6 +59,24 @@ export default function QuestsScreen() {
     item_reward: '',
     repeat_frequency: 'none',
   });
+
+  // FAB pulse animation
+  const fabScale = useSharedValue(1);
+  
+  useEffect(() => {
+    fabScale.value = withRepeat(
+      withSequence(
+        withTiming(1.15, { duration: 800, easing: Easing.inOut(Easing.ease) }),
+        withTiming(1, { duration: 800, easing: Easing.inOut(Easing.ease) })
+      ),
+      -1,
+      true
+    );
+  }, []);
+
+  const fabAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: fabScale.value }],
+  }));
 
   const fetchQuests = async () => {
     if (!user?.id) return;

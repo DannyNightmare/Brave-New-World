@@ -306,11 +306,26 @@ export default function ShopScreen() {
     }
   };
 
+  const fetchCustomStats = async () => {
+    if (!user?.id) return;
+    
+    try {
+      const response = await fetch(`${API_URL}/api/users/${user.id}/stats`);
+      if (response.ok) {
+        const stats = await response.json();
+        setCustomStats(stats.map((stat: any) => ({ id: stat.id, name: stat.name })));
+      }
+    } catch (error) {
+      console.error('Failed to fetch custom stats:', error);
+    }
+  };
+
   useEffect(() => {
     fetchShopItems();
     fetchPowerCategories();
     if (user?.id) {
       fetchUserCategories();
+      fetchCustomStats();
     }
   }, [user?.id]);
 

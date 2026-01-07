@@ -434,6 +434,16 @@ export default function QuestsScreen() {
           </ScrollView>
         </View>
       </Modal>
+
+      {/* Animated Reward Modal */}
+      {rewardData && (
+        <AnimatedRewardModal
+          visible={rewardModalVisible}
+          onClose={() => setRewardModalVisible(false)}
+          questName={rewardData.questName}
+          rewards={rewardData.rewards}
+        />
+      )}
     </SafeAreaView>
   );
 }

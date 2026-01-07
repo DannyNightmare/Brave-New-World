@@ -247,10 +247,8 @@ export default function StatusScreen() {
 
           {/* Level and Gold - Right */}
           <View style={styles.levelGoldSection}>
-            {/* Level Number on top, label underneath - with pulse animation */}
-            <Animated.View style={levelAnimatedStyle}>
-              <Text style={styles.levelNumber}>{user.level}</Text>
-            </Animated.View>
+            {/* Level Number on top, label underneath */}
+            <Text style={styles.levelNumber}>{user.level}</Text>
             <Text style={styles.levelLabel}>Level</Text>
             
             {/* Gold underneath */}

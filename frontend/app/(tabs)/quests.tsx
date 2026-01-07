@@ -358,6 +358,17 @@ export default function QuestsScreen() {
                     keyboardType="numeric"
                   />
                 </View>
+                <View style={styles.rewardInput}>
+                  <Text style={styles.rewardLabel}>AP</Text>
+                  <TextInput
+                    style={styles.numberInput}
+                    placeholder="0"
+                    placeholderTextColor="#6B7280"
+                    value={String(newQuest.ap_reward)}
+                    onChangeText={(text) => setNewQuest({ ...newQuest, ap_reward: parseInt(text) || 0 })}
+                    keyboardType="numeric"
+                  />
+                </View>
               </View>
 
               <TextInput

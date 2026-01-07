@@ -130,112 +130,123 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
 
           <View style={styles.divider} />
 
-          {/* Rewards Section */}
-          <View style={styles.rewardsContainer}>
-            {/* Level Up - First if applicable */}
-            {hasLevelUp && (
-              <>
-                <View style={styles.levelUpBanner}>
-                  <Text style={styles.levelUpText}>🎉 LEVEL UP! 🎉</Text>
-                </View>
-                <View style={styles.rewardRow}>
-                  <Ionicons name="trending-up" size={24} color="#10B981" />
-                  <Text style={styles.rewardLabel}>Level</Text>
-                  <View style={styles.rewardValue}>
-                    <AnimatedNumber value={rewards.oldLevel!} duration={0} delay={0} />
-                    <Ionicons name="arrow-forward" size={16} color="#6B7280" style={{ marginHorizontal: 8 }} />
-                    <AnimatedNumber value={rewards.newLevel!} duration={1000} delay={200} />
+          {/* Scrollable Rewards Section */}
+          <ScrollView 
+            style={styles.scrollContainer}
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={true}
+          >
+            {/* Rewards Section */}
+            <View style={styles.rewardsContainer}>
+              {/* Level Up - First if applicable */}
+              {hasLevelUp && (
+                <>
+                  <View style={styles.levelUpBanner}>
+                    <Text style={styles.levelUpText}>🎉 LEVEL UP! 🎉</Text>
                   </View>
-                </View>
-                <View style={styles.rowDivider} />
-              </>
-            )}
-
-            {/* Gold Reward - Second */}
-            {rewards.goldGained && rewards.oldGold !== undefined && rewards.newGold !== undefined && (
-              <>
-                <View style={styles.rewardRow}>
-                  <Ionicons name="logo-bitcoin" size={24} color="#F59E0B" />
-                  <Text style={styles.rewardLabel}>Gold</Text>
-                  <View style={styles.rewardValue}>
-                    <AnimatedNumber value={rewards.oldGold} duration={0} delay={0} />
-                    <Ionicons name="arrow-forward" size={16} color="#6B7280" style={{ marginHorizontal: 8 }} />
-                    <AnimatedNumber value={rewards.newGold} duration={1000} delay={hasLevelUp ? 400 : 200} />
+                  <View style={styles.rewardRow}>
+                    <Ionicons name="trending-up" size={24} color="#10B981" />
+                    <Text style={styles.rewardLabel}>Level</Text>
+                    <View style={styles.rewardValue}>
+                      <AnimatedNumber value={rewards.oldLevel!} duration={0} delay={0} />
+                      <Ionicons name="arrow-forward" size={16} color="#6B7280" style={{ marginHorizontal: 8 }} />
+                      <AnimatedNumber value={rewards.newLevel!} duration={1000} delay={200} />
+                    </View>
                   </View>
-                </View>
-                <View style={styles.rowDivider} />
-              </>
-            )}
-
-            {/* XP Reward */}
-            {rewards.xp && (
-              <>
-                <View style={styles.rewardRow}>
-                  <Ionicons name="flash" size={24} color="#8B5CF6" />
-                  <Text style={styles.rewardLabel}>Experience</Text>
-                  <View style={styles.rewardValue}>
-                    <Text style={styles.plus}>+</Text>
-                    <AnimatedNumber value={rewards.xp} duration={800} delay={hasLevelUp ? 600 : 400} />
-                    <Text style={styles.unit}>XP</Text>
-                  </View>
-                </View>
-                <View style={styles.rowDivider} />
-              </>
-            )}
-
-            {/* AP Gained - if level up */}
-            {rewards.apGained && (
-              <>
-                <View style={styles.rewardRow}>
-                  <Ionicons name="star" size={24} color="#F59E0B" />
-                  <Text style={styles.rewardLabel}>Ability Points</Text>
-                  <View style={styles.rewardValue}>
-                    <Text style={styles.plus}>+</Text>
-                    <AnimatedNumber value={rewards.apGained} duration={800} delay={800} />
-                  </View>
-                </View>
-                <View style={styles.rowDivider} />
-              </>
-            )}
-
-            {/* Stat Boosts - Each on its own line */}
-            {rewards.statBoosts && Object.entries(rewards.statBoosts).map(([stat, value], index) => (
-              <React.Fragment key={stat}>
-                <View style={styles.rewardRow}>
-                  <Ionicons name="pulse" size={24} color="#3B82F6" />
-                  <Text style={styles.rewardLabel}>
-                    {stat.charAt(0).toUpperCase() + stat.slice(1)}
-                  </Text>
-                  <View style={styles.rewardValue}>
-                    <Text style={styles.plus}>+</Text>
-                    <AnimatedNumber value={value} duration={600} delay={1000 + index * 100} />
-                  </View>
-                </View>
-                {index < Object.keys(rewards.statBoosts).length - 1 && (
                   <View style={styles.rowDivider} />
-                )}
-              </React.Fragment>
-            ))}
+                </>
+              )}
 
-            {/* Item Reward - Last */}
-            {rewards.itemReward && (
-              <>
-                {rewards.statBoosts && Object.keys(rewards.statBoosts).length > 0 && (
+              {/* Gold Reward - Second */}
+              {rewards.goldGained && rewards.oldGold !== undefined && rewards.newGold !== undefined && (
+                <>
+                  <View style={styles.rewardRow}>
+                    <Ionicons name="logo-bitcoin" size={24} color="#F59E0B" />
+                    <Text style={styles.rewardLabel}>Gold</Text>
+                    <View style={styles.rewardValue}>
+                      <AnimatedNumber value={rewards.oldGold} duration={0} delay={0} />
+                      <Ionicons name="arrow-forward" size={16} color="#6B7280" style={{ marginHorizontal: 8 }} />
+                      <AnimatedNumber value={rewards.newGold} duration={1000} delay={hasLevelUp ? 400 : 200} />
+                    </View>
+                  </View>
                   <View style={styles.rowDivider} />
-                )}
-                <View style={styles.rewardRow}>
-                  <Ionicons name="gift" size={24} color="#EC4899" />
-                  <Text style={styles.rewardLabel}>Item Reward</Text>
-                  <Text style={styles.itemName}>{rewards.itemReward}</Text>
-                </View>
-              </>
-            )}
-          </View>
+                </>
+              )}
 
-          {/* Close Button */}
-          <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-            <Text style={styles.closeButtonText}>Awesome!</Text>
-          </TouchableOpacity>
+              {/* XP Reward */}
+              {rewards.xp && (
+                <>
+                  <View style={styles.rewardRow}>
+                    <Ionicons name="flash" size={24} color="#8B5CF6" />
+                    <Text style={styles.rewardLabel}>Experience</Text>
+                    <View style={styles.rewardValue}>
+                      <Text style={styles.plus}>+</Text>
+                      <AnimatedNumber value={rewards.xp} duration={800} delay={hasLevelUp ? 600 : 400} />
+                      <Text style={styles.unit}>XP</Text>
+                    </View>
+                  </View>
+                  <View style={styles.rowDivider} />
+                </>
+              )}
+
+              {/* AP Gained - if level up */}
+              {rewards.apGained && (
+                <>
+                  <View style={styles.rewardRow}>
+                    <Ionicons name="star" size={24} color="#F59E0B" />
+                    <Text style={styles.rewardLabel}>Ability Points</Text>
+                    <View style={styles.rewardValue}>
+                      <Text style={styles.plus}>+</Text>
+                      <AnimatedNumber value={rewards.apGained} duration={800} delay={800} />
+                    </View>
+                  </View>
+                  <View style={styles.rowDivider} />
+                </>
+              )}
+
+              {/* Stat Boosts - Each on its own line */}
+              {rewards.statBoosts && Object.entries(rewards.statBoosts).map(([stat, value], index) => (
+                <React.Fragment key={stat}>
+                  <View style={styles.rewardRow}>
+                    <Ionicons name="pulse" size={24} color="#3B82F6" />
+                    <Text style={styles.rewardLabel}>
+                      {stat.charAt(0).toUpperCase() + stat.slice(1)}
+                    </Text>
+                    <View style={styles.rewardValue}>
+                      <Text style={styles.plus}>+</Text>
+                      <AnimatedNumber value={value} duration={600} delay={1000 + index * 100} />
+                    </View>
+                  </View>
+                  {index < Object.keys(rewards.statBoosts).length - 1 && (
+                    <View style={styles.rowDivider} />
+                  )}
+                </React.Fragment>
+              ))}
+
+              {/* Item Reward - Last */}
+              {rewards.itemReward && (
+                <>
+                  {rewards.statBoosts && Object.keys(rewards.statBoosts).length > 0 && (
+                    <View style={styles.rowDivider} />
+                  )}
+                  <View style={styles.rewardRow}>
+                    <Ionicons name="gift" size={24} color="#EC4899" />
+                    <Text style={styles.rewardLabel}>Item Reward</Text>
+                    <Text style={styles.itemName}>{rewards.itemReward}</Text>
+                  </View>
+                </>
+              )}
+            </View>
+
+            {/* Scroll Hint */}
+            <Text style={styles.scrollHint}>Scroll down to accept</Text>
+
+            {/* Accept Button - Inside ScrollView so user can scroll to it */}
+            <TouchableOpacity style={styles.acceptButton} onPress={onClose}>
+              <Ionicons name="checkmark-circle" size={24} color="#FFFFFF" />
+              <Text style={styles.acceptButtonText}>Accept</Text>
+            </TouchableOpacity>
+          </ScrollView>
         </Animated.View>
       </View>
     </Modal>

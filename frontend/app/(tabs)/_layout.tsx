@@ -83,15 +83,76 @@ export default function TabLayout() {
               Personalize your app experience
             </Text>
 
-            {/* Customization options will go here */}
-            <View style={styles.customizeContent}>
-              <Text style={[styles.comingSoonText, { color: colors.textTertiary }]}>
-                🎨 Icon Customization
-              </Text>
-              <Text style={[styles.comingSoonText, { color: colors.textTertiary }]}>
-                Coming soon...
-              </Text>
-            </View>
+            <ScrollView style={styles.customizeContent} showsVerticalScrollIndicator={false}>
+              {/* XP Bar Color Section */}
+              <View style={styles.section}>
+                <Text style={[styles.sectionTitle, { color: colors.text }]}>XP Bar Color</Text>
+                <View style={styles.colorGrid}>
+                  {xpBarColors.map((color) => (
+                    <TouchableOpacity
+                      key={color.value}
+                      style={[
+                        styles.colorSwatch,
+                        { backgroundColor: color.value },
+                        xpBarColor === color.value && styles.colorSwatchSelected
+                      ]}
+                      onPress={() => setXpBarColor(color.value)}
+                    >
+                      {xpBarColor === color.value && (
+                        <Ionicons name="checkmark" size={20} color="#FFF" />
+                      )}
+                    </TouchableOpacity>
+                  ))}
+                </View>
+                {/* Preview */}
+                <View style={styles.previewContainer}>
+                  <Text style={[styles.previewLabel, { color: colors.textSecondary }]}>Preview:</Text>
+                  <View style={styles.xpBarPreview}>
+                    <View style={[styles.xpBarPreviewFill, { backgroundColor: xpBarColor }]} />
+                  </View>
+                </View>
+              </View>
+
+              {/* Gold Icon Section */}
+              <View style={styles.section}>
+                <Text style={[styles.sectionTitle, { color: colors.text }]}>Gold Icon</Text>
+                <View style={styles.iconGrid}>
+                  {goldIconOptions.map((icon) => (
+                    <TouchableOpacity
+                      key={icon}
+                      style={[
+                        styles.iconButton,
+                        { backgroundColor: colors.surface },
+                        goldIcon === icon && styles.iconButtonSelected
+                      ]}
+                      onPress={() => setGoldIcon(icon)}
+                    >
+                      <Ionicons name={icon as any} size={24} color="#F59E0B" />
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+
+              {/* AP Icon Section */}
+              <View style={styles.section}>
+                <Text style={[styles.sectionTitle, { color: colors.text }]}>Ability Points Icon</Text>
+                <View style={styles.iconGrid}>
+                  {apIconOptions.map((icon) => (
+                    <TouchableOpacity
+                      key={icon}
+                      style={[
+                        styles.iconButton,
+                        { backgroundColor: colors.surface },
+                        apIcon === icon && styles.iconButtonSelected
+                      ]}
+                      onPress={() => setApIcon(icon)}
+                    >
+                      <Ionicons name={icon as any} size={24} color="#8B5CF6" />
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+            </ScrollView>
           </View>
         </View>
       </Modal>

@@ -152,6 +152,10 @@ export default function TabLayout() {
 }
 
 const styles = StyleSheet.create({
+  headerButtons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   menuOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -175,5 +179,46 @@ const styles = StyleSheet.create({
   menuItemText: {
     fontSize: 16,
     fontWeight: '600',
+  },
+  customizeOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  customizeContainer: {
+    width: '90%',
+    maxWidth: 500,
+    borderRadius: 16,
+    padding: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.3,
+    shadowRadius: 20,
+    elevation: 10,
+  },
+  customizeHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  customizeTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+  },
+  customizeSubtitle: {
+    fontSize: 14,
+    marginBottom: 24,
+  },
+  customizeContent: {
+    paddingVertical: 20,
+    alignItems: 'center',
+  },
+  comingSoonText: {
+    fontSize: 16,
+    marginBottom: 8,
+    fontStyle: 'italic',
   },
 });

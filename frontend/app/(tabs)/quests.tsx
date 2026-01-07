@@ -177,50 +177,21 @@ export default function QuestsScreen() {
       await refreshUser();
       fetchQuests();
       
-      // Build comprehensive reward message
-      let rewardDetails = [];
+      // Prepare reward data for animated modal
+      const rewards = {
+        xp: result.xp_reward,
+        oldGold: oldGold,
+        newGold: oldGold + (result.gold_reward || 0),
+        goldGained: result.gold_reward,
+        oldLevel: result.old_level,
+        newLevel: result.levels_gained ? result.old_level + result.levels_gained : undefined,
+        apGained: result.levels_gained ? result.levels_gained * 2 : undefined,
+        statBoosts: result.quest?.attribute_rewards,
+        itemReward: result.item_reward,
+      };
       
-      // XP and Gold
-      if (result.xp_reward) {
-        rewardDetails.push(`+${result.xp_reward} XP`);
-      }
-      if (result.gold_reward) {
-        const newGold = oldGold + result.gold_reward;
-        rewardDetails.push(`+${result.gold_reward} Gold (${oldGold} → ${newGold})`);
-      }
-      
-      // Level up detection
-      if (result.levels_gained && result.levels_gained > 0) {
-        const newLevel = result.old_level + result.levels_gained;
-        rewardDetails.push(`\n🎉 LEVEL UP! ${result.old_level} → ${newLevel}`);
-        // Calculate AP gained (2 per level)
-        const apGained = result.levels_gained * 2;
-        rewardDetails.push(`+${apGained} Ability Points`);
-      }
-      
-      // Stat boosts from quest rewards
-      if (result.quest?.attribute_rewards) {
-        rewardDetails.push('\n📈 Stats Boosted:');
-        for (const [stat, value] of Object.entries(result.quest.attribute_rewards)) {
-          rewardDetails.push(`  +${value} ${stat.charAt(0).toUpperCase() + stat.slice(1)}`);
-        }
-      }
-      
-      // Item reward
-      if (result.item_reward) {
-        rewardDetails.push(`\n🎁 Item: ${result.item_reward}`);
-      }
-      
-      const message = rewardDetails.length > 0 
-        ? rewardDetails.join('\n')
-        : 'Quest completed!';
-      
-      // Show comprehensive alert with black background
-      Alert.alert(
-        `✅ ${questName} Complete!`,
-        message,
-        [{ text: 'Awesome!', style: 'default' }]
-      );
+      setRewardData({ questName, rewards });
+      setRewardModalVisible(true);
       
     } catch (error) {
       console.error('Failed to complete quest:', error);

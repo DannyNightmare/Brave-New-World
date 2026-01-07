@@ -201,9 +201,9 @@ export default function QuestsScreen() {
 
   const completeQuest = async (questId: string) => {
     try {
-      // Store old user values before completing quest
-      const oldGold = user?.gold || 0;
-      const oldLevel = user?.level || 1;
+      // Store old user values before completing quest - ensure they are valid numbers
+      const oldGold = typeof user?.gold === 'number' ? user.gold : 0;
+      const oldLevel = typeof user?.level === 'number' ? user.level : 1;
       
       const response = await fetch(`${API_URL}/api/quests/${questId}/complete`, {
         method: 'POST',
@@ -218,17 +218,17 @@ export default function QuestsScreen() {
       await refreshUser();
       fetchQuests();
       
-      // Calculate new gold from old gold + reward
-      const goldReward = result.gold_reward || 0;
+      // Calculate new gold from old gold + reward - ensure valid numbers
+      const goldReward = typeof result.gold_reward === 'number' ? result.gold_reward : 0;
       const newGold = oldGold + goldReward;
       
-      // Prepare reward data for animated modal
+      // Prepare reward data for animated modal - ensure all numbers are valid
       const rewards = {
-        xp: result.xp_reward,
+        xp: typeof result.xp_reward === 'number' ? result.xp_reward : 0,
         oldGold: oldGold,
         newGold: newGold,
         goldGained: goldReward,
-        oldLevel: result.old_level || oldLevel,
+        oldLevel: typeof result.old_level === 'number' ? result.old_level : oldLevel,
         newLevel: result.levels_gained ? (result.old_level || oldLevel) + result.levels_gained : undefined,
         apGained: (result.levels_gained ? result.levels_gained * 2 : 0) + (result.quest?.ap_reward || 0),
         questApReward: result.quest?.ap_reward,

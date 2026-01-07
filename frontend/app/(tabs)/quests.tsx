@@ -158,7 +158,6 @@ export default function QuestsScreen() {
   const completeQuest = async (questId: string) => {
     try {
       // Store old user values before completing quest
-      const oldLevel = user?.level || 1;
       const oldGold = user?.gold || 0;
       
       const response = await fetch(`${API_URL}/api/quests/${questId}/complete`, {
@@ -177,20 +176,20 @@ export default function QuestsScreen() {
       let rewardDetails = [];
       
       // XP and Gold
-      if (result.quest?.xp_reward) {
-        rewardDetails.push(`+${result.quest.xp_reward} XP`);
+      if (result.xp_reward) {
+        rewardDetails.push(`+${result.xp_reward} XP`);
       }
-      if (result.quest?.gold_reward) {
-        const goldGained = result.quest.gold_reward;
-        rewardDetails.push(`+${goldGained} Gold (${oldGold} → ${oldGold + goldGained})`);
+      if (result.gold_reward) {
+        const newGold = oldGold + result.gold_reward;
+        rewardDetails.push(`+${result.gold_reward} Gold (${oldGold} → ${newGold})`);
       }
       
       // Level up detection
-      if (result.user?.level > oldLevel) {
-        const levelsGained = result.user.level - oldLevel;
-        rewardDetails.push(`\n🎉 LEVEL UP! ${oldLevel} → ${result.user.level}`);
+      if (result.levels_gained && result.levels_gained > 0) {
+        const newLevel = result.old_level + result.levels_gained;
+        rewardDetails.push(`\n🎉 LEVEL UP! ${result.old_level} → ${newLevel}`);
         // Calculate AP gained (2 per level)
-        const apGained = levelsGained * 2;
+        const apGained = result.levels_gained * 2;
         rewardDetails.push(`+${apGained} Ability Points`);
       }
       
@@ -211,7 +210,7 @@ export default function QuestsScreen() {
         ? rewardDetails.join('\n')
         : 'Quest completed!';
       
-      // Show comprehensive alert
+      // Show comprehensive alert with black background
       Alert.alert(
         `✅ ${questName} Complete!`,
         message,

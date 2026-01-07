@@ -684,11 +684,25 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginBottom: 8,
   },
+  questTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    gap: 8,
+  },
   questTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#F9FAFB',
-    flex: 1,
+    flexShrink: 1,
+  },
+  limitlessBadge: {
+    backgroundColor: 'rgba(16, 185, 129, 0.15)',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#10B981',
   },
   completedText: {
     textDecorationLine: 'line-through',

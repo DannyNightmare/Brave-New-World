@@ -1,15 +1,32 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
-import { TouchableOpacity, Modal, View, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, Modal, View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useCustomization } from '../../contexts/CustomizationContext';
 
 export default function TabLayout() {
   const [menuVisible, setMenuVisible] = useState(false);
   const [customizeVisible, setCustomizeVisible] = useState(false);
   const router = useRouter();
   const { colors } = useTheme();
+  const { xpBarColor, goldIcon, apIcon, setXpBarColor, setGoldIcon, setApIcon } = useCustomization();
+
+  // Color options for XP bar
+  const xpBarColors = [
+    { name: 'Purple', value: '#8B5CF6' },
+    { name: 'Blue', value: '#3B82F6' },
+    { name: 'Green', value: '#10B981' },
+    { name: 'Red', value: '#EF4444' },
+    { name: 'Gold', value: '#F59E0B' },
+    { name: 'Pink', value: '#EC4899' },
+    { name: 'Cyan', value: '#06B6D4' },
+  ];
+
+  // Icon options
+  const goldIconOptions = ['logo-bitcoin', 'cash', 'wallet', 'diamond', 'trophy', 'medal'];
+  const apIconOptions = ['star', 'flash', 'flame', 'sparkles', 'diamond', 'nuclear'];
 
   const HamburgerMenu = () => (
     <>

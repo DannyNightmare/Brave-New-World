@@ -2690,4 +2690,19 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#FFF',
   },
+  noStatsNotice: {
+    backgroundColor: '#FEF3C7',
+    borderRadius: 12,
+    padding: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  noStatsText: {
+    fontSize: 14,
+    color: '#92400E',
+    marginLeft: 12,
+    flex: 1,
+    lineHeight: 20,
+  },
 });

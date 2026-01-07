@@ -179,14 +179,28 @@ export default function QuestsScreen() {
         method: 'POST',
       });
       const result = await response.json();
+      
+      // Find the quest name before refreshing
+      const quest = quests.find(q => q.id === questId);
+      const questName = quest?.title || 'Quest';
+      
       await refreshUser();
       fetchQuests();
       
-      let message = 'You earned XP and gold!';
+      // Show celebration notification
+      let rewards = [];
+      if (result.xp_reward) rewards.push(`+${result.xp_reward} XP`);
+      if (result.gold_reward) rewards.push(`+${result.gold_reward} Gold`);
+      
+      const rewardMessage = rewards.length > 0 ? '\n' + rewards.join(' • ') : '';
+      showNotification(`🎉 ${questName} Complete!${rewardMessage}`, 'success', 4000);
+      
+      // Show additional alert if there's an item reward
       if (result.item_reward) {
-        message += `\n\nItem Reward: ${result.item_reward}`;
+        setTimeout(() => {
+          Alert.alert('Item Reward!', `You received: ${result.item_reward}`);
+        }, 500);
       }
-      Alert.alert('Quest Complete!', message);
     } catch (error) {
       console.error('Failed to complete quest:', error);
       Alert.alert('Error', 'Failed to complete quest');

@@ -122,6 +122,7 @@ export default function QuestsScreen() {
         description: newQuest.description,
         xp_reward: newQuest.xp_reward,
         gold_reward: newQuest.gold_reward,
+        ap_reward: newQuest.ap_reward,
         repeat_frequency: newQuest.repeat_frequency,
       };
 

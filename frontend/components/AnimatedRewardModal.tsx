@@ -36,11 +36,16 @@ const AnimatedNumber: React.FC<{ value: number; duration?: number; delay?: numbe
   duration = 1000,
   delay = 0 
 }) => {
-  const [displayValue, setDisplayValue] = useState(0);
+  // Safety check: if value is NaN, undefined, or null, default to 0
+  const safeValue = (value === undefined || value === null || isNaN(value)) ? 0 : value;
+  const [displayValue, setDisplayValue] = useState(safeValue);
 
   useEffect(() => {
-    // Safety check: if value is NaN or undefined, default to 0
-    const safeValue = isNaN(value) ? 0 : (value || 0);
+    // For immediate display (duration 0), just set the value directly
+    if (duration === 0) {
+      setDisplayValue(safeValue);
+      return;
+    }
     
     const timeout = setTimeout(() => {
       const startTime = Date.now();
@@ -52,7 +57,7 @@ const AnimatedNumber: React.FC<{ value: number; duration?: number; delay?: numbe
         const easeOutQuart = 1 - Math.pow(1 - progress, 4);
         const currentValue = Math.floor(easeOutQuart * safeValue);
         
-        setDisplayValue(currentValue);
+        setDisplayValue(isNaN(currentValue) ? 0 : currentValue);
         
         if (progress < 1) {
           requestAnimationFrame(animate);
@@ -62,7 +67,7 @@ const AnimatedNumber: React.FC<{ value: number; duration?: number; delay?: numbe
     }, delay);
 
     return () => clearTimeout(timeout);
-  }, [value, duration, delay]);
+  }, [safeValue, duration, delay]);
 
   return <Text style={styles.animatedNumber}>{displayValue}</Text>;
 };

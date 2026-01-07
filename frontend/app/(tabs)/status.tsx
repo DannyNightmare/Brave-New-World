@@ -242,7 +242,7 @@ export default function StatusScreen() {
         <View style={styles.xpSection}>
           <View style={styles.xpBarContainer}>
             <View style={styles.xpBar}>
-              <View style={[styles.xpFill, { width: `${xpPercentage}%` }]} />
+              <Animated.View style={[styles.xpFill, xpBarAnimatedStyle]} />
             </View>
           </View>
           <Text style={styles.xpCounter}>{user.xp} / {xpForNextLevel} XP</Text>
@@ -264,8 +264,10 @@ export default function StatusScreen() {
 
           {/* Level and Gold - Right */}
           <View style={styles.levelGoldSection}>
-            {/* Level Number on top, label underneath */}
-            <Text style={styles.levelNumber}>{user.level}</Text>
+            {/* Level Number on top, label underneath - with pulse animation */}
+            <Animated.View style={levelAnimatedStyle}>
+              <Text style={styles.levelNumber}>{user.level}</Text>
+            </Animated.View>
             <Text style={styles.levelLabel}>Level</Text>
             
             {/* Gold underneath */}

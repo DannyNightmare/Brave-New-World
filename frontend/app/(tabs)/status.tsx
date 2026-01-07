@@ -68,20 +68,7 @@ export default function StatusScreen() {
   const xpPercentage = (user.xp / xpForNextLevel) * 100;
 
   // Animation values
-  const levelScale = useSharedValue(1);
   const xpProgress = useSharedValue(0);
-
-  // Pulse animation for level badge
-  useEffect(() => {
-    levelScale.value = withRepeat(
-      withSequence(
-        withTiming(1.1, { duration: 1000, easing: Easing.inOut(Easing.ease) }),
-        withTiming(1, { duration: 1000, easing: Easing.inOut(Easing.ease) })
-      ),
-      -1,
-      true
-    );
-  }, []);
 
   // Animate XP bar on load
   useEffect(() => {
@@ -90,10 +77,6 @@ export default function StatusScreen() {
       stiffness: 80,
     });
   }, [xpPercentage]);
-
-  const levelAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: levelScale.value }],
-  }));
 
   const xpBarAnimatedStyle = useAnimatedStyle(() => ({
     width: `${xpProgress.value}%`,

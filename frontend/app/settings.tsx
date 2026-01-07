@@ -6,7 +6,7 @@ import { useRouter } from 'expo-router';
 import { useTheme } from '../contexts/ThemeContext';
 import { useUser } from '../contexts/UserContext';
 
-const API_URL = 'https://rpg-gamify.preview.emergentagent.com';
+const API_URL = 'https://levelup-quest-7.preview.emergentagent.com';
 
 export default function SettingsScreen() {
   const router = useRouter();

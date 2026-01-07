@@ -18,7 +18,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { AnimatedRewardModal } from '../../components/AnimatedRewardModal';
 
-const API_URL = 'https://rpg-gamify.preview.emergentagent.com';
+const API_URL = 'https://levelup-quest-7.preview.emergentagent.com';
 
 interface CustomStat {
   id: string;

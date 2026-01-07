@@ -5,7 +5,7 @@ import { useUser } from '../../contexts/UserContext';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
-const API_URL = 'https://rpg-gamify.preview.emergentagent.com';
+const API_URL = 'https://levelup-quest-7.preview.emergentagent.com';
 
 interface ShopItem {
   id: string;

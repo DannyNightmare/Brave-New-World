@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-const API_URL = 'https://rpg-gamify.preview.emergentagent.com';
+const API_URL = 'https://levelup-quest-7.preview.emergentagent.com';
 
 interface User {
   id: string;

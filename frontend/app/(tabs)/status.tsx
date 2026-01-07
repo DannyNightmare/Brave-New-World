@@ -5,6 +5,15 @@ import { useUser } from '../../contexts/UserContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import Animated, { 
+  useSharedValue, 
+  useAnimatedStyle, 
+  withTiming, 
+  withRepeat, 
+  withSequence,
+  withSpring,
+  Easing 
+} from 'react-native-reanimated';
 
 const API_URL = 'https://rpg-gamify.preview.emergentagent.com';
 

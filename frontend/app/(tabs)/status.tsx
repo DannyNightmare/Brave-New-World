@@ -227,7 +227,7 @@ export default function StatusScreen() {
         <View style={styles.xpSection}>
           <View style={styles.xpBarContainer}>
             <View style={styles.xpBar}>
-              <Animated.View style={[styles.xpFill, xpBarAnimatedStyle]} />
+              <Animated.View style={[styles.xpFill, xpBarAnimatedStyle, { backgroundColor: xpBarColor }]} />
             </View>
           </View>
           <Text style={styles.xpCounter}>{user.xp} / {xpForNextLevel} XP</Text>

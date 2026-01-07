@@ -10,6 +10,7 @@ import Animated, {
   runOnJS
 } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
+import { SwirlingBackground } from './SwirlingBackground';
 
 interface RewardModalProps {
   visible: boolean;

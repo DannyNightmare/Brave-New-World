@@ -113,6 +113,9 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
       onRequestClose={onClose}
     >
       <View style={styles.overlay}>
+        {/* Swirling Solo Leveling background */}
+        <SwirlingBackground intensity="medium" />
+        
         <Animated.View style={[styles.modalContainer, containerStyle]}>
           {/* Header */}
           <View style={styles.header}>

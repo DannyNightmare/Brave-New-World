@@ -113,6 +113,13 @@ export default function QuestsScreen() {
     fetchShopItems();
   }, [user?.id]);
 
+  // Refresh shop items whenever the modal is opened
+  useEffect(() => {
+    if (modalVisible) {
+      fetchShopItems();
+    }
+  }, [modalVisible]);
+
   const createQuest = async () => {
     if (!user?.id || !newQuest.title.trim()) {
       Alert.alert('Error', 'Please enter a quest title');

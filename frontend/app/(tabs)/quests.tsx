@@ -213,7 +213,8 @@ export default function QuestsScreen() {
   };
 
   const activeQuests = quests.filter(q => !q.completed);
-  const completedQuests = quests.filter(q => q.completed);
+  // Only show completed quests that have a repeat frequency (daily, weekly, monthly)
+  const completedQuests = quests.filter(q => q.completed && q.repeat_frequency && q.repeat_frequency !== 'none');
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty.toLowerCase()) {

@@ -466,18 +466,16 @@ const getStyles = (colors: any) => StyleSheet.create({
     marginBottom: 8,
     textAlign: 'right',
   },
-  goldText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#FCD34D',
-    textAlign: 'right',
-  },
-  apText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#F59E0B',
-    textAlign: 'right',
+  currencyRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
     marginTop: 4,
+  },
+  currencyValue: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#F9FAFB',
   },
   statsTitle: {
     fontSize: 32,

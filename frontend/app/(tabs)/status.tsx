@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUser } from '../../contexts/UserContext';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useCustomization } from '../../contexts/CustomizationContext';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import Animated, { 
@@ -20,6 +21,7 @@ const API_URL = 'https://rpg-gamify.preview.emergentagent.com';
 export default function StatusScreen() {
   const { user, loading } = useUser();
   const { colors } = useTheme();
+  const { xpBarColor, goldIcon, apIcon } = useCustomization();
   const styles = getStyles(colors);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [goldIcon, setGoldIcon] = useState<string | null>(null);

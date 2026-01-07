@@ -282,7 +282,10 @@ export default function StatusScreen() {
                 ) : (
                   <View style={styles.statIconPlaceholder} />
                 )}
-                <Text style={styles.customStatName}>{stat.name}</Text>
+                <View style={styles.statNameContainer}>
+                  <Text style={styles.customStatName}>{stat.name}</Text>
+                  <Text style={styles.statLevel}>Lv. {stat.level || 1}</Text>
+                </View>
               </View>
               <View style={styles.customStatBarContainer}>
                 <View style={styles.customStatBar}>

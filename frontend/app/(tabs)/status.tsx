@@ -24,7 +24,7 @@ export default function StatusScreen() {
   const { xpBarColor, goldIcon, apIcon } = useCustomization();
   const styles = getStyles(colors);
   const [profileImage, setProfileImage] = useState<string | null>(null);
-  const [goldIcon, setGoldIcon] = useState<string | null>(null);
+  const [localGoldIcon, setLocalGoldIcon] = useState<string | null>(null);
   const [addStatModalVisible, setAddStatModalVisible] = useState(false);
   const [customStats, setCustomStats] = useState<Array<{id: string, name: string, color: string, current: number, max: number, icon?: string}>>([]);
   const [newStat, setNewStat] = useState({

@@ -97,6 +97,16 @@ export default function QuestsScreen() {
     }
   };
 
+  const fetchShopItems = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/shop`);
+      const data = await response.json();
+      setShopItems(data.map((item: any) => ({ id: item.id, name: item.name })));
+    } catch (error) {
+      console.error('Failed to fetch shop items:', error);
+    }
+  };
+
   useEffect(() => {
     fetchQuests();
     fetchCustomStats();

@@ -523,6 +523,7 @@ export default function QuestsScreen() {
                   { value: 'daily', label: 'Daily', icon: 'today' },
                   { value: 'weekly', label: 'Weekly', icon: 'calendar' },
                   { value: 'monthly', label: 'Monthly', icon: 'calendar-outline' },
+                  { value: 'limitless', label: 'Limitless', icon: 'infinite' },
                 ].map((option) => (
                   <TouchableOpacity
                     key={option.value}

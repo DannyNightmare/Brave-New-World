@@ -487,6 +487,11 @@ const getStyles = (colors: any) => StyleSheet.create({
     fontWeight: '700',
     color: '#F9FAFB',
   },
+  currencyIcon: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+  },
   statsTitle: {
     fontSize: 32,
     fontWeight: 'bold',

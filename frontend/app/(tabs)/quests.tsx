@@ -16,6 +16,7 @@ import Animated, {
   FadeIn,
   SlideInRight
 } from 'react-native-reanimated';
+import { AnimatedRewardModal } from '../../components/AnimatedRewardModal';
 
 const API_URL = 'https://rpg-gamify.preview.emergentagent.com';
 

@@ -938,44 +938,31 @@ export default function ShopScreen() {
               )}
 
               <Text style={styles.label}>Stat Boosts</Text>
-              <View style={styles.attributeContainer}>
-                <View style={styles.attributeRow}>
-                  <Ionicons name="barbell" size={20} color="#EF4444" />
-                  <Text style={styles.attributeLabel}>Strength</Text>
-                  <TextInput
-                    style={styles.attributeInput}
-                    placeholder="0"
-                    placeholderTextColor="#6B7280"
-                    value={String(newItem.strength_boost)}
-                    onChangeText={(text) => setNewItem({ ...newItem, strength_boost: parseInt(text) || 0 })}
-                    keyboardType="numeric"
-                  />
+              {customStats.length === 0 ? (
+                <View style={styles.noStatsNotice}>
+                  <Ionicons name="information-circle" size={24} color="#F59E0B" />
+                  <Text style={styles.noStatsText}>
+                    No custom stats found. Please create custom stats in the Status page first to add stat boosts to items.
+                  </Text>
                 </View>
-                <View style={styles.attributeRow}>
-                  <Ionicons name="bulb" size={20} color="#3B82F6" />
-                  <Text style={styles.attributeLabel}>Intelligence</Text>
-                  <TextInput
-                    style={styles.attributeInput}
-                    placeholder="0"
-                    placeholderTextColor="#6B7280"
-                    value={String(newItem.intelligence_boost)}
-                    onChangeText={(text) => setNewItem({ ...newItem, intelligence_boost: parseInt(text) || 0 })}
-                    keyboardType="numeric"
-                  />
+              ) : (
+                <View style={styles.attributeContainer}>
+                  {customStats.map((stat) => (
+                    <View key={stat.id} style={styles.attributeRow}>
+                      <Ionicons name="pulse" size={20} color="#8B5CF6" />
+                      <Text style={styles.attributeLabel}>{stat.name}</Text>
+                      <TextInput
+                        style={styles.attributeInput}
+                        placeholder="0"
+                        placeholderTextColor="#6B7280"
+                        value={String(statBoosts[stat.name] || 0)}
+                        onChangeText={(text) => setStatBoosts({ ...statBoosts, [stat.name]: parseInt(text) || 0 })}
+                        keyboardType="numeric"
+                      />
+                    </View>
+                  ))}
                 </View>
-                <View style={styles.attributeRow}>
-                  <Ionicons name="heart" size={20} color="#10B981" />
-                  <Text style={styles.attributeLabel}>Vitality</Text>
-                  <TextInput
-                    style={styles.attributeInput}
-                    placeholder="0"
-                    placeholderTextColor="#6B7280"
-                    value={String(newItem.vitality_boost)}
-                    onChangeText={(text) => setNewItem({ ...newItem, vitality_boost: parseInt(text) || 0 })}
-                    keyboardType="numeric"
-                  />
-                </View>
-              </View>
+              )}
 
               {/* Add to Powers Checkbox */}
               <TouchableOpacity 
@@ -1285,44 +1272,31 @@ export default function ShopScreen() {
               )}
 
               <Text style={styles.label}>Stat Boosts</Text>
-              <View style={styles.attributeContainer}>
-                <View style={styles.attributeRow}>
-                  <Ionicons name="barbell" size={20} color="#EF4444" />
-                  <Text style={styles.attributeLabel}>Strength</Text>
-                  <TextInput
-                    style={styles.attributeInput}
-                    placeholder="0"
-                    placeholderTextColor="#6B7280"
-                    value={String(newItem.strength_boost)}
-                    onChangeText={(text) => setNewItem({ ...newItem, strength_boost: parseInt(text) || 0 })}
-                    keyboardType="numeric"
-                  />
+              {customStats.length === 0 ? (
+                <View style={styles.noStatsNotice}>
+                  <Ionicons name="information-circle" size={24} color="#F59E0B" />
+                  <Text style={styles.noStatsText}>
+                    No custom stats found. Please create custom stats in the Status page first to add stat boosts to items.
+                  </Text>
                 </View>
-                <View style={styles.attributeRow}>
-                  <Ionicons name="bulb" size={20} color="#3B82F6" />
-                  <Text style={styles.attributeLabel}>Intelligence</Text>
-                  <TextInput
-                    style={styles.attributeInput}
-                    placeholder="0"
-                    placeholderTextColor="#6B7280"
-                    value={String(newItem.intelligence_boost)}
-                    onChangeText={(text) => setNewItem({ ...newItem, intelligence_boost: parseInt(text) || 0 })}
-                    keyboardType="numeric"
-                  />
+              ) : (
+                <View style={styles.attributeContainer}>
+                  {customStats.map((stat) => (
+                    <View key={stat.id} style={styles.attributeRow}>
+                      <Ionicons name="pulse" size={20} color="#8B5CF6" />
+                      <Text style={styles.attributeLabel}>{stat.name}</Text>
+                      <TextInput
+                        style={styles.attributeInput}
+                        placeholder="0"
+                        placeholderTextColor="#6B7280"
+                        value={String(statBoosts[stat.name] || 0)}
+                        onChangeText={(text) => setStatBoosts({ ...statBoosts, [stat.name]: parseInt(text) || 0 })}
+                        keyboardType="numeric"
+                      />
+                    </View>
+                  ))}
                 </View>
-                <View style={styles.attributeRow}>
-                  <Ionicons name="heart" size={20} color="#10B981" />
-                  <Text style={styles.attributeLabel}>Vitality</Text>
-                  <TextInput
-                    style={styles.attributeInput}
-                    placeholder="0"
-                    placeholderTextColor="#6B7280"
-                    value={String(newItem.vitality_boost)}
-                    onChangeText={(text) => setNewItem({ ...newItem, vitality_boost: parseInt(text) || 0 })}
-                    keyboardType="numeric"
-                  />
-                </View>
-              </View>
+              )}
 
               {/* Add to Powers Checkbox */}
               <TouchableOpacity 

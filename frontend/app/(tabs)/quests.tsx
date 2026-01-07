@@ -167,6 +167,7 @@ export default function QuestsScreen() {
     try {
       // Store old user values before completing quest
       const oldGold = user?.gold || 0;
+      const oldLevel = user?.level || 1;
       
       const response = await fetch(`${API_URL}/api/quests/${questId}/complete`, {
         method: 'POST',
@@ -177,17 +178,22 @@ export default function QuestsScreen() {
       const quest = quests.find(q => q.id === questId);
       const questName = quest?.title || 'Quest';
       
+      // Refresh user data
       await refreshUser();
       fetchQuests();
+      
+      // Calculate new gold from old gold + reward
+      const goldReward = result.gold_reward || 0;
+      const newGold = oldGold + goldReward;
       
       // Prepare reward data for animated modal
       const rewards = {
         xp: result.xp_reward,
         oldGold: oldGold,
-        newGold: oldGold + (result.gold_reward || 0),
-        goldGained: result.gold_reward,
-        oldLevel: result.old_level,
-        newLevel: result.levels_gained ? result.old_level + result.levels_gained : undefined,
+        newGold: newGold,
+        goldGained: goldReward,
+        oldLevel: result.old_level || oldLevel,
+        newLevel: result.levels_gained ? (result.old_level || oldLevel) + result.levels_gained : undefined,
         apGained: (result.levels_gained ? result.levels_gained * 2 : 0) + (result.quest?.ap_reward || 0),
         questApReward: result.quest?.ap_reward,
         statBoosts: result.quest?.attribute_rewards,

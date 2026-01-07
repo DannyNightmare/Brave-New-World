@@ -265,8 +265,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#1F2937',
     borderRadius: 20,
     padding: 24,
+    paddingBottom: 16,
     width: '90%',
     maxWidth: 400,
+    maxHeight: SCREEN_HEIGHT * 0.8,
     borderWidth: 2,
     borderColor: '#374151',
     shadowColor: '#000',
@@ -297,21 +299,28 @@ const styles = StyleSheet.create({
   divider: {
     height: 1,
     backgroundColor: '#374151',
-    marginBottom: 20,
+    marginBottom: 12,
+  },
+  scrollContainer: {
+    flexGrow: 0,
+    flexShrink: 1,
+  },
+  scrollContent: {
+    paddingBottom: 8,
   },
   rewardsContainer: {
-    gap: 12,
+    gap: 8,
   },
   rewardRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 12,
+    paddingVertical: 10,
     gap: 12,
   },
   rowDivider: {
     height: 1,
     backgroundColor: '#374151',
-    marginVertical: 4,
+    marginVertical: 2,
   },
   rewardLabel: {
     flex: 1,
@@ -360,14 +369,25 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#EC4899',
   },
-  closeButton: {
-    backgroundColor: '#8B5CF6',
+  scrollHint: {
+    fontSize: 12,
+    color: '#6B7280',
+    textAlign: 'center',
+    marginTop: 16,
+    marginBottom: 8,
+    fontStyle: 'italic',
+  },
+  acceptButton: {
+    backgroundColor: '#10B981',
     borderRadius: 12,
     padding: 16,
-    marginTop: 20,
+    marginTop: 8,
     alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 8,
   },
-  closeButtonText: {
+  acceptButtonText: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#FFFFFF',

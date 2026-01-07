@@ -3,7 +3,19 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, Modal,
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUser } from '../../contexts/UserContext';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useNotification } from '../../contexts/NotificationContext';
 import { Ionicons } from '@expo/vector-icons';
+import Animated, { 
+  useSharedValue, 
+  useAnimatedStyle, 
+  withTiming, 
+  withRepeat, 
+  withSequence,
+  withSpring,
+  Easing,
+  FadeIn,
+  SlideInRight
+} from 'react-native-reanimated';
 
 const API_URL = 'https://rpg-gamify.preview.emergentagent.com';
 

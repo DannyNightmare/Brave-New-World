@@ -747,32 +747,85 @@ const styles = StyleSheet.create({
   itemRewardContainer: {
     marginBottom: 16,
   },
-  itemScrollView: {
-    flexGrow: 0,
-  },
-  itemChip: {
+  categoryDropdown: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    marginRight: 8,
+    justifyContent: 'space-between',
+    backgroundColor: '#1F2937',
+    padding: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#374151',
+    marginBottom: 12,
+  },
+  categoryDropdownText: {
+    flex: 1,
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#8B5CF6',
+    marginLeft: 8,
+  },
+  categoryList: {
     backgroundColor: '#1F2937',
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#374151',
+    marginBottom: 12,
+    maxHeight: 200,
   },
-  itemChipSelected: {
-    backgroundColor: '#8B5CF6',
-    borderColor: '#8B5CF6',
+  categoryItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#374151',
   },
-  itemChipText: {
+  categoryItemSelected: {
+    backgroundColor: 'rgba(139, 92, 246, 0.1)',
+  },
+  categoryItemText: {
+    fontSize: 15,
+    color: '#D1D5DB',
+    fontWeight: '500',
+  },
+  categoryItemTextSelected: {
+    color: '#8B5CF6',
+    fontWeight: '600',
+  },
+  itemListLabel: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#8B5CF6',
+    color: '#9CA3AF',
+    marginBottom: 8,
   },
-  itemChipTextSelected: {
-    color: '#FFFFFF',
+  itemList: {
+    backgroundColor: '#1F2937',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#374151',
+    maxHeight: 200,
+  },
+  itemRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#374151',
+    gap: 12,
+  },
+  itemRowSelected: {
+    backgroundColor: 'rgba(139, 92, 246, 0.15)',
+  },
+  itemRowText: {
+    flex: 1,
+    fontSize: 15,
+    color: '#D1D5DB',
+    fontWeight: '500',
+  },
+  itemRowTextSelected: {
+    color: '#8B5CF6',
+    fontWeight: '600',
   },
   noItemsText: {
     fontSize: 14,

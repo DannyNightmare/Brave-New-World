@@ -324,9 +324,13 @@ async def complete_quest(quest_id: str):
     
     updated_user = await db.users.find_one({"id": quest["user_id"]})
     return {
-        "quest": Quest(**{**quest, "completed": True}), 
+        "quest": Quest(**{**quest, "completed": True}),
         "user": User(**updated_user),
-        "item_reward": item_reward_name
+        "item_reward": item_reward_name,
+        "levels_gained": levels_gained,
+        "old_level": user["level"],
+        "xp_reward": quest["xp_reward"],
+        "gold_reward": quest["gold_reward"]
     }
 
 @api_router.delete("/quests/{quest_id}")

@@ -297,7 +297,14 @@ export default function QuestsScreen() {
         {activeQuests.map(quest => (
           <View key={quest.id} style={styles.questCard}>
             <View style={styles.questHeader}>
-              <Text style={styles.questTitle}>{quest.title}</Text>
+              <View style={styles.questTitleRow}>
+                <Text style={styles.questTitle}>{quest.title}</Text>
+                {quest.repeat_frequency === 'limitless' && (
+                  <View style={styles.limitlessBadge}>
+                    <Ionicons name="infinite" size={16} color="#10B981" />
+                  </View>
+                )}
+              </View>
               <TouchableOpacity onPress={() => deleteQuest(quest.id)}>
                 <Ionicons name="close-circle" size={24} color="#6B7280" />
               </TouchableOpacity>

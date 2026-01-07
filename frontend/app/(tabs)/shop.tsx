@@ -134,6 +134,8 @@ export default function ShopScreen() {
   const [selectedCategoryForAction, setSelectedCategoryForAction] = useState('');
   const [renameCategoryModalVisible, setRenameCategoryModalVisible] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState('');
+  const [customStats, setCustomStats] = useState<Array<{id: string, name: string}>>([]);
+  const [statBoosts, setStatBoosts] = useState<{ [key: string]: number }>({});
   const [newItem, setNewItem] = useState({
     name: '',
     description: '',
@@ -148,9 +150,6 @@ export default function ShopScreen() {
     power_max_level: 5,
     next_tier_ability: '',
     item_type: 'weapon',
-    strength_boost: 0,
-    intelligence_boost: 0,
-    vitality_boost: 0,
     // Consumable fields
     exp_amount: 0,
     gold_amount: 0,

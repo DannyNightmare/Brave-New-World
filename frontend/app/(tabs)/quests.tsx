@@ -104,7 +104,21 @@ export default function QuestsScreen() {
     try {
       const response = await fetch(`${API_URL}/api/shop`);
       const data = await response.json();
-      setShopItems(data.map((item: any) => ({ id: item.id, name: item.name })));
+      const items = data.map((item: any) => ({ 
+        id: item.id, 
+        name: item.name,
+        category: item.category || 'general'
+      }));
+      setShopItems(items);
+      
+      // Extract unique categories
+      const categories = [...new Set(items.map((item: any) => item.category))];
+      setItemCategories(['All', ...categories]);
+      
+      // Set default to 'All'
+      if (!selectedCategory) {
+        setSelectedCategory('All');
+      }
     } catch (error) {
       console.error('Failed to fetch shop items:', error);
     }

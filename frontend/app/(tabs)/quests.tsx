@@ -57,6 +57,7 @@ export default function QuestsScreen() {
     description: '', 
     xp_reward: 50,
     gold_reward: 10,
+    ap_reward: 0,
     item_reward: '',
     repeat_frequency: 'none',
   });

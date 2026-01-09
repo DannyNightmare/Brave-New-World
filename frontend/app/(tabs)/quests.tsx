@@ -433,7 +433,15 @@ export default function QuestsScreen() {
         )}
 
         {activeQuests.map(quest => (
-          <View key={quest.id} style={styles.questCard}>
+          <Pressable 
+            key={quest.id} 
+            style={({ pressed }) => [
+              styles.questCard,
+              pressed && styles.questCardPressed
+            ]}
+            onLongPress={() => handleLongPress(quest)}
+            delayLongPress={500}
+          >
             <View style={styles.questHeader}>
               <View style={styles.questTitleRow}>
                 <Text style={styles.questTitle}>{quest.title}</Text>
@@ -443,9 +451,6 @@ export default function QuestsScreen() {
                   </View>
                 )}
               </View>
-              <TouchableOpacity onPress={() => deleteQuest(quest.id)}>
-                <Ionicons name="close-circle" size={24} color="#6B7280" />
-              </TouchableOpacity>
             </View>
             {quest.description && <Text style={styles.questDescription}>{quest.description}</Text>}
             
@@ -469,7 +474,7 @@ export default function QuestsScreen() {
                 <Text style={styles.completeButtonText}>Complete</Text>
               </TouchableOpacity>
             </View>
-          </View>
+          </Pressable>
         ))}
 
         {completedQuests.length > 0 && (

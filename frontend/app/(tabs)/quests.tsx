@@ -853,6 +853,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#374151',
   },
+  questCardPressed: {
+    backgroundColor: '#374151',
+    borderColor: '#8B5CF6',
+    transform: [{ scale: 0.98 }],
+  },
   completedCard: {
     opacity: 0.6,
   },

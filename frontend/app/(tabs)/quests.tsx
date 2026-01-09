@@ -259,6 +259,139 @@ export default function QuestsScreen() {
     }
   };
 
+  // Long-press handler to show action menu
+  const handleLongPress = (quest: Quest) => {
+    setSelectedQuest(quest);
+    setActionMenuVisible(true);
+  };
+
+  // Open edit modal with quest data
+  const openEditModal = () => {
+    if (!selectedQuest) return;
+    
+    setNewQuest({
+      title: selectedQuest.title,
+      description: selectedQuest.description || '',
+      xp_reward: selectedQuest.xp_reward,
+      gold_reward: selectedQuest.gold_reward,
+      ap_reward: (selectedQuest as any).ap_reward || 0,
+      item_reward: selectedQuest.item_reward || '',
+      repeat_frequency: selectedQuest.repeat_frequency || 'none',
+    });
+    
+    // Set stat rewards if they exist
+    if (selectedQuest.attribute_rewards) {
+      setStatRewards(selectedQuest.attribute_rewards);
+    }
+    
+    setIsEditing(true);
+    setActionMenuVisible(false);
+    setModalVisible(true);
+  };
+
+  // Confirm and delete quest
+  const confirmDelete = () => {
+    if (!selectedQuest) return;
+    
+    Alert.alert(
+      'Delete Quest',
+      `Are you sure you want to delete "${selectedQuest.title}"?`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { 
+          text: 'Delete', 
+          style: 'destructive',
+          onPress: () => {
+            deleteQuest(selectedQuest.id);
+            setActionMenuVisible(false);
+            setSelectedQuest(null);
+          }
+        }
+      ]
+    );
+  };
+
+  // Update existing quest
+  const updateQuest = async () => {
+    if (!selectedQuest || !user?.id || !newQuest.title.trim()) {
+      Alert.alert('Error', 'Please enter a quest title');
+      return;
+    }
+
+    try {
+      const attribute_rewards: { [key: string]: number } = {};
+      Object.entries(statRewards).forEach(([statName, value]) => {
+        if (value > 0) {
+          attribute_rewards[statName] = value;
+        }
+      });
+
+      const payload: any = {
+        user_id: user.id,
+        title: newQuest.title,
+        description: newQuest.description,
+        xp_reward: newQuest.xp_reward,
+        gold_reward: newQuest.gold_reward,
+        ap_reward: newQuest.ap_reward,
+        repeat_frequency: newQuest.repeat_frequency,
+      };
+
+      if (newQuest.item_reward.trim()) {
+        payload.item_reward = newQuest.item_reward;
+      }
+
+      if (Object.keys(attribute_rewards).length > 0) {
+        payload.attribute_rewards = attribute_rewards;
+      }
+
+      const response = await fetch(`${API_URL}/api/quests/${selectedQuest.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        resetForm();
+        setModalVisible(false);
+        setIsEditing(false);
+        setSelectedQuest(null);
+        fetchQuests();
+        Alert.alert('Success', 'Quest updated!');
+      } else {
+        Alert.alert('Error', 'Failed to update quest');
+      }
+    } catch (error) {
+      console.error('Failed to update quest:', error);
+      Alert.alert('Error', 'Failed to update quest');
+    }
+  };
+
+  // Reset form to defaults
+  const resetForm = () => {
+    setNewQuest({
+      title: '',
+      description: '',
+      xp_reward: 50,
+      gold_reward: 10,
+      ap_reward: 0,
+      item_reward: '',
+      repeat_frequency: 'none',
+    });
+    const resetRewards: { [key: string]: number } = {};
+    customStats.forEach((stat) => {
+      resetRewards[stat.name] = 0;
+    });
+    setStatRewards(resetRewards);
+  };
+
+  // Handle modal close
+  const handleModalClose = () => {
+    setModalVisible(false);
+    setIsEditing(false);
+    setSelectedQuest(null);
+    resetForm();
+  };
+
   const activeQuests = quests.filter(q => !q.completed);
   // Only show completed quests that have a repeat frequency (daily, weekly, monthly)
   const completedQuests = quests.filter(q => q.completed && q.repeat_frequency && q.repeat_frequency !== 'none');

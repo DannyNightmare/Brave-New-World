@@ -1204,4 +1204,60 @@ const styles = StyleSheet.create({
   repeatOptionTextSelected: {
     color: '#FFF',
   },
+  editButton: {
+    backgroundColor: '#10B981',
+  },
+  // Action Menu Styles
+  actionMenuOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  actionMenuContainer: {
+    backgroundColor: '#1F2937',
+    borderRadius: 20,
+    padding: 20,
+    width: '100%',
+    maxWidth: 320,
+    borderWidth: 1,
+    borderColor: '#374151',
+  },
+  actionMenuTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#F9FAFB',
+    textAlign: 'center',
+    marginBottom: 12,
+  },
+  actionMenuDivider: {
+    height: 1,
+    backgroundColor: '#374151',
+    marginVertical: 12,
+  },
+  actionMenuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    gap: 16,
+    borderRadius: 12,
+  },
+  actionMenuItemText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#F9FAFB',
+  },
+  actionMenuCancel: {
+    alignItems: 'center',
+    paddingVertical: 14,
+    borderRadius: 12,
+    backgroundColor: '#374151',
+  },
+  actionMenuCancelText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#9CA3AF',
+  },
 });

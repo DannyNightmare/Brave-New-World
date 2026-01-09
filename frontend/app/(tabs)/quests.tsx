@@ -181,21 +181,7 @@ export default function QuestsScreen() {
         body: JSON.stringify(payload),
       });
       await response.json();
-      setNewQuest({
-        title: '',
-        description: '',
-        xp_reward: 50,
-        gold_reward: 10,
-        ap_reward: 0,
-        item_reward: '',
-        repeat_frequency: 'none',
-      });
-      // Reset stat rewards to 0
-      const resetRewards: { [key: string]: number } = {};
-      customStats.forEach((stat) => {
-        resetRewards[stat.name] = 0;
-      });
-      setStatRewards(resetRewards);
+      resetForm();
       setModalVisible(false);
       fetchQuests();
     } catch (error) {

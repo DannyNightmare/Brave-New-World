@@ -70,6 +70,11 @@ export default function QuestsScreen() {
   const [rewardModalVisible, setRewardModalVisible] = useState(false);
   const [rewardData, setRewardData] = useState<any>(null);
 
+  // Long-press action menu state
+  const [actionMenuVisible, setActionMenuVisible] = useState(false);
+  const [selectedQuest, setSelectedQuest] = useState<Quest | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+
   const fetchQuests = async () => {
     if (!user?.id) return;
     try {

@@ -482,18 +482,56 @@ export default function QuestsScreen() {
       {/* Floating Action Button */}
       <TouchableOpacity 
         style={styles.fab} 
-        onPress={() => setModalVisible(true)}
+        onPress={() => {
+          setIsEditing(false);
+          setSelectedQuest(null);
+          resetForm();
+          setModalVisible(true);
+        }}
       >
         <Ionicons name="add" size={28} color="#FFF" />
       </TouchableOpacity>
+
+      {/* Action Menu Modal (Long Press) */}
+      <Modal visible={actionMenuVisible} animationType="fade" transparent={true}>
+        <TouchableOpacity 
+          style={styles.actionMenuOverlay} 
+          activeOpacity={1} 
+          onPress={() => setActionMenuVisible(false)}
+        >
+          <View style={styles.actionMenuContainer}>
+            <Text style={styles.actionMenuTitle}>{selectedQuest?.title}</Text>
+            <View style={styles.actionMenuDivider} />
+            
+            <TouchableOpacity style={styles.actionMenuItem} onPress={openEditModal}>
+              <Ionicons name="pencil" size={24} color="#8B5CF6" />
+              <Text style={styles.actionMenuItemText}>Edit Quest</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={styles.actionMenuItem} onPress={confirmDelete}>
+              <Ionicons name="trash" size={24} color="#EF4444" />
+              <Text style={[styles.actionMenuItemText, { color: '#EF4444' }]}>Delete Quest</Text>
+            </TouchableOpacity>
+            
+            <View style={styles.actionMenuDivider} />
+            
+            <TouchableOpacity 
+              style={styles.actionMenuCancel} 
+              onPress={() => setActionMenuVisible(false)}
+            >
+              <Text style={styles.actionMenuCancelText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </Modal>
 
       <Modal visible={modalVisible} animationType="slide" transparent={true}>
         <View style={styles.modalOverlay}>
           <ScrollView style={styles.modalScrollView}>
             <View style={styles.modalContent}>
               <View style={styles.modalHeader}>
-                <Text style={styles.modalTitle}>Create Quest</Text>
-                <TouchableOpacity onPress={() => setModalVisible(false)}>
+                <Text style={styles.modalTitle}>{isEditing ? 'Edit Quest' : 'Create Quest'}</Text>
+                <TouchableOpacity onPress={handleModalClose}>
                   <Ionicons name="close" size={28} color="#9CA3AF" />
                 </TouchableOpacity>
               </View>

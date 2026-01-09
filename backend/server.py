@@ -343,6 +343,31 @@ async def complete_quest(quest_id: str):
         "gold_reward": quest["gold_reward"]
     }
 
+@api_router.put("/quests/{quest_id}")
+async def update_quest(quest_id: str, quest_update: QuestCreate):
+    existing_quest = await db.quests.find_one({"id": quest_id})
+    if not existing_quest:
+        raise HTTPException(status_code=404, detail="Quest not found")
+    
+    update_data = {
+        "title": quest_update.title,
+        "description": quest_update.description,
+        "xp_reward": quest_update.xp_reward,
+        "gold_reward": quest_update.gold_reward,
+        "ap_reward": quest_update.ap_reward,
+        "item_reward": quest_update.item_reward,
+        "attribute_rewards": quest_update.attribute_rewards,
+        "repeat_frequency": quest_update.repeat_frequency,
+    }
+    
+    await db.quests.update_one(
+        {"id": quest_id},
+        {"$set": update_data}
+    )
+    
+    updated_quest = await db.quests.find_one({"id": quest_id})
+    return Quest(**updated_quest)
+
 @api_router.delete("/quests/{quest_id}")
 async def delete_quest(quest_id: str):
     result = await db.quests.delete_one({"id": quest_id})

@@ -750,8 +750,19 @@ export default function QuestsScreen() {
                 </Text>
               )}
 
-              <TouchableOpacity style={styles.createButton} onPress={createQuest}>
-                <Text style={styles.createButtonText}>Create Quest</Text>
+              <TouchableOpacity 
+                style={[styles.createButton, isEditing && styles.editButton]} 
+                onPress={isEditing ? updateQuest : createQuest}
+              >
+                <Ionicons 
+                  name={isEditing ? "checkmark" : "add"} 
+                  size={20} 
+                  color="#FFF" 
+                  style={{ marginRight: 8 }}
+                />
+                <Text style={styles.createButtonText}>
+                  {isEditing ? 'Save Changes' : 'Create Quest'}
+                </Text>
               </TouchableOpacity>
             </View>
           </ScrollView>

@@ -21,7 +21,7 @@ const API_URL = 'https://levelup-quest-7.preview.emergentagent.com';
 export default function StatusScreen() {
   const { user, loading } = useUser();
   const { colors } = useTheme();
-  const { xpBarColor, goldIcon, apIcon, statusTheme } = useCustomization();
+  const { xpBarColor, goldIcon, apIcon, goldCustomImage, apCustomImage, statusTheme } = useCustomization();
   const styles = getStyles(statusTheme);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [localGoldIcon, setLocalGoldIcon] = useState<string | null>(null);

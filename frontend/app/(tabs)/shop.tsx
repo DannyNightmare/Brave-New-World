@@ -115,6 +115,7 @@ const ShopItemCard = ({ item, onLongPress, onPress, onPurchase }: {
 
 export default function ShopScreen() {
   const { user, refreshUser } = useUser();
+  const { statusTheme } = useCustomization();
   const [items, setItems] = useState<ShopItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);

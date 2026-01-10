@@ -239,15 +239,19 @@ export default function TabLayout() {
           borderTopColor: colors.border,
           paddingBottom: 5,
           height: 60,
+          backgroundColor: statusTheme.colors.cardBackground,
+          borderTopColor: statusTheme.colors.cardBorder,
         },
         tabBarLabelStyle: {
           fontSize: 11,
           fontWeight: '600',
         },
+        tabBarActiveTintColor: statusTheme.colors.primary,
+        tabBarInactiveTintColor: statusTheme.colors.textSecondary,
         headerStyle: {
-          backgroundColor: colors.header,
+          backgroundColor: statusTheme.colors.background,
         },
-        headerTintColor: colors.text,
+        headerTintColor: statusTheme.colors.text,
         headerTitleStyle: {
           fontWeight: 'bold',
         },

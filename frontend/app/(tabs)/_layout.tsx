@@ -1,10 +1,12 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
-import { TouchableOpacity, Modal, View, Text, StyleSheet, ScrollView } from 'react-native';
+import { TouchableOpacity, Modal, View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useTheme } from '../../contexts/ThemeContext';
-import { useCustomization } from '../../contexts/CustomizationContext';
+import { useCustomization, STATUS_THEMES } from '../../contexts/CustomizationContext';
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 export default function TabLayout() {
   const [menuVisible, setMenuVisible] = useState(false);

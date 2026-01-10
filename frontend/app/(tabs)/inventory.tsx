@@ -129,75 +129,75 @@ export default function InventoryScreen() {
 
   if (loading) {
     return (
-      <SafeAreaView style={styles.container} edges={['bottom']}>
+      <SafeAreaView style={[styles.container, { backgroundColor: statusTheme.colors.background }]} edges={['bottom']}>
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#8B5CF6" />
+          <ActivityIndicator size="large" color={statusTheme.colors.primary} />
         </View>
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
+    <SafeAreaView style={[styles.container, { backgroundColor: statusTheme.colors.background }]} edges={['bottom']}>
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
         <View style={styles.header}>
           <View>
-            <Text style={styles.subtitle}>{filteredItems.length} items</Text>
+            <Text style={[styles.subtitle, { color: statusTheme.colors.textSecondary }]}>{filteredItems.length} items</Text>
           </View>
         </View>
 
         {/* Search Input */}
-        <View style={styles.searchContainer}>
-          <Ionicons name="search" size={20} color="#9CA3AF" style={styles.searchIcon} />
+        <View style={[styles.searchContainer, { backgroundColor: statusTheme.colors.cardBackground, borderColor: statusTheme.colors.cardBorder }]}>
+          <Ionicons name="search" size={20} color={statusTheme.colors.textSecondary} style={styles.searchIcon} />
           <TextInput
-            style={styles.searchInput}
+            style={[styles.searchInput, { color: statusTheme.colors.text }]}
             placeholder="Search inventory..."
-            placeholderTextColor="#6B7280"
+            placeholderTextColor={statusTheme.colors.textSecondary}
             value={searchQuery}
             onChangeText={setSearchQuery}
           />
           {searchQuery.length > 0 && (
             <TouchableOpacity onPress={() => setSearchQuery('')} style={styles.clearButton}>
-              <Ionicons name="close-circle" size={20} color="#6B7280" />
+              <Ionicons name="close-circle" size={20} color={statusTheme.colors.textSecondary} />
             </TouchableOpacity>
           )}
         </View>
 
         {filteredItems.length === 0 ? (
           <View style={styles.emptyState}>
-            <Ionicons name="cube-outline" size={64} color="#374151" />
-            <Text style={styles.emptyText}>No items yet!</Text>
-            <Text style={styles.emptySubtext}>Visit the shop to purchase items</Text>
+            <Ionicons name="cube-outline" size={64} color={statusTheme.colors.cardBorder} />
+            <Text style={[styles.emptyText, { color: statusTheme.colors.textSecondary }]}>No items yet!</Text>
+            <Text style={[styles.emptySubtext, { color: statusTheme.colors.textSecondary }]}>Visit the shop to purchase items</Text>
           </View>
         ) : (
           filteredItems.map(item => {
             const isConsumable = item.item_type === 'exp' || item.item_type === 'gold' || item.item_type === 'ability_points';
             
             return (
-              <View key={item.id} style={styles.itemCard}>
+              <View key={item.id} style={[styles.itemCard, { backgroundColor: statusTheme.colors.cardBackground, borderColor: statusTheme.colors.cardBorder }]}>
                 <View style={[styles.itemIcon, { backgroundColor: getItemColor(item.item_type) + '20' }]}>
                   <Ionicons name={getItemIcon(item.item_type) as any} size={32} color={getItemColor(item.item_type)} />
                 </View>
                 
                 <View style={styles.itemInfo}>
                   <View style={styles.itemHeader}>
-                    <Text style={styles.itemName}>{item.item_name}</Text>
+                    <Text style={[styles.itemName, { color: statusTheme.colors.text }]}>{item.item_name}</Text>
                     <View style={[styles.typeBadge, { backgroundColor: getItemColor(item.item_type) + '20' }]}>
                       <Text style={[styles.typeText, { color: getItemColor(item.item_type) }]}>
                         {item.item_type}
                       </Text>
                     </View>
                   </View>
-                  <Text style={styles.itemDescription} numberOfLines={2} ellipsizeMode="tail">
+                  <Text style={[styles.itemDescription, { color: statusTheme.colors.textSecondary }]} numberOfLines={2} ellipsizeMode="tail">
                     {item.item_description}
                   </Text>
                   
                   {/* Show consumable amount */}
                   {item.exp_amount && (
-                    <Text style={styles.consumableAmount}>+{item.exp_amount} EXP</Text>
+                    <Text style={[styles.consumableAmount, { color: statusTheme.colors.primary }]}>+{item.exp_amount} EXP</Text>
                   )}
                   {item.gold_amount && (
-                    <Text style={styles.consumableAmount}>+{item.gold_amount} Gold</Text>
+                    <Text style={[styles.consumableAmount, { color: statusTheme.colors.goldColor }]}>+{item.gold_amount} Gold</Text>
                   )}
                   {item.ap_amount && (
                     <Text style={styles.consumableAmount}>+{item.ap_amount} AP</Text>

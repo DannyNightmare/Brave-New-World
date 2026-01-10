@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUser } from '../../contexts/UserContext';
 import { useTheme } from '../../contexts/ThemeContext';
-import { useCustomization } from '../../contexts/CustomizationContext';
+import { useCustomization, StatusTheme } from '../../contexts/CustomizationContext';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import Animated, { 
@@ -21,8 +21,8 @@ const API_URL = 'https://levelup-quest-7.preview.emergentagent.com';
 export default function StatusScreen() {
   const { user, loading } = useUser();
   const { colors } = useTheme();
-  const { xpBarColor, goldIcon, apIcon } = useCustomization();
-  const styles = getStyles(colors);
+  const { xpBarColor, goldIcon, apIcon, statusTheme } = useCustomization();
+  const styles = getStyles(statusTheme);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [localGoldIcon, setLocalGoldIcon] = useState<string | null>(null);
   const [addStatModalVisible, setAddStatModalVisible] = useState(false);

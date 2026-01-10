@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TextInput, Touch
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUser } from '../../contexts/UserContext';
 import { useNotification } from '../../contexts/NotificationContext';
+import { useCustomization } from '../../contexts/CustomizationContext';
 import { Ionicons } from '@expo/vector-icons';
 
 const API_URL = 'https://levelup-quest-7.preview.emergentagent.com';

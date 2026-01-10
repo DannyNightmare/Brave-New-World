@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUser } from '../../contexts/UserContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useNotification } from '../../contexts/NotificationContext';
+import { useCustomization, StatusTheme } from '../../contexts/CustomizationContext';
 import { Ionicons } from '@expo/vector-icons';
 const API_URL = 'https://levelup-quest-7.preview.emergentagent.com';
 

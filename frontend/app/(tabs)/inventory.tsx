@@ -23,6 +23,7 @@ interface InventoryItem {
 export default function InventoryScreen() {
   const { user, refreshUser } = useUser();
   const { showNotification, showLevelUp } = useNotification();
+  const { statusTheme } = useCustomization();
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');

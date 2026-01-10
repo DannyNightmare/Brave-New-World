@@ -615,7 +615,6 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
     borderWidth: 1,
     borderColor: theme.colors.cardBorder,
   },
-  },
   colorGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -634,11 +633,13 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
     borderColor: '#FFF',
   },
   iconPickerButton: {
-    backgroundColor: '#374151',
+    backgroundColor: theme.colors.background,
     borderRadius: 12,
     padding: 16,
     marginBottom: 16,
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: theme.colors.cardBorder,
   },
   iconPreview: {
     width: 60,
@@ -650,11 +651,11 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
   },
   iconPlaceholderText: {
     fontSize: 12,
-    color: '#9CA3AF',
+    color: theme.colors.textSecondary,
     marginTop: 8,
   },
   createButton: {
-    backgroundColor: '#8B5CF6',
+    backgroundColor: theme.colors.primary,
     padding: 16,
     borderRadius: 12,
     alignItems: 'center',
@@ -666,14 +667,16 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
     fontWeight: 'bold',
   },
   cancelButton: {
-    backgroundColor: '#374151',
+    backgroundColor: theme.colors.cardBackground,
     padding: 16,
     borderRadius: 12,
     alignItems: 'center',
     marginTop: 12,
+    borderWidth: 1,
+    borderColor: theme.colors.cardBorder,
   },
   cancelButtonText: {
-    color: '#9CA3AF',
+    color: theme.colors.textSecondary,
     fontSize: 16,
     fontWeight: '600',
   },

@@ -255,13 +255,21 @@ export default function StatusScreen() {
             
             {/* Gold with coin icon */}
             <View style={styles.currencyRow}>
-              <Ionicons name={goldIcon as any} size={20} color="#F59E0B" />
+              {goldCustomImage ? (
+                <Image source={{ uri: goldCustomImage }} style={styles.currencyIcon} />
+              ) : (
+                <Ionicons name={goldIcon as any} size={20} color={statusTheme.colors.goldColor} />
+              )}
               <Text style={styles.currencyValue}>{user.gold}</Text>
             </View>
             
             {/* AP with star icon */}
             <View style={styles.currencyRow}>
-              <Ionicons name={apIcon as any} size={20} color="#8B5CF6" />
+              {apCustomImage ? (
+                <Image source={{ uri: apCustomImage }} style={styles.currencyIcon} />
+              ) : (
+                <Ionicons name={apIcon as any} size={20} color={statusTheme.colors.apColor} />
+              )}
               <Text style={styles.currencyValue}>{user.ability_points || 0}</Text>
             </View>
           </View>

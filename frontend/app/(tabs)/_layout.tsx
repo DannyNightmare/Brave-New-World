@@ -1,10 +1,11 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
-import { TouchableOpacity, Modal, View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { TouchableOpacity, Modal, View, Text, StyleSheet, ScrollView, Dimensions, Image, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useCustomization, STATUS_THEMES } from '../../contexts/CustomizationContext';
+import * as ImagePicker from 'expo-image-picker';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -13,7 +14,50 @@ export default function TabLayout() {
   const [customizeVisible, setCustomizeVisible] = useState(false);
   const router = useRouter();
   const { colors } = useTheme();
-  const { xpBarColor, goldIcon, apIcon, statusTheme, setXpBarColor, setGoldIcon, setApIcon, setStatusTheme } = useCustomization();
+  const { 
+    xpBarColor, goldIcon, apIcon, goldCustomImage, apCustomImage, statusTheme, 
+    setXpBarColor, setGoldIcon, setApIcon, setGoldCustomImage, setApCustomImage, setStatusTheme 
+  } = useCustomization();
+
+  // Image picker function
+  const pickImage = async (type: 'gold' | 'ap') => {
+    try {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permission Required', 'Please allow access to your photo library to select custom icons.');
+        return;
+      }
+
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.5,
+        base64: true,
+      });
+
+      if (!result.canceled && result.assets[0].base64) {
+        const base64Image = `data:image/jpeg;base64,${result.assets[0].base64}`;
+        if (type === 'gold') {
+          setGoldCustomImage(base64Image);
+        } else {
+          setApCustomImage(base64Image);
+        }
+      }
+    } catch (error) {
+      console.error('Error picking image:', error);
+      Alert.alert('Error', 'Failed to pick image. Please try again.');
+    }
+  };
+
+  // Clear custom image and revert to icon
+  const clearCustomImage = (type: 'gold' | 'ap') => {
+    if (type === 'gold') {
+      setGoldCustomImage(null);
+    } else {
+      setApCustomImage(null);
+    }
+  };
 
   // Color options for XP bar
   const xpBarColors = [

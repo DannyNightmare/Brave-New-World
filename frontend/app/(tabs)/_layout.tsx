@@ -230,6 +230,40 @@ export default function TabLayout() {
               {/* Gold Icon Section */}
               <View style={styles.section}>
                 <Text style={[styles.sectionTitle, { color: colors.text }]}>Gold Icon</Text>
+                <Text style={[styles.sectionSubtitle, { color: colors.textSecondary }]}>
+                  Choose a preset or pick from your gallery
+                </Text>
+                
+                {/* Custom Image Preview & Picker */}
+                <View style={styles.customImageRow}>
+                  <TouchableOpacity 
+                    style={[
+                      styles.customImagePicker, 
+                      { backgroundColor: colors.surface, borderColor: goldCustomImage ? '#F59E0B' : colors.border }
+                    ]}
+                    onPress={() => pickImage('gold')}
+                  >
+                    {goldCustomImage ? (
+                      <Image source={{ uri: goldCustomImage }} style={styles.customImagePreview} />
+                    ) : (
+                      <View style={styles.customImagePlaceholder}>
+                        <Ionicons name="image-outline" size={24} color="#F59E0B" />
+                        <Text style={[styles.customImageText, { color: colors.textSecondary }]}>Gallery</Text>
+                      </View>
+                    )}
+                  </TouchableOpacity>
+                  {goldCustomImage && (
+                    <TouchableOpacity 
+                      style={styles.clearImageButton}
+                      onPress={() => clearCustomImage('gold')}
+                    >
+                      <Ionicons name="close-circle" size={20} color="#EF4444" />
+                    </TouchableOpacity>
+                  )}
+                </View>
+
+                {/* Preset Icons */}
+                <Text style={[styles.presetLabel, { color: colors.textSecondary }]}>Or choose a preset:</Text>
                 <View style={styles.iconGrid}>
                   {goldIconOptions.map((icon) => (
                     <TouchableOpacity
@@ -237,7 +271,7 @@ export default function TabLayout() {
                       style={[
                         styles.iconButton,
                         { backgroundColor: colors.surface },
-                        goldIcon === icon && styles.iconButtonSelected
+                        goldIcon === icon && !goldCustomImage && styles.iconButtonSelected
                       ]}
                       onPress={() => setGoldIcon(icon)}
                     >
@@ -250,6 +284,40 @@ export default function TabLayout() {
               {/* AP Icon Section */}
               <View style={styles.section}>
                 <Text style={[styles.sectionTitle, { color: colors.text }]}>Ability Points Icon</Text>
+                <Text style={[styles.sectionSubtitle, { color: colors.textSecondary }]}>
+                  Choose a preset or pick from your gallery
+                </Text>
+                
+                {/* Custom Image Preview & Picker */}
+                <View style={styles.customImageRow}>
+                  <TouchableOpacity 
+                    style={[
+                      styles.customImagePicker, 
+                      { backgroundColor: colors.surface, borderColor: apCustomImage ? '#8B5CF6' : colors.border }
+                    ]}
+                    onPress={() => pickImage('ap')}
+                  >
+                    {apCustomImage ? (
+                      <Image source={{ uri: apCustomImage }} style={styles.customImagePreview} />
+                    ) : (
+                      <View style={styles.customImagePlaceholder}>
+                        <Ionicons name="image-outline" size={24} color="#8B5CF6" />
+                        <Text style={[styles.customImageText, { color: colors.textSecondary }]}>Gallery</Text>
+                      </View>
+                    )}
+                  </TouchableOpacity>
+                  {apCustomImage && (
+                    <TouchableOpacity 
+                      style={styles.clearImageButton}
+                      onPress={() => clearCustomImage('ap')}
+                    >
+                      <Ionicons name="close-circle" size={20} color="#EF4444" />
+                    </TouchableOpacity>
+                  )}
+                </View>
+
+                {/* Preset Icons */}
+                <Text style={[styles.presetLabel, { color: colors.textSecondary }]}>Or choose a preset:</Text>
                 <View style={styles.iconGrid}>
                   {apIconOptions.map((icon) => (
                     <TouchableOpacity
@@ -257,7 +325,7 @@ export default function TabLayout() {
                       style={[
                         styles.iconButton,
                         { backgroundColor: colors.surface },
-                        apIcon === icon && styles.iconButtonSelected
+                        apIcon === icon && !apCustomImage && styles.iconButtonSelected
                       ]}
                       onPress={() => setApIcon(icon)}
                     >

@@ -454,12 +454,12 @@ export default function QuestsScreen() {
                   <Text style={styles.rewardText}>{quest.xp_reward} XP</Text>
                 </View>
                 <View style={styles.reward}>
-                  <Ionicons name="logo-bitcoin" size={14} color="#FCD34D" />
-                  <Text style={styles.rewardText}>{quest.gold_reward}</Text>
+                  <Ionicons name="logo-bitcoin" size={14} color={statusTheme.colors.goldColor} />
+                  <Text style={[styles.rewardText, { color: statusTheme.colors.text }]}>{quest.gold_reward}</Text>
                 </View>
               </View>
               
-              <TouchableOpacity style={styles.completeButton} onPress={() => completeQuest(quest.id)}>
+              <TouchableOpacity style={[styles.completeButton, { backgroundColor: statusTheme.colors.accent }]} onPress={() => completeQuest(quest.id)}>
                 <Text style={styles.completeButtonText}>Complete</Text>
               </TouchableOpacity>
             </View>
@@ -468,14 +468,14 @@ export default function QuestsScreen() {
 
         {completedQuests.length > 0 && (
           <>
-            <Text style={styles.sectionTitle}>Completed</Text>
+            <Text style={[styles.sectionTitle, { color: statusTheme.colors.textSecondary }]}>Completed</Text>
             {completedQuests.map(quest => (
-              <View key={quest.id} style={[styles.questCard, styles.completedCard]}>
+              <View key={quest.id} style={[styles.questCard, styles.completedCard, { backgroundColor: statusTheme.colors.cardBackground, borderColor: statusTheme.colors.cardBorder }]}>
                 <View style={styles.questHeader}>
-                  <Text style={[styles.questTitle, styles.completedText]}>{quest.title}</Text>
-                  <Ionicons name="checkmark-circle" size={24} color="#10B981" />
+                  <Text style={[styles.questTitle, styles.completedText, { color: statusTheme.colors.text }]}>{quest.title}</Text>
+                  <Ionicons name="checkmark-circle" size={24} color={statusTheme.colors.accent} />
                 </View>
-                {quest.description && <Text style={[styles.questDescription, styles.completedText]}>{quest.description}</Text>}
+                {quest.description && <Text style={[styles.questDescription, styles.completedText, { color: statusTheme.colors.textSecondary }]}>{quest.description}</Text>}
               </View>
             ))}
           </>
@@ -484,7 +484,7 @@ export default function QuestsScreen() {
 
       {/* Floating Action Button */}
       <TouchableOpacity 
-        style={styles.fab} 
+        style={[styles.fab, { backgroundColor: statusTheme.colors.primary }]} 
         onPress={() => {
           setIsEditing(false);
           setSelectedQuest(null);
@@ -502,13 +502,13 @@ export default function QuestsScreen() {
           activeOpacity={1} 
           onPress={() => setActionMenuVisible(false)}
         >
-          <View style={styles.actionMenuContainer}>
-            <Text style={styles.actionMenuTitle}>{selectedQuest?.title}</Text>
-            <View style={styles.actionMenuDivider} />
+          <View style={[styles.actionMenuContainer, { backgroundColor: statusTheme.colors.cardBackground, borderColor: statusTheme.colors.cardBorder }]}>
+            <Text style={[styles.actionMenuTitle, { color: statusTheme.colors.text }]}>{selectedQuest?.title}</Text>
+            <View style={[styles.actionMenuDivider, { backgroundColor: statusTheme.colors.cardBorder }]} />
             
             <TouchableOpacity style={styles.actionMenuItem} onPress={openEditModal}>
-              <Ionicons name="pencil" size={24} color="#8B5CF6" />
-              <Text style={styles.actionMenuItemText}>Edit Quest</Text>
+              <Ionicons name="pencil" size={24} color={statusTheme.colors.primary} />
+              <Text style={[styles.actionMenuItemText, { color: statusTheme.colors.text }]}>Edit Quest</Text>
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.actionMenuItem} onPress={confirmDelete}>
@@ -516,7 +516,7 @@ export default function QuestsScreen() {
               <Text style={[styles.actionMenuItemText, { color: '#EF4444' }]}>Delete Quest</Text>
             </TouchableOpacity>
             
-            <View style={styles.actionMenuDivider} />
+            <View style={[styles.actionMenuDivider, { backgroundColor: statusTheme.colors.cardBorder }]} />
             
             <TouchableOpacity 
               style={styles.actionMenuCancel} 

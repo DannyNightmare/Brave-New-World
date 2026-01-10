@@ -370,7 +370,82 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
+    marginBottom: 4,
+  },
+  sectionSubtitle: {
+    fontSize: 13,
     marginBottom: 12,
+  },
+  // Theme selector styles
+  themeScrollView: {
+    marginHorizontal: -24,
+  },
+  themeScrollContent: {
+    paddingHorizontal: 24,
+    gap: 12,
+  },
+  themeCard: {
+    width: 160,
+    borderRadius: 12,
+    borderWidth: 2,
+    overflow: 'hidden',
+  },
+  themePreviewHeader: {
+    padding: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  themePreviewLevel: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  themePreviewLevelText: {
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  themePreviewBars: {
+    flex: 1,
+    gap: 4,
+  },
+  themePreviewBar: {
+    height: 6,
+    borderRadius: 3,
+    overflow: 'hidden',
+  },
+  themePreviewBarFill: {
+    height: '100%',
+    borderRadius: 3,
+  },
+  themeInfo: {
+    padding: 10,
+  },
+  themeName: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginBottom: 2,
+  },
+  themeAnime: {
+    fontSize: 11,
+    fontWeight: '600',
+    marginBottom: 4,
+  },
+  themeDescription: {
+    fontSize: 10,
+    lineHeight: 13,
+  },
+  selectedBadge: {
+    position: 'absolute',
+    top: 6,
+    right: 6,
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   colorGrid: {
     flexDirection: 'row',

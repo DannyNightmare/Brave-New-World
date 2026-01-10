@@ -441,10 +441,38 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const setApIcon = async (icon: string) => {
     setApIconState(icon);
+    setApCustomImageState(null); // Clear custom image when selecting an icon
     try {
       await AsyncStorage.setItem('apIcon', icon);
+      await AsyncStorage.removeItem('apCustomImage');
     } catch (error) {
       console.error('Failed to save AP icon:', error);
+    }
+  };
+
+  const setGoldCustomImage = async (image: string | null) => {
+    setGoldCustomImageState(image);
+    try {
+      if (image) {
+        await AsyncStorage.setItem('goldCustomImage', image);
+      } else {
+        await AsyncStorage.removeItem('goldCustomImage');
+      }
+    } catch (error) {
+      console.error('Failed to save gold custom image:', error);
+    }
+  };
+
+  const setApCustomImage = async (image: string | null) => {
+    setApCustomImageState(image);
+    try {
+      if (image) {
+        await AsyncStorage.setItem('apCustomImage', image);
+      } else {
+        await AsyncStorage.removeItem('apCustomImage');
+      }
+    } catch (error) {
+      console.error('Failed to save AP custom image:', error);
     }
   };
 
@@ -470,10 +498,14 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
         xpBarColor,
         goldIcon,
         apIcon,
+        goldCustomImage,
+        apCustomImage,
         statusTheme,
         setXpBarColor,
         setGoldIcon,
         setApIcon,
+        setGoldCustomImage,
+        setApCustomImage,
         setStatusTheme,
         getThemeById,
       }}

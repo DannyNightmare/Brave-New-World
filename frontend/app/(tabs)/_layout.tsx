@@ -13,7 +13,7 @@ export default function TabLayout() {
   const [customizeVisible, setCustomizeVisible] = useState(false);
   const router = useRouter();
   const { colors } = useTheme();
-  const { xpBarColor, goldIcon, apIcon, setXpBarColor, setGoldIcon, setApIcon } = useCustomization();
+  const { xpBarColor, goldIcon, apIcon, statusTheme, setXpBarColor, setGoldIcon, setApIcon, setStatusTheme } = useCustomization();
 
   // Color options for XP bar
   const xpBarColors = [
@@ -29,6 +29,51 @@ export default function TabLayout() {
   // Icon options
   const goldIconOptions = ['logo-bitcoin', 'cash', 'wallet', 'diamond', 'trophy', 'medal'];
   const apIconOptions = ['star', 'flash', 'flame', 'sparkles', 'diamond', 'nuclear'];
+
+  // Mini theme preview component
+  const ThemePreview = ({ theme, isSelected, onSelect }: { theme: typeof STATUS_THEMES[0], isSelected: boolean, onSelect: () => void }) => (
+    <TouchableOpacity
+      style={[
+        styles.themeCard,
+        { backgroundColor: theme.colors.cardBackground, borderColor: isSelected ? theme.colors.primary : theme.colors.cardBorder },
+        isSelected && { borderWidth: 3 }
+      ]}
+      onPress={onSelect}
+    >
+      {/* Mini status preview */}
+      <View style={[styles.themePreviewHeader, { backgroundColor: theme.colors.background }]}>
+        <View style={[styles.themePreviewLevel, { backgroundColor: theme.colors.levelBadgeBg }]}>
+          <Text style={[styles.themePreviewLevelText, { color: theme.colors.levelBadgeText }]}>5</Text>
+        </View>
+        <View style={styles.themePreviewBars}>
+          <View style={[styles.themePreviewBar, { backgroundColor: theme.colors.xpBarBg }]}>
+            <View style={[styles.themePreviewBarFill, { backgroundColor: theme.colors.xpBarFill, width: '60%' }]} />
+          </View>
+          <View style={[styles.themePreviewBar, { backgroundColor: theme.colors.statBarBg }]}>
+            <View style={[styles.themePreviewBarFill, { backgroundColor: theme.colors.statBarFill, width: '80%' }]} />
+          </View>
+        </View>
+      </View>
+      
+      {/* Theme info */}
+      <View style={styles.themeInfo}>
+        <Text style={[styles.themeName, { color: theme.colors.text }]}>{theme.name}</Text>
+        {theme.anime && (
+          <Text style={[styles.themeAnime, { color: theme.colors.primary }]}>{theme.anime}</Text>
+        )}
+        <Text style={[styles.themeDescription, { color: theme.colors.textSecondary }]} numberOfLines={2}>
+          {theme.description}
+        </Text>
+      </View>
+      
+      {/* Selected indicator */}
+      {isSelected && (
+        <View style={[styles.selectedBadge, { backgroundColor: theme.colors.primary }]}>
+          <Ionicons name="checkmark" size={16} color="#FFF" />
+        </View>
+      )}
+    </TouchableOpacity>
+  );
 
   const HamburgerMenu = () => (
     <>

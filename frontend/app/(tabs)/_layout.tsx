@@ -131,6 +131,29 @@ export default function TabLayout() {
             </Text>
 
             <ScrollView style={styles.customizeContent} showsVerticalScrollIndicator={false}>
+              {/* Status Display Theme Section */}
+              <View style={styles.section}>
+                <Text style={[styles.sectionTitle, { color: colors.text }]}>Status Display</Text>
+                <Text style={[styles.sectionSubtitle, { color: colors.textSecondary }]}>
+                  Choose an anime-inspired status screen theme
+                </Text>
+                <ScrollView 
+                  horizontal 
+                  showsHorizontalScrollIndicator={false}
+                  style={styles.themeScrollView}
+                  contentContainerStyle={styles.themeScrollContent}
+                >
+                  {STATUS_THEMES.map((theme) => (
+                    <ThemePreview
+                      key={theme.id}
+                      theme={theme}
+                      isSelected={statusTheme.id === theme.id}
+                      onSelect={() => setStatusTheme(theme.id)}
+                    />
+                  ))}
+                </ScrollView>
+              </View>
+
               {/* XP Bar Color Section */}
               <View style={styles.section}>
                 <Text style={[styles.sectionTitle, { color: colors.text }]}>XP Bar Color</Text>

@@ -787,7 +787,6 @@ export default function QuestsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#111827',
   },
   scrollView: {
     flex: 1,
@@ -809,7 +808,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#F9FAFB',
   },
   subtitle: {
     fontSize: 14,

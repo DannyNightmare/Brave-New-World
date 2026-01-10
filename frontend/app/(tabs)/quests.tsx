@@ -404,19 +404,19 @@ export default function QuestsScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
+    <SafeAreaView style={[styles.container, { backgroundColor: statusTheme.colors.background }]} edges={['bottom']}>
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
         <View style={styles.header}>
           <View>
-            <Text style={styles.subtitle}>{activeQuests.length} active</Text>
+            <Text style={[styles.subtitle, { color: statusTheme.colors.textSecondary }]}>{activeQuests.length} active</Text>
           </View>
         </View>
 
         {activeQuests.length === 0 && completedQuests.length === 0 && (
           <View style={styles.emptyState}>
-            <Ionicons name="map-outline" size={64} color="#374151" />
-            <Text style={styles.emptyText}>No quests yet!</Text>
-            <Text style={styles.emptySubtext}>Tap + to create your first quest</Text>
+            <Ionicons name="map-outline" size={64} color={statusTheme.colors.cardBorder} />
+            <Text style={[styles.emptyText, { color: statusTheme.colors.textSecondary }]}>No quests yet!</Text>
+            <Text style={[styles.emptySubtext, { color: statusTheme.colors.textSecondary }]}>Tap + to create your first quest</Text>
           </View>
         )}
 
@@ -425,22 +425,23 @@ export default function QuestsScreen() {
             key={quest.id} 
             style={({ pressed }) => [
               styles.questCard,
-              pressed && styles.questCardPressed
+              { backgroundColor: statusTheme.colors.cardBackground, borderColor: statusTheme.colors.cardBorder },
+              pressed && [styles.questCardPressed, { backgroundColor: statusTheme.colors.cardBorder, borderColor: statusTheme.colors.primary }]
             ]}
             onLongPress={() => handleLongPress(quest)}
             delayLongPress={500}
           >
             <View style={styles.questHeader}>
               <View style={styles.questTitleRow}>
-                <Text style={styles.questTitle}>{quest.title}</Text>
+                <Text style={[styles.questTitle, { color: statusTheme.colors.text }]}>{quest.title}</Text>
                 {quest.repeat_frequency === 'limitless' && (
-                  <View style={styles.limitlessBadge}>
-                    <Ionicons name="infinite" size={16} color="#10B981" />
+                  <View style={[styles.limitlessBadge, { backgroundColor: statusTheme.colors.accent + '20', borderColor: statusTheme.colors.accent }]}>
+                    <Ionicons name="infinite" size={16} color={statusTheme.colors.accent} />
                   </View>
                 )}
               </View>
             </View>
-            {quest.description && <Text style={styles.questDescription}>{quest.description}</Text>}
+            {quest.description && <Text style={[styles.questDescription, { color: statusTheme.colors.textSecondary }]}>{quest.description}</Text>}
             
             <View style={styles.questFooter}>
               <View style={styles.rewardsContainer}>

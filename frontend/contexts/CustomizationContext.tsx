@@ -432,8 +432,10 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const setGoldIcon = async (icon: string) => {
     setGoldIconState(icon);
+    setGoldCustomImageState(null); // Clear custom image when selecting an icon
     try {
       await AsyncStorage.setItem('goldIcon', icon);
+      await AsyncStorage.removeItem('goldCustomImage');
     } catch (error) {
       console.error('Failed to save gold icon:', error);
     }

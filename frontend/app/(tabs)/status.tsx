@@ -376,9 +376,10 @@ export default function StatusScreen() {
   );
 }
 
-const getStyles = (colors: any) => StyleSheet.create({
+const getStyles = (theme: StatusTheme) => StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: theme.colors.background,
   },
   scrollView: {
     flex: 1,
@@ -390,13 +391,14 @@ const getStyles = (colors: any) => StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: theme.colors.background,
   },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 24,
     textAlign: 'center',
-    color: '#8B5CF6',
+    color: theme.colors.primary,
     letterSpacing: 2,
   },
   xpSection: {
@@ -407,18 +409,18 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   xpBar: {
     height: 6,
-    backgroundColor: '#374151',
+    backgroundColor: theme.colors.xpBarBg,
     borderRadius: 3,
     overflow: 'hidden',
   },
   xpFill: {
     height: '100%',
-    backgroundColor: '#FCD34D',
+    backgroundColor: theme.colors.xpBarFill,
     borderRadius: 3,
   },
   xpCounter: {
     fontSize: 12,
-    color: '#9CA3AF',
+    color: theme.colors.textSecondary,
     textAlign: 'right',
   },
   profileGoldSection: {
@@ -432,9 +434,9 @@ const getStyles = (colors: any) => StyleSheet.create({
     height: 120,
     borderRadius: 60,
     overflow: 'hidden',
-    backgroundColor: colors.cardBackground,
+    backgroundColor: theme.colors.cardBackground,
     borderWidth: 3,
-    borderColor: colors.primary,
+    borderColor: theme.colors.primary,
   },
   profileImage: {
     width: '100%',
@@ -445,11 +447,11 @@ const getStyles = (colors: any) => StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#374151',
+    backgroundColor: theme.colors.cardBackground,
   },
   profilePlaceholderText: {
     fontSize: 10,
-    color: '#9CA3AF',
+    color: theme.colors.textSecondary,
     marginTop: 4,
   },
   levelGoldSection: {
@@ -458,12 +460,12 @@ const getStyles = (colors: any) => StyleSheet.create({
   levelNumber: {
     fontSize: 48,
     fontWeight: 'bold',
-    color: '#8B5CF6',
+    color: theme.colors.primary,
     textAlign: 'right',
   },
   levelLabel: {
     fontSize: 14,
-    color: '#9CA3AF',
+    color: theme.colors.textSecondary,
     marginTop: -8,
     marginBottom: 8,
     textAlign: 'right',
@@ -477,7 +479,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   currencyValue: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#F9FAFB',
+    color: theme.colors.text,
   },
   currencyIcon: {
     width: 20,
@@ -488,7 +490,7 @@ const getStyles = (colors: any) => StyleSheet.create({
     fontSize: 32,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: '#8B5CF6',
+    color: theme.colors.primary,
     letterSpacing: 2,
   },
   statsHeader: {
@@ -501,18 +503,18 @@ const getStyles = (colors: any) => StyleSheet.create({
   addStatButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1F2937',
+    backgroundColor: theme.colors.cardBackground,
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#8B5CF6',
+    borderColor: theme.colors.primary,
     gap: 6,
   },
   addStatButtonText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#8B5CF6',
+    color: theme.colors.primary,
   },
   customStatRow: {
     marginBottom: 20,
@@ -542,25 +544,25 @@ const getStyles = (colors: any) => StyleSheet.create({
   customStatName: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#F9FAFB',
+    color: theme.colors.text,
   },
   statLevel: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#8B5CF6',
+    color: theme.colors.primary,
     paddingHorizontal: 8,
     paddingVertical: 2,
-    backgroundColor: 'rgba(139, 92, 246, 0.15)',
+    backgroundColor: theme.colors.xpBarBg,
     borderRadius: 6,
     borderWidth: 1,
-    borderColor: '#8B5CF6',
+    borderColor: theme.colors.primary,
   },
   customStatBarContainer: {
     marginBottom: 4,
   },
   customStatBar: {
     height: 8,
-    backgroundColor: '#374151',
+    backgroundColor: theme.colors.statBarBg,
     borderRadius: 4,
     overflow: 'hidden',
     marginBottom: 4,
@@ -571,7 +573,7 @@ const getStyles = (colors: any) => StyleSheet.create({
   },
   customStatCounter: {
     fontSize: 11,
-    color: '#9CA3AF',
+    color: theme.colors.textSecondary,
     textAlign: 'right',
   },
   modalOverlay: {
@@ -581,33 +583,38 @@ const getStyles = (colors: any) => StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
-    backgroundColor: '#1F2937',
+    backgroundColor: theme.colors.cardBackground,
     borderRadius: 16,
     padding: 24,
     width: '90%',
     maxWidth: 400,
+    borderWidth: 1,
+    borderColor: theme.colors.cardBorder,
   },
   modalTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#F9FAFB',
+    color: theme.colors.text,
     marginBottom: 20,
     textAlign: 'center',
   },
   label: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#F9FAFB',
+    color: theme.colors.text,
     marginBottom: 8,
     marginTop: 12,
   },
   input: {
-    backgroundColor: '#374151',
+    backgroundColor: theme.colors.background,
     borderRadius: 12,
     padding: 12,
-    color: '#F9FAFB',
+    color: theme.colors.text,
     fontSize: 16,
     marginBottom: 16,
+    borderWidth: 1,
+    borderColor: theme.colors.cardBorder,
+  },
   },
   colorGrid: {
     flexDirection: 'row',

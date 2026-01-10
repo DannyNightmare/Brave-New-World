@@ -603,6 +603,42 @@ const styles = StyleSheet.create({
     width: '70%',
     borderRadius: 6,
   },
+  customImageRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  customImagePicker: {
+    width: 70,
+    height: 70,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    overflow: 'hidden',
+  },
+  customImagePreview: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 10,
+  },
+  customImagePlaceholder: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  customImageText: {
+    fontSize: 10,
+    marginTop: 4,
+  },
+  clearImageButton: {
+    marginLeft: 12,
+    padding: 4,
+  },
+  presetLabel: {
+    fontSize: 12,
+    marginBottom: 8,
+    marginTop: 4,
+  },
   iconGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',

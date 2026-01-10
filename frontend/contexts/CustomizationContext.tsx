@@ -371,10 +371,14 @@ interface CustomizationContextType {
   xpBarColor: string;
   goldIcon: string;
   apIcon: string;
+  goldCustomImage: string | null;
+  apCustomImage: string | null;
   statusTheme: StatusTheme;
   setXpBarColor: (color: string) => void;
   setGoldIcon: (icon: string) => void;
   setApIcon: (icon: string) => void;
+  setGoldCustomImage: (image: string | null) => void;
+  setApCustomImage: (image: string | null) => void;
   setStatusTheme: (themeId: string) => void;
   getThemeById: (id: string) => StatusTheme;
 }
@@ -385,6 +389,8 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
   const [xpBarColor, setXpBarColorState] = useState('#8B5CF6'); // Default purple
   const [goldIcon, setGoldIconState] = useState('logo-bitcoin'); // Default coin
   const [apIcon, setApIconState] = useState('star'); // Default star
+  const [goldCustomImage, setGoldCustomImageState] = useState<string | null>(null);
+  const [apCustomImage, setApCustomImageState] = useState<string | null>(null);
   const [statusTheme, setStatusThemeState] = useState<StatusTheme>(STATUS_THEMES[0]);
 
   // Load preferences on mount
@@ -397,11 +403,15 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
       const savedXpColor = await AsyncStorage.getItem('xpBarColor');
       const savedGoldIcon = await AsyncStorage.getItem('goldIcon');
       const savedApIcon = await AsyncStorage.getItem('apIcon');
+      const savedGoldCustomImage = await AsyncStorage.getItem('goldCustomImage');
+      const savedApCustomImage = await AsyncStorage.getItem('apCustomImage');
       const savedThemeId = await AsyncStorage.getItem('statusThemeId');
 
       if (savedXpColor) setXpBarColorState(savedXpColor);
       if (savedGoldIcon) setGoldIconState(savedGoldIcon);
       if (savedApIcon) setApIconState(savedApIcon);
+      if (savedGoldCustomImage) setGoldCustomImageState(savedGoldCustomImage);
+      if (savedApCustomImage) setApCustomImageState(savedApCustomImage);
       if (savedThemeId) {
         const theme = STATUS_THEMES.find(t => t.id === savedThemeId);
         if (theme) setStatusThemeState(theme);

@@ -13,6 +13,7 @@ interface InventoryItem {
   item_name: string;
   item_description: string;
   item_type: string;
+  category?: string;
   stat_boost?: { [key: string]: number };
   exp_amount?: number;
   gold_amount?: number;
@@ -27,6 +28,7 @@ export default function InventoryScreen() {
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
   const fetchInventory = async () => {
     if (!user?.id) return;
@@ -100,11 +102,16 @@ export default function InventoryScreen() {
     }
   };
 
-  // Filter items based on search query
+  // Get unique categories from items
+  const categories = ['all', ...Array.from(new Set(items.map(item => item.category || 'general')))];
+
+  // Filter items based on search query and category
   const filteredItems = items.filter(item => {
-    if (searchQuery.trim() === '') return true;
-    return item.item_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-           item.item_description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = searchQuery.trim() === '' || 
+      item.item_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.item_description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = selectedCategory === 'all' || (item.category || 'general') === selectedCategory;
+    return matchesSearch && matchesCategory;
   });
 
   const getItemIcon = (type: string) => {
@@ -113,6 +120,10 @@ export default function InventoryScreen() {
       case 'armor': return 'shield';
       case 'potion': return 'flask';
       case 'accessory': return 'diamond';
+      case 'exp': return 'star';
+      case 'gold': return 'logo-bitcoin';
+      case 'ability_points': return 'sparkles';
+      case 'synthesis_material': return 'flask';
       default: return 'cube';
     }
   };
@@ -123,6 +134,10 @@ export default function InventoryScreen() {
       case 'armor': return '#3B82F6';
       case 'potion': return '#10B981';
       case 'accessory': return '#8B5CF6';
+      case 'exp': return '#F59E0B';
+      case 'gold': return '#FCD34D';
+      case 'ability_points': return '#EC4899';
+      case 'synthesis_material': return '#8B5CF6';
       default: return '#6B7280';
     }
   };
@@ -163,6 +178,36 @@ export default function InventoryScreen() {
           )}
         </View>
 
+        {/* Category Filter Tabs */}
+        {categories.length > 1 && (
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false} 
+            style={styles.categoryTabs}
+            contentContainerStyle={styles.categoryTabsContent}
+          >
+            {categories.map(category => (
+              <TouchableOpacity
+                key={category}
+                style={[
+                  styles.categoryTab,
+                  { backgroundColor: statusTheme.colors.cardBackground, borderColor: statusTheme.colors.cardBorder },
+                  selectedCategory === category && [styles.categoryTabSelected, { backgroundColor: statusTheme.colors.primary, borderColor: statusTheme.colors.primary }],
+                ]}
+                onPress={() => setSelectedCategory(category)}
+              >
+                <Text style={[
+                  styles.categoryTabText,
+                  { color: statusTheme.colors.textSecondary },
+                  selectedCategory === category && [styles.categoryTabTextSelected, { color: '#FFF' }]
+                ]}>
+                  {category === 'all' ? 'All' : category.charAt(0).toUpperCase() + category.slice(1)}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        )}
+
         {filteredItems.length === 0 ? (
           <View style={styles.emptyState}>
             <Ionicons name="cube-outline" size={64} color={statusTheme.colors.cardBorder} />
@@ -188,6 +233,16 @@ export default function InventoryScreen() {
                       </Text>
                     </View>
                   </View>
+                  
+                  {/* Category badge */}
+                  {item.category && item.category !== 'general' && (
+                    <View style={[styles.categoryBadge, { backgroundColor: statusTheme.colors.primary + '20' }]}>
+                      <Text style={[styles.categoryBadgeText, { color: statusTheme.colors.primary }]}>
+                        {item.category}
+                      </Text>
+                    </View>
+                  )}
+                  
                   <Text style={[styles.itemDescription, { color: statusTheme.colors.textSecondary }]} numberOfLines={2} ellipsizeMode="tail">
                     {item.item_description}
                   </Text>
@@ -326,6 +381,18 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textTransform: 'capitalize',
   },
+  categoryBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 8,
+    alignSelf: 'flex-start',
+    marginBottom: 4,
+  },
+  categoryBadgeText: {
+    fontSize: 10,
+    fontWeight: '600',
+    textTransform: 'capitalize',
+  },
   itemDescription: {
     fontSize: 13,
     color: '#9CA3AF',
@@ -355,7 +422,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#374151',
     borderRadius: 12,
-    marginBottom: 20,
+    marginBottom: 16,
     paddingHorizontal: 16,
     borderWidth: 1,
     borderColor: '#4B5563',
@@ -371,6 +438,32 @@ const styles = StyleSheet.create({
   },
   clearButton: {
     padding: 4,
+  },
+  categoryTabs: {
+    marginBottom: 16,
+  },
+  categoryTabsContent: {
+    paddingRight: 20,
+    gap: 8,
+  },
+  categoryTab: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    borderWidth: 1,
+    marginRight: 8,
+  },
+  categoryTabSelected: {
+    backgroundColor: '#8B5CF6',
+    borderColor: '#8B5CF6',
+  },
+  categoryTabText: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#9CA3AF',
+  },
+  categoryTabTextSelected: {
+    color: '#FFF',
   },
   useButton: {
     backgroundColor: '#10B981',

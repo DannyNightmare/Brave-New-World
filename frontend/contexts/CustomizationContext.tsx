@@ -398,6 +398,9 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
   const [goldCustomImage, setGoldCustomImageState] = useState<string | null>(null);
   const [apCustomImage, setApCustomImageState] = useState<string | null>(null);
   const [statusTheme, setStatusThemeState] = useState<StatusTheme>(STATUS_THEMES[0]);
+  const [backgroundType, setBackgroundTypeState] = useState<'theme' | 'color' | 'image' | 'gif'>('theme');
+  const [backgroundColor, setBackgroundColorState] = useState('#111827');
+  const [backgroundImage, setBackgroundImageState] = useState<string | null>(null);
 
   // Load preferences on mount
   useEffect(() => {

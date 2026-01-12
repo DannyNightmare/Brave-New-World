@@ -1086,7 +1086,7 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
     marginLeft: 8,
   },
   categoryCountBadge: {
-    backgroundColor: '#8B5CF6',
+    backgroundColor: theme.colors.primary,
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 12,

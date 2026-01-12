@@ -1129,7 +1129,7 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
   },
   powerTierText: {
     fontSize: 11,
-    color: '#8B5CF6',
+    color: theme.colors.primary,
     fontWeight: '600',
     marginTop: 2,
   },

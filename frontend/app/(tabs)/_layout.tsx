@@ -161,12 +161,23 @@ export default function TabLayout() {
 
       {/* Customize Modal */}
       <Modal visible={customizeVisible} animationType="slide" transparent={true}>
-        <View style={styles.customizeOverlay}>
-          <View style={[styles.customizeContainer, { backgroundColor: colors.cardBackground }]}>
+        <TouchableOpacity 
+          style={styles.customizeOverlay} 
+          activeOpacity={1} 
+          onPress={() => setCustomizeVisible(false)}
+        >
+          <TouchableOpacity 
+            activeOpacity={1} 
+            style={[styles.customizeContainer, { backgroundColor: colors.cardBackground }]}
+            onPress={(e) => e.stopPropagation()}
+          >
             <View style={styles.customizeHeader}>
               <Text style={[styles.customizeTitle, { color: colors.text }]}>Customize</Text>
-              <TouchableOpacity onPress={() => setCustomizeVisible(false)}>
-                <Ionicons name="close" size={28} color={colors.text} />
+              <TouchableOpacity 
+                style={styles.closeButton}
+                onPress={() => setCustomizeVisible(false)}
+              >
+                <Ionicons name="close-circle" size={32} color={colors.textSecondary} />
               </TouchableOpacity>
             </View>
 
@@ -174,7 +185,11 @@ export default function TabLayout() {
               Personalize your app experience
             </Text>
 
-            <ScrollView style={styles.customizeContent} showsVerticalScrollIndicator={false}>
+            <ScrollView 
+              style={styles.customizeContent} 
+              showsVerticalScrollIndicator={true}
+              contentContainerStyle={styles.customizeScrollContent}
+            >
               {/* Status Display Theme Section */}
               <View style={styles.section}>
                 <Text style={[styles.sectionTitle, { color: colors.text }]}>Status Display</Text>

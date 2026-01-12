@@ -990,7 +990,7 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
   },
   abilityTier: {
     fontSize: 11,
-    color: '#8B5CF6',
+    color: theme.colors.primary,
     marginTop: 2,
   },
   abilityProgressSection: {

@@ -19,13 +19,14 @@ import Animated, {
 const API_URL = 'https://quest-limitless.preview.emergentagent.com';
 
 export default function StatusScreen() {
-  const { user, loading } = useUser();
+  const { user, loading, refreshUser } = useUser();
   const { colors } = useTheme();
   const { xpBarColor, goldIcon, apIcon, goldCustomImage, apCustomImage, statusTheme } = useCustomization();
   const styles = getStyles(statusTheme);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [localGoldIcon, setLocalGoldIcon] = useState<string | null>(null);
   const [addStatModalVisible, setAddStatModalVisible] = useState(false);
+  const [editStatusModalVisible, setEditStatusModalVisible] = useState(false);
   const [customStats, setCustomStats] = useState<Array<{id: string, name: string, color: string, current: number, max: number, icon?: string}>>([]);
   const [newStat, setNewStat] = useState({
     name: '',
@@ -33,6 +34,14 @@ export default function StatusScreen() {
     current: 0,
     max: 100,
     icon: '',
+  });
+  const [statusEdit, setStatusEdit] = useState({
+    hp: 100,
+    max_hp: 100,
+    mp: 50,
+    max_mp: 50,
+    player_class: 'Adventurer',
+    title: 'Novice',
   });
 
   // Fetch custom stats from backend

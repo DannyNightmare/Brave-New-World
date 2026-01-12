@@ -224,6 +224,41 @@ export default function StatusScreen() {
     }
   };
 
+  const saveStatusUpdate = async () => {
+    if (!user?.id) return;
+
+    try {
+      const response = await fetch(`${API_URL}/api/users/${user.id}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(statusEdit),
+      });
+
+      if (response.ok) {
+        await refreshUser();
+        setEditStatusModalVisible(false);
+        Alert.alert('Success', 'Status updated!');
+      } else {
+        Alert.alert('Error', 'Failed to update status');
+      }
+    } catch (error) {
+      console.error('Failed to update status:', error);
+      Alert.alert('Error', 'Failed to update status');
+    }
+  };
+
+  const openEditStatusModal = () => {
+    setStatusEdit({
+      hp: user?.hp || 100,
+      max_hp: user?.max_hp || 100,
+      mp: user?.mp || 50,
+      max_mp: user?.max_mp || 50,
+      player_class: user?.player_class || 'Adventurer',
+      title: user?.title || 'Novice',
+    });
+    setEditStatusModalVisible(true);
+  };
+
   const colorOptions = [
     { name: 'Purple', value: '#8B5CF6' },
     { name: 'Red', value: '#EF4444' },

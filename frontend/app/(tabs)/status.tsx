@@ -48,6 +48,15 @@ export default function StatusScreen() {
   useEffect(() => {
     if (user?.id) {
       fetchCustomStats();
+      // Initialize status edit values from user
+      setStatusEdit({
+        hp: user.hp || 100,
+        max_hp: user.max_hp || 100,
+        mp: user.mp || 50,
+        max_mp: user.max_mp || 50,
+        player_class: user.player_class || 'Adventurer',
+        title: user.title || 'Novice',
+      });
     }
   }, [user?.id]);
 

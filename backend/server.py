@@ -448,6 +448,7 @@ async def purchase_item(purchase: PurchaseRequest):
         item_name=item["name"],
         item_description=item["description"],
         item_type=item["item_type"],
+        category=item.get("category", "general"),
         stat_boost=item.get("stat_boost"),
         exp_amount=item.get("exp_amount"),
         gold_amount=item.get("gold_amount"),

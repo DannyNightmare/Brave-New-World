@@ -623,10 +623,11 @@ export default function PowersScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
-      <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
-        {renderContent()}
-      </ScrollView>
+    <SafeAreaView style={styles.safeArea} edges={['bottom']}>
+      <BackgroundWrapper>
+        <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
+          {renderContent()}
+        </ScrollView>
 
       {/* Edit Power Modal */}
       <Modal visible={editModalVisible} animationType="slide" transparent={true}>

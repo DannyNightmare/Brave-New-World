@@ -166,10 +166,7 @@ export default function TabLayout() {
           activeOpacity={1} 
           onPress={() => setCustomizeVisible(false)}
         >
-          <View 
-            style={[styles.customizeContainer, { backgroundColor: colors.cardBackground }]}
-            onStartShouldSetResponder={() => true}
-          >
+          <View style={[styles.customizeContainer, { backgroundColor: colors.cardBackground }]}>
             <View style={styles.customizeHeader}>
               <Text style={[styles.customizeTitle, { color: colors.text }]}>Customize</Text>
               <TouchableOpacity 
@@ -188,6 +185,7 @@ export default function TabLayout() {
               style={styles.customizeContent} 
               showsVerticalScrollIndicator={true}
               contentContainerStyle={styles.customizeScrollContent}
+              onStartShouldSetResponder={() => true}
             >
               {/* Status Display Theme Section */}
               <View style={styles.section}>

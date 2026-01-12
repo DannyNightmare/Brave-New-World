@@ -415,6 +415,9 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
       const savedGoldCustomImage = await AsyncStorage.getItem('goldCustomImage');
       const savedApCustomImage = await AsyncStorage.getItem('apCustomImage');
       const savedThemeId = await AsyncStorage.getItem('statusThemeId');
+      const savedBackgroundType = await AsyncStorage.getItem('backgroundType');
+      const savedBackgroundColor = await AsyncStorage.getItem('backgroundColor');
+      const savedBackgroundImage = await AsyncStorage.getItem('backgroundImage');
 
       if (savedXpColor) setXpBarColorState(savedXpColor);
       if (savedGoldIcon) setGoldIconState(savedGoldIcon);
@@ -425,6 +428,9 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
         const theme = STATUS_THEMES.find(t => t.id === savedThemeId);
         if (theme) setStatusThemeState(theme);
       }
+      if (savedBackgroundType) setBackgroundTypeState(savedBackgroundType as 'theme' | 'color' | 'image' | 'gif');
+      if (savedBackgroundColor) setBackgroundColorState(savedBackgroundColor);
+      if (savedBackgroundImage) setBackgroundImageState(savedBackgroundImage);
     } catch (error) {
       console.error('Failed to load customization preferences:', error);
     }

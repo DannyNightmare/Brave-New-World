@@ -265,15 +265,15 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
               {rewards.xp && (
                 <>
                   <View style={styles.rewardRow}>
-                    <Ionicons name="flash" size={24} color="#8B5CF6" />
-                    <Text style={styles.rewardLabel}>Experience</Text>
+                    <Ionicons name="flash" size={24} color={statusTheme.colors.primary} />
+                    <Text style={[styles.rewardLabel, themedStyles.rewardLabel]}>Experience</Text>
                     <View style={styles.rewardValue}>
-                      <Text style={styles.plus}>+</Text>
+                      <Text style={[styles.plus, { color: statusTheme.colors.accent }]}>+</Text>
                       <AnimatedNumber value={rewards.xp} duration={800} delay={hasLevelUp ? 600 : 400} />
-                      <Text style={styles.unit}>XP</Text>
+                      <Text style={[styles.unit, { color: statusTheme.colors.textSecondary }]}>XP</Text>
                     </View>
                   </View>
-                  <View style={styles.rowDivider} />
+                  <View style={[styles.rowDivider, themedStyles.divider]} />
                 </>
               )}
 
@@ -281,14 +281,14 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
               {rewards.apGained && (
                 <>
                   <View style={styles.rewardRow}>
-                    <Ionicons name="star" size={24} color="#F59E0B" />
-                    <Text style={styles.rewardLabel}>Ability Points</Text>
+                    <Ionicons name="star" size={24} color={statusTheme.colors.apColor} />
+                    <Text style={[styles.rewardLabel, themedStyles.rewardLabel]}>Ability Points</Text>
                     <View style={styles.rewardValue}>
-                      <Text style={styles.plus}>+</Text>
+                      <Text style={[styles.plus, { color: statusTheme.colors.accent }]}>+</Text>
                       <AnimatedNumber value={rewards.apGained} duration={800} delay={800} />
                     </View>
                   </View>
-                  <View style={styles.rowDivider} />
+                  <View style={[styles.rowDivider, themedStyles.divider]} />
                 </>
               )}
 
@@ -296,17 +296,17 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
               {rewards.statBoosts && Object.entries(rewards.statBoosts).map(([stat, value], index) => (
                 <React.Fragment key={stat}>
                   <View style={styles.rewardRow}>
-                    <Ionicons name="pulse" size={24} color="#3B82F6" />
-                    <Text style={styles.rewardLabel}>
+                    <Ionicons name="pulse" size={24} color={statusTheme.colors.secondary} />
+                    <Text style={[styles.rewardLabel, themedStyles.rewardLabel]}>
                       {stat.charAt(0).toUpperCase() + stat.slice(1)}
                     </Text>
                     <View style={styles.rewardValue}>
-                      <Text style={styles.plus}>+</Text>
+                      <Text style={[styles.plus, { color: statusTheme.colors.accent }]}>+</Text>
                       <AnimatedNumber value={value} duration={600} delay={1000 + index * 100} />
                     </View>
                   </View>
                   {index < Object.keys(rewards.statBoosts).length - 1 && (
-                    <View style={styles.rowDivider} />
+                    <View style={[styles.rowDivider, themedStyles.divider]} />
                   )}
                 </React.Fragment>
               ))}
@@ -315,19 +315,19 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
               {rewards.itemReward && (
                 <>
                   {rewards.statBoosts && Object.keys(rewards.statBoosts).length > 0 && (
-                    <View style={styles.rowDivider} />
+                    <View style={[styles.rowDivider, themedStyles.divider]} />
                   )}
                   <View style={styles.rewardRow}>
-                    <Ionicons name="gift" size={24} color="#EC4899" />
-                    <Text style={styles.rewardLabel}>Item Reward</Text>
-                    <Text style={styles.itemName}>{rewards.itemReward}</Text>
+                    <Ionicons name="gift" size={24} color={statusTheme.colors.accent} />
+                    <Text style={[styles.rewardLabel, themedStyles.rewardLabel]}>Item Reward</Text>
+                    <Text style={[styles.itemName, { color: statusTheme.colors.primary }]}>{rewards.itemReward}</Text>
                   </View>
                 </>
               )}
             </View>
 
             {/* Scroll Hint */}
-            <Text style={styles.scrollHint}>Scroll down to accept</Text>
+            <Text style={[styles.scrollHint, themedStyles.scrollHint]}>Scroll down to {getButtonText().toLowerCase()}</Text>
 
             {/* Accept Button - Inside ScrollView so user can scroll to it */}
             <TouchableOpacity style={styles.acceptButton} onPress={onClose}>

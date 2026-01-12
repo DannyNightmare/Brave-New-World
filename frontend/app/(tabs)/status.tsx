@@ -285,11 +285,34 @@ export default function StatusScreen() {
     { name: 'Cyan', value: '#06B6D4' },
   ];
 
+  // Wrapper component that applies background
+  const BackgroundWrapper = ({ children }: { children: React.ReactNode }) => {
+    if ((backgroundType === 'image' || backgroundType === 'gif') && backgroundImage) {
+      return (
+        <ImageBackground 
+          source={{ uri: backgroundImage }} 
+          style={styles.container}
+          resizeMode="cover"
+        >
+          <View style={styles.backgroundOverlay}>
+            {children}
+          </View>
+        </ImageBackground>
+      );
+    }
+    return (
+      <View style={[styles.container, { backgroundColor: getBackgroundColor() }]}>
+        {children}
+      </View>
+    );
+  };
+
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['bottom']}>
-      <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
-        {/* STATUS Title - Centered */}
-        <Text style={styles.title}>STATUS</Text>
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: 'transparent' }]} edges={['bottom']}>
+      <BackgroundWrapper>
+        <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
+          {/* STATUS Title - Centered */}
+          <Text style={styles.title}>STATUS</Text>
 
         {/* XP Bar Section */}
         <View style={styles.xpSection}>

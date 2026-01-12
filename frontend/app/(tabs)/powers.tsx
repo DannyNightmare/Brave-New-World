@@ -942,12 +942,12 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
   categoryHeaderLine: {
     flex: 1,
     height: 1,
-    backgroundColor: '#8B5CF6',
+    backgroundColor: theme.colors.primary,
   },
   categoryTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#8B5CF6',
+    color: theme.colors.primary,
     textAlign: 'center',
     textTransform: 'uppercase',
     letterSpacing: 1,

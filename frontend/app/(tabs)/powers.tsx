@@ -688,7 +688,7 @@ export default function PowersScreen() {
                       ]}
                     >
                       <View style={styles.categoryItemHeader}>
-                        <Ionicons name="folder" size={20} color="#8B5CF6" />
+                        <Ionicons name="folder" size={20} color={statusTheme.colors.primary} />
                         <Text style={styles.categoryItemName}>{category}</Text>
                       </View>
                       {subcategories && subcategories.length > 0 && (

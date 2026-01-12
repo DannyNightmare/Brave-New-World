@@ -48,7 +48,7 @@ export default function QuestsScreen() {
   const { user, refreshUser } = useUser();
   const { colors } = useTheme();
   const { showNotification } = useNotification();
-  const { statusTheme } = useCustomization();
+  const { statusTheme, backgroundType, backgroundColor, backgroundImage } = useCustomization();
   const [quests, setQuests] = useState<Quest[]>([]);
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);

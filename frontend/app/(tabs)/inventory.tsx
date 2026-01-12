@@ -6,7 +6,7 @@ import { useNotification } from '../../contexts/NotificationContext';
 import { useCustomization } from '../../contexts/CustomizationContext';
 import { Ionicons } from '@expo/vector-icons';
 
-const API_URL = 'https://levelup-quest-7.preview.emergentagent.com';
+const API_URL = 'https://quest-limitless.preview.emergentagent.com';
 
 interface InventoryItem {
   id: string;

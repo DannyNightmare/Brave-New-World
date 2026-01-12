@@ -6,7 +6,7 @@ import { useCustomization } from '../../contexts/CustomizationContext';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
-const API_URL = 'https://levelup-quest-7.preview.emergentagent.com';
+const API_URL = 'https://quest-limitless.preview.emergentagent.com';
 
 interface ShopItem {
   id: string;

@@ -622,9 +622,16 @@ export default function StatusScreen() {
 }
 
 const getStyles = (theme: StatusTheme) => StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     backgroundColor: theme.colors.background,
+  },
+  backgroundOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)', // Semi-transparent overlay for readability
   },
   scrollView: {
     flex: 1,

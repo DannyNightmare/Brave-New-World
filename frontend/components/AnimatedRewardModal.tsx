@@ -79,9 +79,42 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
   questName,
   rewards
 }) => {
+  const { statusTheme } = useCustomization();
   const scale = useSharedValue(0);
   const opacity = useSharedValue(0);
   const slideY = useSharedValue(50);
+
+  // Get theme-specific title based on anime
+  const getThemeTitle = () => {
+    switch (statusTheme.id) {
+      case 'solo-leveling': return 'QUEST CLEARED';
+      case 'sword-art': return 'CONGRATULATIONS!';
+      case 'slime': return 'ANALYSIS COMPLETE';
+      case 'overlord': return 'VICTORY';
+      case 'shield-hero': return 'QUEST COMPLETE';
+      case 'demon-slayer': return 'MISSION SUCCESS';
+      case 'jujutsu': return 'EXORCISM COMPLETE';
+      case 'cyberpunk': return 'GIG FINISHED';
+      case 'dragon-ball': return 'POWER UP!';
+      default: return 'Quest Complete!';
+    }
+  };
+
+  // Get theme-specific button text
+  const getButtonText = () => {
+    switch (statusTheme.id) {
+      case 'solo-leveling': return 'CONFIRM';
+      case 'sword-art': return 'OK';
+      case 'slime': return 'UNDERSTOOD';
+      case 'overlord': return 'ACKNOWLEDGED';
+      case 'shield-hero': return 'CONTINUE';
+      case 'demon-slayer': return 'PROCEED';
+      case 'jujutsu': return 'CONFIRM';
+      case 'cyberpunk': return 'DISMISS';
+      case 'dragon-ball': return 'ALRIGHT!';
+      default: return 'Accept';
+    }
+  };
 
   useEffect(() => {
     if (visible) {
@@ -113,6 +146,50 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
 
   const hasLevelUp = rewards.newLevel && rewards.oldLevel && rewards.newLevel > rewards.oldLevel;
 
+  // Dynamic styles based on theme
+  const themedStyles = {
+    modalContainer: {
+      backgroundColor: statusTheme.colors.cardBackground,
+      borderColor: statusTheme.colors.cardBorder,
+      borderWidth: statusTheme.effects.borderStyle === 'double' ? 4 : 2,
+    },
+    glowEffect: statusTheme.effects.glowEnabled ? {
+      shadowColor: statusTheme.effects.glowColor || statusTheme.colors.primary,
+      shadowOffset: { width: 0, height: 0 },
+      shadowOpacity: 0.8,
+      shadowRadius: 20,
+      elevation: 20,
+    } : {},
+    title: {
+      color: statusTheme.colors.text,
+    },
+    questName: {
+      color: statusTheme.colors.primary,
+    },
+    divider: {
+      backgroundColor: statusTheme.colors.cardBorder,
+    },
+    rewardLabel: {
+      color: statusTheme.colors.textSecondary,
+    },
+    animatedNumber: {
+      color: statusTheme.colors.accent,
+    },
+    levelUpBanner: {
+      backgroundColor: statusTheme.colors.accent + '20',
+      borderColor: statusTheme.colors.accent,
+    },
+    levelUpText: {
+      color: statusTheme.colors.accent,
+    },
+    acceptButton: {
+      backgroundColor: statusTheme.colors.primary,
+    },
+    scrollHint: {
+      color: statusTheme.colors.textSecondary,
+    },
+  };
+
   return (
     <Modal
       transparent
@@ -121,13 +198,18 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
       onRequestClose={onClose}
     >
       <View style={styles.overlay}>
-        {/* Swirling Solo Leveling background */}
-        <SwirlingBackground intensity="medium" />
+        {/* Swirling background with theme color */}
+        <SwirlingBackground intensity="medium" color={statusTheme.colors.primary} />
         
-        <Animated.View style={[styles.modalContainer, containerStyle]}>
+        <Animated.View style={[
+          styles.modalContainer, 
+          themedStyles.modalContainer,
+          themedStyles.glowEffect,
+          containerStyle
+        ]}>
           {/* Header */}
           <View style={styles.header}>
-            <Ionicons name="trophy" size={32} color="#10B981" />
+            <Ionicons name="trophy" size={32} color={statusTheme.colors.accent} />
             <Text style={styles.title}>Quest Complete!</Text>
           </View>
 

@@ -1253,9 +1253,9 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
   nextTierPreview: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1F2937',
+    backgroundColor: theme.colors.cardBackground,
     borderWidth: 1,
-    borderColor: '#8B5CF6',
+    borderColor: theme.colors.primary,
     borderRadius: 8,
     padding: 10,
     marginTop: 12,
@@ -1263,7 +1263,7 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
   },
   nextTierPreviewText: {
     fontSize: 12,
-    color: '#8B5CF6',
+    color: theme.colors.primary,
     fontWeight: '600',
   },
   powerCardPressed: {

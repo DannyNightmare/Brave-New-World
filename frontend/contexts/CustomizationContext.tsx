@@ -374,12 +374,18 @@ interface CustomizationContextType {
   goldCustomImage: string | null;
   apCustomImage: string | null;
   statusTheme: StatusTheme;
+  backgroundType: 'theme' | 'color' | 'image' | 'gif';
+  backgroundColor: string;
+  backgroundImage: string | null;
   setXpBarColor: (color: string) => void;
   setGoldIcon: (icon: string) => void;
   setApIcon: (icon: string) => void;
   setGoldCustomImage: (image: string | null) => void;
   setApCustomImage: (image: string | null) => void;
   setStatusTheme: (themeId: string) => void;
+  setBackgroundType: (type: 'theme' | 'color' | 'image' | 'gif') => void;
+  setBackgroundColor: (color: string) => void;
+  setBackgroundImage: (image: string | null) => void;
   getThemeById: (id: string) => StatusTheme;
 }
 

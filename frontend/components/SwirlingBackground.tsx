@@ -194,7 +194,7 @@ export const SwirlingBackground: React.FC<SwirlingBackgroundProps> = ({
       {/* Swirling layer 1 - Outermost */}
       <Animated.View style={[styles.circle, animatedStyle1, size]}>
         <LinearGradient
-          colors={['rgba(139, 92, 246, 0.15)', 'rgba(6, 182, 212, 0.1)', 'transparent', 'transparent']}
+          colors={[themeColors.primaryFaded1, themeColors.primaryFaded2, 'transparent', 'transparent']}
           style={styles.gradientCircle}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
@@ -204,7 +204,7 @@ export const SwirlingBackground: React.FC<SwirlingBackgroundProps> = ({
       {/* Swirling layer 2 */}
       <Animated.View style={[styles.circle, animatedStyle2, size]}>
         <LinearGradient
-          colors={['transparent', 'rgba(34, 211, 238, 0.12)', 'rgba(139, 92, 246, 0.08)', 'transparent']}
+          colors={['transparent', themeColors.primaryFaded6, themeColors.primaryFaded3, 'transparent']}
           style={styles.gradientCircle}
           start={{ x: 1, y: 0 }}
           end={{ x: 0, y: 1 }}
@@ -214,7 +214,7 @@ export const SwirlingBackground: React.FC<SwirlingBackgroundProps> = ({
       {/* Swirling layer 3 */}
       <Animated.View style={[styles.circle, animatedStyle3, { width: size.width * 0.8, height: size.height * 0.8 }]}>
         <LinearGradient
-          colors={['rgba(124, 58, 237, 0.2)', 'transparent', 'rgba(6, 182, 212, 0.15)', 'transparent']}
+          colors={[themeColors.primaryFaded4, 'transparent', themeColors.primaryFaded1, 'transparent']}
           style={styles.gradientCircle}
           start={{ x: 0.5, y: 0 }}
           end={{ x: 0.5, y: 1 }}
@@ -224,7 +224,7 @@ export const SwirlingBackground: React.FC<SwirlingBackgroundProps> = ({
       {/* Swirling layer 4 - Innermost */}
       <Animated.View style={[styles.circle, animatedStyle4, { width: size.width * 0.6, height: size.height * 0.6 }]}>
         <LinearGradient
-          colors={['transparent', 'rgba(167, 139, 250, 0.18)', 'transparent', 'rgba(34, 211, 238, 0.12)']}
+          colors={['transparent', themeColors.primaryFaded5, 'transparent', themeColors.primaryFaded6]}
           style={styles.gradientCircle}
           start={{ x: 0, y: 0.5 }}
           end={{ x: 1, y: 0.5 }}
@@ -234,7 +234,7 @@ export const SwirlingBackground: React.FC<SwirlingBackgroundProps> = ({
       {/* Center glow */}
       <View style={styles.centerGlow}>
         <LinearGradient
-          colors={['rgba(139, 92, 246, 0.3)', 'rgba(124, 58, 237, 0.15)', 'transparent']}
+          colors={[themeColors.primaryGlow, themeColors.primaryGlowFaded, 'transparent']}
           style={styles.glowCircle}
           start={{ x: 0.5, y: 0.5 }}
           end={{ x: 1, y: 1 }}
@@ -252,6 +252,7 @@ export const SwirlingBackground: React.FC<SwirlingBackgroundProps> = ({
                 left: `${(i * 30 + 10) % 100}%`,
                 top: `${(i * 40 + 20) % 100}%`,
                 opacity: 0.1 + (i * 0.03),
+                backgroundColor: color,
               },
             ]}
           />

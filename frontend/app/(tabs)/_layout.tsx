@@ -166,10 +166,9 @@ export default function TabLayout() {
           activeOpacity={1} 
           onPress={() => setCustomizeVisible(false)}
         >
-          <TouchableOpacity 
-            activeOpacity={1} 
+          <View 
             style={[styles.customizeContainer, { backgroundColor: colors.cardBackground }]}
-            onPress={(e) => e.stopPropagation()}
+            onStartShouldSetResponder={() => true}
           >
             <View style={styles.customizeHeader}>
               <Text style={[styles.customizeTitle, { color: colors.text }]}>Customize</Text>

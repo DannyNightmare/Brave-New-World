@@ -355,7 +355,7 @@ export default function PowersScreen() {
     return (
       <SafeAreaView style={styles.container} edges={['bottom']}>
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#8B5CF6" />
+          <ActivityIndicator size="large" color={statusTheme.colors.primary} />
         </View>
       </SafeAreaView>
     );

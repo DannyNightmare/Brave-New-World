@@ -330,9 +330,9 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
             <Text style={[styles.scrollHint, themedStyles.scrollHint]}>Scroll down to {getButtonText().toLowerCase()}</Text>
 
             {/* Accept Button - Inside ScrollView so user can scroll to it */}
-            <TouchableOpacity style={styles.acceptButton} onPress={onClose}>
+            <TouchableOpacity style={[styles.acceptButton, themedStyles.acceptButton]} onPress={onClose}>
               <Ionicons name="checkmark-circle" size={24} color="#FFFFFF" />
-              <Text style={styles.acceptButtonText}>Accept</Text>
+              <Text style={styles.acceptButtonText}>{getButtonText()}</Text>
             </TouchableOpacity>
           </ScrollView>
         </Animated.View>

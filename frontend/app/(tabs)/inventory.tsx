@@ -200,19 +200,19 @@ export default function InventoryScreen() {
                     <Text style={[styles.consumableAmount, { color: statusTheme.colors.goldColor }]}>+{item.gold_amount} Gold</Text>
                   )}
                   {item.ap_amount && (
-                    <Text style={styles.consumableAmount}>+{item.ap_amount} AP</Text>
+                    <Text style={[styles.consumableAmount, { color: statusTheme.colors.apColor }]}>+{item.ap_amount} AP</Text>
                   )}
                   
                   {item.stat_boost && (
                     <View style={styles.statBoosts}>
                       {Object.entries(item.stat_boost).map(([stat, value]) => (
-                        <View key={stat} style={styles.statBoost}>
+                        <View key={stat} style={[styles.statBoost, { backgroundColor: statusTheme.colors.cardBorder }]}>
                           <Ionicons 
                             name={stat === 'strength' ? 'barbell' : stat === 'intelligence' ? 'bulb' : 'heart'} 
                             size={12} 
-                            color="#10B981" 
+                            color={statusTheme.colors.accent} 
                           />
-                          <Text style={styles.statBoostText}>+{value} {stat}</Text>
+                          <Text style={[styles.statBoostText, { color: statusTheme.colors.accent }]}>+{value} {stat}</Text>
                         </View>
                       ))}
                     </View>
@@ -222,7 +222,7 @@ export default function InventoryScreen() {
                 {/* Use button for consumable items */}
                 {isConsumable && (
                   <TouchableOpacity 
-                    style={styles.useButton}
+                    style={[styles.useButton, { backgroundColor: statusTheme.colors.accent }]}
                     onPress={() => useItem(item)}
                   >
                     <Text style={styles.useButtonText}>Use</Text>

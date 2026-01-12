@@ -632,40 +632,40 @@ export default function ShopScreen() {
 
   if (loading) {
     return (
-      <SafeAreaView style={styles.container} edges={['bottom']}>
+      <SafeAreaView style={[styles.container, { backgroundColor: statusTheme.colors.background }]} edges={['bottom']}>
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#8B5CF6" />
+          <ActivityIndicator size="large" color={statusTheme.colors.primary} />
         </View>
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
+    <SafeAreaView style={[styles.container, { backgroundColor: statusTheme.colors.background }]} edges={['bottom']}>
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
         <View style={styles.header}>
           <View>
-            <Text style={styles.subtitle}>Purchase items and upgrades</Text>
+            <Text style={[styles.subtitle, { color: statusTheme.colors.textSecondary }]}>Purchase items and upgrades</Text>
           </View>
           <View style={styles.goldDisplay}>
-            <Ionicons name="logo-bitcoin" size={24} color="#FCD34D" />
-            <Text style={styles.goldText}>{user?.gold || 0}</Text>
+            <Ionicons name="logo-bitcoin" size={24} color={statusTheme.colors.goldColor} />
+            <Text style={[styles.goldText, { color: statusTheme.colors.text }]}>{user?.gold || 0}</Text>
           </View>
         </View>
 
         {/* Search Input */}
-        <View style={styles.searchContainer}>
-          <Ionicons name="search" size={20} color="#9CA3AF" style={styles.searchIcon} />
+        <View style={[styles.searchContainer, { backgroundColor: statusTheme.colors.cardBackground, borderColor: statusTheme.colors.cardBorder }]}>
+          <Ionicons name="search" size={20} color={statusTheme.colors.textSecondary} style={styles.searchIcon} />
           <TextInput
-            style={styles.searchInput}
+            style={[styles.searchInput, { color: statusTheme.colors.text }]}
             placeholder="Search items..."
-            placeholderTextColor="#6B7280"
+            placeholderTextColor={statusTheme.colors.textSecondary}
             value={searchQuery}
             onChangeText={setSearchQuery}
           />
           {searchQuery.length > 0 && (
             <TouchableOpacity onPress={() => setSearchQuery('')} style={styles.clearButton}>
-              <Ionicons name="close-circle" size={20} color="#6B7280" />
+              <Ionicons name="close-circle" size={20} color={statusTheme.colors.textSecondary} />
             </TouchableOpacity>
           )}
         </View>

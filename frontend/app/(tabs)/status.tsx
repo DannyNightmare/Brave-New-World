@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity, Image, Alert, Modal, TextInput } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity, Image, Alert, Modal, TextInput, ImageBackground } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUser } from '../../contexts/UserContext';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -21,7 +21,7 @@ const API_URL = 'https://quest-limitless.preview.emergentagent.com';
 export default function StatusScreen() {
   const { user, loading, refreshUser } = useUser();
   const { colors } = useTheme();
-  const { xpBarColor, goldIcon, apIcon, goldCustomImage, apCustomImage, statusTheme } = useCustomization();
+  const { xpBarColor, goldIcon, apIcon, goldCustomImage, apCustomImage, statusTheme, backgroundType, backgroundColor, backgroundImage } = useCustomization();
   const styles = getStyles(statusTheme);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [localGoldIcon, setLocalGoldIcon] = useState<string | null>(null);
@@ -43,6 +43,21 @@ export default function StatusScreen() {
     player_class: 'Adventurer',
     title: 'Novice',
   });
+
+  // Get background color based on settings
+  const getBackgroundColor = () => {
+    switch (backgroundType) {
+      case 'theme':
+        return statusTheme.colors.background;
+      case 'color':
+        return backgroundColor;
+      case 'image':
+      case 'gif':
+        return 'transparent';
+      default:
+        return statusTheme.colors.background;
+    }
+  };
 
   // Fetch custom stats from backend
   useEffect(() => {

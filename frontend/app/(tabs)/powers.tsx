@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Pressable, ActivityIndicator, Image, Modal, TextInput, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Pressable, ActivityIndicator, Image, Modal, TextInput, Alert, ImageBackground } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUser } from '../../contexts/UserContext';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -26,7 +26,7 @@ export default function PowersScreen() {
   const { user, refreshUser } = useUser();
   const { colors } = useTheme();
   const { showPowerLevelUp } = useNotification();
-  const { statusTheme } = useCustomization();
+  const { statusTheme, backgroundType, backgroundColor, backgroundImage } = useCustomization();
   const styles = getStyles(statusTheme);
   const [powers, setPowers] = useState<PowerItem[]>([]);
   const [loading, setLoading] = useState(true);

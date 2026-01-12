@@ -647,7 +647,7 @@ export default function PowersScreen() {
                   placeholderTextColor="#6B7280"
                 />
                 <TouchableOpacity style={styles.addButton} onPress={addSubAbility}>
-                  <Ionicons name="add-circle" size={32} color="#8B5CF6" />
+                  <Ionicons name="add-circle" size={32} color={statusTheme.colors.primary} />
                 </TouchableOpacity>
               </View>
 

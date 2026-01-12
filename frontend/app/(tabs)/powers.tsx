@@ -1355,7 +1355,7 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
     padding: 4,
   },
   saveButton: {
-    backgroundColor: '#8B5CF6',
+    backgroundColor: theme.colors.primary,
     padding: 16,
     borderRadius: 12,
     alignItems: 'center',

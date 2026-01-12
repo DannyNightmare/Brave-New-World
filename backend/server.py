@@ -233,12 +233,53 @@ async def reset_user_stats(user_id: str):
             "strength": 10,
             "intelligence": 10,
             "vitality": 10,
-            "ability_points": 5
+            "ability_points": 5,
+            "hp": 100,
+            "max_hp": 100,
+            "mp": 50,
+            "max_mp": 50,
+            "player_class": "Adventurer",
+            "title": "Novice"
         }}
     )
     
     updated_user = await db.users.find_one({"id": user_id})
     return {"message": "User stats reset to default", "user": User(**updated_user)}
+
+class UserStatusUpdate(BaseModel):
+    hp: Optional[int] = None
+    max_hp: Optional[int] = None
+    mp: Optional[int] = None
+    max_mp: Optional[int] = None
+    player_class: Optional[str] = None
+    title: Optional[str] = None
+
+@api_router.put("/users/{user_id}/status")
+async def update_user_status(user_id: str, status: UserStatusUpdate):
+    user = await db.users.find_one({"id": user_id})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Build update dict with only provided fields
+    update_fields = {}
+    if status.hp is not None:
+        update_fields["hp"] = status.hp
+    if status.max_hp is not None:
+        update_fields["max_hp"] = status.max_hp
+    if status.mp is not None:
+        update_fields["mp"] = status.mp
+    if status.max_mp is not None:
+        update_fields["max_mp"] = status.max_mp
+    if status.player_class is not None:
+        update_fields["player_class"] = status.player_class
+    if status.title is not None:
+        update_fields["title"] = status.title
+    
+    if update_fields:
+        await db.users.update_one({"id": user_id}, {"$set": update_fields})
+    
+    updated_user = await db.users.find_one({"id": user_id})
+    return User(**updated_user)
 
 
 # Quest endpoints

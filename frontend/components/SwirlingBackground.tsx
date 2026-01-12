@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import Animated, {
   useSharedValue,
@@ -15,12 +15,37 @@ const { width, height } = Dimensions.get('window');
 interface SwirlingBackgroundProps {
   intensity?: 'subtle' | 'medium' | 'strong';
   style?: any;
+  color?: string; // Primary theme color
 }
+
+// Helper to convert hex to rgba
+const hexToRgba = (hex: string, alpha: number): string => {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  if (!result) return `rgba(139, 92, 246, ${alpha})`; // Default purple
+  const r = parseInt(result[1], 16);
+  const g = parseInt(result[2], 16);
+  const b = parseInt(result[3], 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+};
 
 export const SwirlingBackground: React.FC<SwirlingBackgroundProps> = ({ 
   intensity = 'medium',
-  style 
+  style,
+  color = '#8B5CF6' // Default purple
 }) => {
+  // Generate themed colors based on input color
+  const themeColors = useMemo(() => ({
+    primary: color,
+    primaryFaded1: hexToRgba(color, 0.15),
+    primaryFaded2: hexToRgba(color, 0.1),
+    primaryFaded3: hexToRgba(color, 0.08),
+    primaryFaded4: hexToRgba(color, 0.2),
+    primaryFaded5: hexToRgba(color, 0.18),
+    primaryFaded6: hexToRgba(color, 0.12),
+    primaryGlow: hexToRgba(color, 0.3),
+    primaryGlowFaded: hexToRgba(color, 0.15),
+  }), [color]);
+
   // Animation values for multiple rotating layers
   const rotate1 = useSharedValue(0);
   const rotate2 = useSharedValue(0);

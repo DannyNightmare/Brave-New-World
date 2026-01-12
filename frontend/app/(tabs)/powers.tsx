@@ -1006,7 +1006,7 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
   },
   progressBarFillSmall: {
     height: '100%',
-    backgroundColor: '#8B5CF6',
+    backgroundColor: theme.colors.primary,
     borderRadius: 3,
   },
   xpCounter: {

@@ -76,6 +76,18 @@ export default function TabLayout() {
     { name: 'Cyan', value: '#06B6D4' },
   ];
 
+  // Background color options
+  const backgroundColors = [
+    { name: 'Dark Gray', value: '#111827' },
+    { name: 'Deep Black', value: '#0a0a0a' },
+    { name: 'Navy', value: '#0a0e1a' },
+    { name: 'Dark Purple', value: '#0f0a19' },
+    { name: 'Dark Green', value: '#0a1a0a' },
+    { name: 'Dark Red', value: '#1a0a0a' },
+    { name: 'Midnight Blue', value: '#0c1929' },
+    { name: 'Charcoal', value: '#1c1c1c' },
+  ];
+
   // Icon options
   const goldIconOptions = ['logo-bitcoin', 'cash', 'wallet', 'diamond', 'trophy', 'medal'];
   const apIconOptions = ['star', 'flash', 'flame', 'sparkles', 'diamond', 'nuclear'];

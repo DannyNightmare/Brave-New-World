@@ -376,7 +376,7 @@ export default function PowersScreen() {
                 style={styles.categoryButton}
                 onPress={() => setCategoryManagerVisible(true)}
               >
-                <Ionicons name="filing" size={16} color="#8B5CF6" />
+                <Ionicons name="filing" size={16} color={statusTheme.colors.primary} />
                 <Text style={styles.categoryButtonText}>Categories</Text>
               </TouchableOpacity>
             </View>

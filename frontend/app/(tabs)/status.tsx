@@ -490,6 +490,94 @@ export default function StatusScreen() {
           </View>
         </View>
       </Modal>
+
+      {/* Edit Status Modal */}
+      <Modal visible={editStatusModalVisible} animationType="slide" transparent={true}>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <Text style={styles.modalTitle}>Edit Status</Text>
+
+              <Text style={styles.label}>Class</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="e.g., Warrior, Mage, Archer"
+                placeholderTextColor="#6B7280"
+                value={statusEdit.player_class}
+                onChangeText={(text) => setStatusEdit({ ...statusEdit, player_class: text })}
+              />
+
+              <Text style={styles.label}>Title</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="e.g., Dragon Slayer, Champion"
+                placeholderTextColor="#6B7280"
+                value={statusEdit.title}
+                onChangeText={(text) => setStatusEdit({ ...statusEdit, title: text })}
+              />
+
+              <View style={styles.divider} />
+
+              <Text style={styles.sectionLabel}>HP (Health Points)</Text>
+              <View style={styles.statInputRow}>
+                <View style={styles.statInputContainer}>
+                  <Text style={styles.statInputLabel}>Current</Text>
+                  <TextInput
+                    style={styles.statInput}
+                    keyboardType="numeric"
+                    value={String(statusEdit.hp)}
+                    onChangeText={(text) => setStatusEdit({ ...statusEdit, hp: parseInt(text) || 0 })}
+                  />
+                </View>
+                <Text style={styles.statInputDivider}>/</Text>
+                <View style={styles.statInputContainer}>
+                  <Text style={styles.statInputLabel}>Max</Text>
+                  <TextInput
+                    style={styles.statInput}
+                    keyboardType="numeric"
+                    value={String(statusEdit.max_hp)}
+                    onChangeText={(text) => setStatusEdit({ ...statusEdit, max_hp: parseInt(text) || 100 })}
+                  />
+                </View>
+              </View>
+
+              <Text style={styles.sectionLabel}>MP (Mana Points)</Text>
+              <View style={styles.statInputRow}>
+                <View style={styles.statInputContainer}>
+                  <Text style={styles.statInputLabel}>Current</Text>
+                  <TextInput
+                    style={styles.statInput}
+                    keyboardType="numeric"
+                    value={String(statusEdit.mp)}
+                    onChangeText={(text) => setStatusEdit({ ...statusEdit, mp: parseInt(text) || 0 })}
+                  />
+                </View>
+                <Text style={styles.statInputDivider}>/</Text>
+                <View style={styles.statInputContainer}>
+                  <Text style={styles.statInputLabel}>Max</Text>
+                  <TextInput
+                    style={styles.statInput}
+                    keyboardType="numeric"
+                    value={String(statusEdit.max_mp)}
+                    onChangeText={(text) => setStatusEdit({ ...statusEdit, max_mp: parseInt(text) || 50 })}
+                  />
+                </View>
+              </View>
+
+              <TouchableOpacity style={styles.createButton} onPress={saveStatusUpdate}>
+                <Text style={styles.createButtonText}>Save Changes</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity 
+                style={styles.cancelButton} 
+                onPress={() => setEditStatusModalVisible(false)}
+              >
+                <Text style={styles.cancelButtonText}>Cancel</Text>
+              </TouchableOpacity>
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }

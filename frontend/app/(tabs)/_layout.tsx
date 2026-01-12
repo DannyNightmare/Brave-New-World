@@ -15,12 +15,14 @@ export default function TabLayout() {
   const router = useRouter();
   const { colors } = useTheme();
   const { 
-    xpBarColor, goldIcon, apIcon, goldCustomImage, apCustomImage, statusTheme, 
-    setXpBarColor, setGoldIcon, setApIcon, setGoldCustomImage, setApCustomImage, setStatusTheme 
+    xpBarColor, goldIcon, apIcon, goldCustomImage, apCustomImage, statusTheme,
+    backgroundType, backgroundColor, backgroundImage,
+    setXpBarColor, setGoldIcon, setApIcon, setGoldCustomImage, setApCustomImage, setStatusTheme,
+    setBackgroundType, setBackgroundColor, setBackgroundImage
   } = useCustomization();
 
   // Image picker function
-  const pickImage = async (type: 'gold' | 'ap') => {
+  const pickImage = async (type: 'gold' | 'ap' | 'background') => {
     try {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== 'granted') {
@@ -29,19 +31,23 @@ export default function TabLayout() {
       }
 
       const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 0.5,
+        mediaTypes: type === 'background' ? ImagePicker.MediaTypeOptions.All : ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: type !== 'background',
+        aspect: type === 'background' ? undefined : [1, 1],
+        quality: type === 'background' ? 0.8 : 0.5,
         base64: true,
       });
 
       if (!result.canceled && result.assets[0].base64) {
-        const base64Image = `data:image/jpeg;base64,${result.assets[0].base64}`;
+        const mimeType = result.assets[0].mimeType || 'image/jpeg';
+        const base64Image = `data:${mimeType};base64,${result.assets[0].base64}`;
         if (type === 'gold') {
           setGoldCustomImage(base64Image);
-        } else {
+        } else if (type === 'ap') {
           setApCustomImage(base64Image);
+        } else if (type === 'background') {
+          setBackgroundImage(base64Image);
+          setBackgroundType(mimeType.includes('gif') ? 'gif' : 'image');
         }
       }
     } catch (error) {

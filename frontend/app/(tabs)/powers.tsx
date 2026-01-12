@@ -1427,16 +1427,16 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
     marginTop: 12,
   },
   subcategoryChip: {
-    backgroundColor: '#1F2937',
+    backgroundColor: theme.colors.cardBackground,
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#8B5CF6',
+    borderColor: theme.colors.primary,
   },
   subcategoryChipText: {
     fontSize: 12,
-    color: '#A78BFA',
+    color: theme.colors.primary,
     fontWeight: '600',
   },
   subcategoriesEditList: {

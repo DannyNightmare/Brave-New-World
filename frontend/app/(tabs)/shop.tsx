@@ -684,14 +684,16 @@ export default function ShopScreen() {
                 key={category}
                 style={[
                   styles.categoryTab,
-                  selectedCategory === category && styles.categoryTabSelected,
+                  { backgroundColor: statusTheme.colors.cardBackground, borderColor: statusTheme.colors.cardBorder },
+                  selectedCategory === category && [styles.categoryTabSelected, { backgroundColor: statusTheme.colors.primary, borderColor: statusTheme.colors.primary }],
                 ]}
                 onPress={() => setSelectedCategory(category)}
                 onLongPress={isUserCategory ? () => handleCategoryLongPress(category) : undefined}
               >
                 <Text style={[
                   styles.categoryTabText,
-                  selectedCategory === category && styles.categoryTabTextSelected
+                  { color: statusTheme.colors.textSecondary },
+                  selectedCategory === category && [styles.categoryTabTextSelected, { color: '#FFF' }]
                 ]}>
                   {category === 'all' ? 'All' : category.charAt(0).toUpperCase() + category.slice(1)}
                 </Text>
@@ -703,11 +705,11 @@ export default function ShopScreen() {
         {/* Sub-categories display */}
         {selectedCategory !== 'all' && userCategories[selectedCategory] && userCategories[selectedCategory].length > 0 && (
           <View style={styles.subCategoriesSection}>
-            <Text style={styles.subCategoriesTitle}>Sub-categories:</Text>
+            <Text style={[styles.subCategoriesTitle, { color: statusTheme.colors.textSecondary }]}>Sub-categories:</Text>
             <View style={styles.subCategoriesChips}>
               {userCategories[selectedCategory].map((subCat, idx) => (
-                <View key={idx} style={styles.subCategoryChip}>
-                  <Text style={styles.subCategoryChipText}>{subCat}</Text>
+                <View key={idx} style={[styles.subCategoryChip, { backgroundColor: statusTheme.colors.cardBackground }]}>
+                  <Text style={[styles.subCategoryChipText, { color: statusTheme.colors.text }]}>{subCat}</Text>
                 </View>
               ))}
             </View>
@@ -731,7 +733,7 @@ export default function ShopScreen() {
 
       {/* Floating Action Button */}
       <TouchableOpacity 
-        style={styles.fab} 
+        style={[styles.fab, { backgroundColor: statusTheme.colors.primary }]} 
         onPress={() => setModalVisible(true)}
       >
         <Ionicons name="add" size={28} color="#FFF" />

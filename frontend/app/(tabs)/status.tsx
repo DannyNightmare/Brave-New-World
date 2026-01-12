@@ -286,6 +286,63 @@ export default function StatusScreen() {
           <Text style={styles.xpCounter}>{user.xp} / {xpForNextLevel} XP</Text>
         </View>
 
+        {/* Class and Title Section */}
+        <TouchableOpacity style={styles.classTitleSection} onPress={openEditStatusModal}>
+          <View style={styles.classTitleRow}>
+            <View style={styles.classTitleItem}>
+              <Text style={styles.classTitleLabel}>CLASS</Text>
+              <Text style={styles.classTitleValue}>{user.player_class || 'Adventurer'}</Text>
+            </View>
+            <View style={styles.classTitleDivider} />
+            <View style={styles.classTitleItem}>
+              <Text style={styles.classTitleLabel}>TITLE</Text>
+              <Text style={styles.classTitleValue}>{user.title || 'Novice'}</Text>
+            </View>
+            <Ionicons name="create-outline" size={20} color={statusTheme.colors.textSecondary} style={styles.editIcon} />
+          </View>
+        </TouchableOpacity>
+
+        {/* HP and MP Bars */}
+        <TouchableOpacity style={styles.hpMpSection} onPress={openEditStatusModal}>
+          {/* HP Bar */}
+          <View style={styles.statBarRow}>
+            <View style={styles.statBarLabelContainer}>
+              <Ionicons name="heart" size={18} color="#EF4444" />
+              <Text style={styles.statBarLabel}>HP</Text>
+            </View>
+            <View style={styles.statBarWrapper}>
+              <View style={styles.hpBar}>
+                <View 
+                  style={[
+                    styles.hpBarFill, 
+                    { width: `${((user.hp || 100) / (user.max_hp || 100)) * 100}%` }
+                  ]} 
+                />
+              </View>
+              <Text style={styles.statBarCounter}>{user.hp || 100} / {user.max_hp || 100}</Text>
+            </View>
+          </View>
+
+          {/* MP Bar */}
+          <View style={styles.statBarRow}>
+            <View style={styles.statBarLabelContainer}>
+              <Ionicons name="water" size={18} color="#3B82F6" />
+              <Text style={styles.statBarLabel}>MP</Text>
+            </View>
+            <View style={styles.statBarWrapper}>
+              <View style={styles.mpBar}>
+                <View 
+                  style={[
+                    styles.mpBarFill, 
+                    { width: `${((user.mp || 50) / (user.max_mp || 50)) * 100}%` }
+                  ]} 
+                />
+              </View>
+              <Text style={styles.statBarCounter}>{user.mp || 50} / {user.max_mp || 50}</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+
         {/* Profile and Gold Section */}
         <View style={styles.profileGoldSection}>
           {/* Profile Image - Left */}

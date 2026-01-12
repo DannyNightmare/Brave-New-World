@@ -37,6 +37,13 @@ class User(BaseModel):
     intelligence: int = 10
     vitality: int = 10
     ability_points: int = 5  # AP for leveling up powers
+    # RPG Status fields
+    hp: int = 100
+    max_hp: int = 100
+    mp: int = 50
+    max_mp: int = 50
+    player_class: str = "Adventurer"
+    title: str = "Novice"
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
 class UserCreate(BaseModel):

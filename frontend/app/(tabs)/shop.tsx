@@ -1725,14 +1725,22 @@ export default function ShopScreen() {
           </View>
         </TouchableWithoutFeedback>
       </Modal>
+      </BackgroundWrapper>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     backgroundColor: '#111827',
+  },
+  backgroundOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
   },
   scrollView: {
     flex: 1,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUser } from '../../contexts/UserContext';
 import { useNotification } from '../../contexts/NotificationContext';
@@ -24,7 +24,7 @@ interface InventoryItem {
 export default function InventoryScreen() {
   const { user, refreshUser } = useUser();
   const { showNotification, showLevelUp } = useNotification();
-  const { statusTheme } = useCustomization();
+  const { statusTheme, backgroundType, backgroundColor, backgroundImage } = useCustomization();
   const [items, setItems] = useState<InventoryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');

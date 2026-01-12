@@ -813,4 +813,82 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     fontStyle: 'italic',
   },
+  // Background customization styles
+  bgTypeSelector: {
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: 16,
+  },
+  bgTypeButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 8,
+    borderRadius: 10,
+    gap: 6,
+  },
+  bgTypeText: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  bgColorGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+    marginBottom: 16,
+  },
+  bgColorSwatch: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 3,
+  },
+  bgImagePreviewContainer: {
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  bgImagePreview: {
+    width: 120,
+    height: 80,
+    borderRadius: 8,
+    marginBottom: 8,
+  },
+  bgImageRemove: {
+    position: 'absolute',
+    top: -8,
+    right: '35%',
+  },
+  bgImageLabel: {
+    fontSize: 12,
+  },
+  bgPreviewContainer: {
+    marginTop: 8,
+  },
+  bgPreview: {
+    height: 100,
+    borderRadius: 12,
+    padding: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+  bgPreviewImage: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    borderRadius: 12,
+  },
+  bgPreviewCard: {
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 8,
+  },
+  bgPreviewText: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
 });

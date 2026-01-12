@@ -757,7 +757,7 @@ export default function PowersScreen() {
                     }
                   }}
                 >
-                  <Ionicons name="add-circle" size={32} color="#8B5CF6" />
+                  <Ionicons name="add-circle" size={32} color={statusTheme.colors.primary} />
                 </TouchableOpacity>
               </View>
 

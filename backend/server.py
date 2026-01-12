@@ -121,6 +121,7 @@ class InventoryItem(BaseModel):
     item_name: str
     item_description: str
     item_type: str
+    category: str = "general"  # Item category from shop
     stat_boost: Optional[dict] = None
     # Consumable fields
     exp_amount: Optional[int] = None

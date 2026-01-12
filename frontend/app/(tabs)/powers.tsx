@@ -1164,7 +1164,7 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
   },
   progressBarFill: {
     height: '100%',
-    backgroundColor: '#8B5CF6',
+    backgroundColor: theme.colors.primary,
     borderRadius: 4,
   },
   progressText: {

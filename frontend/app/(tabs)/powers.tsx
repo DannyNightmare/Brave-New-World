@@ -1279,7 +1279,7 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
   subAbilitiesTitle: {
     fontSize: 12,
     fontWeight: '600',
-    color: '#8B5CF6',
+    color: theme.colors.primary,
     marginBottom: 8,
     textTransform: 'uppercase',
   },

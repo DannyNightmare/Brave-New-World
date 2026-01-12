@@ -1523,7 +1523,7 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
   subcategoryTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#A78BFA',
+    color: theme.colors.primary,
     marginBottom: 12,
     paddingLeft: 8,
     textTransform: 'uppercase',

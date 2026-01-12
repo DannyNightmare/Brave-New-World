@@ -257,6 +257,117 @@ export default function TabLayout() {
                 </View>
               </View>
 
+              {/* App Background Section */}
+              <View style={styles.section}>
+                <Text style={[styles.sectionTitle, { color: colors.text }]}>App Background</Text>
+                <Text style={[styles.sectionSubtitle, { color: colors.textSecondary }]}>
+                  Customize your app background with color, image, or GIF
+                </Text>
+
+                {/* Background Type Selector */}
+                <View style={styles.bgTypeSelector}>
+                  <TouchableOpacity
+                    style={[
+                      styles.bgTypeButton,
+                      { backgroundColor: backgroundType === 'theme' ? statusTheme.colors.primary : colors.surface }
+                    ]}
+                    onPress={() => {
+                      setBackgroundType('theme');
+                      setBackgroundImage(null);
+                    }}
+                  >
+                    <Ionicons name="color-palette" size={18} color={backgroundType === 'theme' ? '#FFF' : colors.textSecondary} />
+                    <Text style={[styles.bgTypeText, { color: backgroundType === 'theme' ? '#FFF' : colors.textSecondary }]}>Theme</Text>
+                  </TouchableOpacity>
+                  
+                  <TouchableOpacity
+                    style={[
+                      styles.bgTypeButton,
+                      { backgroundColor: backgroundType === 'color' ? statusTheme.colors.primary : colors.surface }
+                    ]}
+                    onPress={() => {
+                      setBackgroundType('color');
+                      setBackgroundImage(null);
+                    }}
+                  >
+                    <Ionicons name="color-fill" size={18} color={backgroundType === 'color' ? '#FFF' : colors.textSecondary} />
+                    <Text style={[styles.bgTypeText, { color: backgroundType === 'color' ? '#FFF' : colors.textSecondary }]}>Color</Text>
+                  </TouchableOpacity>
+                  
+                  <TouchableOpacity
+                    style={[
+                      styles.bgTypeButton,
+                      { backgroundColor: (backgroundType === 'image' || backgroundType === 'gif') ? statusTheme.colors.primary : colors.surface }
+                    ]}
+                    onPress={() => pickImage('background')}
+                  >
+                    <Ionicons name="image" size={18} color={(backgroundType === 'image' || backgroundType === 'gif') ? '#FFF' : colors.textSecondary} />
+                    <Text style={[styles.bgTypeText, { color: (backgroundType === 'image' || backgroundType === 'gif') ? '#FFF' : colors.textSecondary }]}>Image/GIF</Text>
+                  </TouchableOpacity>
+                </View>
+
+                {/* Color Selection (shown when 'color' is selected) */}
+                {backgroundType === 'color' && (
+                  <View style={styles.bgColorGrid}>
+                    {backgroundColors.map((color) => (
+                      <TouchableOpacity
+                        key={color.value}
+                        style={[
+                          styles.bgColorSwatch,
+                          { backgroundColor: color.value, borderColor: backgroundColor === color.value ? statusTheme.colors.primary : 'transparent' }
+                        ]}
+                        onPress={() => setBackgroundColor(color.value)}
+                      >
+                        {backgroundColor === color.value && (
+                          <Ionicons name="checkmark" size={16} color="#FFF" />
+                        )}
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                )}
+
+                {/* Image/GIF Preview */}
+                {(backgroundType === 'image' || backgroundType === 'gif') && backgroundImage && (
+                  <View style={styles.bgImagePreviewContainer}>
+                    <Image source={{ uri: backgroundImage }} style={styles.bgImagePreview} />
+                    <TouchableOpacity
+                      style={styles.bgImageRemove}
+                      onPress={() => {
+                        setBackgroundImage(null);
+                        setBackgroundType('theme');
+                      }}
+                    >
+                      <Ionicons name="close-circle" size={24} color="#EF4444" />
+                    </TouchableOpacity>
+                    <Text style={[styles.bgImageLabel, { color: colors.textSecondary }]}>
+                      {backgroundType === 'gif' ? 'GIF' : 'Image'} selected
+                    </Text>
+                  </View>
+                )}
+
+                {/* Background Preview */}
+                <View style={styles.bgPreviewContainer}>
+                  <Text style={[styles.previewLabel, { color: colors.textSecondary }]}>Preview:</Text>
+                  <View style={[
+                    styles.bgPreview,
+                    { 
+                      backgroundColor: backgroundType === 'theme' 
+                        ? statusTheme.colors.background 
+                        : backgroundType === 'color' 
+                          ? backgroundColor 
+                          : '#111827'
+                    }
+                  ]}>
+                    {(backgroundType === 'image' || backgroundType === 'gif') && backgroundImage && (
+                      <Image source={{ uri: backgroundImage }} style={styles.bgPreviewImage} />
+                    )}
+                    <View style={[styles.bgPreviewCard, { backgroundColor: statusTheme.colors.cardBackground }]}>
+                      <Text style={[styles.bgPreviewText, { color: statusTheme.colors.text }]}>Sample Card</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+
               {/* Gold Icon Section */}
               <View style={styles.section}>
                 <Text style={[styles.sectionTitle, { color: colors.text }]}>Gold Icon</Text>

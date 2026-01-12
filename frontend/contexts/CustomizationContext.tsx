@@ -549,12 +549,18 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
         goldCustomImage,
         apCustomImage,
         statusTheme,
+        backgroundType,
+        backgroundColor,
+        backgroundImage,
         setXpBarColor,
         setGoldIcon,
         setApIcon,
         setGoldCustomImage,
         setApCustomImage,
         setStatusTheme,
+        setBackgroundType,
+        setBackgroundColor,
+        setBackgroundImage,
         getThemeById,
       }}
     >

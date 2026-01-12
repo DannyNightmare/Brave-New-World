@@ -505,6 +505,37 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const setBackgroundType = async (type: 'theme' | 'color' | 'image' | 'gif') => {
+    setBackgroundTypeState(type);
+    try {
+      await AsyncStorage.setItem('backgroundType', type);
+    } catch (error) {
+      console.error('Failed to save background type:', error);
+    }
+  };
+
+  const setBackgroundColor = async (color: string) => {
+    setBackgroundColorState(color);
+    try {
+      await AsyncStorage.setItem('backgroundColor', color);
+    } catch (error) {
+      console.error('Failed to save background color:', error);
+    }
+  };
+
+  const setBackgroundImage = async (image: string | null) => {
+    setBackgroundImageState(image);
+    try {
+      if (image) {
+        await AsyncStorage.setItem('backgroundImage', image);
+      } else {
+        await AsyncStorage.removeItem('backgroundImage');
+      }
+    } catch (error) {
+      console.error('Failed to save background image:', error);
+    }
+  };
+
   const getThemeById = (id: string): StatusTheme => {
     return STATUS_THEMES.find(t => t.id === id) || STATUS_THEMES[0];
   };

@@ -45,21 +45,6 @@ export default function StatusScreen() {
     title: 'Novice',
   });
 
-  // Get background color based on settings
-  const getBackgroundColor = () => {
-    switch (backgroundType) {
-      case 'theme':
-        return statusTheme.colors.background;
-      case 'color':
-        return backgroundColor;
-      case 'image':
-      case 'gif':
-        return 'transparent';
-      default:
-        return statusTheme.colors.background;
-    }
-  };
-
   // Fetch custom stats from backend
   useEffect(() => {
     if (user?.id) {

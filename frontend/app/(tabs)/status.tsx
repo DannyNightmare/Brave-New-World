@@ -22,7 +22,7 @@ const API_URL = 'https://quest-limitless.preview.emergentagent.com';
 export default function StatusScreen() {
   const { user, loading, refreshUser } = useUser();
   const { colors } = useTheme();
-  const { xpBarColor, goldIcon, apIcon, goldCustomImage, apCustomImage, statusTheme, backgroundType, backgroundColor, backgroundImage } = useCustomization();
+  const { xpBarColor, goldIcon, apIcon, goldCustomImage, apCustomImage, statusTheme } = useCustomization();
   const styles = getStyles(statusTheme);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [localGoldIcon, setLocalGoldIcon] = useState<string | null>(null);

@@ -710,6 +710,125 @@ export default function StatusScreen() {
           </View>
         </View>
       </Modal>
+
+      {/* Stat Action Modal (Edit/Delete) */}
+      <Modal visible={statActionModalVisible} animationType="fade" transparent={true}>
+        <TouchableOpacity 
+          style={styles.actionModalOverlay}
+          activeOpacity={1}
+          onPress={() => setStatActionModalVisible(false)}
+        >
+          <View style={styles.actionModalContent}>
+            <Text style={styles.actionModalTitle}>{selectedStat?.name}</Text>
+            <Text style={styles.actionModalSubtitle}>What would you like to do?</Text>
+            
+            <TouchableOpacity style={styles.actionButton} onPress={openEditStatModal}>
+              <Ionicons name="create-outline" size={24} color={statusTheme.colors.primary} />
+              <Text style={[styles.actionButtonText, { color: statusTheme.colors.primary }]}>Edit Stat</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={[styles.actionButton, styles.deleteActionButton]} onPress={deleteStat}>
+              <Ionicons name="trash-outline" size={24} color="#EF4444" />
+              <Text style={[styles.actionButtonText, { color: '#EF4444' }]}>Delete Stat</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={styles.cancelActionButton} 
+              onPress={() => setStatActionModalVisible(false)}
+            >
+              <Text style={styles.cancelActionButtonText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </Modal>
+
+      {/* Edit Stat Modal */}
+      <Modal visible={editStatModalVisible} animationType="slide" transparent={true}>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <Text style={styles.modalTitle}>Edit Stat</Text>
+
+              <Text style={styles.label}>Stat Name</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="e.g., Endurance, Charisma"
+                placeholderTextColor="#6B7280"
+                value={editingStat.name}
+                onChangeText={(text) => setEditingStat({ ...editingStat, name: text })}
+              />
+
+              <Text style={styles.label}>Stat Icon (Optional)</Text>
+              <TouchableOpacity style={styles.iconPickerButton} onPress={pickEditStatIcon}>
+                {editingStat.icon ? (
+                  <Image source={{ uri: editingStat.icon }} style={styles.iconPreview} />
+                ) : (
+                  <View style={styles.iconPlaceholder}>
+                    <Ionicons name="image" size={24} color="#6B7280" />
+                    <Text style={styles.iconPlaceholderText}>Tap to add icon</Text>
+                  </View>
+                )}
+              </TouchableOpacity>
+
+              <Text style={styles.label}>Bar Gauge Color</Text>
+              <View style={styles.colorGrid}>
+                {colorOptions.map((colorOption) => (
+                  <TouchableOpacity
+                    key={colorOption.value}
+                    style={[
+                      styles.colorOption,
+                      { backgroundColor: colorOption.value },
+                      editingStat.color === colorOption.value && styles.colorOptionSelected
+                    ]}
+                    onPress={() => setEditingStat({ ...editingStat, color: colorOption.value })}
+                  >
+                    {editingStat.color === colorOption.value && (
+                      <Ionicons name="checkmark" size={24} color="#FFF" />
+                    )}
+                  </TouchableOpacity>
+                ))}
+              </View>
+
+              <Text style={styles.label}>Current / Max Values</Text>
+              <View style={styles.statValueRow}>
+                <View style={styles.statValueInput}>
+                  <Text style={styles.statValueLabel}>Current</Text>
+                  <TextInput
+                    style={styles.statValueField}
+                    keyboardType="numeric"
+                    value={String(editingStat.current)}
+                    onChangeText={(text) => setEditingStat({ ...editingStat, current: parseInt(text) || 0 })}
+                  />
+                </View>
+                <Text style={styles.statValueDivider}>/</Text>
+                <View style={styles.statValueInput}>
+                  <Text style={styles.statValueLabel}>Max</Text>
+                  <TextInput
+                    style={styles.statValueField}
+                    keyboardType="numeric"
+                    value={String(editingStat.max)}
+                    onChangeText={(text) => setEditingStat({ ...editingStat, max: parseInt(text) || 100 })}
+                  />
+                </View>
+              </View>
+
+              <TouchableOpacity style={styles.createButton} onPress={saveEditedStat}>
+                <Text style={styles.createButtonText}>Save Changes</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity 
+                style={styles.cancelButton} 
+                onPress={() => {
+                  setEditStatModalVisible(false);
+                  setSelectedStat(null);
+                }}
+              >
+                <Text style={styles.cancelButtonText}>Cancel</Text>
+              </TouchableOpacity>
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
       </AppBackground>
     </SafeAreaView>
   );

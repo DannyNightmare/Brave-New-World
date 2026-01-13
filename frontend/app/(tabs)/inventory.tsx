@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TextInput, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUser } from '../../contexts/UserContext';
 import { useNotification } from '../../contexts/NotificationContext';
 import { useCustomization } from '../../contexts/CustomizationContext';
 import { Ionicons } from '@expo/vector-icons';
+import AppBackground from '../../components/AppBackground';
 
 const API_URL = 'https://quest-limitless.preview.emergentagent.com';
 

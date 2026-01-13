@@ -394,43 +394,6 @@ export default function QuestsScreen() {
     }
   };
 
-  // Get background color based on settings
-  const getBackgroundColor = () => {
-    switch (backgroundType) {
-      case 'theme':
-        return statusTheme.colors.background;
-      case 'color':
-        return backgroundColor;
-      case 'image':
-      case 'gif':
-        return 'transparent';
-      default:
-        return statusTheme.colors.background;
-    }
-  };
-
-  // Wrapper component that applies background
-  const BackgroundWrapper = ({ children }: { children: React.ReactNode }) => {
-    if ((backgroundType === 'image' || backgroundType === 'gif') && backgroundImage) {
-      return (
-        <ImageBackground 
-          source={{ uri: backgroundImage }} 
-          style={styles.container}
-          resizeMode="cover"
-        >
-          <View style={styles.backgroundOverlay}>
-            {children}
-          </View>
-        </ImageBackground>
-      );
-    }
-    return (
-      <View style={[styles.container, { backgroundColor: getBackgroundColor() }]}>
-        {children}
-      </View>
-    );
-  };
-
   if (loading) {
     return (
       <SafeAreaView style={styles.container} edges={['bottom']}>
@@ -443,7 +406,7 @@ export default function QuestsScreen() {
 
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: 'transparent' }]} edges={['bottom']}>
-      <BackgroundWrapper>
+      <AppBackground>
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
         <View style={styles.header}>
           <View>

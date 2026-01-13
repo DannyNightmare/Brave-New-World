@@ -27,7 +27,7 @@ export default function PowersScreen() {
   const { user, refreshUser } = useUser();
   const { colors } = useTheme();
   const { showPowerLevelUp } = useNotification();
-  const { statusTheme, backgroundType, backgroundColor, backgroundImage } = useCustomization();
+  const { statusTheme } = useCustomization();
   const styles = getStyles(statusTheme);
   const [powers, setPowers] = useState<PowerItem[]>([]);
   const [loading, setLoading] = useState(true);

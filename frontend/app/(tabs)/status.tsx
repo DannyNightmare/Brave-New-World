@@ -44,6 +44,16 @@ export default function StatusScreen() {
     player_class: 'Adventurer',
     title: 'Novice',
   });
+  const [editStatModalVisible, setEditStatModalVisible] = useState(false);
+  const [statActionModalVisible, setStatActionModalVisible] = useState(false);
+  const [selectedStat, setSelectedStat] = useState<{id: string, name: string, color: string, current: number, max: number, icon?: string} | null>(null);
+  const [editingStat, setEditingStat] = useState({
+    name: '',
+    color: '#8B5CF6',
+    current: 0,
+    max: 100,
+    icon: '',
+  });
 
   // Fetch custom stats from backend
   useEffect(() => {

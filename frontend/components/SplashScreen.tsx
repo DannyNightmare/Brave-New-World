@@ -119,8 +119,8 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onAnimationComplete 
   const titleScale = useSharedValue(0.8);
   const fadeOut = useSharedValue(1);
 
-  const fullText = "QUEST SYSTEM";
-  const subText = "Initializing...";
+  const fullText = "PROJECT BEYONDER";
+  const subText = "Welcome Player";
 
   useEffect(() => {
     // Start circle animations

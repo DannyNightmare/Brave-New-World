@@ -270,6 +270,117 @@ export default function StatusScreen() {
     setEditStatusModalVisible(true);
   };
 
+  const handleStatLongPress = (stat: typeof selectedStat) => {
+    setSelectedStat(stat);
+    setStatActionModalVisible(true);
+  };
+
+  const openEditStatModal = () => {
+    if (!selectedStat) return;
+    setEditingStat({
+      name: selectedStat.name,
+      color: selectedStat.color,
+      current: selectedStat.current,
+      max: selectedStat.max,
+      icon: selectedStat.icon || '',
+    });
+    setStatActionModalVisible(false);
+    setEditStatModalVisible(true);
+  };
+
+  const saveEditedStat = async () => {
+    if (!user?.id || !selectedStat) return;
+
+    try {
+      const response = await fetch(`${API_URL}/api/users/${user.id}/stats/${selectedStat.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: editingStat.name,
+          color: editingStat.color,
+          current: editingStat.current,
+          max: editingStat.max,
+          icon: editingStat.icon,
+        }),
+      });
+
+      if (response.ok) {
+        await fetchCustomStats();
+        setEditStatModalVisible(false);
+        setSelectedStat(null);
+        Alert.alert('Success', 'Stat updated!');
+      } else {
+        Alert.alert('Error', 'Failed to update stat');
+      }
+    } catch (error) {
+      console.error('Failed to update stat:', error);
+      Alert.alert('Error', 'Failed to update stat');
+    }
+  };
+
+  const deleteStat = async () => {
+    if (!user?.id || !selectedStat) return;
+
+    Alert.alert(
+      'Delete Stat',
+      `Are you sure you want to delete "${selectedStat.name}"?`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              const response = await fetch(`${API_URL}/api/users/${user.id}/stats/${selectedStat.id}`, {
+                method: 'DELETE',
+              });
+
+              if (response.ok) {
+                setCustomStats(customStats.filter(s => s.id !== selectedStat.id));
+                setStatActionModalVisible(false);
+                setSelectedStat(null);
+                Alert.alert('Success', 'Stat deleted!');
+              } else {
+                Alert.alert('Error', 'Failed to delete stat');
+              }
+            } catch (error) {
+              console.error('Failed to delete stat:', error);
+              Alert.alert('Error', 'Failed to delete stat');
+            }
+          },
+        },
+      ]
+    );
+  };
+
+  const pickEditStatIcon = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    
+    if (status !== 'granted') {
+      Alert.alert('Permission Required', 'We need camera roll permissions to select an image.');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.8,
+    });
+
+    if (!result.canceled && result.assets[0]) {
+      const uri = result.assets[0].uri;
+      const response = await fetch(uri);
+      const blob = await response.blob();
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64data = reader.result as string;
+        setEditingStat({ ...editingStat, icon: base64data });
+      };
+      reader.readAsDataURL(blob);
+    }
+  };
+
   const colorOptions = [
     { name: 'Purple', value: '#8B5CF6' },
     { name: 'Red', value: '#EF4444' },

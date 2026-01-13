@@ -580,7 +580,7 @@ export default function StatusScreen() {
           </View>
         </View>
       </Modal>
-      </BackgroundWrapper>
+      </AppBackground>
     </SafeAreaView>
   );
 }

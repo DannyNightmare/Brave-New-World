@@ -588,7 +588,7 @@ export default function PowersScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['bottom']}>
-      <BackgroundWrapper>
+      <AppBackground>
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
           {renderContent()}
         </ScrollView>

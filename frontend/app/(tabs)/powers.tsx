@@ -851,7 +851,7 @@ export default function PowersScreen() {
           </View>
         </TouchableOpacity>
       </Modal>
-      </BackgroundWrapper>
+      </AppBackground>
     </SafeAreaView>
   );
 }

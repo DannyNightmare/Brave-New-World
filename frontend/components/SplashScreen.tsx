@@ -349,9 +349,9 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   title: {
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: 'bold',
-    letterSpacing: 8,
+    letterSpacing: 6,
     textShadowColor: 'rgba(139, 92, 246, 0.8)',
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 20,

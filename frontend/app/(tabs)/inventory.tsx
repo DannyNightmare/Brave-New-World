@@ -290,7 +290,7 @@ export default function InventoryScreen() {
           })
         )}
         </ScrollView>
-      </BackgroundWrapper>
+      </AppBackground>
     </SafeAreaView>
   );
 }

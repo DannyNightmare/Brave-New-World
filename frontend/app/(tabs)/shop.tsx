@@ -1689,7 +1689,7 @@ export default function ShopScreen() {
           </View>
         </TouchableWithoutFeedback>
       </Modal>
-      </BackgroundWrapper>
+      </AppBackground>
     </SafeAreaView>
   );
 }

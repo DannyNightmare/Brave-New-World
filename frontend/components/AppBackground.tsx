@@ -1,18 +1,17 @@
-import React from 'react';
-import { View, Image, StyleSheet, Dimensions } from 'react-native';
+import React, { useMemo } from 'react';
+import { View, ImageBackground, StyleSheet, Platform, KeyboardAvoidingView } from 'react-native';
 import { useCustomization } from '../contexts/CustomizationContext';
-
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 interface AppBackgroundProps {
   children: React.ReactNode;
+  style?: any;
 }
 
-export const AppBackground: React.FC<AppBackgroundProps> = ({ children }) => {
+export const AppBackground: React.FC<AppBackgroundProps> = ({ children, style }) => {
   const { backgroundType, backgroundColor, backgroundImage, statusTheme } = useCustomization();
 
-  // Determine the background color based on type
-  const getBgColor = () => {
+  // Memoize the background color calculation
+  const bgColor = useMemo(() => {
     switch (backgroundType) {
       case 'theme':
         return statusTheme.colors.background;
@@ -20,27 +19,43 @@ export const AppBackground: React.FC<AppBackgroundProps> = ({ children }) => {
         return backgroundColor;
       case 'image':
       case 'gif':
-        return 'transparent'; // Let the image show through
+        return 'transparent';
       default:
         return statusTheme.colors.background;
     }
-  };
+  }, [backgroundType, backgroundColor, statusTheme.colors.background]);
+
+  const hasBackgroundImage = (backgroundType === 'image' || backgroundType === 'gif') && backgroundImage;
+
+  if (hasBackgroundImage) {
+    return (
+      <ImageBackground 
+        source={{ uri: backgroundImage }} 
+        style={[styles.container, style]}
+        resizeMode="cover"
+      >
+        <View style={styles.backgroundOverlay}>
+          <KeyboardAvoidingView 
+            style={styles.keyboardView}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+          >
+            {children}
+          </KeyboardAvoidingView>
+        </View>
+      </ImageBackground>
+    );
+  }
 
   return (
-    <View style={[styles.container, { backgroundColor: getBgColor() }]}>
-      {/* Background Image/GIF */}
-      {(backgroundType === 'image' || backgroundType === 'gif') && backgroundImage && (
-        <Image
-          source={{ uri: backgroundImage }}
-          style={styles.backgroundImage}
-          resizeMode="cover"
-        />
-      )}
-      
-      {/* Content */}
-      <View style={styles.content}>
+    <View style={[styles.container, { backgroundColor: bgColor }, style]}>
+      <KeyboardAvoidingView 
+        style={styles.keyboardView}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+      >
         {children}
-      </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -48,19 +63,13 @@ export const AppBackground: React.FC<AppBackgroundProps> = ({ children }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    position: 'relative',
   },
-  backgroundImage: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT,
-    zIndex: 0,
-  },
-  content: {
+  backgroundOverlay: {
     flex: 1,
-    zIndex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+  },
+  keyboardView: {
+    flex: 1,
   },
 });
 

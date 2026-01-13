@@ -524,7 +524,15 @@ export default function StatusScreen() {
         {customStats.map((stat) => {
           const percentage = (stat.current / stat.max) * 100;
           return (
-            <View key={stat.id} style={styles.customStatRow}>
+            <Pressable 
+              key={stat.id} 
+              style={({ pressed }) => [
+                styles.customStatRow,
+                pressed && styles.customStatRowPressed
+              ]}
+              onLongPress={() => handleStatLongPress(stat)}
+              delayLongPress={500}
+            >
               <View style={styles.statNameRow}>
                 {stat.icon ? (
                   <Image source={{ uri: stat.icon }} style={styles.statIcon} />
@@ -549,7 +557,8 @@ export default function StatusScreen() {
                   {stat.current} / {stat.max}
                 </Text>
               </View>
-            </View>
+              <Text style={styles.longPressHint}>Hold to edit</Text>
+            </Pressable>
           );
         })}
       </ScrollView>

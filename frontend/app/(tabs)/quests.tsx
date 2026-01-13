@@ -783,7 +783,7 @@ export default function QuestsScreen() {
           rewards={rewardData.rewards}
         />
       )}
-      </BackgroundWrapper>
+      </AppBackground>
     </SafeAreaView>
   );
 }

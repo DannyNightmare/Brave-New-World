@@ -1,24 +1,24 @@
 {
   "expo": {
-    "name": "GameLife RPG",
-    "slug": "gamelife-rpg",
+    "name": "Project Beyonder",
+    "slug": "project-beyonder",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "gamelife-rpg",
+    "scheme": "project-beyonder",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.gamelife.rpg"
+      "bundleIdentifier": "com.project.beyonder"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#000"
+        "backgroundColor": "#0a0a0f"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.gamelife.rpg",
+      "package": "com.project.beyonder",
       "permissions": [
         "READ_EXTERNAL_STORAGE",
         "WRITE_EXTERNAL_STORAGE"
@@ -37,7 +37,7 @@
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#000"
+          "backgroundColor": "#0a0a0f"
         }
       ]
     ],
@@ -46,7 +46,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "gamelife-rpg"
+        "projectId": "project-beyonder"
       }
     }
   }

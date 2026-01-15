@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { TouchableOpacity, Modal, View, Text, StyleSheet, ScrollView, Dimensions, Image, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useTheme } from '../../contexts/ThemeContext';
-import { useCustomization, STATUS_THEMES } from '../../contexts/CustomizationContext';
+import { useCustomization, STATUS_THEMES, POPUP_STYLES } from '../../contexts/CustomizationContext';
 import * as ImagePicker from 'expo-image-picker';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -16,9 +16,9 @@ export default function TabLayout() {
   const { colors } = useTheme();
   const { 
     xpBarColor, goldIcon, apIcon, goldCustomImage, apCustomImage, statusTheme,
-    backgroundType, backgroundColor, backgroundImage,
+    backgroundType, backgroundColor, backgroundImage, popupStyle,
     setXpBarColor, setGoldIcon, setApIcon, setGoldCustomImage, setApCustomImage, setStatusTheme,
-    setBackgroundType, setBackgroundColor, setBackgroundImage
+    setBackgroundType, setBackgroundColor, setBackgroundImage, setPopupStyle
   } = useCustomization();
 
   // Image picker function

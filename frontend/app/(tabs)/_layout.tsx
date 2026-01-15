@@ -984,4 +984,90 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
   },
+  // Popup Style customization styles
+  popupStyleScroll: {
+    marginVertical: 12,
+  },
+  popupStyleScrollContent: {
+    paddingRight: 20,
+    gap: 12,
+  },
+  popupStyleCard: {
+    width: 140,
+    padding: 12,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  popupStylePreview: {
+    width: 60,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  popupStyleEmoji: {
+    fontSize: 28,
+  },
+  popupStyleName: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 4,
+  },
+  popupStyleDesc: {
+    fontSize: 9,
+    textAlign: 'center',
+    lineHeight: 12,
+  },
+  popupStyleSelected: {
+    position: 'absolute',
+    top: 6,
+    right: 6,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  popupPreviewContainer: {
+    marginTop: 12,
+  },
+  popupPreview: {
+    height: 150,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+  popupPreviewModal: {
+    width: '80%',
+    padding: 0,
+    overflow: 'hidden',
+  },
+  popupPreviewHeader: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+  },
+  popupPreviewTitle: {
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  popupPreviewBody: {
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+  },
+  popupPreviewBodyText: {
+    fontSize: 10,
+  },
+  popupPreviewButton: {
+    marginHorizontal: 12,
+    marginBottom: 12,
+    paddingVertical: 6,
+    borderRadius: 6,
+    alignItems: 'center',
+  },
+  popupPreviewButtonText: {
+    fontSize: 10,
+    fontWeight: '600',
+  },
 });

@@ -767,8 +767,24 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const setPopupStyle = async (styleId: string) => {
+    const style = POPUP_STYLES.find(s => s.id === styleId);
+    if (style) {
+      setPopupStyleState(style);
+      try {
+        await AsyncStorage.setItem('popupStyleId', styleId);
+      } catch (error) {
+        console.error('Failed to save popup style:', error);
+      }
+    }
+  };
+
   const getThemeById = (id: string): StatusTheme => {
     return STATUS_THEMES.find(t => t.id === id) || STATUS_THEMES[0];
+  };
+
+  const getPopupStyleById = (id: string): PopupStyle => {
+    return POPUP_STYLES.find(s => s.id === id) || POPUP_STYLES[0];
   };
 
   return (
@@ -783,6 +799,7 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
         backgroundType,
         backgroundColor,
         backgroundImage,
+        popupStyle,
         setXpBarColor,
         setGoldIcon,
         setApIcon,
@@ -792,7 +809,9 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
         setBackgroundType,
         setBackgroundColor,
         setBackgroundImage,
+        setPopupStyle,
         getThemeById,
+        getPopupStyleById,
       }}
     >
       {children}

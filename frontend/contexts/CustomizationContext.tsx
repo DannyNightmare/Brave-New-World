@@ -599,6 +599,7 @@ interface CustomizationContextType {
   backgroundType: 'theme' | 'color' | 'image' | 'gif';
   backgroundColor: string;
   backgroundImage: string | null;
+  popupStyle: PopupStyle;
   setXpBarColor: (color: string) => void;
   setGoldIcon: (icon: string) => void;
   setApIcon: (icon: string) => void;
@@ -608,7 +609,9 @@ interface CustomizationContextType {
   setBackgroundType: (type: 'theme' | 'color' | 'image' | 'gif') => void;
   setBackgroundColor: (color: string) => void;
   setBackgroundImage: (image: string | null) => void;
+  setPopupStyle: (styleId: string) => void;
   getThemeById: (id: string) => StatusTheme;
+  getPopupStyleById: (id: string) => PopupStyle;
 }
 
 const CustomizationContext = createContext<CustomizationContextType | undefined>(undefined);

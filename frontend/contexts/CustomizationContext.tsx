@@ -1,6 +1,228 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// Popup Style definitions
+export interface PopupStyle {
+  id: string;
+  name: string;
+  description: string;
+  preview: string;
+  styles: {
+    overlayColor: string;
+    backgroundColor: string;
+    borderColor: string;
+    borderWidth: number;
+    borderRadius: number;
+    headerBg: string;
+    headerTextColor: string;
+    bodyBg: string;
+    bodyTextColor: string;
+    buttonBg: string;
+    buttonTextColor: string;
+    shadowColor: string;
+    shadowOpacity: number;
+    glowEnabled: boolean;
+    glowColor: string;
+    animation: 'fade' | 'slide' | 'scale' | 'none';
+  };
+}
+
+// Predefined popup styles
+export const POPUP_STYLES: PopupStyle[] = [
+  {
+    id: 'default',
+    name: 'Classic Dark',
+    description: 'Clean dark modal with rounded corners',
+    preview: '🌑',
+    styles: {
+      overlayColor: 'rgba(0, 0, 0, 0.7)',
+      backgroundColor: '#1F2937',
+      borderColor: '#374151',
+      borderWidth: 1,
+      borderRadius: 16,
+      headerBg: '#111827',
+      headerTextColor: '#F9FAFB',
+      bodyBg: '#1F2937',
+      bodyTextColor: '#D1D5DB',
+      buttonBg: '#8B5CF6',
+      buttonTextColor: '#FFFFFF',
+      shadowColor: '#000000',
+      shadowOpacity: 0.5,
+      glowEnabled: false,
+      glowColor: '#8B5CF6',
+      animation: 'fade',
+    },
+  },
+  {
+    id: 'neon-cyber',
+    name: 'Neon Cyber',
+    description: 'Cyberpunk-style with neon glow effects',
+    preview: '💜',
+    styles: {
+      overlayColor: 'rgba(10, 0, 20, 0.9)',
+      backgroundColor: '#0a0014',
+      borderColor: '#ff00ff',
+      borderWidth: 2,
+      borderRadius: 4,
+      headerBg: '#1a0028',
+      headerTextColor: '#ff00ff',
+      bodyBg: '#0a0014',
+      bodyTextColor: '#e0b0ff',
+      buttonBg: '#ff00ff',
+      buttonTextColor: '#000000',
+      shadowColor: '#ff00ff',
+      shadowOpacity: 0.8,
+      glowEnabled: true,
+      glowColor: '#ff00ff',
+      animation: 'scale',
+    },
+  },
+  {
+    id: 'royal-gold',
+    name: 'Royal Gold',
+    description: 'Elegant gold and black royal design',
+    preview: '👑',
+    styles: {
+      overlayColor: 'rgba(20, 15, 0, 0.85)',
+      backgroundColor: '#1a1400',
+      borderColor: '#FFD700',
+      borderWidth: 2,
+      borderRadius: 12,
+      headerBg: 'linear-gradient(180deg, #3d2e00 0%, #1a1400 100%)',
+      headerTextColor: '#FFD700',
+      bodyBg: '#1a1400',
+      bodyTextColor: '#f5e6a3',
+      buttonBg: '#FFD700',
+      buttonTextColor: '#1a1400',
+      shadowColor: '#FFD700',
+      shadowOpacity: 0.4,
+      glowEnabled: true,
+      glowColor: '#FFD700',
+      animation: 'slide',
+    },
+  },
+  {
+    id: 'ice-crystal',
+    name: 'Ice Crystal',
+    description: 'Cool blue frozen crystal aesthetic',
+    preview: '❄️',
+    styles: {
+      overlayColor: 'rgba(0, 10, 20, 0.85)',
+      backgroundColor: '#0a1929',
+      borderColor: '#00d4ff',
+      borderWidth: 1,
+      borderRadius: 20,
+      headerBg: '#0d2137',
+      headerTextColor: '#00d4ff',
+      bodyBg: '#0a1929',
+      bodyTextColor: '#b3e5fc',
+      buttonBg: '#00d4ff',
+      buttonTextColor: '#0a1929',
+      shadowColor: '#00d4ff',
+      shadowOpacity: 0.6,
+      glowEnabled: true,
+      glowColor: '#00d4ff',
+      animation: 'scale',
+    },
+  },
+  {
+    id: 'blood-crimson',
+    name: 'Blood Crimson',
+    description: 'Dark red vampiric style',
+    preview: '🩸',
+    styles: {
+      overlayColor: 'rgba(20, 0, 0, 0.9)',
+      backgroundColor: '#1a0000',
+      borderColor: '#dc143c',
+      borderWidth: 2,
+      borderRadius: 8,
+      headerBg: '#2d0a0a',
+      headerTextColor: '#ff4444',
+      bodyBg: '#1a0000',
+      bodyTextColor: '#ffaaaa',
+      buttonBg: '#dc143c',
+      buttonTextColor: '#ffffff',
+      shadowColor: '#dc143c',
+      shadowOpacity: 0.7,
+      glowEnabled: true,
+      glowColor: '#dc143c',
+      animation: 'fade',
+    },
+  },
+  {
+    id: 'forest-nature',
+    name: 'Forest Nature',
+    description: 'Earthy green natural design',
+    preview: '🌿',
+    styles: {
+      overlayColor: 'rgba(0, 15, 0, 0.85)',
+      backgroundColor: '#0d1f0d',
+      borderColor: '#22c55e',
+      borderWidth: 1,
+      borderRadius: 16,
+      headerBg: '#143d14',
+      headerTextColor: '#22c55e',
+      bodyBg: '#0d1f0d',
+      bodyTextColor: '#a7f3d0',
+      buttonBg: '#22c55e',
+      buttonTextColor: '#0d1f0d',
+      shadowColor: '#22c55e',
+      shadowOpacity: 0.5,
+      glowEnabled: false,
+      glowColor: '#22c55e',
+      animation: 'slide',
+    },
+  },
+  {
+    id: 'void-dark',
+    name: 'Void Dark',
+    description: 'Pure black minimalist void',
+    preview: '🕳️',
+    styles: {
+      overlayColor: 'rgba(0, 0, 0, 0.95)',
+      backgroundColor: '#000000',
+      borderColor: '#333333',
+      borderWidth: 1,
+      borderRadius: 0,
+      headerBg: '#0a0a0a',
+      headerTextColor: '#ffffff',
+      bodyBg: '#000000',
+      bodyTextColor: '#888888',
+      buttonBg: '#333333',
+      buttonTextColor: '#ffffff',
+      shadowColor: '#000000',
+      shadowOpacity: 0,
+      glowEnabled: false,
+      glowColor: '#333333',
+      animation: 'fade',
+    },
+  },
+  {
+    id: 'sakura-pink',
+    name: 'Sakura Bloom',
+    description: 'Soft pink cherry blossom theme',
+    preview: '🌸',
+    styles: {
+      overlayColor: 'rgba(20, 5, 10, 0.85)',
+      backgroundColor: '#1f0a14',
+      borderColor: '#ff69b4',
+      borderWidth: 1,
+      borderRadius: 24,
+      headerBg: '#2d1020',
+      headerTextColor: '#ff69b4',
+      bodyBg: '#1f0a14',
+      bodyTextColor: '#ffb6c1',
+      buttonBg: '#ff69b4',
+      buttonTextColor: '#1f0a14',
+      shadowColor: '#ff69b4',
+      shadowOpacity: 0.5,
+      glowEnabled: true,
+      glowColor: '#ff69b4',
+      animation: 'scale',
+    },
+  },
+];
+
 // Status Display Theme definitions
 export interface StatusTheme {
   id: string;

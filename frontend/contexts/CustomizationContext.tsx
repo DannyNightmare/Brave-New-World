@@ -626,6 +626,7 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
   const [backgroundType, setBackgroundTypeState] = useState<'theme' | 'color' | 'image' | 'gif'>('theme');
   const [backgroundColor, setBackgroundColorState] = useState('#111827');
   const [backgroundImage, setBackgroundImageState] = useState<string | null>(null);
+  const [popupStyle, setPopupStyleState] = useState<PopupStyle>(POPUP_STYLES[0]);
 
   // Load preferences on mount
   useEffect(() => {

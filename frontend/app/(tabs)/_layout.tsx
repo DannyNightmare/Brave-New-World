@@ -368,6 +368,99 @@ export default function TabLayout() {
                 </View>
               </View>
 
+              {/* Popup Window Style Section */}
+              <View style={styles.section}>
+                <Text style={[styles.sectionTitle, { color: colors.text }]}>Popup Window Style</Text>
+                <Text style={[styles.sectionSubtitle, { color: colors.textSecondary }]}>
+                  Customize modal windows for Quests & Powers
+                </Text>
+                
+                <ScrollView 
+                  horizontal 
+                  showsHorizontalScrollIndicator={false}
+                  style={styles.popupStyleScroll}
+                  contentContainerStyle={styles.popupStyleScrollContent}
+                >
+                  {POPUP_STYLES.map((style) => (
+                    <TouchableOpacity
+                      key={style.id}
+                      style={[
+                        styles.popupStyleCard,
+                        { 
+                          backgroundColor: style.styles.backgroundColor,
+                          borderColor: popupStyle.id === style.id ? style.styles.borderColor : 'transparent',
+                          borderWidth: 2,
+                        }
+                      ]}
+                      onPress={() => setPopupStyle(style.id)}
+                    >
+                      <View style={[
+                        styles.popupStylePreview,
+                        { 
+                          backgroundColor: style.styles.headerBg,
+                          borderColor: style.styles.borderColor,
+                          borderWidth: style.styles.borderWidth,
+                          borderRadius: style.styles.borderRadius / 2,
+                        }
+                      ]}>
+                        <Text style={styles.popupStyleEmoji}>{style.preview}</Text>
+                      </View>
+                      <Text style={[styles.popupStyleName, { color: style.styles.headerTextColor }]}>
+                        {style.name}
+                      </Text>
+                      <Text style={[styles.popupStyleDesc, { color: style.styles.bodyTextColor }]} numberOfLines={2}>
+                        {style.description}
+                      </Text>
+                      {popupStyle.id === style.id && (
+                        <View style={[styles.popupStyleSelected, { backgroundColor: style.styles.borderColor }]}>
+                          <Ionicons name="checkmark" size={12} color="#FFF" />
+                        </View>
+                      )}
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+
+                {/* Selected Popup Preview */}
+                <View style={styles.popupPreviewContainer}>
+                  <Text style={[styles.previewLabel, { color: colors.textSecondary }]}>Preview:</Text>
+                  <View style={[
+                    styles.popupPreview,
+                    {
+                      backgroundColor: popupStyle.styles.overlayColor,
+                    }
+                  ]}>
+                    <View style={[
+                      styles.popupPreviewModal,
+                      {
+                        backgroundColor: popupStyle.styles.backgroundColor,
+                        borderColor: popupStyle.styles.borderColor,
+                        borderWidth: popupStyle.styles.borderWidth,
+                        borderRadius: popupStyle.styles.borderRadius,
+                        shadowColor: popupStyle.styles.glowEnabled ? popupStyle.styles.glowColor : 'transparent',
+                        shadowOpacity: popupStyle.styles.glowEnabled ? 0.8 : 0,
+                        shadowRadius: 10,
+                      }
+                    ]}>
+                      <View style={[styles.popupPreviewHeader, { backgroundColor: popupStyle.styles.headerBg }]}>
+                        <Text style={[styles.popupPreviewTitle, { color: popupStyle.styles.headerTextColor }]}>
+                          Create Quest
+                        </Text>
+                      </View>
+                      <View style={styles.popupPreviewBody}>
+                        <Text style={[styles.popupPreviewBodyText, { color: popupStyle.styles.bodyTextColor }]}>
+                          Sample content...
+                        </Text>
+                      </View>
+                      <View style={[styles.popupPreviewButton, { backgroundColor: popupStyle.styles.buttonBg }]}>
+                        <Text style={[styles.popupPreviewButtonText, { color: popupStyle.styles.buttonTextColor }]}>
+                          Save
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </View>
+
               {/* Gold Icon Section */}
               <View style={styles.section}>
                 <Text style={[styles.sectionTitle, { color: colors.text }]}>Gold Icon</Text>

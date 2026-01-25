@@ -21,6 +21,9 @@ interface PowerItem {
   sub_abilities?: string[];
   image?: string;
   stat_boost?: { [key: string]: number };
+  evolved_from?: string;
+  evolved_abilities?: string[];
+  is_evolved?: boolean;
 }
 
 export default function PowersScreen() {
@@ -36,12 +39,21 @@ export default function PowersScreen() {
   const [powerActionModalVisible, setPowerActionModalVisible] = useState(false);
   const [categoryActionModalVisible, setCategoryActionModalVisible] = useState(false);
   const [categoryManagerVisible, setCategoryManagerVisible] = useState(false);
+  const [evolveModalVisible, setEvolveModalVisible] = useState(false);
   const [editingPower, setEditingPower] = useState<PowerItem | null>(null);
   const [selectedPower, setSelectedPower] = useState<PowerItem | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [editForm, setEditForm] = useState({
     name: '',
     description: '',
+    max_level: 5,
+    sub_abilities: [] as string[],
+    newSubAbility: '',
+  });
+  const [evolveForm, setEvolveForm] = useState({
+    name: '',
+    description: '',
+    power_tier: 'Enhanced',
     max_level: 5,
     sub_abilities: [] as string[],
     newSubAbility: '',

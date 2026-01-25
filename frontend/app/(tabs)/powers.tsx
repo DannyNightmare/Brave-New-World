@@ -900,9 +900,33 @@ export default function PowersScreen() {
             <Text style={styles.actionModalTitle}>
               {selectedPower?.name}
             </Text>
+            {selectedPower && selectedPower.current_level >= selectedPower.max_level && (
+              <View style={styles.maxedBadge}>
+                <Ionicons name="star" size={14} color="#FFD700" />
+                <Text style={styles.maxedBadgeText}>MAXED OUT</Text>
+              </View>
+            )}
             <TouchableOpacity style={styles.actionButton} onPress={handleEditPower}>
               <Ionicons name="create" size={24} color="#3B82F6" />
               <Text style={styles.actionButtonText}>Edit Power</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={[
+                styles.actionButton, 
+                styles.evolveActionButton,
+                selectedPower && selectedPower.current_level < selectedPower.max_level && styles.disabledButton
+              ]} 
+              onPress={handleAddEvolution}
+              disabled={selectedPower ? selectedPower.current_level < selectedPower.max_level : true}
+            >
+              <Ionicons name="arrow-up-circle" size={24} color={selectedPower && selectedPower.current_level >= selectedPower.max_level ? "#10B981" : "#6B7280"} />
+              <Text style={[
+                styles.actionButtonText, 
+                styles.evolveActionButtonText,
+                selectedPower && selectedPower.current_level < selectedPower.max_level && styles.disabledButtonText
+              ]}>
+                {selectedPower && selectedPower.current_level >= selectedPower.max_level ? 'Add Evolution' : 'Max Level Required'}
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.actionButton, styles.deleteActionButton]} onPress={handleDeletePower}>
               <Ionicons name="trash" size={24} color="#EF4444" />
@@ -913,6 +937,83 @@ export default function PowersScreen() {
             </TouchableOpacity>
           </View>
         </TouchableOpacity>
+      </Modal>
+
+      {/* Evolution Link Modal */}
+      <Modal visible={evolveModalVisible} animationType="slide" transparent={true}>
+        <View style={styles.modalOverlay}>
+          <View style={styles.evolveModalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Link Evolution</Text>
+              <TouchableOpacity onPress={() => setEvolveModalVisible(false)}>
+                <Ionicons name="close" size={28} color={statusTheme.colors.text} />
+              </TouchableOpacity>
+            </View>
+            
+            <Text style={styles.evolveDescription}>
+              Select a power to evolve from "{selectedPower?.name}". The evolved power will only appear once this power is at max level.
+            </Text>
+
+            <Text style={styles.evolveSubtitle}>Available Powers:</Text>
+            
+            <ScrollView style={styles.evolveList}>
+              {getAvailableEvolutions().length === 0 ? (
+                <View style={styles.emptyEvolveState}>
+                  <Ionicons name="information-circle" size={48} color={statusTheme.colors.textSecondary} />
+                  <Text style={styles.emptyEvolveText}>No available powers to link.</Text>
+                  <Text style={styles.emptyEvolveSubtext}>Purchase more powers from the Shop first.</Text>
+                </View>
+              ) : (
+                getAvailableEvolutions().map((power) => (
+                  <TouchableOpacity 
+                    key={power.id} 
+                    style={styles.evolveItem}
+                    onPress={() => linkEvolution(power.id)}
+                  >
+                    <View style={styles.evolveItemInfo}>
+                      <Text style={styles.evolveItemName}>{power.name}</Text>
+                      <Text style={styles.evolveItemTier}>{power.power_tier}</Text>
+                    </View>
+                    <View style={styles.evolveItemAction}>
+                      <Ionicons name="link" size={20} color={statusTheme.colors.primary} />
+                      <Text style={styles.evolveItemActionText}>Link</Text>
+                    </View>
+                  </TouchableOpacity>
+                ))
+              )}
+            </ScrollView>
+
+            {selectedPower?.evolved_abilities && selectedPower.evolved_abilities.length > 0 && (
+              <>
+                <Text style={styles.evolveSubtitle}>Linked Evolutions:</Text>
+                <ScrollView style={styles.linkedEvolveList}>
+                  {powers.filter(p => selectedPower.evolved_abilities?.includes(p.id)).map((evolved) => (
+                    <View key={evolved.id} style={styles.linkedEvolveItem}>
+                      <View style={styles.evolveItemInfo}>
+                        <Text style={styles.evolveItemName}>{evolved.name}</Text>
+                        <Text style={styles.evolveItemTier}>{evolved.power_tier}</Text>
+                      </View>
+                      <TouchableOpacity 
+                        style={styles.unlinkButton}
+                        onPress={() => unlinkEvolution(selectedPower.id, evolved.id)}
+                      >
+                        <Ionicons name="unlink" size={20} color="#EF4444" />
+                        <Text style={styles.unlinkButtonText}>Unlink</Text>
+                      </TouchableOpacity>
+                    </View>
+                  ))}
+                </ScrollView>
+              </>
+            )}
+
+            <TouchableOpacity 
+              style={styles.closeButton} 
+              onPress={() => setEvolveModalVisible(false)}
+            >
+              <Text style={styles.closeButtonText}>Done</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </Modal>
 
       {/* Category Action Modal */}

@@ -634,6 +634,71 @@ async def delete_power(power_id: str):
         raise HTTPException(status_code=404, detail="Power not found")
     return {"message": "Power deleted"}
 
+class EvolvedAbilityCreate(BaseModel):
+    name: str
+    description: str
+    power_tier: str = "Enhanced"
+    max_level: int = 5
+    sub_abilities: Optional[list] = None
+    image: Optional[str] = None
+
+@api_router.post("/powers/{power_id}/evolve")
+async def create_evolved_ability(power_id: str, evolved: EvolvedAbilityCreate):
+    """Create an evolved ability from a maxed-out power"""
+    parent_power = await db.powers.find_one({"id": power_id})
+    if not parent_power:
+        raise HTTPException(status_code=404, detail="Parent power not found")
+    
+    # Check if parent power is at max level
+    if parent_power["current_level"] < parent_power["max_level"]:
+        raise HTTPException(status_code=400, detail="Parent power must be at max level to evolve")
+    
+    # Create the evolved ability
+    evolved_power = PowerItem(
+        user_id=parent_power["user_id"],
+        shop_item_id=str(uuid.uuid4()),
+        name=evolved.name,
+        description=evolved.description,
+        power_category=parent_power["power_category"],
+        power_subcategory=parent_power.get("power_subcategory"),
+        power_tier=evolved.power_tier,
+        current_level=1,
+        max_level=evolved.max_level,
+        sub_abilities=evolved.sub_abilities or [],
+        image=evolved.image,
+        evolved_from=power_id,
+        is_evolved=True,
+    )
+    
+    await db.powers.insert_one(evolved_power.dict())
+    
+    # Update parent power with evolved ability ID
+    existing_evolved = parent_power.get("evolved_abilities") or []
+    existing_evolved.append(evolved_power.id)
+    await db.powers.update_one(
+        {"id": power_id},
+        {"$set": {"evolved_abilities": existing_evolved}}
+    )
+    
+    return evolved_power
+
+@api_router.put("/powers/{power_id}")
+async def update_power(power_id: str, power_update: dict):
+    """Update a power's details"""
+    power = await db.powers.find_one({"id": power_id})
+    if not power:
+        raise HTTPException(status_code=404, detail="Power not found")
+    
+    # Only allow updating certain fields
+    allowed_fields = ["name", "description", "power_tier", "max_level", "sub_abilities", "image", "next_tier_ability"]
+    update_data = {k: v for k, v in power_update.items() if k in allowed_fields}
+    
+    if update_data:
+        await db.powers.update_one({"id": power_id}, {"$set": update_data})
+    
+    updated_power = await db.powers.find_one({"id": power_id})
+    return PowerItem(**updated_power)
+
 # User Categories endpoints
 @api_router.post("/users/{user_id}/categories")
 async def save_user_categories(user_id: str, categories: dict):

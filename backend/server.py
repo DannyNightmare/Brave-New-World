@@ -156,6 +156,9 @@ class PowerItem(BaseModel):
     sub_abilities: Optional[list] = None  # List of sub-abilities/perks
     image: Optional[str] = None
     stat_boost: Optional[dict] = None
+    evolved_from: Optional[str] = None  # ID of the parent power this evolved from
+    evolved_abilities: Optional[list] = None  # List of IDs of evolved abilities
+    is_evolved: bool = False  # Whether this is an evolved ability
     acquired_at: datetime = Field(default_factory=datetime.utcnow)
 
 class CustomStat(BaseModel):

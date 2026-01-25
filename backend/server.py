@@ -634,53 +634,66 @@ async def delete_power(power_id: str):
         raise HTTPException(status_code=404, detail="Power not found")
     return {"message": "Power deleted"}
 
-class EvolvedAbilityCreate(BaseModel):
-    name: str
-    description: str
-    power_tier: str = "Enhanced"
-    max_level: int = 5
-    sub_abilities: Optional[list] = None
-    image: Optional[str] = None
+class LinkEvolvedAbility(BaseModel):
+    evolved_power_id: str  # ID of the power to link as evolution
 
-@api_router.post("/powers/{power_id}/evolve")
-async def create_evolved_ability(power_id: str, evolved: EvolvedAbilityCreate):
-    """Create an evolved ability from a maxed-out power"""
+@api_router.post("/powers/{power_id}/link-evolution")
+async def link_evolved_ability(power_id: str, data: LinkEvolvedAbility):
+    """Link an existing power as an evolved ability of another power"""
     parent_power = await db.powers.find_one({"id": power_id})
     if not parent_power:
         raise HTTPException(status_code=404, detail="Parent power not found")
     
-    # Check if parent power is at max level
-    if parent_power["current_level"] < parent_power["max_level"]:
-        raise HTTPException(status_code=400, detail="Parent power must be at max level to evolve")
+    evolved_power = await db.powers.find_one({"id": data.evolved_power_id})
+    if not evolved_power:
+        raise HTTPException(status_code=404, detail="Evolved power not found")
     
-    # Create the evolved ability
-    evolved_power = PowerItem(
-        user_id=parent_power["user_id"],
-        shop_item_id=str(uuid.uuid4()),
-        name=evolved.name,
-        description=evolved.description,
-        power_category=parent_power["power_category"],
-        power_subcategory=parent_power.get("power_subcategory"),
-        power_tier=evolved.power_tier,
-        current_level=1,
-        max_level=evolved.max_level,
-        sub_abilities=evolved.sub_abilities or [],
-        image=evolved.image,
-        evolved_from=power_id,
-        is_evolved=True,
+    # Update the evolved power to mark it as evolved from parent
+    await db.powers.update_one(
+        {"id": data.evolved_power_id},
+        {"$set": {
+            "evolved_from": power_id,
+            "is_evolved": True
+        }}
     )
-    
-    await db.powers.insert_one(evolved_power.dict())
     
     # Update parent power with evolved ability ID
     existing_evolved = parent_power.get("evolved_abilities") or []
-    existing_evolved.append(evolved_power.id)
+    if data.evolved_power_id not in existing_evolved:
+        existing_evolved.append(data.evolved_power_id)
     await db.powers.update_one(
         {"id": power_id},
         {"$set": {"evolved_abilities": existing_evolved}}
     )
     
-    return evolved_power
+    return {"message": "Evolution linked successfully", "parent_id": power_id, "evolved_id": data.evolved_power_id}
+
+@api_router.post("/powers/{power_id}/unlink-evolution")
+async def unlink_evolved_ability(power_id: str, data: LinkEvolvedAbility):
+    """Unlink an evolved ability from its parent"""
+    parent_power = await db.powers.find_one({"id": power_id})
+    if not parent_power:
+        raise HTTPException(status_code=404, detail="Parent power not found")
+    
+    # Remove evolved_from from the evolved power
+    await db.powers.update_one(
+        {"id": data.evolved_power_id},
+        {"$set": {
+            "evolved_from": None,
+            "is_evolved": False
+        }}
+    )
+    
+    # Remove from parent's evolved_abilities list
+    existing_evolved = parent_power.get("evolved_abilities") or []
+    if data.evolved_power_id in existing_evolved:
+        existing_evolved.remove(data.evolved_power_id)
+    await db.powers.update_one(
+        {"id": power_id},
+        {"$set": {"evolved_abilities": existing_evolved}}
+    )
+    
+    return {"message": "Evolution unlinked successfully"}
 
 @api_router.put("/powers/{power_id}")
 async def update_power(power_id: str, power_update: dict):

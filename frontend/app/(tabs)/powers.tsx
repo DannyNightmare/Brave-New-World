@@ -1950,6 +1950,12 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
     color: theme.colors.primary,
     textTransform: 'uppercase',
   },
+  evolvedAbilityRow: {
+    marginLeft: 20,
+    borderLeftWidth: 3,
+    borderLeftColor: theme.colors.primary,
+    backgroundColor: theme.colors.primary + '10',
+  },
   emptyCategoryContainer: {
     paddingVertical: 16,
     alignItems: 'center',

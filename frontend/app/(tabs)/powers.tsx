@@ -541,120 +541,124 @@ export default function PowersScreen() {
                 </View>
               ) : (
                 <>
-                  {/* Display powers without subcategory first */}
-                  {powersWithoutSubcategory.map((power) => {
+                  {/* Display powers without subcategory first - filter out evolved powers */}
+                  {powersWithoutSubcategory
+                    .filter((power) => !power.is_evolved) // Hide evolved powers from main list
+                    .map((power) => {
                     const isMaxLevel = power.current_level >= power.max_level;
                     const progress = (power.current_level / power.max_level) * 100;
+                    const evolvedAbilities = getEvolvedAbilities(power);
                     
                     return (
-                      <Pressable
-                        key={power.id}
-                        onLongPress={() => handlePowerLongPress(power)}
-                        style={({ pressed }) => [
-                          styles.abilityRow,
-                          pressed && styles.abilityRowPressed
-                        ]}
-                      >
-                        {/* Ability Name */}
-                        <View style={styles.abilityNameSection}>
-                          <Text style={styles.abilityName}>{power.name}</Text>
-                          {power.is_evolved && (
-                            <View style={styles.evolvedBadge}>
-                              <Ionicons name="arrow-up" size={10} color={statusTheme.colors.primary} />
-                              <Text style={styles.evolvedBadgeText}>Evolved</Text>
-                            </View>
-                          )}
-                        </View>
-
-                        {/* Progress Bar and Counter */}
-                        <View style={styles.abilityProgressSection}>
-                          <View style={styles.progressBarSmall}>
-                            <View 
-                              style={[styles.progressBarFillSmall, { width: `${progress}%` }]} 
-                            />
+                      <React.Fragment key={power.id}>
+                        <Pressable
+                          onLongPress={() => handlePowerLongPress(power)}
+                          style={({ pressed }) => [
+                            styles.abilityRow,
+                            pressed && styles.abilityRowPressed
+                          ]}
+                        >
+                          {/* Ability Name */}
+                          <View style={styles.abilityNameSection}>
+                            <Text style={styles.abilityName}>{power.name}</Text>
+                            {power.evolved_abilities && power.evolved_abilities.length > 0 && (
+                              <View style={styles.hasEvolutionBadge}>
+                                <Ionicons name="git-branch" size={10} color="#10B981" />
+                                <Text style={styles.hasEvolutionText}>{power.evolved_abilities.length}</Text>
+                              </View>
+                            )}
                           </View>
-                          <Text style={styles.xpCounter}>
-                            {power.current_level} / {power.max_level}
-                          </Text>
-                        </View>
 
-                        {/* Level Badge and Action Button */}
-                        <View style={styles.abilityActionSection}>
-                          <View style={styles.levelBadge}>
-                            <Text style={styles.levelBadgeText}>Lv.{power.current_level}</Text>
-                          </View>
-                          {isMaxLevel ? (
-                            <View style={styles.maxBadgeSmall}>
-                              <Text style={styles.maxBadgeSmallText}>MAX</Text>
+                          {/* Progress Bar and Counter */}
+                          <View style={styles.abilityProgressSection}>
+                            <View style={styles.progressBarSmall}>
+                              <View 
+                                style={[styles.progressBarFillSmall, { width: `${progress}%` }]} 
+                              />
                             </View>
-                          ) : (
-                            <TouchableOpacity
-                              style={[
-                                styles.levelUpButtonSmall,
-                                (user?.ability_points || 0) < 1 && styles.levelUpButtonSmallDisabled
-                              ]}
-                              onPress={() => levelUpPower(power.id, power.name, power.next_tier_ability)}
-                              disabled={(user?.ability_points || 0) < 1}
-                            >
-                              <Ionicons name="add" size={20} color="#FFF" />
-                            </TouchableOpacity>
-                          )}
-                        </View>
-                      </Pressable>
-                      
-                      {/* Show evolved abilities underneath if parent is maxed */}
-                      {isMaxLevel && getEvolvedAbilities(power).map((evolvedPower) => {
-                        const evolvedProgress = (evolvedPower.current_level / evolvedPower.max_level) * 100;
-                        const evolvedIsMax = evolvedPower.current_level >= evolvedPower.max_level;
+                            <Text style={styles.xpCounter}>
+                              {power.current_level} / {power.max_level}
+                            </Text>
+                          </View>
+
+                          {/* Level Badge and Action Button */}
+                          <View style={styles.abilityActionSection}>
+                            <View style={styles.levelBadge}>
+                              <Text style={styles.levelBadgeText}>Lv.{power.current_level}</Text>
+                            </View>
+                            {isMaxLevel ? (
+                              <View style={styles.maxBadgeSmall}>
+                                <Text style={styles.maxBadgeSmallText}>MAX</Text>
+                              </View>
+                            ) : (
+                              <TouchableOpacity
+                                style={[
+                                  styles.levelUpButtonSmall,
+                                  (user?.ability_points || 0) < 1 && styles.levelUpButtonSmallDisabled
+                                ]}
+                                onPress={() => levelUpPower(power.id, power.name, power.next_tier_ability)}
+                                disabled={(user?.ability_points || 0) < 1}
+                              >
+                                <Ionicons name="add" size={20} color="#FFF" />
+                              </TouchableOpacity>
+                            )}
+                          </View>
+                        </Pressable>
                         
-                        return (
-                          <View key={evolvedPower.id}>
-                            <View style={styles.evolvedPowerIndicator}>
-                              <View style={styles.evolutionLine} />
-                              <View style={styles.evolvedBadge}>
-                                <Ionicons name="arrow-up" size={10} color={statusTheme.colors.primary} />
-                                <Text style={styles.evolvedBadgeText}>Evolved</Text>
-                              </View>
-                            </View>
-                            <Pressable
-                              onLongPress={() => handlePowerLongPress(evolvedPower)}
-                              style={({ pressed }) => [
-                                styles.abilityRow,
-                                styles.evolvedAbilityRow,
-                                pressed && styles.abilityRowPressed
-                              ]}
-                            >
-                              <View style={styles.abilityNameSection}>
-                                <Text style={styles.abilityName}>{evolvedPower.name}</Text>
-                              </View>
-                              <View style={styles.abilityProgressSection}>
-                                <View style={styles.progressBarSmall}>
-                                  <View style={[styles.progressBarFillSmall, { width: `${evolvedProgress}%` }]} />
+                        {/* Show evolved abilities underneath if parent is maxed */}
+                        {isMaxLevel && evolvedAbilities.length > 0 && evolvedAbilities.map((evolvedPower) => {
+                          const evolvedProgress = (evolvedPower.current_level / evolvedPower.max_level) * 100;
+                          const evolvedIsMax = evolvedPower.current_level >= evolvedPower.max_level;
+                          
+                          return (
+                            <View key={evolvedPower.id}>
+                              <View style={styles.evolvedPowerIndicator}>
+                                <View style={styles.evolutionLine} />
+                                <View style={styles.evolvedBadge}>
+                                  <Ionicons name="arrow-up" size={10} color={statusTheme.colors.primary} />
+                                  <Text style={styles.evolvedBadgeText}>Evolved</Text>
                                 </View>
-                                <Text style={styles.xpCounter}>{evolvedPower.current_level} / {evolvedPower.max_level}</Text>
                               </View>
-                              <View style={styles.abilityActionSection}>
-                                <View style={styles.levelBadge}>
-                                  <Text style={styles.levelBadgeText}>Lv.{evolvedPower.current_level}</Text>
+                              <Pressable
+                                onLongPress={() => handlePowerLongPress(evolvedPower)}
+                                style={({ pressed }) => [
+                                  styles.abilityRow,
+                                  styles.evolvedAbilityRow,
+                                  pressed && styles.abilityRowPressed
+                                ]}
+                              >
+                                <View style={styles.abilityNameSection}>
+                                  <Text style={styles.abilityName}>{evolvedPower.name}</Text>
                                 </View>
-                                {evolvedIsMax ? (
-                                  <View style={styles.maxBadgeSmall}>
-                                    <Text style={styles.maxBadgeSmallText}>MAX</Text>
+                                <View style={styles.abilityProgressSection}>
+                                  <View style={styles.progressBarSmall}>
+                                    <View style={[styles.progressBarFillSmall, { width: `${evolvedProgress}%` }]} />
                                   </View>
-                                ) : (
-                                  <TouchableOpacity
-                                    style={[styles.levelUpButtonSmall, (user?.ability_points || 0) < 1 && styles.levelUpButtonSmallDisabled]}
-                                    onPress={() => levelUpPower(evolvedPower.id, evolvedPower.name, evolvedPower.next_tier_ability)}
-                                    disabled={(user?.ability_points || 0) < 1}
-                                  >
-                                    <Ionicons name="add" size={20} color="#FFF" />
-                                  </TouchableOpacity>
-                                )}
-                              </View>
-                            </Pressable>
-                          </View>
-                        );
-                      })}
+                                  <Text style={styles.xpCounter}>{evolvedPower.current_level} / {evolvedPower.max_level}</Text>
+                                </View>
+                                <View style={styles.abilityActionSection}>
+                                  <View style={styles.levelBadge}>
+                                    <Text style={styles.levelBadgeText}>Lv.{evolvedPower.current_level}</Text>
+                                  </View>
+                                  {evolvedIsMax ? (
+                                    <View style={styles.maxBadgeSmall}>
+                                      <Text style={styles.maxBadgeSmallText}>MAX</Text>
+                                    </View>
+                                  ) : (
+                                    <TouchableOpacity
+                                      style={[styles.levelUpButtonSmall, (user?.ability_points || 0) < 1 && styles.levelUpButtonSmallDisabled]}
+                                      onPress={() => levelUpPower(evolvedPower.id, evolvedPower.name, evolvedPower.next_tier_ability)}
+                                      disabled={(user?.ability_points || 0) < 1}
+                                    >
+                                      <Ionicons name="add" size={20} color="#FFF" />
+                                    </TouchableOpacity>
+                                  )}
+                                </View>
+                              </Pressable>
+                            </View>
+                          );
+                        })}
+                      </React.Fragment>
                     );
                   })}
 

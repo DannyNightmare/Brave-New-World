@@ -558,6 +558,12 @@ export default function PowersScreen() {
                         {/* Ability Name */}
                         <View style={styles.abilityNameSection}>
                           <Text style={styles.abilityName}>{power.name}</Text>
+                          {power.is_evolved && (
+                            <View style={styles.evolvedBadge}>
+                              <Ionicons name="arrow-up" size={10} color={statusTheme.colors.primary} />
+                              <Text style={styles.evolvedBadgeText}>Evolved</Text>
+                            </View>
+                          )}
                         </View>
 
                         {/* Progress Bar and Counter */}
@@ -595,6 +601,60 @@ export default function PowersScreen() {
                           )}
                         </View>
                       </Pressable>
+                      
+                      {/* Show evolved abilities underneath if parent is maxed */}
+                      {isMaxLevel && getEvolvedAbilities(power).map((evolvedPower) => {
+                        const evolvedProgress = (evolvedPower.current_level / evolvedPower.max_level) * 100;
+                        const evolvedIsMax = evolvedPower.current_level >= evolvedPower.max_level;
+                        
+                        return (
+                          <View key={evolvedPower.id}>
+                            <View style={styles.evolvedPowerIndicator}>
+                              <View style={styles.evolutionLine} />
+                              <View style={styles.evolvedBadge}>
+                                <Ionicons name="arrow-up" size={10} color={statusTheme.colors.primary} />
+                                <Text style={styles.evolvedBadgeText}>Evolved</Text>
+                              </View>
+                            </View>
+                            <Pressable
+                              onLongPress={() => handlePowerLongPress(evolvedPower)}
+                              style={({ pressed }) => [
+                                styles.abilityRow,
+                                styles.evolvedAbilityRow,
+                                pressed && styles.abilityRowPressed
+                              ]}
+                            >
+                              <View style={styles.abilityNameSection}>
+                                <Text style={styles.abilityName}>{evolvedPower.name}</Text>
+                              </View>
+                              <View style={styles.abilityProgressSection}>
+                                <View style={styles.progressBarSmall}>
+                                  <View style={[styles.progressBarFillSmall, { width: `${evolvedProgress}%` }]} />
+                                </View>
+                                <Text style={styles.xpCounter}>{evolvedPower.current_level} / {evolvedPower.max_level}</Text>
+                              </View>
+                              <View style={styles.abilityActionSection}>
+                                <View style={styles.levelBadge}>
+                                  <Text style={styles.levelBadgeText}>Lv.{evolvedPower.current_level}</Text>
+                                </View>
+                                {evolvedIsMax ? (
+                                  <View style={styles.maxBadgeSmall}>
+                                    <Text style={styles.maxBadgeSmallText}>MAX</Text>
+                                  </View>
+                                ) : (
+                                  <TouchableOpacity
+                                    style={[styles.levelUpButtonSmall, (user?.ability_points || 0) < 1 && styles.levelUpButtonSmallDisabled]}
+                                    onPress={() => levelUpPower(evolvedPower.id, evolvedPower.name, evolvedPower.next_tier_ability)}
+                                    disabled={(user?.ability_points || 0) < 1}
+                                  >
+                                    <Ionicons name="add" size={20} color="#FFF" />
+                                  </TouchableOpacity>
+                                )}
+                              </View>
+                            </Pressable>
+                          </View>
+                        );
+                      })}
                     );
                   })}
 

@@ -166,6 +166,83 @@ export default function PowersScreen() {
     }
   };
 
+  const handleAddEvolution = () => {
+    if (selectedPower) {
+      // Check if power is at max level
+      if (selectedPower.current_level < selectedPower.max_level) {
+        Alert.alert('Not Ready', 'This power must be at max level before adding an evolution.');
+        return;
+      }
+      setPowerActionModalVisible(false);
+      setEvolveModalVisible(true);
+    }
+  };
+
+  const getAvailableEvolutions = () => {
+    // Get powers that are not yet linked as evolutions and are not the selected power
+    if (!selectedPower) return [];
+    return powers.filter(p => 
+      p.id !== selectedPower.id && 
+      !p.evolved_from && 
+      !p.is_evolved &&
+      !selectedPower.evolved_abilities?.includes(p.id)
+    );
+  };
+
+  const linkEvolution = async (evolvedPowerId: string) => {
+    if (!selectedPower) return;
+
+    try {
+      const response = await fetch(`${API_URL}/api/powers/${selectedPower.id}/link-evolution`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ evolved_power_id: evolvedPowerId }),
+      });
+
+      if (response.ok) {
+        await fetchPowers();
+        setEvolveModalVisible(false);
+        setSelectedPower(null);
+        Alert.alert('Success', 'Evolution linked successfully!');
+      } else {
+        const error = await response.json();
+        Alert.alert('Error', error.detail || 'Failed to link evolution');
+      }
+    } catch (error) {
+      console.error('Failed to link evolution:', error);
+      Alert.alert('Error', 'Failed to link evolution');
+    }
+  };
+
+  const unlinkEvolution = async (parentId: string, evolvedId: string) => {
+    try {
+      const response = await fetch(`${API_URL}/api/powers/${parentId}/unlink-evolution`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ evolved_power_id: evolvedId }),
+      });
+
+      if (response.ok) {
+        await fetchPowers();
+        Alert.alert('Success', 'Evolution unlinked successfully!');
+      } else {
+        const error = await response.json();
+        Alert.alert('Error', error.detail || 'Failed to unlink evolution');
+      }
+    } catch (error) {
+      console.error('Failed to unlink evolution:', error);
+      Alert.alert('Error', 'Failed to unlink evolution');
+    }
+  };
+
+  // Get evolved abilities for a power (only show if parent is maxed)
+  const getEvolvedAbilities = (parentPower: PowerItem) => {
+    if (!parentPower.evolved_abilities || parentPower.evolved_abilities.length === 0) return [];
+    if (parentPower.current_level < parentPower.max_level) return []; // Hide until maxed
+    
+    return powers.filter(p => parentPower.evolved_abilities?.includes(p.id));
+  };
+
   const handleDeletePower = async () => {
     if (!selectedPower) {
       console.log('No power selected');

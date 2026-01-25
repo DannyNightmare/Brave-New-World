@@ -170,9 +170,15 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onAnimationComplete 
       });
     }, 3500);
 
+    // Fallback timeout in case animation callback doesn't fire (web compatibility)
+    const fallbackTimeout = setTimeout(() => {
+      onAnimationComplete();
+    }, 4500);
+
     return () => {
       clearInterval(typingInterval);
       clearTimeout(timeout);
+      clearTimeout(fallbackTimeout);
     };
   }, []);
 

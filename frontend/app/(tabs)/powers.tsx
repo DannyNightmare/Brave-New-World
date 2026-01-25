@@ -1960,6 +1960,21 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
     borderLeftColor: theme.colors.primary,
     backgroundColor: theme.colors.primary + '10',
   },
+  hasEvolutionBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(16, 185, 129, 0.2)',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 6,
+    marginLeft: 6,
+    gap: 3,
+  },
+  hasEvolutionText: {
+    fontSize: 10,
+    fontWeight: 'bold',
+    color: '#10B981',
+  },
   emptyCategoryContainer: {
     paddingVertical: 16,
     alignItems: 'center',

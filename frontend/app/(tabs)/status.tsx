@@ -17,7 +17,7 @@ import Animated, {
   Easing 
 } from 'react-native-reanimated';
 
-const API_URL = 'https://quest-limitless.preview.emergentagent.com';
+const API_URL = 'https://questforge-25.preview.emergentagent.com';
 
 export default function StatusScreen() {
   const { user, loading, refreshUser } = useUser();

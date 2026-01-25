@@ -20,7 +20,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { AnimatedRewardModal } from '../../components/AnimatedRewardModal';
 
-const API_URL = 'https://quest-limitless.preview.emergentagent.com';
+const API_URL = 'https://questforge-25.preview.emergentagent.com';
 
 interface CustomStat {
   id: string;

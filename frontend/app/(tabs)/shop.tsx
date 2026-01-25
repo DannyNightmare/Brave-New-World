@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import AppBackground from '../../components/AppBackground';
 
-const API_URL = 'https://quest-limitless.preview.emergentagent.com';
+const API_URL = 'https://questforge-25.preview.emergentagent.com';
 
 interface ShopItem {
   id: string;

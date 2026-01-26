@@ -650,7 +650,11 @@ export default function ShopScreen() {
             <Text style={[styles.subtitle, { color: statusTheme.colors.textSecondary }]}>Purchase items and upgrades</Text>
           </View>
           <View style={styles.goldDisplay}>
-            <Ionicons name="logo-bitcoin" size={24} color={statusTheme.colors.goldColor} />
+            {goldCustomImage ? (
+              <Image source={{ uri: goldCustomImage }} style={styles.currencyIcon} />
+            ) : (
+              <Ionicons name={goldIcon as any} size={24} color={statusTheme.colors.goldColor} />
+            )}
             <Text style={[styles.goldText, { color: statusTheme.colors.text }]}>{user?.gold || 0}</Text>
           </View>
         </View>

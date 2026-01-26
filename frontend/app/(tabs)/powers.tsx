@@ -977,19 +977,16 @@ export default function PowersScreen() {
             <TouchableOpacity 
               style={[
                 styles.actionButton, 
-                styles.evolveActionButton,
-                selectedPower && selectedPower.current_level < selectedPower.max_level && styles.disabledButton
+                styles.evolveActionButton
               ]} 
               onPress={handleAddEvolution}
-              disabled={selectedPower ? selectedPower.current_level < selectedPower.max_level : true}
             >
-              <Ionicons name="arrow-up-circle" size={24} color={selectedPower && selectedPower.current_level >= selectedPower.max_level ? "#10B981" : "#6B7280"} />
+              <Ionicons name="arrow-up-circle" size={24} color="#10B981" />
               <Text style={[
                 styles.actionButtonText, 
-                styles.evolveActionButtonText,
-                selectedPower && selectedPower.current_level < selectedPower.max_level && styles.disabledButtonText
+                styles.evolveActionButtonText
               ]}>
-                {selectedPower && selectedPower.current_level >= selectedPower.max_level ? 'Add Evolution' : 'Max Level Required'}
+                Add Evolution
               </Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.actionButton, styles.deleteActionButton]} onPress={handleDeletePower}>

@@ -1970,6 +1970,49 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
     borderLeftColor: theme.colors.primary,
     backgroundColor: theme.colors.primary + '10',
   },
+  // Locked evolution styles
+  lockedEvolution: {
+    opacity: 0.6,
+  },
+  lockedEvolutionLine: {
+    backgroundColor: '#4B5563',
+  },
+  lockedBadge: {
+    backgroundColor: 'rgba(107, 114, 128, 0.2)',
+    borderColor: '#4B5563',
+  },
+  lockedBadgeText: {
+    fontSize: 10,
+    fontWeight: 'bold',
+    color: '#6B7280',
+  },
+  lockedAbilityRow: {
+    marginLeft: 20,
+    borderLeftWidth: 3,
+    borderLeftColor: '#4B5563',
+    backgroundColor: 'rgba(75, 85, 99, 0.15)',
+  },
+  lockedText: {
+    color: '#6B7280',
+  },
+  lockedProgressBar: {
+    backgroundColor: '#374151',
+  },
+  lockedProgressFill: {
+    backgroundColor: '#4B5563',
+  },
+  lockedLevelBadge: {
+    backgroundColor: '#374151',
+    borderColor: '#4B5563',
+  },
+  lockedIconContainer: {
+    width: 36,
+    height: 36,
+    borderRadius: 8,
+    backgroundColor: '#374151',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   hasEvolutionBadge: {
     flexDirection: 'row',
     alignItems: 'center',

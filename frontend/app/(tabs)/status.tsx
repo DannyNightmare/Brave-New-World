@@ -321,37 +321,31 @@ export default function StatusScreen() {
 
   const deleteStat = async () => {
     if (!user?.id || !selectedStat) return;
+    // Show confirmation modal instead of Alert (better for web)
+    setStatActionModalVisible(false);
+    setDeleteConfirmModalVisible(true);
+  };
 
-    Alert.alert(
-      'Delete Stat',
-      `Are you sure you want to delete "${selectedStat.name}"?`,
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              const response = await fetch(`${API_URL}/api/users/${user.id}/stats/${selectedStat.id}`, {
-                method: 'DELETE',
-              });
+  const confirmDeleteStat = async () => {
+    if (!user?.id || !selectedStat) return;
+    
+    try {
+      const response = await fetch(`${API_URL}/api/users/${user.id}/stats/${selectedStat.id}`, {
+        method: 'DELETE',
+      });
 
-              if (response.ok) {
-                setCustomStats(customStats.filter(s => s.id !== selectedStat.id));
-                setStatActionModalVisible(false);
-                setSelectedStat(null);
-                Alert.alert('Success', 'Stat deleted!');
-              } else {
-                Alert.alert('Error', 'Failed to delete stat');
-              }
-            } catch (error) {
-              console.error('Failed to delete stat:', error);
-              Alert.alert('Error', 'Failed to delete stat');
-            }
-          },
-        },
-      ]
-    );
+      if (response.ok) {
+        setCustomStats(customStats.filter(s => s.id !== selectedStat.id));
+        setDeleteConfirmModalVisible(false);
+        setSelectedStat(null);
+        Alert.alert('Success', 'Stat deleted!');
+      } else {
+        Alert.alert('Error', 'Failed to delete stat');
+      }
+    } catch (error) {
+      console.error('Failed to delete stat:', error);
+      Alert.alert('Error', 'Failed to delete stat');
+    }
   };
 
   const pickEditStatIcon = async () => {

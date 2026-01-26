@@ -252,7 +252,16 @@ export default function InventoryScreen() {
             const isConsumable = item.item_type === 'exp' || item.item_type === 'gold' || item.item_type === 'ability_points';
             
             return (
-              <View key={item.id} style={[styles.itemCard, { backgroundColor: statusTheme.colors.cardBackground, borderColor: statusTheme.colors.cardBorder }]}>
+              <Pressable 
+                key={item.id} 
+                onLongPress={() => handleItemLongPress(item)}
+                delayLongPress={500}
+                style={({ pressed }) => [
+                  styles.itemCard, 
+                  { backgroundColor: statusTheme.colors.cardBackground, borderColor: statusTheme.colors.cardBorder },
+                  pressed && styles.itemCardPressed
+                ]}
+              >
                 <View style={[styles.itemIcon, { backgroundColor: getItemColor(item.item_type) + '20' }]}>
                   <Ionicons name={getItemIcon(item.item_type) as any} size={32} color={getItemColor(item.item_type)} />
                 </View>
@@ -316,11 +325,48 @@ export default function InventoryScreen() {
                     <Text style={styles.useButtonText}>Use</Text>
                   </TouchableOpacity>
                 )}
-              </View>
+              </Pressable>
             );
           })
         )}
         </ScrollView>
+
+        {/* Action Modal for Edit/Delete */}
+        <Modal visible={actionModalVisible} animationType="fade" transparent={true}>
+          <Pressable 
+            style={styles.actionModalOverlay}
+            onPress={() => setActionModalVisible(false)}
+          >
+            <Pressable style={styles.actionModalContent}>
+              <Text style={styles.actionModalTitle}>{selectedItem?.item_name}</Text>
+              <Text style={styles.actionModalSubtitle}>Choose an action</Text>
+              
+              <TouchableOpacity 
+                style={[styles.actionButton, styles.deleteActionButton]} 
+                onPress={() => {
+                  Alert.alert(
+                    'Delete Item',
+                    `Are you sure you want to delete "${selectedItem?.item_name}"?`,
+                    [
+                      { text: 'Cancel', style: 'cancel' },
+                      { text: 'Delete', style: 'destructive', onPress: deleteItem }
+                    ]
+                  );
+                }}
+              >
+                <Ionicons name="trash-outline" size={24} color="#EF4444" />
+                <Text style={styles.deleteActionButtonText}>Delete Item</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity 
+                style={styles.cancelActionButton} 
+                onPress={() => setActionModalVisible(false)}
+              >
+                <Text style={styles.cancelActionButtonText}>Cancel</Text>
+              </TouchableOpacity>
+            </Pressable>
+          </Pressable>
+        </Modal>
       </AppBackground>
     </SafeAreaView>
   );

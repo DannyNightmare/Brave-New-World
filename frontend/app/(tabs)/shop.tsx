@@ -29,11 +29,13 @@ interface ShopItem {
 }
 
 // Shop Item Component with long press support
-const ShopItemCard = ({ item, onLongPress, onPress, onPurchase }: { 
+const ShopItemCard = ({ item, onLongPress, onPress, onPurchase, goldIcon, goldCustomImage }: { 
   item: ShopItem; 
   onLongPress: () => void;
   onPress: () => void; 
-  onPurchase: () => void; 
+  onPurchase: () => void;
+  goldIcon: string;
+  goldCustomImage: string | null;
 }) => {
   const getItemIcon = (type: string) => {
     switch (type) {
@@ -106,7 +108,11 @@ const ShopItemCard = ({ item, onLongPress, onPress, onPurchase }: {
           style={styles.buyButton}
           onPress={onPurchase}
         >
-          <Ionicons name="logo-bitcoin" size={16} color="#FFF" />
+          {goldCustomImage ? (
+            <Image source={{ uri: goldCustomImage }} style={styles.buyButtonIcon} />
+          ) : (
+            <Ionicons name={goldIcon as any} size={16} color="#FFF" />
+          )}
           <Text style={styles.buyButtonText} selectable={false}>{item.price}</Text>
         </TouchableOpacity>
       </View>

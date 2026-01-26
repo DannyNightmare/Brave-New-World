@@ -603,42 +603,57 @@ export default function PowersScreen() {
                           </View>
                         </Pressable>
                         
-                        {/* Show evolved abilities underneath if parent is maxed */}
-                        {isMaxLevel && evolvedAbilities.length > 0 && evolvedAbilities.map((evolvedPower) => {
+                        {/* Show evolved abilities underneath - greyed out if parent not maxed */}
+                        {evolvedAbilities.length > 0 && evolvedAbilities.map((evolvedPower) => {
                           const evolvedProgress = (evolvedPower.current_level / evolvedPower.max_level) * 100;
                           const evolvedIsMax = evolvedPower.current_level >= evolvedPower.max_level;
+                          const isLocked = !isMaxLevel; // Locked until parent is maxed
                           
                           return (
-                            <View key={evolvedPower.id}>
+                            <View key={evolvedPower.id} style={isLocked ? styles.lockedEvolution : undefined}>
                               <View style={styles.evolvedPowerIndicator}>
-                                <View style={styles.evolutionLine} />
-                                <View style={styles.evolvedBadge}>
-                                  <Ionicons name="arrow-up" size={10} color={statusTheme.colors.primary} />
-                                  <Text style={styles.evolvedBadgeText}>Evolved</Text>
+                                <View style={[styles.evolutionLine, isLocked && styles.lockedEvolutionLine]} />
+                                <View style={[styles.evolvedBadge, isLocked && styles.lockedBadge]}>
+                                  {isLocked ? (
+                                    <>
+                                      <Ionicons name="lock-closed" size={10} color="#6B7280" />
+                                      <Text style={styles.lockedBadgeText}>Locked</Text>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Ionicons name="arrow-up" size={10} color={statusTheme.colors.primary} />
+                                      <Text style={styles.evolvedBadgeText}>Evolved</Text>
+                                    </>
+                                  )}
                                 </View>
                               </View>
                               <Pressable
-                                onLongPress={() => handlePowerLongPress(evolvedPower)}
+                                onLongPress={isLocked ? undefined : () => handlePowerLongPress(evolvedPower)}
                                 style={({ pressed }) => [
                                   styles.abilityRow,
                                   styles.evolvedAbilityRow,
-                                  pressed && styles.abilityRowPressed
+                                  isLocked && styles.lockedAbilityRow,
+                                  !isLocked && pressed && styles.abilityRowPressed
                                 ]}
                               >
                                 <View style={styles.abilityNameSection}>
-                                  <Text style={styles.abilityName}>{evolvedPower.name}</Text>
+                                  <Text style={[styles.abilityName, isLocked && styles.lockedText]}>{evolvedPower.name}</Text>
                                 </View>
                                 <View style={styles.abilityProgressSection}>
-                                  <View style={styles.progressBarSmall}>
-                                    <View style={[styles.progressBarFillSmall, { width: `${evolvedProgress}%` }]} />
+                                  <View style={[styles.progressBarSmall, isLocked && styles.lockedProgressBar]}>
+                                    <View style={[styles.progressBarFillSmall, isLocked && styles.lockedProgressFill, { width: `${evolvedProgress}%` }]} />
                                   </View>
-                                  <Text style={styles.xpCounter}>{evolvedPower.current_level} / {evolvedPower.max_level}</Text>
+                                  <Text style={[styles.xpCounter, isLocked && styles.lockedText]}>{evolvedPower.current_level} / {evolvedPower.max_level}</Text>
                                 </View>
                                 <View style={styles.abilityActionSection}>
-                                  <View style={styles.levelBadge}>
-                                    <Text style={styles.levelBadgeText}>Lv.{evolvedPower.current_level}</Text>
+                                  <View style={[styles.levelBadge, isLocked && styles.lockedLevelBadge]}>
+                                    <Text style={[styles.levelBadgeText, isLocked && styles.lockedText]}>Lv.{evolvedPower.current_level}</Text>
                                   </View>
-                                  {evolvedIsMax ? (
+                                  {isLocked ? (
+                                    <View style={styles.lockedIconContainer}>
+                                      <Ionicons name="lock-closed" size={18} color="#6B7280" />
+                                    </View>
+                                  ) : evolvedIsMax ? (
                                     <View style={styles.maxBadgeSmall}>
                                       <Text style={styles.maxBadgeSmallText}>MAX</Text>
                                     </View>

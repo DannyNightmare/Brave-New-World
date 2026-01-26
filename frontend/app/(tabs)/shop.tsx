@@ -739,6 +739,8 @@ export default function ShopScreen() {
             }}
             onLongPress={() => handleItemLongPress(item)}
             onPurchase={() => purchaseItem(item)}
+            goldIcon={goldIcon}
+            goldCustomImage={goldCustomImage}
           />
         ))}
       </ScrollView>

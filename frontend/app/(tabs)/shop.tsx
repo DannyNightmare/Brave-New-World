@@ -1506,7 +1506,11 @@ export default function ShopScreen() {
             
             <View style={styles.detailPriceRow}>
               <View style={styles.detailPriceTag}>
-                <Ionicons name="logo-bitcoin" size={20} color="#FCD34D" />
+                {goldCustomImage ? (
+                  <Image source={{ uri: goldCustomImage }} style={styles.detailPriceIcon} />
+                ) : (
+                  <Ionicons name={goldIcon as any} size={20} color="#FCD34D" />
+                )}
                 <Text style={styles.detailPrice}>{viewingItem?.price}</Text>
               </View>
               {viewingItem?.stock !== undefined && viewingItem.stock > 0 && (

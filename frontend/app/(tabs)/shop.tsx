@@ -1832,6 +1832,11 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     gap: 4,
   },
+  buyButtonIcon: {
+    width: 16,
+    height: 16,
+    borderRadius: 4,
+  },
   buyButtonDisabled: {
     backgroundColor: '#374151',
   },
@@ -1842,6 +1847,16 @@ const styles = StyleSheet.create({
   },
   buyButtonTextDisabled: {
     color: '#6B7280',
+  },
+  currencyIcon: {
+    width: 24,
+    height: 24,
+    borderRadius: 6,
+  },
+  detailPriceIcon: {
+    width: 20,
+    height: 20,
+    borderRadius: 4,
   },
   fab: {
     position: 'absolute',

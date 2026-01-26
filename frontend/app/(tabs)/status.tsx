@@ -737,6 +737,41 @@ export default function StatusScreen() {
         </TouchableOpacity>
       </Modal>
 
+      {/* Delete Confirmation Modal */}
+      <Modal visible={deleteConfirmModalVisible} animationType="fade" transparent={true}>
+        <TouchableOpacity 
+          style={styles.actionModalOverlay}
+          activeOpacity={1}
+          onPress={() => setDeleteConfirmModalVisible(false)}
+        >
+          <View style={styles.actionModalContent}>
+            <Ionicons name="warning" size={48} color="#EF4444" style={{ marginBottom: 16 }} />
+            <Text style={styles.actionModalTitle}>Delete Stat?</Text>
+            <Text style={[styles.actionModalSubtitle, { textAlign: 'center', marginBottom: 20 }]}>
+              Are you sure you want to delete "{selectedStat?.name}"? This action cannot be undone.
+            </Text>
+            
+            <TouchableOpacity 
+              style={[styles.actionButton, styles.deleteActionButton, { marginBottom: 8 }]} 
+              onPress={confirmDeleteStat}
+            >
+              <Ionicons name="trash-outline" size={24} color="#EF4444" />
+              <Text style={[styles.actionButtonText, { color: '#EF4444' }]}>Yes, Delete</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={styles.cancelActionButton} 
+              onPress={() => {
+                setDeleteConfirmModalVisible(false);
+                setStatActionModalVisible(true);
+              }}
+            >
+              <Text style={styles.cancelActionButtonText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </Modal>
+
       {/* Edit Stat Modal */}
       <Modal visible={editStatModalVisible} animationType="slide" transparent={true}>
         <View style={styles.modalOverlay}>

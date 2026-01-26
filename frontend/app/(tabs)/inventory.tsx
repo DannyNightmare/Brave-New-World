@@ -105,6 +105,35 @@ export default function InventoryScreen() {
     }
   };
 
+  // Handle long press on item
+  const handleItemLongPress = (item: InventoryItem) => {
+    setSelectedItem(item);
+    setActionModalVisible(true);
+  };
+
+  // Delete item from inventory
+  const deleteItem = async () => {
+    if (!selectedItem) return;
+    
+    try {
+      const response = await fetch(`${API_URL}/api/inventory/${selectedItem.id}`, {
+        method: 'DELETE',
+      });
+      
+      if (response.ok) {
+        fetchInventory();
+        setActionModalVisible(false);
+        setSelectedItem(null);
+        Alert.alert('Success', 'Item removed from inventory');
+      } else {
+        Alert.alert('Error', 'Failed to delete item');
+      }
+    } catch (error) {
+      console.error('Failed to delete item:', error);
+      Alert.alert('Error', 'Failed to delete item');
+    }
+  };
+
   // Get unique categories from items
   const categories = ['all', ...Array.from(new Set(items.map(item => item.category || 'general')))];
 

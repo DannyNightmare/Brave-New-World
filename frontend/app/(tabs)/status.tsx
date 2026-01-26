@@ -46,6 +46,7 @@ export default function StatusScreen() {
   });
   const [editStatModalVisible, setEditStatModalVisible] = useState(false);
   const [statActionModalVisible, setStatActionModalVisible] = useState(false);
+  const [deleteConfirmModalVisible, setDeleteConfirmModalVisible] = useState(false);
   const [selectedStat, setSelectedStat] = useState<{id: string, name: string, color: string, current: number, max: number, icon?: string} | null>(null);
   const [editingStat, setEditingStat] = useState({
     name: '',

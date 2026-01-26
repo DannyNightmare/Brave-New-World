@@ -235,11 +235,9 @@ export default function PowersScreen() {
     }
   };
 
-  // Get evolved abilities for a power (only show if parent is maxed)
+  // Get evolved abilities for a power (show all linked, parent max status doesn't matter for display)
   const getEvolvedAbilities = (parentPower: PowerItem) => {
     if (!parentPower.evolved_abilities || parentPower.evolved_abilities.length === 0) return [];
-    if (parentPower.current_level < parentPower.max_level) return []; // Hide until maxed
-    
     return powers.filter(p => parentPower.evolved_abilities?.includes(p.id));
   };
 

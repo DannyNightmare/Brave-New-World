@@ -1025,7 +1025,7 @@ export default function PowersScreen() {
             </View>
             
             <Text style={styles.evolveDescription}>
-              Select a power to evolve from "{selectedPower?.name}". The evolved power will only appear once this power is at max level.
+              Select a power to link as an evolution from "{selectedPower?.name}". The evolved power will appear below but remain locked until this power reaches max level.
             </Text>
 
             <Text style={styles.evolveSubtitle}>Available Powers:</Text>

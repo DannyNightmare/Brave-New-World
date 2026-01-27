@@ -356,7 +356,22 @@ async def complete_quest(quest_id: str):
     # Give 2 ability points per level gained
     new_ability_points += levels_gained * 2
     
-    updates = {"xp": new_xp, "gold": new_gold, "level": new_level, "ability_points": new_ability_points}
+    # Increase HP and MP on level up (HP +10, MP +5 per level)
+    new_max_hp = user.get("max_hp", 100) + (levels_gained * 10)
+    new_max_mp = user.get("max_mp", 50) + (levels_gained * 5)
+    new_hp = new_max_hp  # Fully restore HP on level up
+    new_mp = new_max_mp  # Fully restore MP on level up
+    
+    updates = {
+        "xp": new_xp, 
+        "gold": new_gold, 
+        "level": new_level, 
+        "ability_points": new_ability_points,
+        "hp": new_hp,
+        "max_hp": new_max_hp,
+        "mp": new_mp,
+        "max_mp": new_max_mp
+    }
     
     # Apply attribute rewards if specified
     if quest.get("attribute_rewards"):

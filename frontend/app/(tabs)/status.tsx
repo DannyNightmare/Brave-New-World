@@ -240,10 +240,14 @@ export default function StatusScreen() {
     if (!user?.id) return;
 
     try {
+      // Only send Class and Title - HP/MP are controlled by level ups
       const response = await fetch(`${API_URL}/api/users/${user.id}/status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(statusEdit),
+        body: JSON.stringify({
+          player_class: statusEdit.player_class,
+          title: statusEdit.title
+        }),
       });
 
       if (response.ok) {

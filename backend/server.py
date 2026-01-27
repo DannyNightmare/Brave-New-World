@@ -601,27 +601,42 @@ async def use_inventory_item(item_id: str, request: dict):
     
     # Check for level up (XP threshold: level * 100)
     new_level = old_level
+    levels_gained = 0
     while new_xp >= (new_level * 100):
+        new_xp -= (new_level * 100)
         new_level += 1
+        levels_gained += 1
     
-    if new_level > old_level:
+    if levels_gained > 0:
         # User leveled up! Update level and grant rewards
-        gold_reward = 50 * (new_level - old_level)
-        ap_reward = 5 * (new_level - old_level)
+        gold_reward = 50 * levels_gained
+        ap_reward = 5 * levels_gained
+        
+        # Increase HP and MP on level up (HP +10, MP +5 per level)
+        new_max_hp = user.get("max_hp", 100) + (levels_gained * 10)
+        new_max_mp = user.get("max_mp", 50) + (levels_gained * 5)
         
         await db.users.update_one(
             {"id": user_id},
             {"$set": {
                 "level": new_level,
+                "xp": new_xp,
                 "gold": user.get("gold", 0) + gold_reward,
-                "ability_points": user.get("ability_points", 0) + ap_reward
+                "ability_points": user.get("ability_points", 0) + ap_reward,
+                "hp": new_max_hp,  # Fully restore HP on level up
+                "max_hp": new_max_hp,
+                "mp": new_max_mp,  # Fully restore MP on level up
+                "max_mp": new_max_mp
             }}
         )
         
         result["level_up"] = True
         result["new_level"] = new_level
+        result["levels_gained"] = levels_gained
         result["gold_reward"] = gold_reward
         result["ap_reward"] = ap_reward
+        result["new_max_hp"] = new_max_hp
+        result["new_max_mp"] = new_max_mp
     
     # Remove the item from inventory after use
     await db.inventory.delete_one({"id": item_id})

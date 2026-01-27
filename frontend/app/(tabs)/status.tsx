@@ -645,50 +645,11 @@ export default function StatusScreen() {
 
               <View style={styles.divider} />
 
-              <Text style={styles.sectionLabel}>HP (Health Points)</Text>
-              <View style={styles.statInputRow}>
-                <View style={styles.statInputContainer}>
-                  <Text style={styles.statInputLabel}>Current</Text>
-                  <TextInput
-                    style={styles.statInput}
-                    keyboardType="numeric"
-                    value={String(statusEdit.hp)}
-                    onChangeText={(text) => setStatusEdit({ ...statusEdit, hp: parseInt(text) || 0 })}
-                  />
-                </View>
-                <Text style={styles.statInputDivider}>/</Text>
-                <View style={styles.statInputContainer}>
-                  <Text style={styles.statInputLabel}>Max</Text>
-                  <TextInput
-                    style={styles.statInput}
-                    keyboardType="numeric"
-                    value={String(statusEdit.max_hp)}
-                    onChangeText={(text) => setStatusEdit({ ...statusEdit, max_hp: parseInt(text) || 100 })}
-                  />
-                </View>
-              </View>
-
-              <Text style={styles.sectionLabel}>MP (Mana Points)</Text>
-              <View style={styles.statInputRow}>
-                <View style={styles.statInputContainer}>
-                  <Text style={styles.statInputLabel}>Current</Text>
-                  <TextInput
-                    style={styles.statInput}
-                    keyboardType="numeric"
-                    value={String(statusEdit.mp)}
-                    onChangeText={(text) => setStatusEdit({ ...statusEdit, mp: parseInt(text) || 0 })}
-                  />
-                </View>
-                <Text style={styles.statInputDivider}>/</Text>
-                <View style={styles.statInputContainer}>
-                  <Text style={styles.statInputLabel}>Max</Text>
-                  <TextInput
-                    style={styles.statInput}
-                    keyboardType="numeric"
-                    value={String(statusEdit.max_mp)}
-                    onChangeText={(text) => setStatusEdit({ ...statusEdit, max_mp: parseInt(text) || 50 })}
-                  />
-                </View>
+              <View style={styles.hpMpInfoBox}>
+                <Ionicons name="information-circle" size={20} color="#60A5FA" />
+                <Text style={styles.hpMpInfoText}>
+                  HP and MP increase automatically when you level up (+10 HP, +5 MP per level).
+                </Text>
               </View>
 
               <TouchableOpacity style={styles.createButton} onPress={saveStatusUpdate}>

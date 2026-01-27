@@ -1237,6 +1237,23 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
     backgroundColor: theme.colors.cardBorder,
     marginVertical: 16,
   },
+  hpMpInfoBox: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    backgroundColor: 'rgba(96, 165, 250, 0.1)',
+    borderWidth: 1,
+    borderColor: 'rgba(96, 165, 250, 0.3)',
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 20,
+    gap: 10,
+  },
+  hpMpInfoText: {
+    flex: 1,
+    fontSize: 13,
+    color: '#93C5FD',
+    lineHeight: 18,
+  },
   sectionLabel: {
     fontSize: 14,
     fontWeight: '600',

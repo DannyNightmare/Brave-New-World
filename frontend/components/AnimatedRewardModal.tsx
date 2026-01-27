@@ -10,7 +10,6 @@ import Animated, {
   runOnJS
 } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
-import { SwirlingBackground } from './SwirlingBackground';
 import { useCustomization, StatusTheme } from '../contexts/CustomizationContext';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');

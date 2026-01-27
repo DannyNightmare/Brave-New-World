@@ -198,9 +198,6 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
       onRequestClose={onClose}
     >
       <View style={styles.overlay}>
-        {/* Swirling background with theme color */}
-        <SwirlingBackground intensity="medium" color={statusTheme.colors.primary} />
-        
         <Animated.View style={[
           styles.modalContainer, 
           themedStyles.modalContainer,

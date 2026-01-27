@@ -313,6 +313,37 @@ async def create_quest(quest: QuestCreate):
 @api_router.get("/quests/{user_id}", response_model=List[Quest])
 async def get_user_quests(user_id: str):
     quests = await db.quests.find({"user_id": user_id}).to_list(1000)
+    
+    # Check and reset repeating quests that are due
+    now = datetime.utcnow()
+    for quest in quests:
+        if quest.get("completed") and quest.get("repeat_frequency") not in ["none", "limitless", None]:
+            last_completed = quest.get("last_completed")
+            if last_completed:
+                # Calculate if reset is due based on frequency
+                should_reset = False
+                frequency = quest.get("repeat_frequency")
+                
+                if frequency == "daily":
+                    # Reset if last completed was before today (midnight UTC)
+                    today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+                    should_reset = last_completed < today_start
+                elif frequency == "weekly":
+                    # Reset if last completed was more than 7 days ago
+                    days_since = (now - last_completed).days
+                    should_reset = days_since >= 7
+                elif frequency == "monthly":
+                    # Reset if last completed was in a different month
+                    should_reset = (last_completed.year != now.year or last_completed.month != now.month)
+                
+                if should_reset:
+                    # Reset the quest
+                    await db.quests.update_one(
+                        {"id": quest["id"]},
+                        {"$set": {"completed": False}}
+                    )
+                    quest["completed"] = False
+    
     return [Quest(**quest) for quest in quests]
 
 @api_router.post("/quests/{quest_id}/complete")

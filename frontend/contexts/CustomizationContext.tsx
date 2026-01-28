@@ -1223,12 +1223,28 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const setStatusLayout = async (layoutId: string) => {
+    const layout = STATUS_LAYOUTS.find(l => l.id === layoutId);
+    if (layout) {
+      setStatusLayoutState(layout);
+      try {
+        await AsyncStorage.setItem('statusLayoutId', layoutId);
+      } catch (error) {
+        console.error('Failed to save status layout:', error);
+      }
+    }
+  };
+
   const getThemeById = (id: string): StatusTheme => {
     return STATUS_THEMES.find(t => t.id === id) || STATUS_THEMES[0];
   };
 
   const getPopupStyleById = (id: string): PopupStyle => {
     return POPUP_STYLES.find(s => s.id === id) || POPUP_STYLES[0];
+  };
+
+  const getStatusLayoutById = (id: string): StatusLayout => {
+    return STATUS_LAYOUTS.find(l => l.id === id) || STATUS_LAYOUTS[0];
   };
 
   return (
@@ -1244,6 +1260,7 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
         backgroundColor,
         backgroundImage,
         popupStyle,
+        statusLayout,
         setXpBarColor,
         setGoldIcon,
         setApIcon,
@@ -1254,8 +1271,10 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
         setBackgroundColor,
         setBackgroundImage,
         setPopupStyle,
+        setStatusLayout,
         getThemeById,
         getPopupStyleById,
+        getStatusLayoutById,
       }}
     >
       {children}

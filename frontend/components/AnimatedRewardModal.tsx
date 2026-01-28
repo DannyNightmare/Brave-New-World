@@ -155,47 +155,63 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
 
   const hasLevelUp = rewards.newLevel && rewards.oldLevel && rewards.newLevel > rewards.oldLevel;
 
-  // Dynamic styles based on theme
+  // Dynamic styles based on selected popup style
   const themedStyles = {
-    modalContainer: {
-      backgroundColor: statusTheme.colors.cardBackground,
-      borderColor: statusTheme.colors.cardBorder,
-      borderWidth: statusTheme.effects.borderStyle === 'double' ? 4 : 2,
+    overlay: {
+      backgroundColor: popupStyle.styles.overlayColor,
     },
-    glowEffect: statusTheme.effects.glowEnabled ? {
-      shadowColor: statusTheme.effects.glowColor || statusTheme.colors.primary,
+    modalContainer: {
+      backgroundColor: popupStyle.styles.backgroundColor,
+      borderColor: popupStyle.styles.borderColor,
+      borderWidth: popupStyle.styles.borderWidth,
+      borderRadius: popupStyle.styles.borderRadius,
+    },
+    glowEffect: popupStyle.styles.glowEnabled ? {
+      shadowColor: popupStyle.styles.glowColor,
       shadowOffset: { width: 0, height: 0 },
-      shadowOpacity: 0.8,
+      shadowOpacity: popupStyle.styles.shadowOpacity,
       shadowRadius: 20,
       elevation: 20,
     } : {},
+    header: {
+      backgroundColor: popupStyle.styles.headerBg,
+    },
     title: {
-      color: statusTheme.colors.text,
+      color: popupStyle.styles.headerTextColor,
     },
     questName: {
-      color: statusTheme.colors.primary,
+      color: popupStyle.styles.headerTextColor,
     },
     divider: {
-      backgroundColor: statusTheme.colors.cardBorder,
+      backgroundColor: popupStyle.styles.borderColor + '40',
+    },
+    body: {
+      backgroundColor: popupStyle.styles.bodyBg,
     },
     rewardLabel: {
-      color: statusTheme.colors.textSecondary,
+      color: popupStyle.styles.bodyTextColor + 'AA',
     },
     animatedNumber: {
-      color: statusTheme.colors.accent,
+      color: popupStyle.styles.headerTextColor,
     },
     levelUpBanner: {
-      backgroundColor: statusTheme.colors.accent + '20',
-      borderColor: statusTheme.colors.accent,
+      backgroundColor: popupStyle.styles.buttonBg + '30',
+      borderColor: popupStyle.styles.buttonBg,
     },
     levelUpText: {
-      color: statusTheme.colors.accent,
+      color: popupStyle.styles.buttonBg,
     },
     acceptButton: {
-      backgroundColor: statusTheme.colors.primary,
+      backgroundColor: popupStyle.styles.buttonBg,
+    },
+    acceptButtonText: {
+      color: popupStyle.styles.buttonTextColor,
     },
     scrollHint: {
-      color: statusTheme.colors.textSecondary,
+      color: popupStyle.styles.bodyTextColor + '80',
+    },
+    bodyText: {
+      color: popupStyle.styles.bodyTextColor,
     },
   };
 

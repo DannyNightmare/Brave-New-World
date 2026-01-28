@@ -78,39 +78,49 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
   questName,
   rewards
 }) => {
-  const { statusTheme } = useCustomization();
+  const { statusTheme, popupStyle } = useCustomization();
   const scale = useSharedValue(0);
   const opacity = useSharedValue(0);
   const slideY = useSharedValue(50);
 
-  // Get theme-specific title based on anime
+  // Get popup-style specific title
   const getThemeTitle = () => {
-    switch (statusTheme.id) {
-      case 'solo-leveling': return 'QUEST CLEARED';
-      case 'sword-art': return 'CONGRATULATIONS!';
-      case 'slime': return 'ANALYSIS COMPLETE';
-      case 'overlord': return 'VICTORY';
-      case 'shield-hero': return 'QUEST COMPLETE';
-      case 'demon-slayer': return 'MISSION SUCCESS';
-      case 'jujutsu': return 'EXORCISM COMPLETE';
-      case 'cyberpunk': return 'GIG FINISHED';
-      case 'dragon-ball': return 'POWER UP!';
+    switch (popupStyle.id) {
+      case 'sao-system': return '《QUEST CLEARED》';
+      case 'shield-hero': return '— QUEST COMPLETE —';
+      case 'solo-leveling': return '[QUEST CLEARED]';
+      case 'demon-slayer': return '— MISSION SUCCESS —';
+      case 'my-hero': return 'PLUS ULTRA!';
+      case 'attack-titan': return 'MISSION REPORT';
+      case 'dragon-ball': return 'POWER LEVEL UP!';
+      case 'naruto-scroll': return '任務完了';
+      case 'one-punch': return 'RANK UPDATE';
+      case 'jujutsu-kaisen': return '— EXORCISM COMPLETE —';
+      case 'overlord': return '【VICTORY】';
+      case 're-zero': return '— CHECKPOINT —';
+      case 'konosuba': return '☆ QUEST COMPLETE ☆';
+      case 'goblin-slayer': return 'QUEST REPORT';
       default: return 'Quest Complete!';
     }
   };
 
-  // Get theme-specific button text
+  // Get popup-style specific button text
   const getButtonText = () => {
-    switch (statusTheme.id) {
-      case 'solo-leveling': return 'CONFIRM';
-      case 'sword-art': return 'OK';
-      case 'slime': return 'UNDERSTOOD';
-      case 'overlord': return 'ACKNOWLEDGED';
-      case 'shield-hero': return 'CONTINUE';
-      case 'demon-slayer': return 'PROCEED';
-      case 'jujutsu': return 'CONFIRM';
-      case 'cyberpunk': return 'DISMISS';
+    switch (popupStyle.id) {
+      case 'sao-system': return '《OK》';
+      case 'shield-hero': return 'Continue';
+      case 'solo-leveling': return '[CONFIRM]';
+      case 'demon-slayer': return 'Proceed';
+      case 'my-hero': return 'GO BEYOND!';
+      case 'attack-titan': return 'Acknowledged';
       case 'dragon-ball': return 'ALRIGHT!';
+      case 'naruto-scroll': return '了解';
+      case 'one-punch': return 'OK';
+      case 'jujutsu-kaisen': return 'Confirm';
+      case 'overlord': return 'Understood';
+      case 're-zero': return 'Continue';
+      case 'konosuba': return 'Yay!';
+      case 'goblin-slayer': return 'Next';
       default: return 'Accept';
     }
   };

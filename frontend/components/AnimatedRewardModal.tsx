@@ -318,12 +318,12 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
               {rewards.statBoosts && Object.entries(rewards.statBoosts).map(([stat, value], index) => (
                 <React.Fragment key={stat}>
                   <View style={styles.rewardRow}>
-                    <Ionicons name="pulse" size={24} color={statusTheme.colors.secondary} />
+                    <Ionicons name="pulse" size={24} color={popupStyle.styles.buttonBg} />
                     <Text style={[styles.rewardLabel, themedStyles.rewardLabel]}>
                       {stat.charAt(0).toUpperCase() + stat.slice(1)}
                     </Text>
                     <View style={styles.rewardValue}>
-                      <Text style={[styles.plus, { color: statusTheme.colors.accent }]}>+</Text>
+                      <Text style={[styles.plus, { color: popupStyle.styles.buttonBg }]}>+</Text>
                       <AnimatedNumber value={value} duration={600} delay={1000 + index * 100} />
                     </View>
                   </View>
@@ -340,9 +340,9 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
                     <View style={[styles.rowDivider, themedStyles.divider]} />
                   )}
                   <View style={styles.rewardRow}>
-                    <Ionicons name="gift" size={24} color={statusTheme.colors.accent} />
+                    <Ionicons name="gift" size={24} color={popupStyle.styles.buttonBg} />
                     <Text style={[styles.rewardLabel, themedStyles.rewardLabel]}>Item Reward</Text>
-                    <Text style={[styles.itemName, { color: statusTheme.colors.primary }]}>{rewards.itemReward}</Text>
+                    <Text style={[styles.itemName, { color: popupStyle.styles.headerTextColor }]}>{rewards.itemReward}</Text>
                   </View>
                 </>
               )}
@@ -353,8 +353,8 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
 
             {/* Accept Button - Inside ScrollView so user can scroll to it */}
             <TouchableOpacity style={[styles.acceptButton, themedStyles.acceptButton]} onPress={onClose}>
-              <Ionicons name="checkmark-circle" size={24} color="#FFFFFF" />
-              <Text style={styles.acceptButtonText}>{getButtonText()}</Text>
+              <Ionicons name="checkmark-circle" size={24} color={popupStyle.styles.buttonTextColor} />
+              <Text style={[styles.acceptButtonText, themedStyles.acceptButtonText]}>{getButtonText()}</Text>
             </TouchableOpacity>
           </ScrollView>
         </Animated.View>

@@ -126,3 +126,7 @@ app_for_apk.zip
 # Environment files
 *.env
 *.env.*
+-e 
+# Environment files
+*.env
+*.env.*

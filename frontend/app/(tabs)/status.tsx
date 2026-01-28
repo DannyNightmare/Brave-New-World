@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUser } from '../../contexts/UserContext';
 import { useTheme } from '../../contexts/ThemeContext';
-import { useCustomization, StatusTheme } from '../../contexts/CustomizationContext';
+import { useCustomization, StatusTheme, StatusLayout } from '../../contexts/CustomizationContext';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import AppBackground from '../../components/AppBackground';
@@ -22,8 +22,8 @@ const API_URL = 'https://questforge-25.preview.emergentagent.com';
 export default function StatusScreen() {
   const { user, loading, refreshUser } = useUser();
   const { colors } = useTheme();
-  const { xpBarColor, goldIcon, apIcon, goldCustomImage, apCustomImage, statusTheme } = useCustomization();
-  const styles = getStyles(statusTheme);
+  const { xpBarColor, goldIcon, apIcon, goldCustomImage, apCustomImage, statusTheme, statusLayout } = useCustomization();
+  const styles = getStyles(statusTheme, statusLayout);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [localGoldIcon, setLocalGoldIcon] = useState<string | null>(null);
   const [addStatModalVisible, setAddStatModalVisible] = useState(false);

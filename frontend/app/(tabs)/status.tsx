@@ -391,15 +391,143 @@ export default function StatusScreen() {
     { name: 'Cyan', value: '#06B6D4' },
   ];
 
+  // Render HP/MP based on layout style
+  const renderHpMp = () => {
+    const hpPercent = ((user.hp || 100) / (user.max_hp || 100)) * 100;
+    const mpPercent = ((user.mp || 50) / (user.max_mp || 50)) * 100;
+    
+    if (statusLayout.layout.hpMpStyle === 'circular') {
+      return (
+        <View style={styles.circularHpMpContainer}>
+          <View style={styles.circularStatItem}>
+            <View style={[styles.circularStatOuter, { borderColor: '#EF4444' }]}>
+              <View style={[styles.circularStatInner, { backgroundColor: statusTheme.colors.cardBackground }]}>
+                <Ionicons name="heart" size={20} color="#EF4444" />
+                <Text style={styles.circularStatValue}>{user.hp || 100}</Text>
+              </View>
+            </View>
+            <Text style={styles.circularStatLabel}>HP</Text>
+          </View>
+          <View style={styles.circularStatItem}>
+            <View style={[styles.circularStatOuter, { borderColor: '#3B82F6' }]}>
+              <View style={[styles.circularStatInner, { backgroundColor: statusTheme.colors.cardBackground }]}>
+                <Ionicons name="water" size={20} color="#3B82F6" />
+                <Text style={styles.circularStatValue}>{user.mp || 50}</Text>
+              </View>
+            </View>
+            <Text style={styles.circularStatLabel}>MP</Text>
+          </View>
+        </View>
+      );
+    } else if (statusLayout.layout.hpMpStyle === 'numeric') {
+      return (
+        <View style={styles.numericHpMpContainer}>
+          <View style={styles.numericStatItem}>
+            <Ionicons name="heart" size={24} color="#EF4444" />
+            <Text style={styles.numericStatValue}>{user.hp || 100}<Text style={styles.numericStatMax}>/{user.max_hp || 100}</Text></Text>
+          </View>
+          <View style={styles.numericStatItem}>
+            <Ionicons name="water" size={24} color="#3B82F6" />
+            <Text style={styles.numericStatValue}>{user.mp || 50}<Text style={styles.numericStatMax}>/{user.max_mp || 50}</Text></Text>
+          </View>
+        </View>
+      );
+    } else if (statusLayout.layout.hpMpStyle === 'minimal') {
+      return (
+        <View style={styles.minimalHpMpContainer}>
+          <View style={styles.minimalStatRow}>
+            <Text style={styles.minimalStatLabel}>HP</Text>
+            <View style={styles.minimalBar}>
+              <View style={[styles.minimalBarFill, { width: `${hpPercent}%`, backgroundColor: '#EF4444' }]} />
+            </View>
+            <Text style={styles.minimalStatText}>{user.hp || 100}</Text>
+          </View>
+          <View style={styles.minimalStatRow}>
+            <Text style={styles.minimalStatLabel}>MP</Text>
+            <View style={styles.minimalBar}>
+              <View style={[styles.minimalBarFill, { width: `${mpPercent}%`, backgroundColor: '#3B82F6' }]} />
+            </View>
+            <Text style={styles.minimalStatText}>{user.mp || 50}</Text>
+          </View>
+        </View>
+      );
+    }
+    
+    // Default bars style
+    return (
+      <TouchableOpacity style={styles.hpMpSection} onPress={openEditStatusModal}>
+        <View style={styles.statBarRow}>
+          <View style={styles.statBarLabelContainer}>
+            <Ionicons name="heart" size={18} color="#EF4444" />
+            <Text style={styles.statBarLabel}>HP</Text>
+          </View>
+          <View style={styles.statBarWrapper}>
+            <View style={styles.hpBar}>
+              <View style={[styles.hpBarFill, { width: `${hpPercent}%` }]} />
+            </View>
+            <Text style={styles.statBarCounter}>{user.hp || 100} / {user.max_hp || 100}</Text>
+          </View>
+        </View>
+        <View style={styles.statBarRow}>
+          <View style={styles.statBarLabelContainer}>
+            <Ionicons name="water" size={18} color="#3B82F6" />
+            <Text style={styles.statBarLabel}>MP</Text>
+          </View>
+          <View style={styles.statBarWrapper}>
+            <View style={styles.mpBar}>
+              <View style={[styles.mpBarFill, { width: `${mpPercent}%` }]} />
+            </View>
+            <Text style={styles.statBarCounter}>{user.mp || 50} / {user.max_mp || 50}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
+  // Render Level display based on layout
+  const renderLevelDisplay = () => {
+    if (statusLayout.layout.showLevel === 'large') {
+      return (
+        <View style={styles.largeLevelContainer}>
+          <Text style={styles.largeLevelLabel}>LEVEL</Text>
+          <Text style={styles.largeLevelValue}>{user.level}</Text>
+        </View>
+      );
+    } else if (statusLayout.layout.showLevel === 'inline') {
+      return (
+        <View style={styles.inlineLevelContainer}>
+          <Text style={styles.inlineLevelText}>Lv.{user.level}</Text>
+        </View>
+      );
+    }
+    return null; // Badge style is handled in profile section
+  };
+
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: 'transparent' }]} edges={['bottom']}>
       <AppBackground>
-        <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
-          {/* STATUS Title - Centered */}
-          <Text style={styles.title}>STATUS</Text>
+        <ScrollView style={styles.scrollView} contentContainerStyle={[
+          styles.content,
+          statusLayout.layout.spacing === 'compact' && styles.contentCompact,
+          statusLayout.layout.spacing === 'relaxed' && styles.contentRelaxed,
+        ]}>
+          {/* STATUS Title - Only show for certain layouts */}
+          {statusLayout.layout.headerStyle !== 'minimal' && (
+            <Text style={[
+              styles.title,
+              statusLayout.layout.headerStyle === 'centered' && styles.titleCentered,
+              statusLayout.layout.headerStyle === 'compact' && styles.titleCompact,
+            ]}>STATUS</Text>
+          )}
+
+          {/* Large Level Display for certain layouts */}
+          {statusLayout.layout.showLevel === 'large' && renderLevelDisplay()}
 
         {/* XP Bar Section */}
-        <View style={styles.xpSection}>
+        <View style={[
+          styles.xpSection,
+          statusLayout.layout.headerStyle === 'compact' && styles.xpSectionCompact,
+        ]}>
           <View style={styles.xpBarContainer}>
             <View style={styles.xpBar}>
               <Animated.View style={[styles.xpFill, xpBarAnimatedStyle, { backgroundColor: xpBarColor }]} />
@@ -408,62 +536,31 @@ export default function StatusScreen() {
           <Text style={styles.xpCounter}>{user.xp} / {xpForNextLevel} XP</Text>
         </View>
 
-        {/* Class and Title Section */}
-        <TouchableOpacity style={styles.classTitleSection} onPress={openEditStatusModal}>
-          <View style={styles.classTitleRow}>
-            <View style={styles.classTitleItem}>
-              <Text style={styles.classTitleLabel}>CLASS</Text>
-              <Text style={styles.classTitleValue}>{user.player_class || 'Adventurer'}</Text>
-            </View>
-            <View style={styles.classTitleDivider} />
-            <View style={styles.classTitleItem}>
-              <Text style={styles.classTitleLabel}>TITLE</Text>
-              <Text style={styles.classTitleValue}>{user.title || 'Novice'}</Text>
-            </View>
-            <Ionicons name="create-outline" size={20} color={statusTheme.colors.textSecondary} style={styles.editIcon} />
-          </View>
-        </TouchableOpacity>
-
-        {/* HP and MP Bars */}
-        <TouchableOpacity style={styles.hpMpSection} onPress={openEditStatusModal}>
-          {/* HP Bar */}
-          <View style={styles.statBarRow}>
-            <View style={styles.statBarLabelContainer}>
-              <Ionicons name="heart" size={18} color="#EF4444" />
-              <Text style={styles.statBarLabel}>HP</Text>
-            </View>
-            <View style={styles.statBarWrapper}>
-              <View style={styles.hpBar}>
-                <View 
-                  style={[
-                    styles.hpBarFill, 
-                    { width: `${((user.hp || 100) / (user.max_hp || 100)) * 100}%` }
-                  ]} 
-                />
+        {/* Class and Title Section - Hidden in minimal/compact */}
+        {statusLayout.layout.headerStyle !== 'minimal' && (
+          <TouchableOpacity style={[
+            styles.classTitleSection,
+            statusLayout.layout.cardStyle === 'flat' && styles.cardFlat,
+            statusLayout.layout.cardStyle === 'outlined' && styles.cardOutlined,
+            statusLayout.layout.cardStyle === 'glass' && styles.cardGlass,
+          ]} onPress={openEditStatusModal}>
+            <View style={styles.classTitleRow}>
+              <View style={styles.classTitleItem}>
+                <Text style={styles.classTitleLabel}>CLASS</Text>
+                <Text style={styles.classTitleValue}>{user.player_class || 'Adventurer'}</Text>
               </View>
-              <Text style={styles.statBarCounter}>{user.hp || 100} / {user.max_hp || 100}</Text>
-            </View>
-          </View>
-
-          {/* MP Bar */}
-          <View style={styles.statBarRow}>
-            <View style={styles.statBarLabelContainer}>
-              <Ionicons name="water" size={18} color="#3B82F6" />
-              <Text style={styles.statBarLabel}>MP</Text>
-            </View>
-            <View style={styles.statBarWrapper}>
-              <View style={styles.mpBar}>
-                <View 
-                  style={[
-                    styles.mpBarFill, 
-                    { width: `${((user.mp || 50) / (user.max_mp || 50)) * 100}%` }
-                  ]} 
-                />
+              <View style={styles.classTitleDivider} />
+              <View style={styles.classTitleItem}>
+                <Text style={styles.classTitleLabel}>TITLE</Text>
+                <Text style={styles.classTitleValue}>{user.title || 'Novice'}</Text>
               </View>
-              <Text style={styles.statBarCounter}>{user.mp || 50} / {user.max_mp || 50}</Text>
+              <Ionicons name="create-outline" size={20} color={statusTheme.colors.textSecondary} style={styles.editIcon} />
             </View>
-          </View>
-        </TouchableOpacity>
+          </TouchableOpacity>
+        )}
+
+        {/* HP and MP - Rendered based on layout style */}
+        {renderHpMp()}
 
         {/* Profile and Gold Section */}
         <View style={styles.profileGoldSection}>

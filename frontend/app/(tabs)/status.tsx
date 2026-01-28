@@ -2000,4 +2000,396 @@ const getStyles = (theme: StatusTheme, layout: StatusLayout) => StyleSheet.creat
     color: theme.colors.textSecondary,
     marginTop: 16,
   },
+  // ============ LAYOUT-SPECIFIC STYLES ============
+  // Dashboard layout
+  dashboardContainer: {
+    marginBottom: 20,
+  },
+  dashboardRow: {
+    flexDirection: 'row',
+    backgroundColor: theme.colors.cardBackground,
+    borderRadius: 16,
+    padding: 16,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  dashboardMetric: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  dashboardValue: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: theme.colors.text,
+    marginVertical: 4,
+  },
+  dashboardLabel: {
+    fontSize: 11,
+    color: theme.colors.textSecondary,
+    letterSpacing: 1,
+  },
+  dashboardIcon: {
+    width: 24,
+    height: 24,
+    borderRadius: 6,
+  },
+  dashboardDivider: {
+    width: 1,
+    height: 50,
+    backgroundColor: theme.colors.cardBorder,
+  },
+  // Minimal layout
+  minimalProfileContainer: {
+    marginBottom: 16,
+  },
+  minimalRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  minimalLevelBadge: {
+    backgroundColor: theme.colors.primary,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 8,
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    overflow: 'hidden',
+  },
+  minimalCurrencies: {
+    flexDirection: 'row',
+    gap: 16,
+  },
+  minimalCurrency: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  minimalCurrencyText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: theme.colors.text,
+  },
+  minimalIcon: {
+    width: 16,
+    height: 16,
+    borderRadius: 4,
+  },
+  // Gaming HUD layout
+  hudContainer: {
+    flexDirection: 'row',
+    marginBottom: 20,
+    gap: 16,
+  },
+  hudLeftPanel: {
+    alignItems: 'center',
+  },
+  hudAvatar: {
+    width: 64,
+    height: 64,
+    borderRadius: 8,
+    backgroundColor: theme.colors.cardBackground,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: theme.colors.primary,
+  },
+  hudAvatarImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 6,
+  },
+  hudLevelBadge: {
+    backgroundColor: theme.colors.primary,
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+    borderRadius: 4,
+    marginTop: -12,
+  },
+  hudLevelText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  hudRightPanel: {
+    flex: 1,
+    justifyContent: 'center',
+    gap: 8,
+  },
+  hudCurrencyRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: theme.colors.cardBackground,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+    gap: 8,
+  },
+  hudIcon: {
+    width: 20,
+    height: 20,
+    borderRadius: 4,
+  },
+  hudCurrencyValue: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: theme.colors.text,
+  },
+  // Profile Card layout
+  profileCardContainer: {
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  profileCardAvatar: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: theme.colors.cardBackground,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 4,
+    borderColor: theme.colors.primary,
+    marginBottom: 8,
+    position: 'relative',
+  },
+  profileCardAvatarImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 56,
+  },
+  profileCardPlaceholder: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  profileCardLevelBadge: {
+    position: 'absolute',
+    bottom: -8,
+    backgroundColor: theme.colors.primary,
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  profileCardLevelText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  profileCardName: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: theme.colors.text,
+    marginBottom: 16,
+  },
+  profileCardCurrencies: {
+    flexDirection: 'row',
+    backgroundColor: theme.colors.cardBackground,
+    borderRadius: 16,
+    padding: 16,
+    gap: 24,
+  },
+  profileCardCurrency: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  profileCardIcon: {
+    width: 28,
+    height: 28,
+    borderRadius: 6,
+    marginBottom: 4,
+  },
+  profileCardCurrencyValue: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: theme.colors.text,
+  },
+  profileCardCurrencyLabel: {
+    fontSize: 12,
+    color: theme.colors.textSecondary,
+  },
+  profileCardDivider: {
+    width: 1,
+    height: '100%',
+    backgroundColor: theme.colors.cardBorder,
+  },
+  // Character Sheet layout
+  sheetContainer: {
+    marginBottom: 20,
+  },
+  sheetRow: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  sheetBox: {
+    flex: 1,
+    backgroundColor: theme.colors.cardBackground,
+    borderWidth: 2,
+    borderColor: theme.colors.cardBorder,
+    borderRadius: 8,
+    padding: 12,
+    alignItems: 'center',
+  },
+  sheetBoxLabel: {
+    fontSize: 10,
+    color: theme.colors.textSecondary,
+    letterSpacing: 1,
+    marginBottom: 4,
+  },
+  sheetBoxValue: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: theme.colors.text,
+  },
+  sheetBoxRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  sheetIcon: {
+    width: 18,
+    height: 18,
+    borderRadius: 4,
+  },
+  // Retro Pixel layout
+  retroContainer: {
+    marginBottom: 20,
+    backgroundColor: '#000',
+    borderWidth: 4,
+    borderColor: theme.colors.primary,
+    padding: 12,
+  },
+  retroRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  retroItem: {
+    alignItems: 'center',
+  },
+  retroLabel: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: theme.colors.textSecondary,
+    fontFamily: 'monospace',
+  },
+  retroValue: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: theme.colors.primary,
+    fontFamily: 'monospace',
+  },
+  // Stats layouts
+  statsHeaderMinimal: {
+    marginBottom: 8,
+  },
+  statsTitleMinimal: {
+    fontSize: 14,
+  },
+  // Grid stats
+  statsGridContainer: {
+    gap: 12,
+  },
+  statsGridRow: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  statsGridItem: {
+    backgroundColor: theme.colors.cardBackground,
+    borderRadius: 12,
+    padding: 12,
+    minWidth: 0,
+  },
+  gridStatName: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: theme.colors.text,
+    marginBottom: 8,
+  },
+  gridStatBar: {
+    height: 8,
+    borderRadius: 4,
+    overflow: 'hidden',
+    marginBottom: 4,
+  },
+  gridStatFill: {
+    height: '100%',
+    borderRadius: 4,
+  },
+  gridStatValue: {
+    fontSize: 10,
+    color: theme.colors.textSecondary,
+    textAlign: 'right',
+  },
+  // List stats
+  statsListContainer: {
+    gap: 8,
+  },
+  statsListItem: {
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.cardBorder,
+  },
+  listStatHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 4,
+  },
+  listStatName: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  listStatValue: {
+    fontSize: 12,
+    color: theme.colors.textSecondary,
+  },
+  listStatBar: {
+    height: 4,
+    backgroundColor: theme.colors.statBarBg,
+    borderRadius: 2,
+    overflow: 'hidden',
+  },
+  listStatFill: {
+    height: '100%',
+    borderRadius: 2,
+  },
+  // Bars stats
+  statsBarsContainer: {
+    gap: 16,
+  },
+  barsStatItem: {
+    
+  },
+  barsStatLabelRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 6,
+    gap: 8,
+  },
+  barsStatDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  barsStatName: {
+    flex: 1,
+    fontSize: 14,
+    fontWeight: '500',
+    color: theme.colors.text,
+  },
+  barsStatValue: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: theme.colors.text,
+  },
+  barsStatBarContainer: {
+    
+  },
+  barsStatBar: {
+    height: 12,
+    borderRadius: 6,
+    overflow: 'hidden',
+  },
+  barsStatFill: {
+    height: '100%',
+    borderRadius: 6,
+  },
 });

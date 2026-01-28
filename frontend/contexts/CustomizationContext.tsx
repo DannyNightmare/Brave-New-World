@@ -465,6 +465,199 @@ export const POPUP_STYLES: PopupStyle[] = [
   },
 ];
 
+// Status Page Layout definitions
+export interface StatusLayout {
+  id: string;
+  name: string;
+  description: string;
+  preview: string;
+  layout: {
+    headerStyle: 'banner' | 'compact' | 'centered' | 'minimal' | 'split';
+    statsDisplay: 'cards' | 'list' | 'grid' | 'bars' | 'circular';
+    avatarPosition: 'top' | 'left' | 'hidden' | 'background';
+    avatarSize: 'small' | 'medium' | 'large' | 'fullWidth';
+    showLevel: 'badge' | 'large' | 'inline' | 'hidden';
+    hpMpStyle: 'bars' | 'circular' | 'numeric' | 'minimal';
+    statsColumns: 1 | 2 | 3;
+    cardStyle: 'elevated' | 'flat' | 'outlined' | 'glass';
+    spacing: 'compact' | 'normal' | 'relaxed';
+  };
+}
+
+// Predefined Status Page Layouts
+export const STATUS_LAYOUTS: StatusLayout[] = [
+  {
+    id: 'default',
+    name: 'Classic RPG',
+    description: 'Traditional RPG character sheet layout',
+    preview: '📋',
+    layout: {
+      headerStyle: 'banner',
+      statsDisplay: 'cards',
+      avatarPosition: 'top',
+      avatarSize: 'medium',
+      showLevel: 'badge',
+      hpMpStyle: 'bars',
+      statsColumns: 2,
+      cardStyle: 'elevated',
+      spacing: 'normal',
+    },
+  },
+  {
+    id: 'minimal',
+    name: 'Minimal Clean',
+    description: 'Clean and simple with focus on essentials',
+    preview: '✨',
+    layout: {
+      headerStyle: 'minimal',
+      statsDisplay: 'list',
+      avatarPosition: 'left',
+      avatarSize: 'small',
+      showLevel: 'inline',
+      hpMpStyle: 'minimal',
+      statsColumns: 1,
+      cardStyle: 'flat',
+      spacing: 'compact',
+    },
+  },
+  {
+    id: 'gaming-hud',
+    name: 'Gaming HUD',
+    description: 'Video game heads-up display style',
+    preview: '🎮',
+    layout: {
+      headerStyle: 'compact',
+      statsDisplay: 'bars',
+      avatarPosition: 'left',
+      avatarSize: 'small',
+      showLevel: 'large',
+      hpMpStyle: 'bars',
+      statsColumns: 1,
+      cardStyle: 'glass',
+      spacing: 'compact',
+    },
+  },
+  {
+    id: 'character-sheet',
+    name: 'Character Sheet',
+    description: 'D&D-inspired detailed character sheet',
+    preview: '📜',
+    layout: {
+      headerStyle: 'centered',
+      statsDisplay: 'grid',
+      avatarPosition: 'top',
+      avatarSize: 'large',
+      showLevel: 'badge',
+      hpMpStyle: 'bars',
+      statsColumns: 3,
+      cardStyle: 'outlined',
+      spacing: 'relaxed',
+    },
+  },
+  {
+    id: 'profile-card',
+    name: 'Profile Card',
+    description: 'Social media style profile presentation',
+    preview: '👤',
+    layout: {
+      headerStyle: 'banner',
+      statsDisplay: 'grid',
+      avatarPosition: 'top',
+      avatarSize: 'large',
+      showLevel: 'badge',
+      hpMpStyle: 'circular',
+      statsColumns: 2,
+      cardStyle: 'elevated',
+      spacing: 'normal',
+    },
+  },
+  {
+    id: 'dashboard',
+    name: 'Dashboard',
+    description: 'Analytics-style dashboard with metrics',
+    preview: '📊',
+    layout: {
+      headerStyle: 'compact',
+      statsDisplay: 'cards',
+      avatarPosition: 'left',
+      avatarSize: 'small',
+      showLevel: 'large',
+      hpMpStyle: 'numeric',
+      statsColumns: 2,
+      cardStyle: 'elevated',
+      spacing: 'normal',
+    },
+  },
+  {
+    id: 'retro-pixel',
+    name: 'Retro Pixel',
+    description: '8-bit retro gaming inspired layout',
+    preview: '👾',
+    layout: {
+      headerStyle: 'compact',
+      statsDisplay: 'bars',
+      avatarPosition: 'left',
+      avatarSize: 'small',
+      showLevel: 'badge',
+      hpMpStyle: 'bars',
+      statsColumns: 1,
+      cardStyle: 'flat',
+      spacing: 'compact',
+    },
+  },
+  {
+    id: 'hero-showcase',
+    name: 'Hero Showcase',
+    description: 'Large avatar with stats below',
+    preview: '🦸',
+    layout: {
+      headerStyle: 'centered',
+      statsDisplay: 'cards',
+      avatarPosition: 'background',
+      avatarSize: 'fullWidth',
+      showLevel: 'large',
+      hpMpStyle: 'bars',
+      statsColumns: 2,
+      cardStyle: 'glass',
+      spacing: 'relaxed',
+    },
+  },
+  {
+    id: 'compact-mobile',
+    name: 'Compact Mobile',
+    description: 'Optimized for small screens',
+    preview: '📱',
+    layout: {
+      headerStyle: 'compact',
+      statsDisplay: 'list',
+      avatarPosition: 'hidden',
+      avatarSize: 'small',
+      showLevel: 'inline',
+      hpMpStyle: 'minimal',
+      statsColumns: 1,
+      cardStyle: 'flat',
+      spacing: 'compact',
+    },
+  },
+  {
+    id: 'stats-focus',
+    name: 'Stats Focus',
+    description: 'Emphasizes stats and progression',
+    preview: '📈',
+    layout: {
+      headerStyle: 'minimal',
+      statsDisplay: 'bars',
+      avatarPosition: 'hidden',
+      avatarSize: 'small',
+      showLevel: 'large',
+      hpMpStyle: 'bars',
+      statsColumns: 1,
+      cardStyle: 'outlined',
+      spacing: 'normal',
+    },
+  },
+];
+
 // Status Display Theme definitions
 export interface StatusTheme {
   id: string;

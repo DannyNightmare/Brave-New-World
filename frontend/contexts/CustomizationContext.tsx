@@ -1045,8 +1045,11 @@ interface CustomizationContextType {
   setBackgroundColor: (color: string) => void;
   setBackgroundImage: (image: string | null) => void;
   setPopupStyle: (styleId: string) => void;
+  setStatusLayout: (layoutId: string) => void;
   getThemeById: (id: string) => StatusTheme;
   getPopupStyleById: (id: string) => PopupStyle;
+  getStatusLayoutById: (id: string) => StatusLayout;
+  statusLayout: StatusLayout;
 }
 
 const CustomizationContext = createContext<CustomizationContextType | undefined>(undefined);

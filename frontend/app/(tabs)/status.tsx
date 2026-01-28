@@ -562,62 +562,11 @@ export default function StatusScreen() {
         {/* HP and MP - Rendered based on layout style */}
         {renderHpMp()}
 
-        {/* Profile and Gold Section */}
-        <View style={styles.profileGoldSection}>
-          {/* Profile Image - Left */}
-          <TouchableOpacity style={styles.profileImageContainer} onPress={pickImage}>
-            {profileImage ? (
-              <Image source={{ uri: profileImage }} style={styles.profileImage} />
-            ) : (
-              <View style={styles.profilePlaceholder}>
-                <Ionicons name="person" size={60} color="#6B7280" />
-                <Text style={styles.profilePlaceholderText}>Tap to add</Text>
-              </View>
-            )}
-          </TouchableOpacity>
+        {/* Profile, Level, Gold, AP Section - Layout dependent */}
+        {renderProfileSection()}
 
-          {/* Level and Gold - Right */}
-          <View style={styles.levelGoldSection}>
-            {/* Level Number on top, label underneath */}
-            <Text style={styles.levelNumber}>{user.level}</Text>
-            <Text style={styles.levelLabel}>Level</Text>
-            
-            {/* Gold with coin icon */}
-            <View style={styles.currencyRow}>
-              {goldCustomImage ? (
-                <Image source={{ uri: goldCustomImage }} style={styles.currencyIcon} />
-              ) : (
-                <Ionicons name={goldIcon as any} size={20} color={statusTheme.colors.goldColor} />
-              )}
-              <Text style={styles.currencyValue}>{user.gold}</Text>
-            </View>
-            
-            {/* AP with star icon */}
-            <View style={styles.currencyRow}>
-              {apCustomImage ? (
-                <Image source={{ uri: apCustomImage }} style={styles.currencyIcon} />
-              ) : (
-                <Ionicons name={apIcon as any} size={20} color={statusTheme.colors.apColor} />
-              )}
-              <Text style={styles.currencyValue}>{user.ability_points || 0}</Text>
-            </View>
-          </View>
-        </View>
-
-        {/* Stats Title - Centered */}
-        <View style={styles.statsHeader}>
-          <Text style={styles.statsTitle}>STATS</Text>
-          <TouchableOpacity 
-            style={styles.addStatButton}
-            onPress={() => setAddStatModalVisible(true)}
-          >
-            <Ionicons name="add-circle" size={20} color="#8B5CF6" />
-            <Text style={styles.addStatButtonText}>Add Stat</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Custom Stats Display */}
-        {customStats.map((stat) => {
+        {/* Stats Section - Layout dependent */}
+        {renderStatsSection()}
           const percentage = (stat.current / stat.max) * 100;
           return (
             <Pressable 

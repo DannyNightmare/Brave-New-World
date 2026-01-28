@@ -503,6 +503,404 @@ export default function StatusScreen() {
     return null; // Badge style is handled in profile section
   };
 
+  // Render Profile, Level, Gold, AP section based on layout
+  const renderProfileSection = () => {
+    const layoutId = statusLayout.id;
+    
+    // Dashboard layout - Horizontal metrics bar
+    if (layoutId === 'dashboard') {
+      return (
+        <View style={styles.dashboardContainer}>
+          <View style={styles.dashboardRow}>
+            <View style={styles.dashboardMetric}>
+              <Ionicons name="trending-up" size={24} color={statusTheme.colors.primary} />
+              <Text style={styles.dashboardValue}>{user.level}</Text>
+              <Text style={styles.dashboardLabel}>LEVEL</Text>
+            </View>
+            <View style={styles.dashboardDivider} />
+            <View style={styles.dashboardMetric}>
+              {goldCustomImage ? (
+                <Image source={{ uri: goldCustomImage }} style={styles.dashboardIcon} />
+              ) : (
+                <Ionicons name={goldIcon as any} size={24} color={statusTheme.colors.goldColor} />
+              )}
+              <Text style={styles.dashboardValue}>{user.gold}</Text>
+              <Text style={styles.dashboardLabel}>GOLD</Text>
+            </View>
+            <View style={styles.dashboardDivider} />
+            <View style={styles.dashboardMetric}>
+              {apCustomImage ? (
+                <Image source={{ uri: apCustomImage }} style={styles.dashboardIcon} />
+              ) : (
+                <Ionicons name={apIcon as any} size={24} color={statusTheme.colors.apColor} />
+              )}
+              <Text style={styles.dashboardValue}>{user.ability_points || 0}</Text>
+              <Text style={styles.dashboardLabel}>AP</Text>
+            </View>
+          </View>
+        </View>
+      );
+    }
+    
+    // Minimal layout - Inline compact row
+    if (layoutId === 'minimal' || layoutId === 'compact-mobile') {
+      return (
+        <View style={styles.minimalProfileContainer}>
+          <View style={styles.minimalRow}>
+            <Text style={styles.minimalLevelBadge}>Lv.{user.level}</Text>
+            <View style={styles.minimalCurrencies}>
+              <View style={styles.minimalCurrency}>
+                {goldCustomImage ? (
+                  <Image source={{ uri: goldCustomImage }} style={styles.minimalIcon} />
+                ) : (
+                  <Ionicons name={goldIcon as any} size={16} color={statusTheme.colors.goldColor} />
+                )}
+                <Text style={styles.minimalCurrencyText}>{user.gold}</Text>
+              </View>
+              <View style={styles.minimalCurrency}>
+                {apCustomImage ? (
+                  <Image source={{ uri: apCustomImage }} style={styles.minimalIcon} />
+                ) : (
+                  <Ionicons name={apIcon as any} size={16} color={statusTheme.colors.apColor} />
+                )}
+                <Text style={styles.minimalCurrencyText}>{user.ability_points || 0}</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      );
+    }
+    
+    // Gaming HUD layout - Side panel style
+    if (layoutId === 'gaming-hud') {
+      return (
+        <View style={styles.hudContainer}>
+          <View style={styles.hudLeftPanel}>
+            <TouchableOpacity style={styles.hudAvatar} onPress={pickImage}>
+              {profileImage ? (
+                <Image source={{ uri: profileImage }} style={styles.hudAvatarImage} />
+              ) : (
+                <Ionicons name="person" size={32} color="#6B7280" />
+              )}
+            </TouchableOpacity>
+            <View style={styles.hudLevelBadge}>
+              <Text style={styles.hudLevelText}>{user.level}</Text>
+            </View>
+          </View>
+          <View style={styles.hudRightPanel}>
+            <View style={styles.hudCurrencyRow}>
+              {goldCustomImage ? (
+                <Image source={{ uri: goldCustomImage }} style={styles.hudIcon} />
+              ) : (
+                <Ionicons name={goldIcon as any} size={20} color={statusTheme.colors.goldColor} />
+              )}
+              <Text style={styles.hudCurrencyValue}>{user.gold}</Text>
+            </View>
+            <View style={styles.hudCurrencyRow}>
+              {apCustomImage ? (
+                <Image source={{ uri: apCustomImage }} style={styles.hudIcon} />
+              ) : (
+                <Ionicons name={apIcon as any} size={20} color={statusTheme.colors.apColor} />
+              )}
+              <Text style={styles.hudCurrencyValue}>{user.ability_points || 0}</Text>
+            </View>
+          </View>
+        </View>
+      );
+    }
+    
+    // Profile Card layout - Large centered avatar
+    if (layoutId === 'profile-card' || layoutId === 'hero-showcase') {
+      return (
+        <View style={styles.profileCardContainer}>
+          <TouchableOpacity style={styles.profileCardAvatar} onPress={pickImage}>
+            {profileImage ? (
+              <Image source={{ uri: profileImage }} style={styles.profileCardAvatarImage} />
+            ) : (
+              <View style={styles.profileCardPlaceholder}>
+                <Ionicons name="person" size={80} color="#6B7280" />
+              </View>
+            )}
+            <View style={styles.profileCardLevelBadge}>
+              <Text style={styles.profileCardLevelText}>Lv.{user.level}</Text>
+            </View>
+          </TouchableOpacity>
+          <Text style={styles.profileCardName}>{user.username}</Text>
+          <View style={styles.profileCardCurrencies}>
+            <View style={styles.profileCardCurrency}>
+              {goldCustomImage ? (
+                <Image source={{ uri: goldCustomImage }} style={styles.profileCardIcon} />
+              ) : (
+                <Ionicons name={goldIcon as any} size={28} color={statusTheme.colors.goldColor} />
+              )}
+              <Text style={styles.profileCardCurrencyValue}>{user.gold}</Text>
+              <Text style={styles.profileCardCurrencyLabel}>Gold</Text>
+            </View>
+            <View style={styles.profileCardDivider} />
+            <View style={styles.profileCardCurrency}>
+              {apCustomImage ? (
+                <Image source={{ uri: apCustomImage }} style={styles.profileCardIcon} />
+              ) : (
+                <Ionicons name={apIcon as any} size={28} color={statusTheme.colors.apColor} />
+              )}
+              <Text style={styles.profileCardCurrencyValue}>{user.ability_points || 0}</Text>
+              <Text style={styles.profileCardCurrencyLabel}>AP</Text>
+            </View>
+          </View>
+        </View>
+      );
+    }
+    
+    // Character Sheet layout - D&D style boxes
+    if (layoutId === 'character-sheet') {
+      return (
+        <View style={styles.sheetContainer}>
+          <View style={styles.sheetRow}>
+            <View style={styles.sheetBox}>
+              <Text style={styles.sheetBoxLabel}>LEVEL</Text>
+              <Text style={styles.sheetBoxValue}>{user.level}</Text>
+            </View>
+            <View style={styles.sheetBox}>
+              <Text style={styles.sheetBoxLabel}>GOLD</Text>
+              <View style={styles.sheetBoxRow}>
+                {goldCustomImage ? (
+                  <Image source={{ uri: goldCustomImage }} style={styles.sheetIcon} />
+                ) : (
+                  <Ionicons name={goldIcon as any} size={18} color={statusTheme.colors.goldColor} />
+                )}
+                <Text style={styles.sheetBoxValue}>{user.gold}</Text>
+              </View>
+            </View>
+            <View style={styles.sheetBox}>
+              <Text style={styles.sheetBoxLabel}>AP</Text>
+              <View style={styles.sheetBoxRow}>
+                {apCustomImage ? (
+                  <Image source={{ uri: apCustomImage }} style={styles.sheetIcon} />
+                ) : (
+                  <Ionicons name={apIcon as any} size={18} color={statusTheme.colors.apColor} />
+                )}
+                <Text style={styles.sheetBoxValue}>{user.ability_points || 0}</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      );
+    }
+    
+    // Retro Pixel layout - 8-bit style
+    if (layoutId === 'retro-pixel') {
+      return (
+        <View style={styles.retroContainer}>
+          <View style={styles.retroRow}>
+            <View style={styles.retroItem}>
+              <Text style={styles.retroLabel}>LVL</Text>
+              <Text style={styles.retroValue}>{user.level}</Text>
+            </View>
+            <View style={styles.retroItem}>
+              <Text style={styles.retroLabel}>GOLD</Text>
+              <Text style={styles.retroValue}>{user.gold}</Text>
+            </View>
+            <View style={styles.retroItem}>
+              <Text style={styles.retroLabel}>AP</Text>
+              <Text style={styles.retroValue}>{user.ability_points || 0}</Text>
+            </View>
+          </View>
+        </View>
+      );
+    }
+    
+    // Default/Classic RPG layout
+    return (
+      <View style={styles.profileGoldSection}>
+        <TouchableOpacity style={styles.profileImageContainer} onPress={pickImage}>
+          {profileImage ? (
+            <Image source={{ uri: profileImage }} style={styles.profileImage} />
+          ) : (
+            <View style={styles.profilePlaceholder}>
+              <Ionicons name="person" size={60} color="#6B7280" />
+              <Text style={styles.profilePlaceholderText}>Tap to add</Text>
+            </View>
+          )}
+        </TouchableOpacity>
+        <View style={styles.levelGoldSection}>
+          <Text style={styles.levelNumber}>{user.level}</Text>
+          <Text style={styles.levelLabel}>Level</Text>
+          <View style={styles.currencyRow}>
+            {goldCustomImage ? (
+              <Image source={{ uri: goldCustomImage }} style={styles.currencyIcon} />
+            ) : (
+              <Ionicons name={goldIcon as any} size={20} color={statusTheme.colors.goldColor} />
+            )}
+            <Text style={styles.currencyValue}>{user.gold}</Text>
+          </View>
+          <View style={styles.currencyRow}>
+            {apCustomImage ? (
+              <Image source={{ uri: apCustomImage }} style={styles.currencyIcon} />
+            ) : (
+              <Ionicons name={apIcon as any} size={20} color={statusTheme.colors.apColor} />
+            )}
+            <Text style={styles.currencyValue}>{user.ability_points || 0}</Text>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
+  // Render Stats section based on layout
+  const renderStatsSection = () => {
+    const layoutId = statusLayout.id;
+    const columns = statusLayout.layout.statsColumns;
+    
+    // Stats header (add button)
+    const statsHeader = (
+      <View style={[
+        styles.statsHeader,
+        layoutId === 'minimal' && styles.statsHeaderMinimal,
+      ]}>
+        <Text style={[
+          styles.statsTitle,
+          layoutId === 'minimal' && styles.statsTitleMinimal,
+        ]}>STATS</Text>
+        <TouchableOpacity 
+          style={styles.addStatButton}
+          onPress={() => setAddStatModalVisible(true)}
+        >
+          <Ionicons name="add-circle" size={20} color={statusTheme.colors.primary} />
+          {layoutId !== 'minimal' && layoutId !== 'compact-mobile' && (
+            <Text style={styles.addStatButtonText}>Add Stat</Text>
+          )}
+        </TouchableOpacity>
+      </View>
+    );
+
+    // Grid layout for stats
+    if (statusLayout.layout.statsDisplay === 'grid' && columns > 1) {
+      const rows = [];
+      for (let i = 0; i < customStats.length; i += columns) {
+        rows.push(customStats.slice(i, i + columns));
+      }
+      
+      return (
+        <>
+          {statsHeader}
+          <View style={styles.statsGridContainer}>
+            {rows.map((row, rowIndex) => (
+              <View key={rowIndex} style={styles.statsGridRow}>
+                {row.map((stat) => {
+                  const percentage = (stat.current / stat.max) * 100;
+                  return (
+                    <Pressable
+                      key={stat.id}
+                      onLongPress={() => handleStatLongPress(stat)}
+                      style={[styles.statsGridItem, { flex: 1 / columns }]}
+                    >
+                      <Text style={styles.gridStatName}>{stat.name}</Text>
+                      <View style={[styles.gridStatBar, { backgroundColor: stat.color + '30' }]}>
+                        <View style={[styles.gridStatFill, { width: `${percentage}%`, backgroundColor: stat.color }]} />
+                      </View>
+                      <Text style={styles.gridStatValue}>{stat.current}/{stat.max}</Text>
+                    </Pressable>
+                  );
+                })}
+                {/* Fill empty spaces in last row */}
+                {row.length < columns && [...Array(columns - row.length)].map((_, i) => (
+                  <View key={`empty-${i}`} style={{ flex: 1 / columns }} />
+                ))}
+              </View>
+            ))}
+          </View>
+        </>
+      );
+    }
+    
+    // List layout - compact vertical
+    if (statusLayout.layout.statsDisplay === 'list') {
+      return (
+        <>
+          {statsHeader}
+          <View style={styles.statsListContainer}>
+            {customStats.map((stat) => {
+              const percentage = (stat.current / stat.max) * 100;
+              return (
+                <Pressable
+                  key={stat.id}
+                  onLongPress={() => handleStatLongPress(stat)}
+                  style={styles.statsListItem}
+                >
+                  <View style={styles.listStatHeader}>
+                    <Text style={[styles.listStatName, { color: stat.color }]}>{stat.name}</Text>
+                    <Text style={styles.listStatValue}>{stat.current}/{stat.max}</Text>
+                  </View>
+                  <View style={styles.listStatBar}>
+                    <View style={[styles.listStatFill, { width: `${percentage}%`, backgroundColor: stat.color }]} />
+                  </View>
+                </Pressable>
+              );
+            })}
+          </View>
+        </>
+      );
+    }
+    
+    // Bars layout - horizontal full-width bars
+    if (statusLayout.layout.statsDisplay === 'bars') {
+      return (
+        <>
+          {statsHeader}
+          <View style={styles.statsBarsContainer}>
+            {customStats.map((stat) => {
+              const percentage = (stat.current / stat.max) * 100;
+              return (
+                <Pressable
+                  key={stat.id}
+                  onLongPress={() => handleStatLongPress(stat)}
+                  style={styles.barsStatItem}
+                >
+                  <View style={styles.barsStatLabelRow}>
+                    <View style={[styles.barsStatDot, { backgroundColor: stat.color }]} />
+                    <Text style={styles.barsStatName}>{stat.name}</Text>
+                    <Text style={styles.barsStatValue}>{stat.current}</Text>
+                  </View>
+                  <View style={styles.barsStatBarContainer}>
+                    <View style={[styles.barsStatBar, { backgroundColor: stat.color + '20' }]}>
+                      <View style={[styles.barsStatFill, { width: `${percentage}%`, backgroundColor: stat.color }]} />
+                    </View>
+                  </View>
+                </Pressable>
+              );
+            })}
+          </View>
+        </>
+      );
+    }
+    
+    // Default cards layout
+    return (
+      <>
+        {statsHeader}
+        {customStats.map((stat) => {
+          const percentage = (stat.current / stat.max) * 100;
+          return (
+            <Pressable
+              key={stat.id}
+              onLongPress={() => handleStatLongPress(stat)}
+              style={styles.statItem}
+            >
+              <View style={styles.statHeader}>
+                <Text style={[styles.statName, { color: stat.color }]}>{stat.name}</Text>
+                <Text style={styles.statValue}>{stat.current} / {stat.max}</Text>
+              </View>
+              <View style={[styles.statBar, { backgroundColor: stat.color + '20' }]}>
+                <View style={[styles.statFill, { width: `${percentage}%`, backgroundColor: stat.color }]} />
+              </View>
+              <Text style={styles.longPressHint}>Hold to edit</Text>
+            </Pressable>
+          );
+        })}
+      </>
+    );
+  };
+
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: 'transparent' }]} edges={['bottom']}>
       <AppBackground>

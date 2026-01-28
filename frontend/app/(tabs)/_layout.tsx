@@ -461,6 +461,75 @@ export default function TabLayout() {
                 </View>
               </View>
 
+              {/* Status Page Layout Section */}
+              <View style={styles.section}>
+                <Text style={[styles.sectionTitle, { color: colors.text }]}>Status Page Layout</Text>
+                <Text style={[styles.sectionSubtitle, { color: colors.textSecondary }]}>
+                  Choose how your Status page is displayed
+                </Text>
+                
+                <ScrollView 
+                  horizontal 
+                  showsHorizontalScrollIndicator={false}
+                  style={styles.popupStyleScroll}
+                  contentContainerStyle={styles.popupStyleScrollContent}
+                >
+                  {STATUS_LAYOUTS.map((layout) => (
+                    <TouchableOpacity
+                      key={layout.id}
+                      style={[
+                        styles.layoutCard,
+                        { 
+                          backgroundColor: colors.surface,
+                          borderColor: statusLayout.id === layout.id ? statusTheme.colors.primary : colors.border,
+                          borderWidth: 2,
+                        }
+                      ]}
+                      onPress={() => setStatusLayout(layout.id)}
+                    >
+                      <View style={[
+                        styles.layoutPreview,
+                        { backgroundColor: colors.cardBackground }
+                      ]}>
+                        <Text style={styles.layoutEmoji}>{layout.preview}</Text>
+                        {/* Mini layout visualization */}
+                        <View style={styles.layoutMiniPreview}>
+                          {layout.layout.avatarPosition !== 'hidden' && (
+                            <View style={[
+                              styles.miniAvatar,
+                              layout.layout.avatarSize === 'large' && styles.miniAvatarLarge,
+                              { backgroundColor: statusTheme.colors.primary + '40' }
+                            ]} />
+                          )}
+                          <View style={styles.miniStats}>
+                            {[1, 2, 3].slice(0, layout.layout.statsColumns).map((_, i) => (
+                              <View 
+                                key={i} 
+                                style={[
+                                  styles.miniStatBar,
+                                  { backgroundColor: statusTheme.colors.primary + '60' }
+                                ]} 
+                              />
+                            ))}
+                          </View>
+                        </View>
+                      </View>
+                      <Text style={[styles.layoutName, { color: colors.text }]}>
+                        {layout.name}
+                      </Text>
+                      <Text style={[styles.layoutDesc, { color: colors.textSecondary }]} numberOfLines={2}>
+                        {layout.description}
+                      </Text>
+                      {statusLayout.id === layout.id && (
+                        <View style={[styles.popupStyleSelected, { backgroundColor: statusTheme.colors.primary }]}>
+                          <Ionicons name="checkmark" size={12} color="#FFF" />
+                        </View>
+                      )}
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+              </View>
+
               {/* Gold Icon Section */}
               <View style={styles.section}>
                 <Text style={[styles.sectionTitle, { color: colors.text }]}>Gold Icon</Text>

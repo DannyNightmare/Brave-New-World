@@ -1098,6 +1098,62 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  // Status Layout styles
+  layoutCard: {
+    width: 140,
+    padding: 12,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  layoutPreview: {
+    width: 80,
+    height: 70,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
+    overflow: 'hidden',
+  },
+  layoutEmoji: {
+    fontSize: 24,
+    marginBottom: 4,
+  },
+  layoutMiniPreview: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 8,
+  },
+  miniAvatar: {
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+  },
+  miniAvatarLarge: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+  },
+  miniStats: {
+    flex: 1,
+    gap: 3,
+  },
+  miniStatBar: {
+    height: 4,
+    borderRadius: 2,
+    width: '100%',
+  },
+  layoutName: {
+    fontSize: 11,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 4,
+  },
+  layoutDesc: {
+    fontSize: 9,
+    textAlign: 'center',
+    lineHeight: 12,
+  },
   popupPreviewContainer: {
     marginTop: 12,
   },

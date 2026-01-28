@@ -926,7 +926,7 @@ export default function StatusScreen() {
   );
 }
 
-const getStyles = (theme: StatusTheme) => StyleSheet.create({
+const getStyles = (theme: StatusTheme, layout: StatusLayout) => StyleSheet.create({
   safeArea: {
     flex: 1,
   },
@@ -936,13 +936,19 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
   },
   backgroundOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.3)', // Semi-transparent overlay for readability
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
   },
   scrollView: {
     flex: 1,
   },
   content: {
     padding: 20,
+  },
+  contentCompact: {
+    padding: 12,
+  },
+  contentRelaxed: {
+    padding: 28,
   },
   loadingContainer: {
     flex: 1,
@@ -958,8 +964,164 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
     color: theme.colors.primary,
     letterSpacing: 2,
   },
+  titleCentered: {
+    textAlign: 'center',
+    fontSize: 28,
+  },
+  titleCompact: {
+    fontSize: 20,
+    marginBottom: 12,
+  },
+  // Card style variants
+  cardFlat: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    shadowOpacity: 0,
+    elevation: 0,
+  },
+  cardOutlined: {
+    backgroundColor: 'transparent',
+    borderWidth: 2,
+    borderColor: theme.colors.cardBorder,
+  },
+  cardGlass: {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.2)',
+  },
+  // Large level display
+  largeLevelContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+    padding: 16,
+    backgroundColor: theme.colors.cardBackground,
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: theme.colors.primary,
+  },
+  largeLevelLabel: {
+    fontSize: 12,
+    color: theme.colors.textSecondary,
+    marginBottom: 4,
+    letterSpacing: 2,
+  },
+  largeLevelValue: {
+    fontSize: 48,
+    fontWeight: 'bold',
+    color: theme.colors.primary,
+  },
+  inlineLevelContainer: {
+    backgroundColor: theme.colors.primary,
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 12,
+    alignSelf: 'flex-start',
+    marginBottom: 12,
+  },
+  inlineLevelText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  // Circular HP/MP styles
+  circularHpMpContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 20,
+    paddingVertical: 16,
+  },
+  circularStatItem: {
+    alignItems: 'center',
+  },
+  circularStatOuter: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    borderWidth: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  circularStatInner: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  circularStatValue: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: theme.colors.text,
+    marginTop: 2,
+  },
+  circularStatLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: theme.colors.textSecondary,
+  },
+  // Numeric HP/MP styles
+  numericHpMpContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 20,
+    padding: 16,
+    backgroundColor: theme.colors.cardBackground,
+    borderRadius: 12,
+  },
+  numericStatItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  numericStatValue: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: theme.colors.text,
+  },
+  numericStatMax: {
+    fontSize: 16,
+    fontWeight: 'normal',
+    color: theme.colors.textSecondary,
+  },
+  // Minimal HP/MP styles
+  minimalHpMpContainer: {
+    marginBottom: 16,
+    gap: 8,
+  },
+  minimalStatRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  minimalStatLabel: {
+    width: 24,
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: theme.colors.textSecondary,
+  },
+  minimalBar: {
+    flex: 1,
+    height: 8,
+    backgroundColor: theme.colors.statBarBg,
+    borderRadius: 4,
+    overflow: 'hidden',
+  },
+  minimalBarFill: {
+    height: '100%',
+    borderRadius: 4,
+  },
+  minimalStatText: {
+    width: 40,
+    fontSize: 12,
+    color: theme.colors.text,
+    textAlign: 'right',
+  },
   xpSection: {
     marginBottom: 32,
+  },
+  xpSectionCompact: {
+    marginBottom: 16,
   },
   xpBarContainer: {
     marginBottom: 8,

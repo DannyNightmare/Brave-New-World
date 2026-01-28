@@ -222,7 +222,7 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
       animationType="none"
       onRequestClose={onClose}
     >
-      <View style={styles.overlay}>
+      <View style={[styles.overlay, themedStyles.overlay]}>
         <Animated.View style={[
           styles.modalContainer, 
           themedStyles.modalContainer,
@@ -230,8 +230,8 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
           containerStyle
         ]}>
           {/* Header */}
-          <View style={styles.header}>
-            <Ionicons name="trophy" size={32} color={statusTheme.colors.accent} />
+          <View style={[styles.header, themedStyles.header]}>
+            <Ionicons name="trophy" size={32} color={popupStyle.styles.headerTextColor} />
             <Text style={[styles.title, themedStyles.title]}>{getThemeTitle()}</Text>
           </View>
 
@@ -255,11 +255,11 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
                     <Text style={[styles.levelUpText, themedStyles.levelUpText]}>🎉 LEVEL UP! 🎉</Text>
                   </View>
                   <View style={styles.rewardRow}>
-                    <Ionicons name="trending-up" size={24} color={statusTheme.colors.accent} />
+                    <Ionicons name="trending-up" size={24} color={popupStyle.styles.buttonBg} />
                     <Text style={[styles.rewardLabel, themedStyles.rewardLabel]}>Level</Text>
                     <View style={styles.rewardValue}>
                       <AnimatedNumber value={rewards.oldLevel!} duration={0} delay={0} />
-                      <Ionicons name="arrow-forward" size={16} color={statusTheme.colors.textSecondary} style={{ marginHorizontal: 8 }} />
+                      <Ionicons name="arrow-forward" size={16} color={popupStyle.styles.bodyTextColor} style={{ marginHorizontal: 8 }} />
                       <AnimatedNumber value={rewards.newLevel!} duration={1000} delay={200} />
                     </View>
                   </View>
@@ -271,11 +271,11 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
               {rewards.goldGained && rewards.oldGold !== undefined && rewards.newGold !== undefined && (
                 <>
                   <View style={styles.rewardRow}>
-                    <Ionicons name="logo-bitcoin" size={24} color={statusTheme.colors.goldColor} />
+                    <Ionicons name="logo-bitcoin" size={24} color="#FCD34D" />
                     <Text style={[styles.rewardLabel, themedStyles.rewardLabel]}>Gold</Text>
                     <View style={styles.rewardValue}>
                       <AnimatedNumber value={rewards.oldGold} duration={0} delay={0} />
-                      <Ionicons name="arrow-forward" size={16} color={statusTheme.colors.textSecondary} style={{ marginHorizontal: 8 }} />
+                      <Ionicons name="arrow-forward" size={16} color={popupStyle.styles.bodyTextColor} style={{ marginHorizontal: 8 }} />
                       <AnimatedNumber value={rewards.newGold} duration={1000} delay={hasLevelUp ? 400 : 200} />
                     </View>
                   </View>

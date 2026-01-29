@@ -111,18 +111,7 @@ export default function PowersScreen() {
         await fetchPowers();
         await refreshUser();
         
-        // Show notification with level increase
-        showPowerLevelUp(powerName, oldLevel, oldLevel + 1);
-        
-        // If this was the max level and has next tier, show unlock message
-        const updatedPower = powers.find(p => p.id === powerId);
-        if (updatedPower && updatedPower.current_level + 1 >= updatedPower.max_level && nextTierAbility) {
-          Alert.alert(
-            '🎉 Power Maxed Out!',
-            `${powerName} has reached MAX level!\n\n✨ ${nextTierAbility} has been unlocked and added to your powers!`,
-            [{ text: 'Awesome!', style: 'default' }]
-          );
-        }
+        // Level up is now silent - no popup notification
       } else {
         const error = await response.json();
         alert(error.detail || 'Failed to level up power');

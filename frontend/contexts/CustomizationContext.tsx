@@ -1298,6 +1298,18 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const setAnimationStyle = async (styleId: string) => {
+    const anim = ANIMATION_STYLES.find(a => a.id === styleId);
+    if (anim) {
+      setAnimationStyleState(anim);
+      try {
+        await AsyncStorage.setItem('animationStyleId', styleId);
+      } catch (error) {
+        console.error('Failed to save animation style:', error);
+      }
+    }
+  };
+
   const getThemeById = (id: string): StatusTheme => {
     return STATUS_THEMES.find(t => t.id === id) || STATUS_THEMES[0];
   };
@@ -1308,6 +1320,10 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const getStatusLayoutById = (id: string): StatusLayout => {
     return STATUS_LAYOUTS.find(l => l.id === id) || STATUS_LAYOUTS[0];
+  };
+
+  const getAnimationStyleById = (id: string): AnimationStyle => {
+    return ANIMATION_STYLES.find(a => a.id === id) || ANIMATION_STYLES[0];
   };
 
   return (
@@ -1324,6 +1340,7 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
         backgroundImage,
         popupStyle,
         statusLayout,
+        animationStyle,
         setXpBarColor,
         setGoldIcon,
         setApIcon,
@@ -1335,9 +1352,11 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
         setBackgroundImage,
         setPopupStyle,
         setStatusLayout,
+        setAnimationStyle,
         getThemeById,
         getPopupStyleById,
         getStatusLayoutById,
+        getAnimationStyleById,
       }}
     >
       {children}

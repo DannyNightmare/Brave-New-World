@@ -178,20 +178,16 @@ export default function TabLayout() {
       </Modal>
 
       {/* Customize Modal */}
-      <Modal visible={customizeVisible} animationType="slide" transparent={true}>
-        <TouchableOpacity 
-          style={styles.customizeOverlay} 
-          activeOpacity={1} 
-          onPress={() => setCustomizeVisible(false)}
-        >
-          <View style={[styles.customizeContainer, { backgroundColor: colors.cardBackground }]}>
+      <Modal visible={customizeVisible} animationType="slide" transparent={false}>
+        <View style={[styles.customizeOverlay, { backgroundColor: colors.cardBackground }]}>
+          <View style={styles.customizeContainer}>
             <View style={styles.customizeHeader}>
               <Text style={[styles.customizeTitle, { color: colors.text }]}>Customize</Text>
               <TouchableOpacity 
                 style={styles.closeButton}
                 onPress={() => setCustomizeVisible(false)}
               >
-                <Ionicons name="close-circle" size={32} color={colors.textSecondary} />
+                <Ionicons name="close-circle" size={36} color={colors.textSecondary} />
               </TouchableOpacity>
             </View>
 
@@ -203,7 +199,6 @@ export default function TabLayout() {
               style={styles.customizeContent} 
               showsVerticalScrollIndicator={true}
               contentContainerStyle={styles.customizeScrollContent}
-              onStartShouldSetResponder={() => true}
             >
               {/* Status Display Theme Section */}
               <View style={styles.section}>

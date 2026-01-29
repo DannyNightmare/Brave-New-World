@@ -805,7 +805,10 @@ export default function StatusScreen() {
                       onLongPress={() => handleStatLongPress(stat)}
                       style={[styles.statsGridItem, { flex: 1 / columns }]}
                     >
-                      <Text style={styles.gridStatName}>{stat.name}</Text>
+                      <View style={styles.gridStatHeader}>
+                        <Text style={styles.gridStatName}>{stat.name}</Text>
+                        <Text style={[styles.gridStatLevel, { color: stat.color }]}>Lv.{stat.level || 1}</Text>
+                      </View>
                       <View style={[styles.gridStatBar, { backgroundColor: stat.color + '30' }]}>
                         <View style={[styles.gridStatFill, { width: `${percentage}%`, backgroundColor: stat.color }]} />
                       </View>

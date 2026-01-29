@@ -1189,6 +1189,52 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 12,
   },
+  // Animation Style Section
+  animationScrollView: {
+    marginTop: 12,
+  },
+  animationScrollContent: {
+    paddingRight: 20,
+    gap: 12,
+  },
+  animationCard: {
+    width: 130,
+    borderRadius: 12,
+    overflow: 'hidden',
+  },
+  animationPreview: {
+    height: 70,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  animationEmoji: {
+    fontSize: 36,
+  },
+  animationName: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    paddingHorizontal: 8,
+    paddingTop: 8,
+    marginBottom: 4,
+  },
+  animationDesc: {
+    fontSize: 10,
+    textAlign: 'center',
+    paddingHorizontal: 8,
+    paddingBottom: 12,
+    lineHeight: 13,
+  },
+  animationSelected: {
+    position: 'absolute',
+    top: 6,
+    right: 6,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   popupPreviewContainer: {
     marginTop: 12,
   },

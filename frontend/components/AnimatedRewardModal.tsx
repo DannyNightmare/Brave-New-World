@@ -81,7 +81,7 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
   questName,
   rewards
 }) => {
-  const { statusTheme, popupStyle } = useCustomization();
+  const { statusTheme, popupStyle, animationStyle } = useCustomization();
   
   // Main container animations
   const scale = useSharedValue(0);
@@ -105,6 +105,11 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
   // Sparkle animations
   const sparkleRotation = useSharedValue(0);
   const sparkleOpacity = useSharedValue(0);
+  
+  // Glitch effect
+  const glitchX = useSharedValue(0);
+  const glitchOpacity1 = useSharedValue(0);
+  const glitchOpacity2 = useSharedValue(0);
 
   // Get popup-style specific title
   const getThemeTitle = () => {

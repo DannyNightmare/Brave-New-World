@@ -1893,6 +1893,53 @@ const getStyles = (theme: StatusTheme, layout: StatusLayout) => StyleSheet.creat
     marginTop: 4,
     opacity: 0.6,
   },
+  // Stat item styles for default cards layout
+  statItem: {
+    backgroundColor: theme.colors.cardBackground,
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: theme.colors.cardBorder,
+  },
+  statHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  statNameWithLevel: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  statName: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  statLevelBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 10,
+  },
+  statLevelText: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  statValue: {
+    fontSize: 14,
+    color: theme.colors.textSecondary,
+  },
+  statBar: {
+    height: 10,
+    borderRadius: 5,
+    overflow: 'hidden',
+  },
+  statFill: {
+    height: '100%',
+    borderRadius: 5,
+  },
   actionModalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.7)',

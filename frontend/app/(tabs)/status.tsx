@@ -898,7 +898,12 @@ export default function StatusScreen() {
               style={styles.statItem}
             >
               <View style={styles.statHeader}>
-                <Text style={[styles.statName, { color: stat.color }]}>{stat.name}</Text>
+                <View style={styles.statNameWithLevel}>
+                  <Text style={[styles.statName, { color: stat.color }]}>{stat.name}</Text>
+                  <View style={[styles.statLevelBadge, { backgroundColor: stat.color }]}>
+                    <Text style={styles.statLevelText}>Lv.{stat.level || 1}</Text>
+                  </View>
+                </View>
                 <Text style={styles.statValue}>{stat.current} / {stat.max}</Text>
               </View>
               <View style={[styles.statBar, { backgroundColor: stat.color + '20' }]}>

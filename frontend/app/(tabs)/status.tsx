@@ -2329,11 +2329,20 @@ const getStyles = (theme: StatusTheme, layout: StatusLayout) => StyleSheet.creat
     padding: 12,
     minWidth: 0,
   },
+  gridStatHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
   gridStatName: {
     fontSize: 12,
     fontWeight: '600',
     color: theme.colors.text,
-    marginBottom: 8,
+  },
+  gridStatLevel: {
+    fontSize: 10,
+    fontWeight: 'bold',
   },
   gridStatBar: {
     height: 8,
@@ -2362,11 +2371,21 @@ const getStyles = (theme: StatusTheme, layout: StatusLayout) => StyleSheet.creat
   listStatHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: 4,
+  },
+  listStatNameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
   },
   listStatName: {
     fontSize: 14,
     fontWeight: '600',
+  },
+  listStatLevel: {
+    fontSize: 12,
+    fontWeight: 'bold',
   },
   listStatValue: {
     fontSize: 12,

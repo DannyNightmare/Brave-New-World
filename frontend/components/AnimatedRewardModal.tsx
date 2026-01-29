@@ -336,6 +336,7 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
     transform: [
       { scale: scale.value },
       { translateY: slideY.value },
+      { translateX: glitchX.value },
       { rotate: `${rotation.value}deg` }
     ],
     opacity: opacity.value,
@@ -344,6 +345,15 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
   // Flash overlay style
   const flashStyle = useAnimatedStyle(() => ({
     opacity: flashOpacity.value,
+  }));
+
+  // Glitch layer styles
+  const glitchStyle1 = useAnimatedStyle(() => ({
+    opacity: glitchOpacity1.value,
+  }));
+
+  const glitchStyle2 = useAnimatedStyle(() => ({
+    opacity: glitchOpacity2.value,
   }));
 
   // Burst effect style

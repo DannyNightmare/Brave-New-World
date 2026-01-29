@@ -484,6 +484,60 @@ export interface StatusLayout {
   };
 }
 
+// Animation Style definitions for popup animations
+export interface AnimationStyle {
+  id: string;
+  name: string;
+  description: string;
+  preview: string;
+}
+
+// Predefined Animation Styles
+export const ANIMATION_STYLES: AnimationStyle[] = [
+  {
+    id: 'burst',
+    name: 'Epic Burst',
+    description: 'Flash, rings, and sparkles explosion',
+    preview: '💥',
+  },
+  {
+    id: 'fade',
+    name: 'Smooth Fade',
+    description: 'Simple elegant fade in',
+    preview: '🌟',
+  },
+  {
+    id: 'slide-up',
+    name: 'Slide Up',
+    description: 'Slides up from bottom with bounce',
+    preview: '⬆️',
+  },
+  {
+    id: 'scale-bounce',
+    name: 'Scale Bounce',
+    description: 'Pops in with bouncy scaling',
+    preview: '🎈',
+  },
+  {
+    id: 'spiral',
+    name: 'Spiral Entry',
+    description: 'Spins in with rotation effect',
+    preview: '🌀',
+  },
+  {
+    id: 'glitch',
+    name: 'Digital Glitch',
+    description: 'Cyberpunk-style glitch effect',
+    preview: '📺',
+  },
+  {
+    id: 'none',
+    name: 'No Animation',
+    description: 'Instant appearance, no effects',
+    preview: '⏹️',
+  },
+];
+
 // Predefined Status Page Layouts
 export const STATUS_LAYOUTS: StatusLayout[] = [
   {

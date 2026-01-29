@@ -150,21 +150,77 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
 
   useEffect(() => {
     if (visible) {
-      // Reset values
+      // Reset all animation values
       scale.value = 0;
       opacity.value = 0;
       slideY.value = 50;
+      rotation.value = -5;
+      flashOpacity.value = 0;
+      burstScale.value = 0;
+      burstOpacity.value = 0;
+      ring1Scale.value = 0.5;
+      ring1Opacity.value = 0;
+      ring2Scale.value = 0.5;
+      ring2Opacity.value = 0;
+      ring3Scale.value = 0.5;
+      ring3Opacity.value = 0;
+      sparkleRotation.value = 0;
+      sparkleOpacity.value = 0;
       
-      // Animate in
-      opacity.value = withTiming(1, { duration: 200 });
-      scale.value = withSpring(1, {
+      // Step 1: Flash effect (bright burst)
+      flashOpacity.value = withSequence(
+        withTiming(0.8, { duration: 100 }),
+        withTiming(0, { duration: 300 })
+      );
+      
+      // Step 2: Burst/explosion effect
+      burstOpacity.value = withSequence(
+        withTiming(1, { duration: 100 }),
+        withDelay(200, withTiming(0, { duration: 400 }))
+      );
+      burstScale.value = withTiming(3, { duration: 600, easing: Easing.out(Easing.cubic) });
+      
+      // Step 3: Expanding rings (ripple effect)
+      ring1Opacity.value = withSequence(
+        withDelay(50, withTiming(0.8, { duration: 100 })),
+        withDelay(200, withTiming(0, { duration: 400 }))
+      );
+      ring1Scale.value = withDelay(50, withTiming(2.5, { duration: 600, easing: Easing.out(Easing.cubic) }));
+      
+      ring2Opacity.value = withSequence(
+        withDelay(150, withTiming(0.6, { duration: 100 })),
+        withDelay(200, withTiming(0, { duration: 400 }))
+      );
+      ring2Scale.value = withDelay(150, withTiming(3, { duration: 700, easing: Easing.out(Easing.cubic) }));
+      
+      ring3Opacity.value = withSequence(
+        withDelay(250, withTiming(0.4, { duration: 100 })),
+        withDelay(200, withTiming(0, { duration: 400 }))
+      );
+      ring3Scale.value = withDelay(250, withTiming(3.5, { duration: 800, easing: Easing.out(Easing.cubic) }));
+      
+      // Step 4: Sparkle rotation
+      sparkleOpacity.value = withSequence(
+        withDelay(100, withTiming(1, { duration: 200 })),
+        withDelay(600, withTiming(0, { duration: 300 }))
+      );
+      sparkleRotation.value = withDelay(100, withTiming(180, { duration: 800, easing: Easing.out(Easing.cubic) }));
+      
+      // Step 5: Main modal entrance (with slight bounce and rotation)
+      opacity.value = withDelay(150, withTiming(1, { duration: 300 }));
+      scale.value = withDelay(150, withSpring(1, {
+        damping: 12,
+        stiffness: 180,
+        mass: 0.8,
+      }));
+      slideY.value = withDelay(150, withSpring(0, {
         damping: 15,
-        stiffness: 150,
-      });
-      slideY.value = withSpring(0, {
-        damping: 20,
-        stiffness: 90,
-      });
+        stiffness: 100,
+      }));
+      rotation.value = withDelay(150, withSpring(0, {
+        damping: 15,
+        stiffness: 120,
+      }));
     }
   }, [visible]);
 

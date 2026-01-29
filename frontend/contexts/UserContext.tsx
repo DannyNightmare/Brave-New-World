@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-const API_URL = 'https://questforge-25.preview.emergentagent.com';
+const API_URL = 'https://rpg-life-game.preview.emergentagent.com';
 
 interface User {
   id: string;

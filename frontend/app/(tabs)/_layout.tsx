@@ -634,7 +634,7 @@ export default function TabLayout() {
               </View>
             </ScrollView>
           </View>
-        </TouchableOpacity>
+        </View>
       </Modal>
     </>
   );

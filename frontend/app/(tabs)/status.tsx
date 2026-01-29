@@ -798,7 +798,7 @@ export default function StatusScreen() {
             {rows.map((row, rowIndex) => (
               <View key={rowIndex} style={styles.statsGridRow}>
                 {row.map((stat) => {
-                  const percentage = (stat.current / stat.max) * 100;
+                  const percentage = Math.min((stat.current / stat.max) * 100, 100);
                   return (
                     <Pressable
                       key={stat.id}
@@ -834,7 +834,7 @@ export default function StatusScreen() {
           {statsHeader}
           <View style={styles.statsListContainer}>
             {customStats.map((stat) => {
-              const percentage = (stat.current / stat.max) * 100;
+              const percentage = Math.min((stat.current / stat.max) * 100, 100);
               return (
                 <Pressable
                   key={stat.id}
@@ -846,7 +846,6 @@ export default function StatusScreen() {
                       <Text style={[styles.listStatName, { color: stat.color }]}>{stat.name}</Text>
                       <Text style={[styles.listStatLevel, { color: stat.color }]}>Lv.{stat.level || 1}</Text>
                     </View>
-                    <Text style={styles.listStatValue}>{stat.current}/{stat.max}</Text>
                   </View>
                   <View style={styles.listStatBar}>
                     <View style={[styles.listStatFill, { width: `${percentage}%`, backgroundColor: stat.color }]} />

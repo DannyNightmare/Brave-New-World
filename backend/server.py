@@ -408,7 +408,20 @@ async def complete_quest(quest_id: str):
     if quest.get("attribute_rewards"):
         for attr, value in quest["attribute_rewards"].items():
             if attr in ["strength", "intelligence", "vitality"]:
+                # Built-in attributes go to user document
                 updates[attr] = user.get(attr, 10) + value
+            else:
+                # Custom stats - update in custom_stats collection
+                custom_stat = await db.custom_stats.find_one({
+                    "user_id": quest["user_id"],
+                    "name": attr
+                })
+                if custom_stat:
+                    new_current = min(custom_stat.get("current", 0) + value, custom_stat.get("max", 100))
+                    await db.custom_stats.update_one(
+                        {"id": custom_stat["id"]},
+                        {"$set": {"current": new_current}}
+                    )
     
     await db.users.update_one(
         {"id": quest["user_id"]},

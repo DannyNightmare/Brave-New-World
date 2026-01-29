@@ -411,16 +411,34 @@ async def complete_quest(quest_id: str):
                 # Built-in attributes go to user document
                 updates[attr] = user.get(attr, 10) + value
             else:
-                # Custom stats - update in custom_stats collection
+                # Custom stats - update in custom_stats collection with leveling system
                 custom_stat = await db.custom_stats.find_one({
                     "user_id": quest["user_id"],
                     "name": attr
                 })
                 if custom_stat:
-                    new_current = min(custom_stat.get("current", 0) + value, custom_stat.get("max", 100))
+                    current_value = custom_stat.get("current", 0)
+                    max_value = custom_stat.get("max", 100)
+                    current_level = custom_stat.get("level", 1)
+                    
+                    # Add the reward value
+                    new_current = current_value + value
+                    new_level = current_level
+                    
+                    # Check for level ups (like XP system)
+                    while new_current >= max_value:
+                        new_current -= max_value
+                        new_level += 1
+                        # Optionally increase max for next level (scaling)
+                        max_value = int(max_value * 1.1)  # 10% increase per level
+                    
                     await db.custom_stats.update_one(
                         {"id": custom_stat["id"]},
-                        {"$set": {"current": new_current}}
+                        {"$set": {
+                            "current": new_current,
+                            "level": new_level,
+                            "max": max_value
+                        }}
                     )
     
     await db.users.update_one(

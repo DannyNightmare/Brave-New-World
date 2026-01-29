@@ -82,9 +82,29 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
   rewards
 }) => {
   const { statusTheme, popupStyle } = useCustomization();
+  
+  // Main container animations
   const scale = useSharedValue(0);
   const opacity = useSharedValue(0);
   const slideY = useSharedValue(50);
+  const rotation = useSharedValue(0);
+  
+  // Flash/burst effect animations
+  const flashOpacity = useSharedValue(0);
+  const burstScale = useSharedValue(0);
+  const burstOpacity = useSharedValue(0);
+  
+  // Ring/ripple animations
+  const ring1Scale = useSharedValue(0);
+  const ring1Opacity = useSharedValue(0);
+  const ring2Scale = useSharedValue(0);
+  const ring2Opacity = useSharedValue(0);
+  const ring3Scale = useSharedValue(0);
+  const ring3Opacity = useSharedValue(0);
+  
+  // Sparkle animations
+  const sparkleRotation = useSharedValue(0);
+  const sparkleOpacity = useSharedValue(0);
 
   // Get popup-style specific title
   const getThemeTitle = () => {

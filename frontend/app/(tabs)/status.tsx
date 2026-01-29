@@ -965,45 +965,6 @@ export default function StatusScreen() {
 
         {/* Stats Section - Layout dependent */}
         {renderStatsSection()}
-          const percentage = (stat.current / stat.max) * 100;
-          return (
-            <Pressable 
-              key={stat.id} 
-              style={({ pressed }) => [
-                styles.customStatRow,
-                pressed && styles.customStatRowPressed
-              ]}
-              onLongPress={() => handleStatLongPress(stat)}
-              delayLongPress={500}
-            >
-              <View style={styles.statNameRow}>
-                {stat.icon ? (
-                  <Image source={{ uri: stat.icon }} style={styles.statIcon} />
-                ) : (
-                  <View style={styles.statIconPlaceholder} />
-                )}
-                <View style={styles.statNameContainer}>
-                  <Text style={styles.customStatName}>{stat.name}</Text>
-                  <Text style={styles.statLevel}>Lv. {stat.level || 1}</Text>
-                </View>
-              </View>
-              <View style={styles.customStatBarContainer}>
-                <View style={styles.customStatBar}>
-                  <View 
-                    style={[
-                      styles.customStatBarFill, 
-                      { width: `${percentage}%`, backgroundColor: stat.color }
-                    ]} 
-                  />
-                </View>
-                <Text style={styles.customStatCounter}>
-                  {stat.current} / {stat.max}
-                </Text>
-              </View>
-              <Text style={styles.longPressHint}>Hold to edit</Text>
-            </Pressable>
-          );
-        })}
       </ScrollView>
 
       {/* Add Stat Modal */}

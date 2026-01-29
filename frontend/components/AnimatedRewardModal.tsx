@@ -519,6 +519,57 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
   },
+  // Animation effect styles
+  flashOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: '#FFFFFF',
+  },
+  burstEffect: {
+    position: 'absolute',
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: '#10B981',
+  },
+  ring: {
+    position: 'absolute',
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    borderWidth: 3,
+    backgroundColor: 'transparent',
+  },
+  sparkleContainer: {
+    position: 'absolute',
+    width: 200,
+    height: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  sparkle: {
+    position: 'absolute',
+    fontSize: 24,
+    top: 20,
+    left: 30,
+  },
+  sparkleLarge: {
+    position: 'absolute',
+    fontSize: 32,
+    top: 10,
+    right: 40,
+  },
+  sparkleSmall: {
+    position: 'absolute',
+    fontSize: 18,
+    bottom: 30,
+    left: 50,
+  },
+  sparkleOffset: {
+    position: 'absolute',
+    fontSize: 20,
+    bottom: 20,
+    right: 30,
+  },
   modalContainer: {
     backgroundColor: '#1F2937',
     borderRadius: 20,

@@ -652,6 +652,16 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     backgroundColor: '#FFFFFF',
   },
+  // Glitch effect styles
+  glitchLayer: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  glitchLayerCyan: {
+    backgroundColor: '#00FFFF',
+  },
+  glitchLayerMagenta: {
+    backgroundColor: '#FF00FF',
+  },
   burstEffect: {
     position: 'absolute',
     width: 100,

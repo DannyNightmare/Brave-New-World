@@ -1235,6 +1235,14 @@ export default function StatusScreen() {
                 </View>
               </View>
 
+              <Text style={styles.label}>Level</Text>
+              <TextInput
+                style={styles.input}
+                keyboardType="numeric"
+                value={String(editingStat.level || 1)}
+                onChangeText={(text) => setEditingStat({ ...editingStat, level: parseInt(text) || 1 })}
+              />
+
               <TouchableOpacity style={styles.createButton} onPress={saveEditedStat}>
                 <Text style={styles.createButtonText}>Save Changes</Text>
               </TouchableOpacity>

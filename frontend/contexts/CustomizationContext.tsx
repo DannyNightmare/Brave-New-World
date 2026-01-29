@@ -1143,6 +1143,7 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
       const savedBackgroundImage = await AsyncStorage.getItem('backgroundImage');
       const savedPopupStyleId = await AsyncStorage.getItem('popupStyleId');
       const savedStatusLayoutId = await AsyncStorage.getItem('statusLayoutId');
+      const savedAnimationStyleId = await AsyncStorage.getItem('animationStyleId');
 
       if (savedXpColor) setXpBarColorState(savedXpColor);
       if (savedGoldIcon) setGoldIconState(savedGoldIcon);
@@ -1163,6 +1164,10 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
       if (savedStatusLayoutId) {
         const layout = STATUS_LAYOUTS.find(l => l.id === savedStatusLayoutId);
         if (layout) setStatusLayoutState(layout);
+      }
+      if (savedAnimationStyleId) {
+        const anim = ANIMATION_STYLES.find(a => a.id === savedAnimationStyleId);
+        if (anim) setAnimationStyleState(anim);
       }
     } catch (error) {
       console.error('Failed to load customization preferences:', error);

@@ -336,6 +336,41 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
       onRequestClose={onClose}
     >
       <View style={[styles.overlay, themedStyles.overlay]}>
+        {/* Flash Effect - White burst on open */}
+        <Animated.View 
+          style={[styles.flashOverlay, flashStyle]} 
+          pointerEvents="none"
+        />
+        
+        {/* Burst/Explosion Effect */}
+        <Animated.View 
+          style={[styles.burstEffect, burstStyle, { backgroundColor: popupStyle.styles.buttonBg }]} 
+          pointerEvents="none"
+        />
+        
+        {/* Expanding Rings */}
+        <Animated.View 
+          style={[styles.ring, ring1Style, { borderColor: popupStyle.styles.buttonBg }]} 
+          pointerEvents="none"
+        />
+        <Animated.View 
+          style={[styles.ring, ring2Style, { borderColor: popupStyle.styles.headerTextColor }]} 
+          pointerEvents="none"
+        />
+        <Animated.View 
+          style={[styles.ring, ring3Style, { borderColor: popupStyle.styles.buttonBg }]} 
+          pointerEvents="none"
+        />
+        
+        {/* Sparkle/Star Effect */}
+        <Animated.View style={[styles.sparkleContainer, sparkleStyle]} pointerEvents="none">
+          <Text style={[styles.sparkle, { color: popupStyle.styles.buttonBg }]}>✦</Text>
+          <Text style={[styles.sparkleLarge, { color: popupStyle.styles.headerTextColor }]}>★</Text>
+          <Text style={[styles.sparkleSmall, { color: popupStyle.styles.buttonBg }]}>✧</Text>
+          <Text style={[styles.sparkleOffset, { color: popupStyle.styles.headerTextColor }]}>✦</Text>
+        </Animated.View>
+        
+        {/* Main Modal Container */}
         <Animated.View style={[
           styles.modalContainer, 
           themedStyles.modalContainer,

@@ -6,13 +6,16 @@ import Animated, {
   withSpring, 
   withTiming,
   withDelay,
+  withSequence,
+  withRepeat,
   Easing,
+  interpolate,
   runOnJS
 } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
 import { useCustomization, StatusTheme } from '../contexts/CustomizationContext';
 
-const { height: SCREEN_HEIGHT } = Dimensions.get('window');
+const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window');
 
 interface RewardModalProps {
   visible: boolean;

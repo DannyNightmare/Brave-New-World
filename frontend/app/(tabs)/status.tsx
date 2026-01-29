@@ -73,6 +73,16 @@ export default function StatusScreen() {
     }
   }, [user?.id]);
 
+  // Refresh custom stats when screen comes into focus
+  useFocusEffect(
+    useCallback(() => {
+      if (user?.id) {
+        fetchCustomStats();
+        refreshUser();
+      }
+    }, [user?.id])
+  );
+
   const fetchCustomStats = async () => {
     if (!user?.id) return;
     

@@ -460,6 +460,16 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
           pointerEvents="none"
         />
         
+        {/* Glitch Effect Layers (for glitch animation) */}
+        <Animated.View 
+          style={[styles.glitchLayer, styles.glitchLayerCyan, glitchStyle1]} 
+          pointerEvents="none"
+        />
+        <Animated.View 
+          style={[styles.glitchLayer, styles.glitchLayerMagenta, glitchStyle2]} 
+          pointerEvents="none"
+        />
+        
         {/* Burst/Explosion Effect */}
         <Animated.View 
           style={[styles.burstEffect, burstStyle, { backgroundColor: popupStyle.styles.buttonBg }]} 

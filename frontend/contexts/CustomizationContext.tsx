@@ -1100,10 +1100,13 @@ interface CustomizationContextType {
   setBackgroundImage: (image: string | null) => void;
   setPopupStyle: (styleId: string) => void;
   setStatusLayout: (layoutId: string) => void;
+  setAnimationStyle: (styleId: string) => void;
   getThemeById: (id: string) => StatusTheme;
   getPopupStyleById: (id: string) => PopupStyle;
   getStatusLayoutById: (id: string) => StatusLayout;
+  getAnimationStyleById: (id: string) => AnimationStyle;
   statusLayout: StatusLayout;
+  animationStyle: AnimationStyle;
 }
 
 const CustomizationContext = createContext<CustomizationContextType | undefined>(undefined);
@@ -1120,6 +1123,7 @@ export const CustomizationProvider: React.FC<{ children: React.ReactNode }> = ({
   const [backgroundImage, setBackgroundImageState] = useState<string | null>(null);
   const [popupStyle, setPopupStyleState] = useState<PopupStyle>(POPUP_STYLES[0]);
   const [statusLayout, setStatusLayoutState] = useState<StatusLayout>(STATUS_LAYOUTS[0]);
+  const [animationStyle, setAnimationStyleState] = useState<AnimationStyle>(ANIMATION_STYLES[0]);
 
   // Load preferences on mount
   useEffect(() => {

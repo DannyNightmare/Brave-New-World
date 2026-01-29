@@ -227,9 +227,43 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
   const containerStyle = useAnimatedStyle(() => ({
     transform: [
       { scale: scale.value },
-      { translateY: slideY.value }
+      { translateY: slideY.value },
+      { rotate: `${rotation.value}deg` }
     ],
     opacity: opacity.value,
+  }));
+
+  // Flash overlay style
+  const flashStyle = useAnimatedStyle(() => ({
+    opacity: flashOpacity.value,
+  }));
+
+  // Burst effect style
+  const burstStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: burstScale.value }],
+    opacity: burstOpacity.value,
+  }));
+
+  // Ring styles
+  const ring1Style = useAnimatedStyle(() => ({
+    transform: [{ scale: ring1Scale.value }],
+    opacity: ring1Opacity.value,
+  }));
+
+  const ring2Style = useAnimatedStyle(() => ({
+    transform: [{ scale: ring2Scale.value }],
+    opacity: ring2Opacity.value,
+  }));
+
+  const ring3Style = useAnimatedStyle(() => ({
+    transform: [{ scale: ring3Scale.value }],
+    opacity: ring3Opacity.value,
+  }));
+
+  // Sparkle style
+  const sparkleStyle = useAnimatedStyle(() => ({
+    transform: [{ rotate: `${sparkleRotation.value}deg` }],
+    opacity: sparkleOpacity.value,
   }));
 
   const hasLevelUp = rewards.newLevel && rewards.oldLevel && rewards.newLevel > rewards.oldLevel;

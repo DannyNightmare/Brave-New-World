@@ -850,6 +850,7 @@ export default function StatusScreen() {
                   <View style={styles.listStatBar}>
                     <View style={[styles.listStatFill, { width: `${percentage}%`, backgroundColor: stat.color }]} />
                   </View>
+                  <Text style={styles.listStatCounter}>{stat.current}/{stat.max}</Text>
                 </Pressable>
               );
             })}
@@ -865,7 +866,7 @@ export default function StatusScreen() {
           {statsHeader}
           <View style={styles.statsBarsContainer}>
             {customStats.map((stat) => {
-              const percentage = (stat.current / stat.max) * 100;
+              const percentage = Math.min((stat.current / stat.max) * 100, 100);
               return (
                 <Pressable
                   key={stat.id}
@@ -876,13 +877,13 @@ export default function StatusScreen() {
                     <View style={[styles.barsStatDot, { backgroundColor: stat.color }]} />
                     <Text style={styles.barsStatName}>{stat.name}</Text>
                     <Text style={[styles.barsStatLevel, { color: stat.color }]}>Lv.{stat.level || 1}</Text>
-                    <Text style={styles.barsStatValue}>{stat.current}</Text>
                   </View>
                   <View style={styles.barsStatBarContainer}>
                     <View style={[styles.barsStatBar, { backgroundColor: stat.color + '20' }]}>
                       <View style={[styles.barsStatFill, { width: `${percentage}%`, backgroundColor: stat.color }]} />
                     </View>
                   </View>
+                  <Text style={styles.barsStatCounter}>{stat.current}/{stat.max}</Text>
                 </Pressable>
               );
             })}

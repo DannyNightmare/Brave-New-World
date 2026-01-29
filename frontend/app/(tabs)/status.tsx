@@ -897,7 +897,7 @@ export default function StatusScreen() {
       <>
         {statsHeader}
         {customStats.map((stat) => {
-          const percentage = (stat.current / stat.max) * 100;
+          const percentage = Math.min((stat.current / stat.max) * 100, 100);
           return (
             <Pressable
               key={stat.id}
@@ -911,11 +911,11 @@ export default function StatusScreen() {
                     <Text style={styles.statLevelText}>Lv.{stat.level || 1}</Text>
                   </View>
                 </View>
-                <Text style={styles.statValue}>{stat.current} / {stat.max}</Text>
               </View>
               <View style={[styles.statBar, { backgroundColor: stat.color + '20' }]}>
                 <View style={[styles.statFill, { width: `${percentage}%`, backgroundColor: stat.color }]} />
               </View>
+              <Text style={styles.statProgressCounter}>{stat.current}/{stat.max}</Text>
               <Text style={styles.longPressHint}>Hold to edit</Text>
             </Pressable>
           );

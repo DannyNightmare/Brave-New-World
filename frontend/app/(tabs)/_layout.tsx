@@ -525,6 +525,53 @@ export default function TabLayout() {
                 </ScrollView>
               </View>
 
+              {/* Animation Style Section */}
+              <View style={styles.section}>
+                <Text style={[styles.sectionTitle, { color: colors.text }]}>Popup Animation</Text>
+                <Text style={[styles.sectionSubtitle, { color: colors.textSecondary }]}>
+                  Choose how quest completion popups animate
+                </Text>
+                <ScrollView 
+                  horizontal 
+                  showsHorizontalScrollIndicator={false}
+                  style={styles.animationScrollView}
+                  contentContainerStyle={styles.animationScrollContent}
+                >
+                  {ANIMATION_STYLES.map((anim) => (
+                    <TouchableOpacity
+                      key={anim.id}
+                      style={[
+                        styles.animationCard,
+                        { 
+                          backgroundColor: colors.surface,
+                          borderColor: animationStyle.id === anim.id ? statusTheme.colors.primary : colors.border,
+                          borderWidth: 2,
+                        }
+                      ]}
+                      onPress={() => setAnimationStyle(anim.id)}
+                    >
+                      <View style={[
+                        styles.animationPreview,
+                        { backgroundColor: colors.cardBackground }
+                      ]}>
+                        <Text style={styles.animationEmoji}>{anim.preview}</Text>
+                      </View>
+                      <Text style={[styles.animationName, { color: colors.text }]}>
+                        {anim.name}
+                      </Text>
+                      <Text style={[styles.animationDesc, { color: colors.textSecondary }]} numberOfLines={2}>
+                        {anim.description}
+                      </Text>
+                      {animationStyle.id === anim.id && (
+                        <View style={[styles.animationSelected, { backgroundColor: statusTheme.colors.primary }]}>
+                          <Ionicons name="checkmark" size={12} color="#FFF" />
+                        </View>
+                      )}
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+              </View>
+
               {/* Gold Icon Section */}
               <View style={styles.section}>
                 <Text style={[styles.sectionTitle, { color: colors.text }]}>Gold Icon</Text>

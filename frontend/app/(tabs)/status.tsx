@@ -2425,6 +2425,10 @@ const getStyles = (theme: StatusTheme, layout: StatusLayout) => StyleSheet.creat
     fontWeight: '500',
     color: theme.colors.text,
   },
+  barsStatLevel: {
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
   barsStatValue: {
     fontSize: 16,
     fontWeight: 'bold',

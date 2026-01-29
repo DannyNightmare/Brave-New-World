@@ -153,81 +153,184 @@ export const AnimatedRewardModal: React.FC<RewardModalProps> = ({
     }
   };
 
+  // Reset all animation values
+  const resetAnimations = () => {
+    scale.value = 0;
+    opacity.value = 0;
+    slideY.value = 50;
+    rotation.value = 0;
+    flashOpacity.value = 0;
+    burstScale.value = 0;
+    burstOpacity.value = 0;
+    ring1Scale.value = 0.5;
+    ring1Opacity.value = 0;
+    ring2Scale.value = 0.5;
+    ring2Opacity.value = 0;
+    ring3Scale.value = 0.5;
+    ring3Opacity.value = 0;
+    sparkleRotation.value = 0;
+    sparkleOpacity.value = 0;
+    glitchX.value = 0;
+    glitchOpacity1.value = 0;
+    glitchOpacity2.value = 0;
+  };
+
+  // Animation: Epic Burst (default)
+  const playBurstAnimation = () => {
+    rotation.value = -5;
+    
+    // Flash effect
+    flashOpacity.value = withSequence(
+      withTiming(0.8, { duration: 100 }),
+      withTiming(0, { duration: 300 })
+    );
+    
+    // Burst effect
+    burstOpacity.value = withSequence(
+      withTiming(1, { duration: 100 }),
+      withDelay(200, withTiming(0, { duration: 400 }))
+    );
+    burstScale.value = withTiming(3, { duration: 600, easing: Easing.out(Easing.cubic) });
+    
+    // Rings
+    ring1Opacity.value = withSequence(
+      withDelay(50, withTiming(0.8, { duration: 100 })),
+      withDelay(200, withTiming(0, { duration: 400 }))
+    );
+    ring1Scale.value = withDelay(50, withTiming(2.5, { duration: 600, easing: Easing.out(Easing.cubic) }));
+    ring2Opacity.value = withSequence(
+      withDelay(150, withTiming(0.6, { duration: 100 })),
+      withDelay(200, withTiming(0, { duration: 400 }))
+    );
+    ring2Scale.value = withDelay(150, withTiming(3, { duration: 700, easing: Easing.out(Easing.cubic) }));
+    ring3Opacity.value = withSequence(
+      withDelay(250, withTiming(0.4, { duration: 100 })),
+      withDelay(200, withTiming(0, { duration: 400 }))
+    );
+    ring3Scale.value = withDelay(250, withTiming(3.5, { duration: 800, easing: Easing.out(Easing.cubic) }));
+    
+    // Sparkles
+    sparkleOpacity.value = withSequence(
+      withDelay(100, withTiming(1, { duration: 200 })),
+      withDelay(600, withTiming(0, { duration: 300 }))
+    );
+    sparkleRotation.value = withDelay(100, withTiming(180, { duration: 800, easing: Easing.out(Easing.cubic) }));
+    
+    // Main modal
+    opacity.value = withDelay(150, withTiming(1, { duration: 300 }));
+    scale.value = withDelay(150, withSpring(1, { damping: 12, stiffness: 180, mass: 0.8 }));
+    slideY.value = withDelay(150, withSpring(0, { damping: 15, stiffness: 100 }));
+    rotation.value = withDelay(150, withSpring(0, { damping: 15, stiffness: 120 }));
+  };
+
+  // Animation: Smooth Fade
+  const playFadeAnimation = () => {
+    opacity.value = withTiming(1, { duration: 400, easing: Easing.out(Easing.quad) });
+    scale.value = withTiming(1, { duration: 400, easing: Easing.out(Easing.quad) });
+    slideY.value = 0;
+  };
+
+  // Animation: Slide Up
+  const playSlideUpAnimation = () => {
+    slideY.value = 300;
+    opacity.value = withTiming(1, { duration: 200 });
+    scale.value = 1;
+    slideY.value = withSpring(0, { damping: 18, stiffness: 120 });
+  };
+
+  // Animation: Scale Bounce
+  const playScaleBounceAnimation = () => {
+    slideY.value = 0;
+    opacity.value = withTiming(1, { duration: 150 });
+    scale.value = withSequence(
+      withTiming(1.2, { duration: 200, easing: Easing.out(Easing.cubic) }),
+      withSpring(1, { damping: 8, stiffness: 200 })
+    );
+  };
+
+  // Animation: Spiral Entry
+  const playSpiralAnimation = () => {
+    rotation.value = -360;
+    scale.value = 0.3;
+    slideY.value = 0;
+    
+    opacity.value = withTiming(1, { duration: 200 });
+    scale.value = withTiming(1, { duration: 600, easing: Easing.out(Easing.cubic) });
+    rotation.value = withTiming(0, { duration: 600, easing: Easing.out(Easing.cubic) });
+  };
+
+  // Animation: Digital Glitch
+  const playGlitchAnimation = () => {
+    slideY.value = 0;
+    
+    // Glitch flash effects
+    glitchOpacity1.value = withSequence(
+      withTiming(1, { duration: 50 }),
+      withTiming(0, { duration: 50 }),
+      withTiming(1, { duration: 50 }),
+      withTiming(0, { duration: 50 }),
+      withTiming(0, { duration: 100 })
+    );
+    glitchOpacity2.value = withSequence(
+      withDelay(30, withTiming(1, { duration: 50 })),
+      withTiming(0, { duration: 50 }),
+      withTiming(1, { duration: 50 }),
+      withTiming(0, { duration: 100 })
+    );
+    
+    // Glitch horizontal shake
+    glitchX.value = withSequence(
+      withTiming(-10, { duration: 50 }),
+      withTiming(8, { duration: 50 }),
+      withTiming(-5, { duration: 50 }),
+      withTiming(3, { duration: 50 }),
+      withTiming(0, { duration: 50 })
+    );
+    
+    // Main modal with slight delay
+    opacity.value = withDelay(100, withTiming(1, { duration: 100 }));
+    scale.value = withDelay(100, withTiming(1, { duration: 150 }));
+  };
+
+  // Animation: None
+  const playNoAnimation = () => {
+    opacity.value = 1;
+    scale.value = 1;
+    slideY.value = 0;
+  };
+
   useEffect(() => {
     if (visible) {
-      // Reset all animation values
-      scale.value = 0;
-      opacity.value = 0;
-      slideY.value = 50;
-      rotation.value = -5;
-      flashOpacity.value = 0;
-      burstScale.value = 0;
-      burstOpacity.value = 0;
-      ring1Scale.value = 0.5;
-      ring1Opacity.value = 0;
-      ring2Scale.value = 0.5;
-      ring2Opacity.value = 0;
-      ring3Scale.value = 0.5;
-      ring3Opacity.value = 0;
-      sparkleRotation.value = 0;
-      sparkleOpacity.value = 0;
+      resetAnimations();
       
-      // Step 1: Flash effect (bright burst)
-      flashOpacity.value = withSequence(
-        withTiming(0.8, { duration: 100 }),
-        withTiming(0, { duration: 300 })
-      );
-      
-      // Step 2: Burst/explosion effect
-      burstOpacity.value = withSequence(
-        withTiming(1, { duration: 100 }),
-        withDelay(200, withTiming(0, { duration: 400 }))
-      );
-      burstScale.value = withTiming(3, { duration: 600, easing: Easing.out(Easing.cubic) });
-      
-      // Step 3: Expanding rings (ripple effect)
-      ring1Opacity.value = withSequence(
-        withDelay(50, withTiming(0.8, { duration: 100 })),
-        withDelay(200, withTiming(0, { duration: 400 }))
-      );
-      ring1Scale.value = withDelay(50, withTiming(2.5, { duration: 600, easing: Easing.out(Easing.cubic) }));
-      
-      ring2Opacity.value = withSequence(
-        withDelay(150, withTiming(0.6, { duration: 100 })),
-        withDelay(200, withTiming(0, { duration: 400 }))
-      );
-      ring2Scale.value = withDelay(150, withTiming(3, { duration: 700, easing: Easing.out(Easing.cubic) }));
-      
-      ring3Opacity.value = withSequence(
-        withDelay(250, withTiming(0.4, { duration: 100 })),
-        withDelay(200, withTiming(0, { duration: 400 }))
-      );
-      ring3Scale.value = withDelay(250, withTiming(3.5, { duration: 800, easing: Easing.out(Easing.cubic) }));
-      
-      // Step 4: Sparkle rotation
-      sparkleOpacity.value = withSequence(
-        withDelay(100, withTiming(1, { duration: 200 })),
-        withDelay(600, withTiming(0, { duration: 300 }))
-      );
-      sparkleRotation.value = withDelay(100, withTiming(180, { duration: 800, easing: Easing.out(Easing.cubic) }));
-      
-      // Step 5: Main modal entrance (with slight bounce and rotation)
-      opacity.value = withDelay(150, withTiming(1, { duration: 300 }));
-      scale.value = withDelay(150, withSpring(1, {
-        damping: 12,
-        stiffness: 180,
-        mass: 0.8,
-      }));
-      slideY.value = withDelay(150, withSpring(0, {
-        damping: 15,
-        stiffness: 100,
-      }));
-      rotation.value = withDelay(150, withSpring(0, {
-        damping: 15,
-        stiffness: 120,
-      }));
+      // Play animation based on selected style
+      switch (animationStyle.id) {
+        case 'burst':
+          playBurstAnimation();
+          break;
+        case 'fade':
+          playFadeAnimation();
+          break;
+        case 'slide-up':
+          playSlideUpAnimation();
+          break;
+        case 'scale-bounce':
+          playScaleBounceAnimation();
+          break;
+        case 'spiral':
+          playSpiralAnimation();
+          break;
+        case 'glitch':
+          playGlitchAnimation();
+          break;
+        case 'none':
+          playNoAnimation();
+          break;
+        default:
+          playBurstAnimation();
+      }
     }
-  }, [visible]);
+  }, [visible, animationStyle.id]);
 
   const containerStyle = useAnimatedStyle(() => ({
     transform: [

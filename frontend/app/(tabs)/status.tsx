@@ -842,7 +842,10 @@ export default function StatusScreen() {
                   style={styles.statsListItem}
                 >
                   <View style={styles.listStatHeader}>
-                    <Text style={[styles.listStatName, { color: stat.color }]}>{stat.name}</Text>
+                    <View style={styles.listStatNameRow}>
+                      <Text style={[styles.listStatName, { color: stat.color }]}>{stat.name}</Text>
+                      <Text style={[styles.listStatLevel, { color: stat.color }]}>Lv.{stat.level || 1}</Text>
+                    </View>
                     <Text style={styles.listStatValue}>{stat.current}/{stat.max}</Text>
                   </View>
                   <View style={styles.listStatBar}>
@@ -873,6 +876,7 @@ export default function StatusScreen() {
                   <View style={styles.barsStatLabelRow}>
                     <View style={[styles.barsStatDot, { backgroundColor: stat.color }]} />
                     <Text style={styles.barsStatName}>{stat.name}</Text>
+                    <Text style={[styles.barsStatLevel, { color: stat.color }]}>Lv.{stat.level || 1}</Text>
                     <Text style={styles.barsStatValue}>{stat.current}</Text>
                   </View>
                   <View style={styles.barsStatBarContainer}>

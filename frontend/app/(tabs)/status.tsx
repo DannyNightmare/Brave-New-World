@@ -1947,6 +1947,24 @@ const getStyles = (theme: StatusTheme, layout: StatusLayout) => StyleSheet.creat
     height: '100%',
     borderRadius: 5,
   },
+  statProgressCounter: {
+    fontSize: 11,
+    color: theme.colors.textSecondary,
+    textAlign: 'right',
+    marginTop: 4,
+  },
+  listStatCounter: {
+    fontSize: 10,
+    color: theme.colors.textSecondary,
+    textAlign: 'right',
+    marginTop: 2,
+  },
+  barsStatCounter: {
+    fontSize: 10,
+    color: theme.colors.textSecondary,
+    textAlign: 'right',
+    marginTop: 2,
+  },
   actionModalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.7)',

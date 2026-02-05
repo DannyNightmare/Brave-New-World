@@ -1865,16 +1865,58 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
   },
   subcategoryChip: {
     backgroundColor: theme.colors.cardBackground,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 20,
     borderWidth: 1,
+    borderColor: theme.colors.border,
+    marginRight: 8,
+  },
+  subcategoryChipSelected: {
+    backgroundColor: theme.colors.primary,
     borderColor: theme.colors.primary,
   },
   subcategoryChipText: {
-    fontSize: 12,
-    color: theme.colors.primary,
+    fontSize: 13,
+    color: theme.colors.text,
+    fontWeight: '500',
+  },
+  subcategoryChipTextSelected: {
+    color: '#FFFFFF',
+  },
+  categoryScroll: {
+    marginBottom: 12,
+  },
+  categoryChip: {
+    backgroundColor: theme.colors.cardBackground,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: theme.colors.border,
+    marginRight: 10,
+  },
+  categoryChipSelected: {
+    backgroundColor: theme.colors.primary,
+    borderColor: theme.colors.primary,
+  },
+  categoryChipText: {
+    fontSize: 14,
+    color: theme.colors.text,
     fontWeight: '600',
+  },
+  categoryChipTextSelected: {
+    color: '#FFFFFF',
+  },
+  evolveItemSubcat: {
+    fontSize: 11,
+    color: theme.colors.textSecondary,
+    marginTop: 2,
+  },
+  loadingText: {
+    color: theme.colors.textSecondary,
+    marginTop: 12,
+    fontSize: 14,
   },
   subcategoriesEditList: {
     marginBottom: 12,

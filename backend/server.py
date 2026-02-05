@@ -866,6 +866,15 @@ async def level_up_power(power_id: str):
     if power["current_level"] >= power["max_level"]:
         raise HTTPException(status_code=400, detail="Power is already at max level")
     
+    # Check if this is an evolved power that is locked
+    if power.get("evolved_from") or power.get("is_evolved"):
+        # Find the parent power
+        parent_power = await db.powers.find_one({"evolved_abilities": power_id})
+        if parent_power:
+            # Check if parent is maxed
+            if parent_power["current_level"] < parent_power["max_level"]:
+                raise HTTPException(status_code=400, detail="Parent ability must be maxed before leveling this evolved power")
+    
     # Check if user has enough ability points
     user = await db.users.find_one({"id": power["user_id"]})
     if not user:

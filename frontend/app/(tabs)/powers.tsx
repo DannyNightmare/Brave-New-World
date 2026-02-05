@@ -23,6 +23,7 @@ interface PowerItem {
   stat_boost?: { [key: string]: number };
   evolved_from?: string;
   evolved_abilities?: string[];
+  evolved_ability_names?: { name: string; tier: string; category: string }[];
   is_evolved?: boolean;
 }
 

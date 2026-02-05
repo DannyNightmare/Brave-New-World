@@ -689,10 +689,10 @@ export default function PowersScreen() {
                           {/* Ability Name */}
                           <View style={styles.abilityNameSection}>
                             <Text style={styles.abilityName}>{power.name}</Text>
-                            {power.evolved_abilities && power.evolved_abilities.length > 0 && (
+                            {hasEvolutions(power) && (
                               <View style={styles.hasEvolutionBadge}>
                                 <Ionicons name="git-branch" size={10} color="#10B981" />
-                                <Text style={styles.hasEvolutionText}>{power.evolved_abilities.length}</Text>
+                                <Text style={styles.hasEvolutionText}>{getEvolutionCount(power)}</Text>
                               </View>
                             )}
                           </View>

@@ -1097,6 +1097,40 @@ export default function PowersScreen() {
         </TouchableOpacity>
       </Modal>
 
+      {/* Delete Confirmation Modal */}
+      <Modal visible={deleteConfirmVisible} animationType="fade" transparent={true}>
+        <View style={styles.actionModalOverlay}>
+          <View style={styles.deleteConfirmContent}>
+            <Ionicons name="warning" size={48} color="#EF4444" style={{ marginBottom: 16 }} />
+            <Text style={styles.deleteConfirmTitle}>Delete Power</Text>
+            <Text style={styles.deleteConfirmText}>
+              Are you sure you want to delete "{selectedPower?.name}"?
+            </Text>
+            <Text style={styles.deleteConfirmSubtext}>
+              This action cannot be undone.
+            </Text>
+            <View style={styles.deleteConfirmButtons}>
+              <TouchableOpacity 
+                style={styles.deleteConfirmCancelBtn} 
+                onPress={() => {
+                  setDeleteConfirmVisible(false);
+                  setSelectedPower(null);
+                }}
+              >
+                <Text style={styles.deleteConfirmCancelText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                style={styles.deleteConfirmDeleteBtn} 
+                onPress={confirmDeletePower}
+              >
+                <Ionicons name="trash" size={20} color="#FFFFFF" />
+                <Text style={styles.deleteConfirmDeleteText}>Delete</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
       {/* Evolution Link Modal - Category Browser */}
       <Modal visible={evolveModalVisible} animationType="slide" transparent={true}>
         <View style={styles.modalOverlay}>

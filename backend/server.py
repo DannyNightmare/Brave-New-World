@@ -760,6 +760,41 @@ async def link_evolved_ability(power_id: str, data: LinkEvolvedAbility):
     
     return {"message": "Evolution linked successfully", "parent_id": power_id, "evolved_id": data.evolved_power_id}
 
+class LinkEvolutionByName(BaseModel):
+    evolved_power_name: str
+    evolved_power_tier: str = "Basic"
+    evolved_power_category: str = ""
+
+@api_router.post("/powers/{power_id}/link-evolution-by-name")
+async def link_evolved_ability_by_name(power_id: str, data: LinkEvolutionByName):
+    """Link an evolution by name - stores just the name reference without creating a power yet"""
+    parent_power = await db.powers.find_one({"id": power_id})
+    if not parent_power:
+        raise HTTPException(status_code=404, detail="Parent power not found")
+    
+    # Store the evolution info in the parent power's next_tier_ability field or a new evolved_names list
+    existing_evolved_names = parent_power.get("evolved_ability_names") or []
+    
+    evolution_info = {
+        "name": data.evolved_power_name,
+        "tier": data.evolved_power_tier,
+        "category": data.evolved_power_category or parent_power.get("power_category", ""),
+    }
+    
+    # Check if already linked
+    for ev in existing_evolved_names:
+        if ev.get("name") == data.evolved_power_name:
+            raise HTTPException(status_code=400, detail="This ability is already linked as an evolution")
+    
+    existing_evolved_names.append(evolution_info)
+    
+    await db.powers.update_one(
+        {"id": power_id},
+        {"$set": {"evolved_ability_names": existing_evolved_names}}
+    )
+    
+    return {"message": "Evolution linked successfully", "parent_id": power_id, "evolved_name": data.evolved_power_name}
+
 @api_router.post("/powers/{power_id}/unlink-evolution")
 async def unlink_evolved_ability(power_id: str, data: LinkEvolvedAbility):
     """Unlink an evolved ability from its parent"""

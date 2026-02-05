@@ -2011,6 +2011,65 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
     fontWeight: '600',
     color: '#9CA3AF',
   },
+  // Delete Confirmation Modal styles
+  deleteConfirmContent: {
+    backgroundColor: '#1F2937',
+    borderRadius: 16,
+    padding: 24,
+    width: '85%',
+    maxWidth: 350,
+    alignItems: 'center',
+  },
+  deleteConfirmTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#F9FAFB',
+    marginBottom: 12,
+  },
+  deleteConfirmText: {
+    fontSize: 16,
+    color: '#D1D5DB',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  deleteConfirmSubtext: {
+    fontSize: 14,
+    color: '#9CA3AF',
+    textAlign: 'center',
+    marginBottom: 24,
+  },
+  deleteConfirmButtons: {
+    flexDirection: 'row',
+    gap: 12,
+    width: '100%',
+  },
+  deleteConfirmCancelBtn: {
+    flex: 1,
+    backgroundColor: '#374151',
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  deleteConfirmCancelText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#D1D5DB',
+  },
+  deleteConfirmDeleteBtn: {
+    flex: 1,
+    backgroundColor: '#EF4444',
+    paddingVertical: 14,
+    borderRadius: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  deleteConfirmDeleteText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#FFFFFF',
+  },
   // Evolution styles
   evolveActionButton: {
     backgroundColor: 'rgba(16, 185, 129, 0.1)',

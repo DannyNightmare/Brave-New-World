@@ -26,6 +26,19 @@ interface PowerItem {
   is_evolved?: boolean;
 }
 
+interface ShopItem {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  is_power?: boolean;
+  power_category?: string;
+  power_subcategory?: string;
+  power_tier?: string;
+  power_max_level?: number;
+}
+
 export default function PowersScreen() {
   const { user, refreshUser } = useUser();
   const { colors } = useTheme();
@@ -43,6 +56,13 @@ export default function PowersScreen() {
   const [editingPower, setEditingPower] = useState<PowerItem | null>(null);
   const [selectedPower, setSelectedPower] = useState<PowerItem | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
+  
+  // Evolution selection state
+  const [shopItems, setShopItems] = useState<ShopItem[]>([]);
+  const [loadingShopItems, setLoadingShopItems] = useState(false);
+  const [selectedEvolveCategory, setSelectedEvolveCategory] = useState<string | null>(null);
+  const [selectedEvolveSubcategory, setSelectedEvolveSubcategory] = useState<string | null>(null);
+  
   const [editForm, setEditForm] = useState({
     name: '',
     description: '',

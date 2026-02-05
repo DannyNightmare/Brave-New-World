@@ -232,7 +232,10 @@ export default function PowersScreen() {
 
   const handleAddEvolution = () => {
     if (selectedPower) {
-      // Allow adding evolution at any level - it will be shown as locked until parent is maxed
+      // Fetch shop items and open the evolution modal
+      fetchShopItems();
+      setSelectedEvolveCategory(null);
+      setSelectedEvolveSubcategory(null);
       setPowerActionModalVisible(false);
       setEvolveModalVisible(true);
     }
@@ -247,6 +250,36 @@ export default function PowersScreen() {
       !p.is_evolved &&
       !selectedPower.evolved_abilities?.includes(p.id)
     );
+  };
+
+  // Link evolution from a shop item (by name)
+  const linkEvolutionFromShop = async (shopItem: ShopItem) => {
+    if (!selectedPower) return;
+
+    try {
+      const response = await fetch(`${API_URL}/api/powers/${selectedPower.id}/link-evolution-by-name`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          evolved_power_name: shopItem.name,
+          evolved_power_tier: shopItem.power_tier || 'Basic',
+          evolved_power_category: shopItem.power_category || selectedPower.power_category,
+        }),
+      });
+
+      if (response.ok) {
+        await fetchPowers();
+        setEvolveModalVisible(false);
+        setSelectedPower(null);
+        Alert.alert('Success', `"${shopItem.name}" linked as evolution!`);
+      } else {
+        const error = await response.json();
+        Alert.alert('Error', error.detail || 'Failed to link evolution');
+      }
+    } catch (error) {
+      console.error('Failed to link evolution:', error);
+      Alert.alert('Error', 'Failed to link evolution');
+    }
   };
 
   const linkEvolution = async (evolvedPowerId: string) => {

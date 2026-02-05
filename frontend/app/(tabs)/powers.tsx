@@ -127,6 +127,12 @@ export default function PowersScreen() {
 
   // Get items for a category/subcategory
   const getItemsForSelection = () => {
+    // Get already linked evolution names
+    const linkedNames: string[] = [];
+    if (selectedPower?.evolved_ability_names) {
+      selectedPower.evolved_ability_names.forEach(e => linkedNames.push(e.name));
+    }
+    
     return shopItems.filter(item => {
       if (selectedEvolveCategory && item.power_category !== selectedEvolveCategory) {
         return false;
@@ -136,6 +142,10 @@ export default function PowersScreen() {
       }
       // Don't show the selected power itself
       if (selectedPower && item.name === selectedPower.name) {
+        return false;
+      }
+      // Don't show already linked evolutions
+      if (linkedNames.includes(item.name)) {
         return false;
       }
       return true;

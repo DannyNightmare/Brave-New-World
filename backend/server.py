@@ -158,6 +158,7 @@ class PowerItem(BaseModel):
     stat_boost: Optional[dict] = None
     evolved_from: Optional[str] = None  # ID of the parent power this evolved from
     evolved_abilities: Optional[list] = None  # List of IDs of evolved abilities
+    evolved_ability_names: Optional[list] = None  # List of {name, tier, category} for evolution links by name
     is_evolved: bool = False  # Whether this is an evolved ability
     acquired_at: datetime = Field(default_factory=datetime.utcnow)
 

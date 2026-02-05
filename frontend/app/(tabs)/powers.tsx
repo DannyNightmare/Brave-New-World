@@ -340,44 +340,34 @@ export default function PowersScreen() {
       console.log('No power selected');
       return;
     }
+    
+    // Close action modal and show delete confirmation
+    setPowerActionModalVisible(false);
+    setDeleteConfirmVisible(true);
+  };
 
-    console.log('Attempting to delete power:', selectedPower.id, selectedPower.name);
+  const confirmDeletePower = async () => {
+    if (!selectedPower) return;
+    
+    try {
+      console.log('Calling DELETE endpoint:', `${API_URL}/api/powers/${selectedPower.id}`);
+      const response = await fetch(`${API_URL}/api/powers/${selectedPower.id}`, {
+        method: 'DELETE',
+      });
 
-    Alert.alert(
-      'Delete Power',
-      `Are you sure you want to delete "${selectedPower.name}"?`,
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              console.log('Calling DELETE endpoint:', `${API_URL}/api/powers/${selectedPower.id}`);
-              const response = await fetch(`${API_URL}/api/powers/${selectedPower.id}`, {
-                method: 'DELETE',
-              });
+      console.log('Delete response status:', response.status);
 
-              console.log('Delete response status:', response.status);
-              const responseText = await response.text();
-              console.log('Delete response body:', responseText);
-
-              if (response.ok) {
-                await fetchPowers();
-                setPowerActionModalVisible(false);
-                setSelectedPower(null);
-                Alert.alert('Success', 'Power deleted successfully!');
-              } else {
-                Alert.alert('Error', `Failed to delete power: ${responseText}`);
-              }
-            } catch (error) {
-              console.error('Failed to delete power:', error);
-              Alert.alert('Error', 'Failed to delete power: ' + error);
-            }
-          },
-        },
-      ]
-    );
+      if (response.ok) {
+        await fetchPowers();
+        setDeleteConfirmVisible(false);
+        setSelectedPower(null);
+      } else {
+        const responseText = await response.text();
+        console.error('Delete failed:', responseText);
+      }
+    } catch (error) {
+      console.error('Failed to delete power:', error);
+    }
   };
 
   const handleEditCategory = () => {

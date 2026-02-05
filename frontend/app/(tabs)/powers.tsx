@@ -329,10 +329,41 @@ export default function PowersScreen() {
     }
   };
 
-  // Get evolved abilities for a power (show all linked, parent max status doesn't matter for display)
+  // Get evolved abilities for a power (show all linked, parent max status determines lock state)
   const getEvolvedAbilities = (parentPower: PowerItem) => {
-    if (!parentPower.evolved_abilities || parentPower.evolved_abilities.length === 0) return [];
-    return powers.filter(p => parentPower.evolved_abilities?.includes(p.id));
+    const evolvedPowers: PowerItem[] = [];
+    
+    // Check powers linked by ID (evolved_abilities)
+    if (parentPower.evolved_abilities && parentPower.evolved_abilities.length > 0) {
+      const linkedById = powers.filter(p => parentPower.evolved_abilities?.includes(p.id));
+      evolvedPowers.push(...linkedById);
+    }
+    
+    // Check powers linked by name (evolved_ability_names from Shop)
+    if ((parentPower as any).evolved_ability_names && (parentPower as any).evolved_ability_names.length > 0) {
+      const evolvedNames = (parentPower as any).evolved_ability_names.map((e: any) => e.name);
+      const linkedByName = powers.filter(p => evolvedNames.includes(p.name) && !evolvedPowers.find(ep => ep.id === p.id));
+      evolvedPowers.push(...linkedByName);
+    }
+    
+    return evolvedPowers;
+  };
+
+  // Check if a power is locked (is evolved and parent not maxed)
+  const isPowerLocked = (power: PowerItem): boolean => {
+    // Find parent power that has this power as evolution
+    const parentPower = powers.find(p => {
+      // Check evolved_abilities (by ID)
+      if (p.evolved_abilities?.includes(power.id)) return true;
+      // Check evolved_ability_names (by name)
+      if ((p as any).evolved_ability_names?.some((e: any) => e.name === power.name)) return true;
+      return false;
+    });
+    
+    if (!parentPower) return false;
+    
+    // Locked if parent is not at max level
+    return parentPower.current_level < parentPower.max_level;
   };
 
   const handleDeletePower = async () => {

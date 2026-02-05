@@ -85,6 +85,61 @@ export default function PowersScreen() {
   });
   const [userCategories, setUserCategories] = useState<{[key: string]: string[]}>({});
 
+  // Fetch shop items for evolution selection
+  const fetchShopItems = async () => {
+    setLoadingShopItems(true);
+    try {
+      const response = await fetch(`${API_URL}/api/shop`);
+      const data = await response.json();
+      // Filter only power items
+      const powerItems = data.filter((item: ShopItem) => item.is_power === true);
+      setShopItems(powerItems);
+    } catch (error) {
+      console.error('Failed to fetch shop items:', error);
+    } finally {
+      setLoadingShopItems(false);
+    }
+  };
+
+  // Get unique categories from shop items
+  const getShopCategories = () => {
+    const categories = new Set<string>();
+    shopItems.forEach(item => {
+      if (item.power_category) {
+        categories.add(item.power_category);
+      }
+    });
+    return Array.from(categories);
+  };
+
+  // Get subcategories for a category
+  const getShopSubcategories = (category: string) => {
+    const subcategories = new Set<string>();
+    shopItems.forEach(item => {
+      if (item.power_category === category && item.power_subcategory) {
+        subcategories.add(item.power_subcategory);
+      }
+    });
+    return Array.from(subcategories);
+  };
+
+  // Get items for a category/subcategory
+  const getItemsForSelection = () => {
+    return shopItems.filter(item => {
+      if (selectedEvolveCategory && item.power_category !== selectedEvolveCategory) {
+        return false;
+      }
+      if (selectedEvolveSubcategory && item.power_subcategory !== selectedEvolveSubcategory) {
+        return false;
+      }
+      // Don't show the selected power itself
+      if (selectedPower && item.name === selectedPower.name) {
+        return false;
+      }
+      return true;
+    });
+  };
+
   const fetchPowers = async () => {
     if (!user?.id) return;
     

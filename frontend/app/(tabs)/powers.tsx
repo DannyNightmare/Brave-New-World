@@ -157,11 +157,7 @@ export default function PowersScreen() {
 
   const handleAddEvolution = () => {
     if (selectedPower) {
-      // Check if power is at max level
-      if (selectedPower.current_level < selectedPower.max_level) {
-        Alert.alert('Not Ready', 'This power must be at max level before adding an evolution.');
-        return;
-      }
+      // Allow adding evolution at any level - it will be shown as locked until parent is maxed
       setPowerActionModalVisible(false);
       setEvolveModalVisible(true);
     }

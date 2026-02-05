@@ -2146,12 +2146,11 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
     color: '#FFD700',
   },
   evolveModalContent: {
+    flex: 1,
     backgroundColor: theme.colors.cardBackground,
-    borderRadius: 20,
-    padding: 20,
-    width: '90%',
-    maxWidth: 400,
-    maxHeight: '80%',
+    paddingTop: 60,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
   },
   modalHeader: {
     flexDirection: 'row',
@@ -2174,7 +2173,7 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
     letterSpacing: 1,
   },
   evolveList: {
-    maxHeight: 200,
+    flex: 1,
     marginBottom: 16,
   },
   evolveItem: {
@@ -2182,10 +2181,10 @@ const getStyles = (theme: StatusTheme) => StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: theme.colors.background,
-    padding: 14,
+    padding: 16,
     borderRadius: 12,
-    marginBottom: 8,
-    borderWidth: 1,
+    marginBottom: 10,
+    borderWidth: 2,
     borderColor: theme.colors.cardBorder,
   },
   evolveItemInfo: {

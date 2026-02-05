@@ -341,8 +341,8 @@ export default function PowersScreen() {
     }
     
     // Check powers linked by name (evolved_ability_names from Shop)
-    if ((parentPower as any).evolved_ability_names && (parentPower as any).evolved_ability_names.length > 0) {
-      const evolvedNames = (parentPower as any).evolved_ability_names.map((e: any) => e.name);
+    if (parentPower.evolved_ability_names && parentPower.evolved_ability_names.length > 0) {
+      const evolvedNames = parentPower.evolved_ability_names.map(e => e.name);
       const linkedByName = powers.filter(p => evolvedNames.includes(p.name) && !evolvedPowers.find(ep => ep.id === p.id));
       evolvedPowers.push(...linkedByName);
     }
@@ -357,7 +357,7 @@ export default function PowersScreen() {
       // Check evolved_abilities (by ID)
       if (p.evolved_abilities?.includes(power.id)) return true;
       // Check evolved_ability_names (by name)
-      if ((p as any).evolved_ability_names?.some((e: any) => e.name === power.name)) return true;
+      if (p.evolved_ability_names?.some(e => e.name === power.name)) return true;
       return false;
     });
     
@@ -365,6 +365,20 @@ export default function PowersScreen() {
     
     // Locked if parent is not at max level
     return parentPower.current_level < parentPower.max_level;
+  };
+  
+  // Check if power has evolutions linked (either by ID or by name)
+  const hasEvolutions = (power: PowerItem): boolean => {
+    return (power.evolved_abilities && power.evolved_abilities.length > 0) ||
+           (power.evolved_ability_names && power.evolved_ability_names.length > 0);
+  };
+  
+  // Get total evolution count
+  const getEvolutionCount = (power: PowerItem): number => {
+    let count = 0;
+    if (power.evolved_abilities) count += power.evolved_abilities.length;
+    if (power.evolved_ability_names) count += power.evolved_ability_names.length;
+    return count;
   };
 
   const handleDeletePower = async () => {

@@ -53,6 +53,7 @@ export default function PowersScreen() {
   const [categoryActionModalVisible, setCategoryActionModalVisible] = useState(false);
   const [categoryManagerVisible, setCategoryManagerVisible] = useState(false);
   const [evolveModalVisible, setEvolveModalVisible] = useState(false);
+  const [deleteConfirmVisible, setDeleteConfirmVisible] = useState(false);
   const [editingPower, setEditingPower] = useState<PowerItem | null>(null);
   const [selectedPower, setSelectedPower] = useState<PowerItem | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('');

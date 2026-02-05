@@ -1178,149 +1178,150 @@ export default function PowersScreen() {
       </Modal>
 
       {/* Evolution Link Modal - Category Browser */}
-      <Modal visible={evolveModalVisible} animationType="slide" transparent={true}>
-        <View style={styles.modalOverlay}>
-          <View style={styles.evolveModalContent}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Add Evolution</Text>
-              <TouchableOpacity onPress={() => {
-                setEvolveModalVisible(false);
-                setSelectedEvolveCategory(null);
-                setSelectedEvolveSubcategory(null);
-              }}>
-                <Ionicons name="close" size={28} color={statusTheme.colors.text} />
-              </TouchableOpacity>
-            </View>
-            
-            <Text style={styles.evolveDescription}>
-              Select an ability from the Shop to link as an evolution for "{selectedPower?.name}".
-            </Text>
+      <Modal visible={evolveModalVisible} animationType="slide" transparent={false}>
+        <View style={styles.evolveModalContent}>
+          <View style={styles.modalHeader}>
+            <Text style={styles.modalTitle}>Add Evolution</Text>
+            <TouchableOpacity onPress={() => {
+              setEvolveModalVisible(false);
+              setSelectedEvolveCategory(null);
+              setSelectedEvolveSubcategory(null);
+            }}>
+              <Ionicons name="close-circle" size={32} color={statusTheme.colors.textSecondary} />
+            </TouchableOpacity>
+          </View>
+          
+          <Text style={styles.evolveDescription}>
+            Select an ability from the Shop to link as an evolution for "{selectedPower?.name}".
+          </Text>
 
-            {loadingShopItems ? (
-              <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color={statusTheme.colors.primary} />
-                <Text style={styles.loadingText}>Loading abilities...</Text>
-              </View>
-            ) : (
-              <>
-                {/* Category Selection */}
-                <Text style={styles.evolveSubtitle}>Categories:</Text>
-                <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryScroll}>
+          {loadingShopItems ? (
+            <View style={styles.loadingContainer}>
+              <ActivityIndicator size="large" color={statusTheme.colors.primary} />
+              <Text style={styles.loadingText}>Loading abilities...</Text>
+            </View>
+          ) : (
+            <>
+              {/* Category Selection */}
+              <Text style={styles.evolveSubtitle}>Categories:</Text>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryScroll}>
+                <TouchableOpacity
+                  style={[
+                    styles.categoryChip,
+                    !selectedEvolveCategory && styles.categoryChipSelected
+                  ]}
+                  onPress={() => {
+                    setSelectedEvolveCategory(null);
+                    setSelectedEvolveSubcategory(null);
+                  }}
+                >
+                  <Text style={[
+                    styles.categoryChipText,
+                    !selectedEvolveCategory && styles.categoryChipTextSelected
+                  ]}>All</Text>
+                </TouchableOpacity>
+                {getShopCategories().map((cat) => (
                   <TouchableOpacity
+                    key={cat}
                     style={[
                       styles.categoryChip,
-                      !selectedEvolveCategory && styles.categoryChipSelected
+                      selectedEvolveCategory === cat && styles.categoryChipSelected
                     ]}
                     onPress={() => {
-                      setSelectedEvolveCategory(null);
+                      setSelectedEvolveCategory(cat);
                       setSelectedEvolveSubcategory(null);
                     }}
                   >
                     <Text style={[
                       styles.categoryChipText,
-                      !selectedEvolveCategory && styles.categoryChipTextSelected
-                    ]}>All</Text>
+                      selectedEvolveCategory === cat && styles.categoryChipTextSelected
+                    ]}>{cat}</Text>
                   </TouchableOpacity>
-                  {getShopCategories().map((cat) => (
+                ))}
+              </ScrollView>
+
+              {/* Subcategory Selection (if category selected and has subcategories) */}
+              {selectedEvolveCategory && getShopSubcategories(selectedEvolveCategory).length > 0 && (
+                <>
+                  <Text style={styles.evolveSubtitle}>Subcategories:</Text>
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryScroll}>
                     <TouchableOpacity
-                      key={cat}
                       style={[
-                        styles.categoryChip,
-                        selectedEvolveCategory === cat && styles.categoryChipSelected
+                        styles.subcategoryChip,
+                        !selectedEvolveSubcategory && styles.subcategoryChipSelected
                       ]}
-                      onPress={() => {
-                        setSelectedEvolveCategory(cat);
-                        setSelectedEvolveSubcategory(null);
-                      }}
+                      onPress={() => setSelectedEvolveSubcategory(null)}
                     >
                       <Text style={[
-                        styles.categoryChipText,
-                        selectedEvolveCategory === cat && styles.categoryChipTextSelected
-                      ]}>{cat}</Text>
+                        styles.subcategoryChipText,
+                        !selectedEvolveSubcategory && styles.subcategoryChipTextSelected
+                      ]}>All</Text>
                     </TouchableOpacity>
-                  ))}
-                </ScrollView>
-
-                {/* Subcategory Selection (if category selected and has subcategories) */}
-                {selectedEvolveCategory && getShopSubcategories(selectedEvolveCategory).length > 0 && (
-                  <>
-                    <Text style={styles.evolveSubtitle}>Subcategories:</Text>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryScroll}>
+                    {getShopSubcategories(selectedEvolveCategory).map((subcat) => (
                       <TouchableOpacity
+                        key={subcat}
                         style={[
                           styles.subcategoryChip,
-                          !selectedEvolveSubcategory && styles.subcategoryChipSelected
+                          selectedEvolveSubcategory === subcat && styles.subcategoryChipSelected
                         ]}
-                        onPress={() => setSelectedEvolveSubcategory(null)}
+                        onPress={() => setSelectedEvolveSubcategory(subcat)}
                       >
                         <Text style={[
                           styles.subcategoryChipText,
-                          !selectedEvolveSubcategory && styles.subcategoryChipTextSelected
-                        ]}>All</Text>
+                          selectedEvolveSubcategory === subcat && styles.subcategoryChipTextSelected
+                        ]}>{subcat}</Text>
                       </TouchableOpacity>
-                      {getShopSubcategories(selectedEvolveCategory).map((subcat) => (
-                        <TouchableOpacity
-                          key={subcat}
-                          style={[
-                            styles.subcategoryChip,
-                            selectedEvolveSubcategory === subcat && styles.subcategoryChipSelected
-                          ]}
-                          onPress={() => setSelectedEvolveSubcategory(subcat)}
-                        >
-                          <Text style={[
-                            styles.subcategoryChipText,
-                            selectedEvolveSubcategory === subcat && styles.subcategoryChipTextSelected
-                          ]}>{subcat}</Text>
-                        </TouchableOpacity>
-                      ))}
-                    </ScrollView>
-                  </>
+                    ))}
+                  </ScrollView>
+                </>
+              )}
+
+              {/* Abilities List */}
+              <Text style={styles.evolveSubtitle}>Available Abilities:</Text>
+              <ScrollView style={styles.evolveList}>
+                {getItemsForSelection().length === 0 ? (
+                  <View style={styles.emptyEvolveState}>
+                    <Ionicons name="information-circle" size={48} color={statusTheme.colors.textSecondary} />
+                    <Text style={styles.emptyEvolveText}>No abilities found.</Text>
+                    <Text style={styles.emptyEvolveSubtext}>Create abilities in the Shop first.</Text>
+                  </View>
+                ) : (
+                  getItemsForSelection().map((item) => (
+                    <TouchableOpacity 
+                      key={item.id} 
+                      style={styles.evolveItem}
+                      onPress={() => {
+                        console.log('Linking evolution:', item.name);
+                        linkEvolutionFromShop(item);
+                      }}
+                    >
+                      <View style={styles.evolveItemInfo}>
+                        <Text style={styles.evolveItemName}>{item.name}</Text>
+                        <Text style={styles.evolveItemTier}>{item.power_tier || 'Basic'}</Text>
+                        {item.power_subcategory && (
+                          <Text style={styles.evolveItemSubcat}>{item.power_subcategory}</Text>
+                        )}
+                      </View>
+                      <View style={styles.evolveItemAction}>
+                        <Ionicons name="add-circle" size={32} color={statusTheme.colors.primary} />
+                      </View>
+                    </TouchableOpacity>
+                  ))
                 )}
+              </ScrollView>
+            </>
+          )}
 
-                {/* Abilities List */}
-                <Text style={styles.evolveSubtitle}>Available Abilities:</Text>
-                <ScrollView style={styles.evolveList}>
-                  {getItemsForSelection().length === 0 ? (
-                    <View style={styles.emptyEvolveState}>
-                      <Ionicons name="information-circle" size={48} color={statusTheme.colors.textSecondary} />
-                      <Text style={styles.emptyEvolveText}>No abilities found.</Text>
-                      <Text style={styles.emptyEvolveSubtext}>Create abilities in the Shop first.</Text>
-                    </View>
-                  ) : (
-                    getItemsForSelection().map((item) => (
-                      <TouchableOpacity 
-                        key={item.id} 
-                        style={styles.evolveItem}
-                        onPress={() => linkEvolutionFromShop(item)}
-                      >
-                        <View style={styles.evolveItemInfo}>
-                          <Text style={styles.evolveItemName}>{item.name}</Text>
-                          <Text style={styles.evolveItemTier}>{item.power_tier || 'Basic'}</Text>
-                          {item.power_subcategory && (
-                            <Text style={styles.evolveItemSubcat}>{item.power_subcategory}</Text>
-                          )}
-                        </View>
-                        <View style={styles.evolveItemAction}>
-                          <Ionicons name="add-circle" size={24} color={statusTheme.colors.primary} />
-                        </View>
-                      </TouchableOpacity>
-                    ))
-                  )}
-                </ScrollView>
-              </>
-            )}
-
-            <TouchableOpacity 
-              style={styles.closeButton} 
-              onPress={() => {
-                setEvolveModalVisible(false);
-                setSelectedEvolveCategory(null);
-                setSelectedEvolveSubcategory(null);
-              }}
-            >
-              <Text style={styles.closeButtonText}>Done</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity 
+            style={styles.closeButton} 
+            onPress={() => {
+              setEvolveModalVisible(false);
+              setSelectedEvolveCategory(null);
+              setSelectedEvolveSubcategory(null);
+            }}
+          >
+            <Text style={styles.closeButtonText}>Done</Text>
+          </TouchableOpacity>
         </View>
       </Modal>
 

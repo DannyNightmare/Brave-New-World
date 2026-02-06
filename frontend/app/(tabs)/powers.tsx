@@ -824,7 +824,11 @@ export default function PowersScreen() {
 
                   {/* Display subcategories and their powers */}
                   {Object.keys(powersWithSubcategory).sort().map((subcategory) => {
-                    const subcategoryPowers = powersWithSubcategory[subcategory];
+                    const subcategoryPowers = powersWithSubcategory[subcategory]
+                      .filter((power) => !power.is_evolved && !isLinkedAsEvolutionByName(power));
+                    
+                    // Skip empty subcategories after filtering
+                    if (subcategoryPowers.length === 0) return null;
                     
                     return (
                       <View key={subcategory} style={styles.subcategorySection}>

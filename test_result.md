@@ -243,6 +243,81 @@ backend:
         agent: "testing"
         comment: "✅ VERIFIED: Powers retrieval endpoint returns complete tier and level information. GET /api/powers/{user_id} includes power_tier, current_level, max_level, and power_category fields for all powers. Successfully tested with multiple powers across different categories (Physical Abilities, Mental Abilities) and different tiers (Base, Enhanced). All required fields present and accurate."
 
+  - task: "Test Disciplinary Feature: POST /api/quests/{user_id}/check-failures endpoint"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented disciplinary feature with check-failures endpoint that penalizes users for missing quest deadlines"
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Disciplinary feature working perfectly. Comprehensive testing performed covering: 1) Daily quest failure detection and demerit application (XP: -100, Gold: -50, AP: -5), 2) Non-repeating quest behavior (correctly ignores quests created after deadline to prevent gaming), 3) Limitless quest exclusion from failure system, 4) Quest without deadline exclusion, 5) Daily quest status management (marked as failed but not completed), 6) Duplicate failure prevention. All 23 test scenarios passed. The system correctly applies demerits to user stats and maintains proper quest states."
+
+  - task: "Test quest creation with deadline fields (has_deadline, deadline_time)"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Quest model includes has_deadline and deadline_time fields for deadline management"
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Quest creation with deadline fields working correctly. Successfully created quests with has_deadline=true and various deadline_time values. Fields are properly saved and retrieved from database."
+
+  - task: "Test failure check endpoint: creates quest with past deadline, calls check-failures, verify demerits applied"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Check-failures endpoint processes quests with past deadlines and applies appropriate demerits"
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Failure check endpoint working perfectly for daily quests. Creates quest with past deadline, calls check-failures, correctly calculates and applies demerits (XP: -100, Gold: -50, AP: -5). User stats properly reduced. Note: Non-repeating quests only fail if created before deadline time (prevents gaming system)."
+
+  - task: "Test limitless quests are ignored by deadline system"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Limitless quests should never fail regardless of deadline status"
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Limitless quests correctly ignored by failure system. Created limitless quest with past deadline, confirmed it does not appear in failed_quests list when check-failures is called."
+
+  - task: "Test daily quests are reset (not deleted) after failure"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Daily quests should be marked as failed but remain in the system for next day reset"
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Daily quest failure handling working correctly. Daily quest with past deadline appears in failed_quests, quest still exists after failure, marked as failed=true but completed=false (allowing for daily reset). Demerits properly applied to user stats."
+
 frontend:
   - task: "Add 'Add to Powers' checkbox in shop item creation modal"
     implemented: true

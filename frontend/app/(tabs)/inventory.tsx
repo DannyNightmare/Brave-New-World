@@ -349,16 +349,7 @@ export default function InventoryScreen() {
               
               <TouchableOpacity 
                 style={[styles.actionButton, styles.deleteActionButton]} 
-                onPress={() => {
-                  Alert.alert(
-                    'Delete Item',
-                    `Are you sure you want to delete "${selectedItem?.item_name}"?`,
-                    [
-                      { text: 'Cancel', style: 'cancel' },
-                      { text: 'Delete', style: 'destructive', onPress: deleteItem }
-                    ]
-                  );
-                }}
+                onPress={handleDeleteItem}
               >
                 <Ionicons name="trash-outline" size={24} color="#EF4444" />
                 <Text style={styles.deleteActionButtonText}>Delete Item</Text>
@@ -372,6 +363,40 @@ export default function InventoryScreen() {
               </TouchableOpacity>
             </Pressable>
           </Pressable>
+        </Modal>
+
+        {/* Delete Confirmation Modal */}
+        <Modal visible={deleteConfirmVisible} animationType="fade" transparent={true}>
+          <View style={styles.deleteConfirmOverlay}>
+            <View style={styles.deleteConfirmContent}>
+              <Ionicons name="warning" size={48} color="#EF4444" style={{ marginBottom: 16 }} />
+              <Text style={styles.deleteConfirmTitle}>Delete Item</Text>
+              <Text style={styles.deleteConfirmText}>
+                Are you sure you want to delete "{selectedItem?.item_name}"?
+              </Text>
+              <Text style={styles.deleteConfirmSubtext}>
+                This action cannot be undone.
+              </Text>
+              <View style={styles.deleteConfirmButtons}>
+                <TouchableOpacity 
+                  style={styles.deleteConfirmCancelBtn} 
+                  onPress={() => {
+                    setDeleteConfirmVisible(false);
+                    setSelectedItem(null);
+                  }}
+                >
+                  <Text style={styles.deleteConfirmCancelText}>Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  style={styles.deleteConfirmDeleteBtn} 
+                  onPress={deleteItem}
+                >
+                  <Ionicons name="trash" size={20} color="#FFFFFF" />
+                  <Text style={styles.deleteConfirmDeleteText}>Delete</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
         </Modal>
       </AppBackground>
     </SafeAreaView>

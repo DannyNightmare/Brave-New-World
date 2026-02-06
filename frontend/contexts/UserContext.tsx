@@ -51,6 +51,9 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [failureData, setFailureData] = useState<FailureData | null>(null);
+  const [showFailureModal, setShowFailureModal] = useState(false);
+  const [hasCheckedFailures, setHasCheckedFailures] = useState(false);
 
   const createUser = async (username: string) => {
     try {
@@ -77,6 +80,35 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  // Check for quest failures and apply demerits
+  const checkQuestFailures = async () => {
+    if (!user?.id) return;
+    try {
+      const response = await fetch(`${API_URL}/api/quests/${user.id}/check-failures`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const data = await response.json();
+      
+      if (data.failed_quests && data.failed_quests.length > 0) {
+        setFailureData({
+          failedQuests: data.failed_quests,
+          totalDemerits: data.total_demerits,
+        });
+        setShowFailureModal(true);
+        // Refresh user data after demerits have been applied
+        await refreshUser();
+      }
+    } catch (error) {
+      console.error('Failed to check quest failures:', error);
+    }
+  };
+
+  const dismissFailureModal = () => {
+    setShowFailureModal(false);
+    setFailureData(null);
+  };
+
   useEffect(() => {
     // Auto-create a demo user for MVP
     const initUser = async () => {
@@ -97,8 +129,29 @@ export function UserProvider({ children }: { children: ReactNode }) {
     initUser();
   }, []);
 
+  // Check for quest failures once user is loaded (only once per session)
+  useEffect(() => {
+    if (user?.id && !hasCheckedFailures) {
+      setHasCheckedFailures(true);
+      // Delay the check slightly to allow the app to fully load
+      const timer = setTimeout(() => {
+        checkQuestFailures();
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [user?.id, hasCheckedFailures]);
+
   return (
-    <UserContext.Provider value={{ user, loading, refreshUser, createUser }}>
+    <UserContext.Provider value={{ 
+      user, 
+      loading, 
+      refreshUser, 
+      createUser,
+      failureData,
+      showFailureModal,
+      dismissFailureModal,
+      checkQuestFailures,
+    }}>
       {children}
     </UserContext.Provider>
   );

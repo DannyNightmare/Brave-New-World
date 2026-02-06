@@ -7,7 +7,7 @@ import { useNotification } from '../../contexts/NotificationContext';
 import { useCustomization, StatusTheme } from '../../contexts/CustomizationContext';
 import { Ionicons } from '@expo/vector-icons';
 import AppBackground from '../../components/AppBackground';
-const API_URL = 'https://rpg-life-game.preview.emergentagent.com';
+const API_URL = 'https://demerit-system-1.preview.emergentagent.com';
 
 interface PowerItem {
   id: string;

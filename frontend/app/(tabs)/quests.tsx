@@ -20,7 +20,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { AnimatedRewardModal } from '../../components/AnimatedRewardModal';
 
-const API_URL = 'https://rpg-life-game.preview.emergentagent.com';
+const API_URL = 'https://demerit-system-1.preview.emergentagent.com';
 
 interface CustomStat {
   id: string;

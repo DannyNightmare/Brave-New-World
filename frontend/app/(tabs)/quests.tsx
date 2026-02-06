@@ -331,6 +331,8 @@ export default function QuestsScreen() {
         gold_reward: newQuest.gold_reward,
         ap_reward: newQuest.ap_reward,
         repeat_frequency: newQuest.repeat_frequency,
+        has_deadline: newQuest.has_deadline && newQuest.repeat_frequency !== 'limitless',
+        deadline_time: newQuest.deadline_time,
       };
 
       if (newQuest.item_reward.trim()) {
@@ -373,6 +375,8 @@ export default function QuestsScreen() {
       ap_reward: 0,
       item_reward: '',
       repeat_frequency: 'none',
+      has_deadline: false,
+      deadline_time: '00:00',
     });
     const resetRewards: { [key: string]: number } = {};
     customStats.forEach((stat) => {

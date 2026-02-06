@@ -377,6 +377,13 @@ export default function PowersScreen() {
     return parentPower.current_level < parentPower.max_level;
   };
   
+  // Check if a power is linked as an evolution by name (from another power's evolved_ability_names)
+  const isLinkedAsEvolutionByName = (power: PowerItem): boolean => {
+    return powers.some(p => 
+      p.evolved_ability_names?.some(e => e.name === power.name)
+    );
+  };
+
   // Check if power has evolutions linked (either by ID or by name)
   const hasEvolutions = (power: PowerItem): boolean => {
     return (power.evolved_abilities && power.evolved_abilities.length > 0) ||

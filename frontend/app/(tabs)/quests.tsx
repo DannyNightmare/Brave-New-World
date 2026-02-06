@@ -1016,6 +1016,22 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#10B981',
   },
+  deadlineBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(239, 68, 68, 0.15)',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#EF4444',
+    gap: 4,
+  },
+  deadlineBadgeText: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: '#EF4444',
+  },
   completedText: {
     textDecorationLine: 'line-through',
     color: '#9CA3AF',

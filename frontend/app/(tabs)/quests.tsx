@@ -172,6 +172,8 @@ export default function QuestsScreen() {
         gold_reward: newQuest.gold_reward,
         ap_reward: newQuest.ap_reward,
         repeat_frequency: newQuest.repeat_frequency,
+        has_deadline: newQuest.has_deadline && newQuest.repeat_frequency !== 'limitless',
+        deadline_time: newQuest.deadline_time,
       };
 
       if (newQuest.item_reward.trim()) {

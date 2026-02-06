@@ -272,6 +272,8 @@ export default function QuestsScreen() {
       ap_reward: (selectedQuest as any).ap_reward || 0,
       item_reward: selectedQuest.item_reward || '',
       repeat_frequency: selectedQuest.repeat_frequency || 'none',
+      has_deadline: selectedQuest.has_deadline || false,
+      deadline_time: selectedQuest.deadline_time || '00:00',
     });
     
     // Set stat rewards if they exist

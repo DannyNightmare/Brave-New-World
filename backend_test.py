@@ -2,6 +2,11 @@
 """
 Backend Testing for RPG Quest App - Disciplinary Feature
 Tests the newly implemented disciplinary feature that penalizes users for missing quest deadlines.
+
+IMPORTANT BEHAVIOR NOTES:
+- Daily quests: Fail if current time > deadline time (regardless of creation time)
+- Non-repeating quests: Only fail if quest was created BEFORE deadline time AND current time > deadline time
+- This prevents gaming the system by creating quests with past deadlines
 """
 
 import requests

@@ -1378,4 +1378,110 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#9CA3AF',
   },
+  // Deadline Styles
+  deadlineContainer: {
+    marginBottom: 16,
+  },
+  deadlineToggle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#1F2937',
+    padding: 14,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#374151',
+    gap: 12,
+  },
+  deadlineToggleActive: {
+    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+    borderColor: '#EF4444',
+  },
+  deadlineToggleTextContainer: {
+    flex: 1,
+  },
+  deadlineToggleText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#9CA3AF',
+  },
+  deadlineToggleTextActive: {
+    color: '#EF4444',
+  },
+  deadlineToggleSubtext: {
+    fontSize: 12,
+    color: '#6B7280',
+    marginTop: 2,
+  },
+  timePickerContainer: {
+    marginTop: 12,
+    backgroundColor: '#1F2937',
+    padding: 14,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#374151',
+  },
+  timePickerLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#D1D5DB',
+    marginBottom: 10,
+  },
+  timePickerRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  timePreset: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+    backgroundColor: '#374151',
+    borderWidth: 1,
+    borderColor: '#4B5563',
+  },
+  timePresetSelected: {
+    backgroundColor: '#EF4444',
+    borderColor: '#EF4444',
+  },
+  timePresetText: {
+    fontSize: 13,
+    fontWeight: '500',
+    color: '#D1D5DB',
+  },
+  timePresetTextSelected: {
+    color: '#FFF',
+  },
+  customTimeContainer: {
+    marginTop: 12,
+  },
+  customTimeLabel: {
+    fontSize: 12,
+    color: '#9CA3AF',
+    marginBottom: 6,
+  },
+  customTimeInput: {
+    backgroundColor: '#374151',
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 16,
+    color: '#F9FAFB',
+    borderWidth: 1,
+    borderColor: '#4B5563',
+    textAlign: 'center',
+    width: 100,
+  },
+  deadlineWarning: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 12,
+    backgroundColor: 'rgba(245, 158, 11, 0.1)',
+    padding: 10,
+    borderRadius: 8,
+    gap: 8,
+  },
+  deadlineWarningText: {
+    fontSize: 12,
+    color: '#F59E0B',
+    flex: 1,
+  },
 });

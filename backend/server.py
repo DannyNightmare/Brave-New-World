@@ -353,6 +353,142 @@ async def get_user_quests(user_id: str):
     
     return [Quest(**quest) for quest in quests]
 
+@api_router.post("/quests/{user_id}/check-failures")
+async def check_quest_failures(user_id: str):
+    """Check for quests that have missed their deadline and apply demerits"""
+    now = datetime.utcnow()
+    quests = await db.quests.find({"user_id": user_id}).to_list(1000)
+    
+    failed_quests = []
+    total_demerits = {
+        "xp": 0,
+        "gold": 0,
+        "ap": 0,
+        "attributes": {}
+    }
+    
+    for quest in quests:
+        # Skip if quest is already completed or already failed today
+        if quest.get("completed"):
+            continue
+        
+        # Skip limitless quests
+        if quest.get("repeat_frequency") == "limitless":
+            continue
+        
+        # Skip quests without deadlines
+        if not quest.get("has_deadline"):
+            continue
+        
+        # Check if deadline has passed
+        deadline_time_str = quest.get("deadline_time", "00:00")
+        try:
+            deadline_hour, deadline_minute = map(int, deadline_time_str.split(":"))
+        except:
+            deadline_hour, deadline_minute = 0, 0
+        
+        # Determine if the quest deadline has passed
+        today_deadline = now.replace(hour=deadline_hour, minute=deadline_minute, second=0, microsecond=0)
+        
+        # For daily quests, check if we've passed today's deadline
+        # For non-repeating quests, check if we've passed the deadline after creation
+        quest_created = quest.get("created_at", now)
+        last_failed = quest.get("last_failed")
+        
+        # Skip if already failed today
+        if last_failed:
+            today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+            if last_failed >= today_start:
+                continue
+        
+        should_fail = False
+        
+        if quest.get("repeat_frequency") == "daily":
+            # Daily quest: fail if we've passed today's deadline and not completed
+            if now > today_deadline:
+                should_fail = True
+        elif quest.get("repeat_frequency") in ["weekly", "monthly"]:
+            # Weekly/monthly: fail if we've passed today's deadline
+            if now > today_deadline:
+                should_fail = True
+        else:
+            # Non-repeating quest: fail if deadline passed since creation
+            # Only fail if the quest was created before today's deadline
+            if quest_created < today_deadline and now > today_deadline:
+                should_fail = True
+        
+        if should_fail:
+            # Mark quest as failed
+            fail_updates = {
+                "failed": True,
+                "last_failed": now
+            }
+            
+            # For daily quests, don't delete, just mark failed
+            if quest.get("repeat_frequency") != "daily":
+                fail_updates["completed"] = True  # Mark as done (failed)
+            
+            await db.quests.update_one(
+                {"id": quest["id"]},
+                {"$set": fail_updates}
+            )
+            
+            # Calculate demerits
+            total_demerits["xp"] += quest.get("xp_reward", 0)
+            total_demerits["gold"] += quest.get("gold_reward", 0)
+            total_demerits["ap"] += quest.get("ap_reward", 0)
+            
+            if quest.get("attribute_rewards"):
+                for attr, value in quest["attribute_rewards"].items():
+                    if attr in total_demerits["attributes"]:
+                        total_demerits["attributes"][attr] += value
+                    else:
+                        total_demerits["attributes"][attr] = value
+            
+            failed_quests.append({
+                "id": quest["id"],
+                "title": quest["title"],
+                "xp_demerit": quest.get("xp_reward", 0),
+                "gold_demerit": quest.get("gold_reward", 0),
+                "ap_demerit": quest.get("ap_reward", 0),
+                "attribute_demerits": quest.get("attribute_rewards", {})
+            })
+    
+    # Apply demerits to user
+    if failed_quests:
+        user = await db.users.find_one({"id": user_id})
+        if user:
+            new_xp = max(0, user.get("xp", 0) - total_demerits["xp"])
+            new_gold = max(0, user.get("gold", 0) - total_demerits["gold"])
+            new_ap = max(0, user.get("ability_points", 0) - total_demerits["ap"])
+            
+            updates = {
+                "xp": new_xp,
+                "gold": new_gold,
+                "ability_points": new_ap
+            }
+            
+            await db.users.update_one({"id": user_id}, {"$set": updates})
+            
+            # Apply attribute demerits to custom stats
+            for attr, value in total_demerits["attributes"].items():
+                if attr not in ["strength", "intelligence", "vitality"]:
+                    custom_stat = await db.custom_stats.find_one({
+                        "user_id": user_id,
+                        "name": attr
+                    })
+                    if custom_stat:
+                        new_current = max(0, custom_stat.get("current", 0) - value)
+                        await db.custom_stats.update_one(
+                            {"id": custom_stat["id"]},
+                            {"$set": {"current": new_current}}
+                        )
+    
+    return {
+        "failed_quests": failed_quests,
+        "total_demerits": total_demerits
+    }
+
 @api_router.post("/quests/{quest_id}/complete")
 async def complete_quest(quest_id: str):
     quest = await db.quests.find_one({"id": quest_id})

@@ -123,16 +123,21 @@ export default function InventoryScreen() {
       
       if (response.ok) {
         fetchInventory();
+        setDeleteConfirmVisible(false);
         setActionModalVisible(false);
         setSelectedItem(null);
-        Alert.alert('Success', 'Item removed from inventory');
       } else {
-        Alert.alert('Error', 'Failed to delete item');
+        console.error('Failed to delete item');
       }
     } catch (error) {
       console.error('Failed to delete item:', error);
-      Alert.alert('Error', 'Failed to delete item');
     }
+  };
+
+  // Show delete confirmation
+  const handleDeleteItem = () => {
+    setActionModalVisible(false);
+    setDeleteConfirmVisible(true);
   };
 
   // Get unique categories from items

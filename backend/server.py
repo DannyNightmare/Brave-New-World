@@ -61,8 +61,12 @@ class Quest(BaseModel):
     item_reward: Optional[str] = None
     attribute_rewards: Optional[dict] = None  # {"strength": 2, "intelligence": 1, "vitality": 1}
     completed: bool = False
+    failed: bool = False  # Track if quest was failed
     repeat_frequency: str = "none"  # none, daily, weekly, monthly
+    has_deadline: bool = False  # Whether this quest has a deadline
+    deadline_time: str = "00:00"  # Time of day for deadline (HH:MM format)
     last_completed: Optional[datetime] = None
+    last_failed: Optional[datetime] = None  # Track when quest was last failed
     created_at: datetime = Field(default_factory=datetime.utcnow)
     completed_at: Optional[datetime] = None
 
@@ -77,6 +81,8 @@ class QuestCreate(BaseModel):
     item_reward: Optional[str] = None
     attribute_rewards: Optional[dict] = None
     repeat_frequency: Optional[str] = "none"
+    has_deadline: Optional[bool] = False
+    deadline_time: Optional[str] = "00:00"
 
 class ShopItem(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))

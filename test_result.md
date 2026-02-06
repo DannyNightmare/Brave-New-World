@@ -324,11 +324,11 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Test complete power creation flow: create shop item with power checkbox -> select category -> verify saved"
-    - "Test power purchase flow: buy power item -> verify appears in both Inventory and Powers tabs"
-    - "Test Powers page displays items grouped by category with expand/collapse functionality"
-    - "Test power tier system: create items with different tiers (Base, Peak Human, Enhanced, Superhuman, Absolute)"
-    - "Test power leveling system: level up powers and verify max level enforcement"
+    - "Test Disciplinary Feature: POST /api/quests/{user_id}/check-failures endpoint"
+    - "Test quest creation with deadline fields (has_deadline, deadline_time)"
+    - "Test failure check endpoint: creates quest with past deadline, calls check-failures, verify demerits applied"
+    - "Test limitless quests are ignored by deadline system"
+    - "Test daily quests are reset (not deleted) after failure"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
@@ -344,3 +344,5 @@ agent_communication:
     message: "USER REPORT: The newly made categories and sub-categories are not appearing as they should in the Powers page."
   - agent: "main"
     message: "INVESTIGATION: Found the root cause. Powers page can SAVE user categories to backend via POST /api/users/{user_id}/categories but NEVER FETCHES them back on load. The GET /api/users/{user_id}/categories endpoint exists in backend but is not being called. Will add fetchUserCategories function and call it in useEffect."
+  - agent: "main"
+    message: "IMPLEMENTED DISCIPLINARY FEATURE: 1) Backend already has /api/quests/{user_id}/check-failures endpoint in server.py. 2) Created FailureModal.tsx component to display failed quests and demerits. 3) Updated UserContext.tsx with failure check logic on app load. 4) Updated quests.tsx with deadline toggle and time picker in quest creation/edit modal. 5) Quest cards now show deadline badge with alarm icon. Ready for backend testing of the failure check endpoint."

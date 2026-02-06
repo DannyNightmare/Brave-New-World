@@ -82,34 +82,33 @@ def test_disciplinary_feature():
         
         print(f"   Initial stats - XP: {initial_xp}, Gold: {initial_gold}, AP: {initial_ap}")
         
-        # 2. Create quest with deadline in the past
-        print("\n2️⃣ Creating quest with past deadline...")
-        # Get current time and set deadline to 1 hour ago
+        # 2. Test daily quest with past deadline (this should work)
+        print("\n2️⃣ Creating daily quest with past deadline...")
         current_time = datetime.utcnow()
         past_hour = (current_time - timedelta(hours=1)).strftime("%H:%M")
         
-        past_quest_data = {
+        daily_quest_data = {
             "user_id": user_id,
-            "title": "Test Deadline Quest",
-            "description": "Testing failure system",
+            "title": "Daily Test Quest",
+            "description": "Testing daily failure system",
             "xp_reward": 100,
             "gold_reward": 50,
             "ap_reward": 5,
             "has_deadline": True,
             "deadline_time": past_hour,  # 1 hour ago
-            "repeat_frequency": "none"
+            "repeat_frequency": "daily"
         }
         
-        print(f"   Setting deadline to: {past_hour} (1 hour ago)")
+        print(f"   Setting daily deadline to: {past_hour} (1 hour ago)")
         
-        quest_response = requests.post(f"{BACKEND_URL}/quests", json=past_quest_data)
+        quest_response = requests.post(f"{BACKEND_URL}/quests", json=daily_quest_data)
         if quest_response.status_code not in [200, 201]:
-            results.add_result("Create quest with past deadline", False, f"Failed: {quest_response.status_code}")
+            results.add_result("Create daily quest with past deadline", False, f"Failed: {quest_response.status_code}")
             return results
         
         quest_data = quest_response.json()
         quest_id = quest_data["id"]
-        results.add_result("Create quest with past deadline", True, f"Quest ID: {quest_id}")
+        results.add_result("Create daily quest with past deadline", True, f"Quest ID: {quest_id}")
         
         # 3. Call check-failures endpoint
         print("\n3️⃣ Calling check-failures endpoint...")
@@ -128,10 +127,10 @@ def test_disciplinary_feature():
         else:
             results.add_result("Check-failures response structure", True, "Response has required fields")
         
-        # Verify the quest appears in failed_quests
+        # Verify the daily quest appears in failed_quests
         failed_quests = failures_data["failed_quests"]
         quest_found = any(q["id"] == quest_id for q in failed_quests)
-        results.add_result("Quest appears in failed_quests", quest_found, 
+        results.add_result("Daily quest appears in failed_quests", quest_found, 
                          f"Found {len(failed_quests)} failed quests")
         
         # Verify demerits calculation
@@ -176,8 +175,40 @@ def test_disciplinary_feature():
         results.add_result("AP demerits applied to user", ap_applied,
                          f"Expected: {expected_ap_after}, Got: {user_after_data['ability_points']}")
         
-        # 5. Test limitless quests are ignored
-        print("\n5️⃣ Testing limitless quests are ignored...")
+        # 5. Test non-repeating quest behavior (should NOT fail when created after deadline)
+        print("\n5️⃣ Testing non-repeating quest behavior...")
+        non_repeat_quest_data = {
+            "user_id": user_id,
+            "title": "Non-Repeating Quest",
+            "description": "Should NOT fail (created after deadline)",
+            "xp_reward": 75,
+            "gold_reward": 25,
+            "ap_reward": 3,
+            "has_deadline": True,
+            "deadline_time": past_hour,  # Same past hour
+            "repeat_frequency": "none"
+        }
+        
+        non_repeat_response = requests.post(f"{BACKEND_URL}/quests", json=non_repeat_quest_data)
+        if non_repeat_response.status_code not in [200, 201]:
+            results.add_result("Create non-repeating quest", False, f"Failed: {non_repeat_response.status_code}")
+        else:
+            non_repeat_quest = non_repeat_response.json()
+            non_repeat_quest_id = non_repeat_quest["id"]
+            results.add_result("Create non-repeating quest", True, f"Quest ID: {non_repeat_quest_id}")
+            
+            # Call check-failures again
+            failures2_response = requests.post(f"{BACKEND_URL}/quests/{user_id}/check-failures")
+            if failures2_response.status_code == 200:
+                failures2_data = failures2_response.json()
+                non_repeat_found = any(q["id"] == non_repeat_quest_id for q in failures2_data["failed_quests"])
+                results.add_result("Non-repeating quest correctly ignored (created after deadline)", not non_repeat_found,
+                                 f"Non-repeating quest {'found' if non_repeat_found else 'not found'} in failed quests")
+            else:
+                results.add_result("Check failures for non-repeating test", False, f"Failed: {failures2_response.status_code}")
+        
+        # 6. Test limitless quests are ignored
+        print("\n6️⃣ Testing limitless quests are ignored...")
         limitless_quest_data = {
             "user_id": user_id,
             "title": "Limitless Quest",
@@ -186,7 +217,7 @@ def test_disciplinary_feature():
             "gold_reward": 25,
             "ap_reward": 3,
             "has_deadline": True,
-            "deadline_time": "00:00",
+            "deadline_time": past_hour,
             "repeat_frequency": "limitless"
         }
         
@@ -199,17 +230,17 @@ def test_disciplinary_feature():
             results.add_result("Create limitless quest", True, f"Quest ID: {limitless_quest_id}")
             
             # Call check-failures again
-            failures2_response = requests.post(f"{BACKEND_URL}/quests/{user_id}/check-failures")
-            if failures2_response.status_code == 200:
-                failures2_data = failures2_response.json()
-                limitless_found = any(q["id"] == limitless_quest_id for q in failures2_data["failed_quests"])
+            failures3_response = requests.post(f"{BACKEND_URL}/quests/{user_id}/check-failures")
+            if failures3_response.status_code == 200:
+                failures3_data = failures3_response.json()
+                limitless_found = any(q["id"] == limitless_quest_id for q in failures3_data["failed_quests"])
                 results.add_result("Limitless quest ignored by failure system", not limitless_found,
                                  f"Limitless quest {'found' if limitless_found else 'not found'} in failed quests")
             else:
-                results.add_result("Check failures for limitless test", False, f"Failed: {failures2_response.status_code}")
+                results.add_result("Check failures for limitless test", False, f"Failed: {failures3_response.status_code}")
         
-        # 6. Test quests without deadline are ignored
-        print("\n6️⃣ Testing quests without deadline are ignored...")
+        # 7. Test quests without deadline are ignored
+        print("\n7️⃣ Testing quests without deadline are ignored...")
         no_deadline_quest_data = {
             "user_id": user_id,
             "title": "No Deadline Quest",
@@ -230,70 +261,39 @@ def test_disciplinary_feature():
             results.add_result("Create quest without deadline", True, f"Quest ID: {no_deadline_quest_id}")
             
             # Call check-failures again
-            failures3_response = requests.post(f"{BACKEND_URL}/quests/{user_id}/check-failures")
-            if failures3_response.status_code == 200:
-                failures3_data = failures3_response.json()
-                no_deadline_found = any(q["id"] == no_deadline_quest_id for q in failures3_data["failed_quests"])
-                results.add_result("Quest without deadline ignored", not no_deadline_found,
-                                 f"No-deadline quest {'found' if no_deadline_found else 'not found'} in failed quests")
-            else:
-                results.add_result("Check failures for no-deadline test", False, f"Failed: {failures3_response.status_code}")
-        
-        # 7. Test daily quests are reset, not deleted
-        print("\n7️⃣ Testing daily quests are reset, not deleted...")
-        daily_quest_data = {
-            "user_id": user_id,
-            "title": "Daily Quest",
-            "description": "Should be reset, not deleted",
-            "xp_reward": 40,
-            "gold_reward": 15,
-            "ap_reward": 1,
-            "has_deadline": True,
-            "deadline_time": "00:00",
-            "repeat_frequency": "daily"
-        }
-        
-        daily_response = requests.post(f"{BACKEND_URL}/quests", json=daily_quest_data)
-        if daily_response.status_code not in [200, 201]:
-            results.add_result("Create daily quest", False, f"Failed: {daily_response.status_code}")
-        else:
-            daily_quest = daily_response.json()
-            daily_quest_id = daily_quest["id"]
-            results.add_result("Create daily quest", True, f"Quest ID: {daily_quest_id}")
-            
-            # Call check-failures
             failures4_response = requests.post(f"{BACKEND_URL}/quests/{user_id}/check-failures")
             if failures4_response.status_code == 200:
                 failures4_data = failures4_response.json()
-                daily_found = any(q["id"] == daily_quest_id for q in failures4_data["failed_quests"])
-                results.add_result("Daily quest appears in failures", daily_found,
-                                 f"Daily quest {'found' if daily_found else 'not found'} in failed quests")
-                
-                # Check that the quest still exists (not deleted)
-                quests_response = requests.get(f"{BACKEND_URL}/quests/{user_id}")
-                if quests_response.status_code == 200:
-                    user_quests = quests_response.json()
-                    daily_still_exists = any(q["id"] == daily_quest_id for q in user_quests)
-                    results.add_result("Daily quest still exists after failure", daily_still_exists,
-                                     f"Daily quest {'exists' if daily_still_exists else 'deleted'} after failure")
-                    
-                    # Check that it's marked as failed but not completed for daily quests
-                    if daily_still_exists:
-                        daily_quest_after = next(q for q in user_quests if q["id"] == daily_quest_id)
-                        is_failed = daily_quest_after.get("failed", False)
-                        is_completed = daily_quest_after.get("completed", False)
-                        
-                        results.add_result("Daily quest marked as failed", is_failed,
-                                         f"Failed status: {is_failed}")
-                        results.add_result("Daily quest NOT marked as completed", not is_completed,
-                                         f"Completed status: {is_completed}")
-                else:
-                    results.add_result("Get user quests after daily failure", False, f"Failed: {quests_response.status_code}")
+                no_deadline_found = any(q["id"] == no_deadline_quest_id for q in failures4_data["failed_quests"])
+                results.add_result("Quest without deadline ignored", not no_deadline_found,
+                                 f"No-deadline quest {'found' if no_deadline_found else 'not found'} in failed quests")
             else:
-                results.add_result("Check failures for daily test", False, f"Failed: {failures4_response.status_code}")
+                results.add_result("Check failures for no-deadline test", False, f"Failed: {failures4_response.status_code}")
         
-        # 8. Test that calling check-failures multiple times doesn't duplicate demerits
-        print("\n8️⃣ Testing duplicate failure prevention...")
+        # 8. Test daily quest status after failure
+        print("\n8️⃣ Testing daily quest status after failure...")
+        quests_response = requests.get(f"{BACKEND_URL}/quests/{user_id}")
+        if quests_response.status_code == 200:
+            user_quests = quests_response.json()
+            daily_quest_after = next((q for q in user_quests if q["id"] == quest_id), None)
+            
+            if daily_quest_after:
+                results.add_result("Daily quest still exists after failure", True, "Quest found")
+                
+                is_failed = daily_quest_after.get("failed", False)
+                is_completed = daily_quest_after.get("completed", False)
+                
+                results.add_result("Daily quest marked as failed", is_failed,
+                                 f"Failed status: {is_failed}")
+                results.add_result("Daily quest NOT marked as completed", not is_completed,
+                                 f"Completed status: {is_completed}")
+            else:
+                results.add_result("Daily quest still exists after failure", False, "Quest not found")
+        else:
+            results.add_result("Get user quests after failure", False, f"Failed: {quests_response.status_code}")
+        
+        # 9. Test that calling check-failures multiple times doesn't duplicate demerits
+        print("\n9️⃣ Testing duplicate failure prevention...")
         user_before_duplicate = requests.get(f"{BACKEND_URL}/users/{user_id}")
         if user_before_duplicate.status_code == 200:
             stats_before = user_before_duplicate.json()

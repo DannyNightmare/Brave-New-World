@@ -440,6 +440,7 @@ export default function QuestsScreen() {
             style={({ pressed }) => [
               styles.questCard,
               { backgroundColor: statusTheme.colors.cardBackground, borderColor: statusTheme.colors.cardBorder },
+              quest.has_deadline && styles.questCardDeadline,
               pressed && [styles.questCardPressed, { backgroundColor: statusTheme.colors.cardBorder, borderColor: statusTheme.colors.primary }]
             ]}
             onLongPress={() => handleLongPress(quest)}
@@ -451,6 +452,12 @@ export default function QuestsScreen() {
                 {quest.repeat_frequency === 'limitless' && (
                   <View style={[styles.limitlessBadge, { backgroundColor: statusTheme.colors.accent + '20', borderColor: statusTheme.colors.accent }]}>
                     <Ionicons name="infinite" size={16} color={statusTheme.colors.accent} />
+                  </View>
+                )}
+                {quest.has_deadline && (
+                  <View style={styles.deadlineBadge}>
+                    <Ionicons name="alarm" size={14} color="#EF4444" />
+                    <Text style={styles.deadlineBadgeText}>{quest.deadline_time || '00:00'}</Text>
                   </View>
                 )}
               </View>

@@ -43,6 +43,8 @@ interface Quest {
   completed: boolean;
   repeat_frequency?: string; // 'none', 'daily', 'weekly', 'monthly', 'limitless'
   last_completed?: string; // ISO date string
+  has_deadline?: boolean;
+  deadline_time?: string; // HH:MM format
 }
 
 export default function QuestsScreen() {
@@ -67,6 +69,8 @@ export default function QuestsScreen() {
     ap_reward: 0,
     item_reward: '',
     repeat_frequency: 'none',
+    has_deadline: false,
+    deadline_time: '00:00',
   });
 
   // Reward modal state

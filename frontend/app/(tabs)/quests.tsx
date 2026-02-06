@@ -978,6 +978,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#374151',
   },
+  questCardDeadline: {
+    borderLeftWidth: 4,
+    borderLeftColor: '#EF4444',
+  },
   questCardPressed: {
     backgroundColor: '#374151',
     borderColor: '#8B5CF6',

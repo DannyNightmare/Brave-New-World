@@ -14,11 +14,36 @@ interface User {
   ability_points: number;
 }
 
+interface FailedQuest {
+  id: string;
+  title: string;
+  xp_demerit: number;
+  gold_demerit: number;
+  ap_demerit: number;
+  attribute_demerits: { [key: string]: number };
+}
+
+interface TotalDemerits {
+  xp: number;
+  gold: number;
+  ap: number;
+  attributes: { [key: string]: number };
+}
+
+interface FailureData {
+  failedQuests: FailedQuest[];
+  totalDemerits: TotalDemerits;
+}
+
 interface UserContextType {
   user: User | null;
   loading: boolean;
   refreshUser: () => Promise<void>;
   createUser: (username: string) => Promise<void>;
+  failureData: FailureData | null;
+  showFailureModal: boolean;
+  dismissFailureModal: () => void;
+  checkQuestFailures: () => Promise<void>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);

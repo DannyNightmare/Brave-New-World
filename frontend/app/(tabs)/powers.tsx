@@ -688,7 +688,7 @@ export default function PowersScreen() {
                 <>
                   {/* Display powers without subcategory first - filter out evolved powers */}
                   {powersWithoutSubcategory
-                    .filter((power) => !power.is_evolved) // Hide evolved powers from main list
+                    .filter((power) => !power.is_evolved && !isLinkedAsEvolutionByName(power)) // Hide evolved powers from main list
                     .map((power) => {
                     const isMaxLevel = power.current_level >= power.max_level;
                     const progress = (power.current_level / power.max_level) * 100;

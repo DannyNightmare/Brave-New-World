@@ -739,6 +739,101 @@ export default function QuestsScreen() {
                 ))}
               </View>
 
+              {/* Deadline Section - Disciplinary Feature */}
+              {newQuest.repeat_frequency !== 'limitless' && (
+                <>
+                  <Text style={styles.label}>Deadline Settings</Text>
+                  <View style={styles.deadlineContainer}>
+                    {/* Enable Deadline Toggle */}
+                    <TouchableOpacity
+                      style={[
+                        styles.deadlineToggle,
+                        newQuest.has_deadline && styles.deadlineToggleActive
+                      ]}
+                      onPress={() => setNewQuest({ ...newQuest, has_deadline: !newQuest.has_deadline })}
+                    >
+                      <Ionicons 
+                        name={newQuest.has_deadline ? "checkbox" : "square-outline"} 
+                        size={24} 
+                        color={newQuest.has_deadline ? "#EF4444" : "#9CA3AF"} 
+                      />
+                      <View style={styles.deadlineToggleTextContainer}>
+                        <Text style={[
+                          styles.deadlineToggleText,
+                          newQuest.has_deadline && styles.deadlineToggleTextActive
+                        ]}>
+                          Enable Deadline (Disciplinary)
+                        </Text>
+                        <Text style={styles.deadlineToggleSubtext}>
+                          Failing to complete will result in penalties
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+
+                    {/* Time Picker - Only show when deadline is enabled */}
+                    {newQuest.has_deadline && (
+                      <View style={styles.timePickerContainer}>
+                        <Text style={styles.timePickerLabel}>Deadline Time:</Text>
+                        <View style={styles.timePickerRow}>
+                          {/* Quick time presets */}
+                          {[
+                            { label: 'Midnight', time: '00:00' },
+                            { label: '6 AM', time: '06:00' },
+                            { label: 'Noon', time: '12:00' },
+                            { label: '6 PM', time: '18:00' },
+                            { label: '11 PM', time: '23:00' },
+                          ].map((preset) => (
+                            <TouchableOpacity
+                              key={preset.time}
+                              style={[
+                                styles.timePreset,
+                                newQuest.deadline_time === preset.time && styles.timePresetSelected
+                              ]}
+                              onPress={() => setNewQuest({ ...newQuest, deadline_time: preset.time })}
+                            >
+                              <Text style={[
+                                styles.timePresetText,
+                                newQuest.deadline_time === preset.time && styles.timePresetTextSelected
+                              ]}>
+                                {preset.label}
+                              </Text>
+                            </TouchableOpacity>
+                          ))}
+                        </View>
+                        
+                        {/* Custom time input */}
+                        <View style={styles.customTimeContainer}>
+                          <Text style={styles.customTimeLabel}>Or enter custom time (HH:MM):</Text>
+                          <TextInput
+                            style={styles.customTimeInput}
+                            placeholder="00:00"
+                            placeholderTextColor="#6B7280"
+                            value={newQuest.deadline_time}
+                            onChangeText={(text) => {
+                              // Basic validation for HH:MM format
+                              const cleaned = text.replace(/[^0-9:]/g, '');
+                              if (cleaned.length <= 5) {
+                                setNewQuest({ ...newQuest, deadline_time: cleaned });
+                              }
+                            }}
+                            keyboardType="numbers-and-punctuation"
+                            maxLength={5}
+                          />
+                        </View>
+
+                        {/* Warning message */}
+                        <View style={styles.deadlineWarning}>
+                          <Ionicons name="warning" size={16} color="#F59E0B" />
+                          <Text style={styles.deadlineWarningText}>
+                            If not completed by {newQuest.deadline_time}, rewards become demerits!
+                          </Text>
+                        </View>
+                      </View>
+                    )}
+                  </View>
+                </>
+              )}
+
               {/* Dynamic Custom Stats Rewards */}
               {customStats.length > 0 && (
                 <>

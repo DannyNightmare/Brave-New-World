@@ -79,6 +79,10 @@ def test_disciplinary_feature():
         
         # 2. Create quest with deadline in the past
         print("\n2️⃣ Creating quest with past deadline...")
+        # Get current time and set deadline to 1 hour ago
+        current_time = datetime.utcnow()
+        past_hour = (current_time - timedelta(hours=1)).strftime("%H:%M")
+        
         past_quest_data = {
             "user_id": user_id,
             "title": "Test Deadline Quest",
@@ -87,9 +91,11 @@ def test_disciplinary_feature():
             "gold_reward": 50,
             "ap_reward": 5,
             "has_deadline": True,
-            "deadline_time": "00:00",  # midnight - past deadline
+            "deadline_time": past_hour,  # 1 hour ago
             "repeat_frequency": "none"
         }
+        
+        print(f"   Setting deadline to: {past_hour} (1 hour ago)")
         
         quest_response = requests.post(f"{BACKEND_URL}/quests", json=past_quest_data)
         if quest_response.status_code not in [200, 201]:

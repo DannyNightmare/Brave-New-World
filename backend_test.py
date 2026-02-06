@@ -1,388 +1,329 @@
 #!/usr/bin/env python3
 """
-Backend Testing Suite for Power Tier and Leveling System
-Tests the new power tier functionality and level up system
+Backend Testing for RPG Quest App - Disciplinary Feature
+Tests the newly implemented disciplinary feature that penalizes users for missing quest deadlines.
 """
 
 import requests
 import json
-import uuid
-from datetime import datetime
+from datetime import datetime, timedelta
+import time
 
-# Backend URL from frontend .env
-BASE_URL = "https://demerit-system-1.preview.emergentagent.com/api"
+# Backend URL from environment
+BACKEND_URL = "https://demerit-system-1.preview.emergentagent.com/api"
 
-class PowerTierTester:
+class TestResults:
     def __init__(self):
-        self.base_url = BASE_URL
-        self.test_user_id = None
-        self.test_shop_items = []
-        self.test_powers = []
-        
-    def setup_test_user(self):
-        """Create a test user for testing"""
-        print("🔧 Setting up test user...")
-        
-        # Create user
-        user_data = {"username": f"power_test_user_{uuid.uuid4().hex[:8]}"}
-        response = requests.post(f"{self.base_url}/users", json=user_data)
-        
-        if response.status_code == 200:
-            user = response.json()
-            self.test_user_id = user["id"]
-            print(f"✅ Test user created: {user['username']} (ID: {self.test_user_id})")
-            
-            # Give user more gold for testing by creating and completing a high-reward quest
-            reset_response = requests.post(f"{self.base_url}/users/{self.test_user_id}/reset")
-            if reset_response.status_code == 200:
-                print("✅ User stats reset")
-                
-                # Create a high-reward quest to give user more gold
-                quest_data = {
-                    "user_id": self.test_user_id,
-                    "title": "Test Gold Quest",
-                    "description": "Get gold for testing",
-                    "difficulty": "custom",
-                    "xp_reward": 0,
-                    "gold_reward": 1000
-                }
-                
-                quest_response = requests.post(f"{self.base_url}/quests", json=quest_data)
-                if quest_response.status_code == 200:
-                    quest = quest_response.json()
-                    # Complete the quest to give user gold
-                    complete_response = requests.post(f"{self.base_url}/quests/{quest['id']}/complete")
-                    if complete_response.status_code == 200:
-                        print("✅ User given extra gold for testing")
-                    else:
-                        print("⚠️ Failed to complete gold quest, user may not have enough gold for all tests")
-            return True
+        self.passed = 0
+        self.failed = 0
+        self.results = []
+    
+    def add_result(self, test_name, passed, message=""):
+        self.results.append({
+            "test": test_name,
+            "passed": passed,
+            "message": message
+        })
+        if passed:
+            self.passed += 1
         else:
-            print(f"❌ Failed to create test user: {response.status_code} - {response.text}")
-            return False
+            self.failed += 1
+        
+        status = "✅ PASS" if passed else "❌ FAIL"
+        print(f"{status}: {test_name}")
+        if message:
+            print(f"   {message}")
     
-    def test_shop_item_creation_with_power_tiers(self):
-        """Test creating shop items with different power tiers"""
-        print("\n🧪 Testing Shop Item Creation with Power Tiers...")
+    def print_summary(self):
+        print(f"\n{'='*60}")
+        print(f"TEST SUMMARY: {self.passed} passed, {self.failed} failed")
+        print(f"{'='*60}")
         
-        power_tiers = ["Base", "Peak Human", "Enhanced", "Superhuman", "Absolute"]
-        test_results = []
-        
-        for i, tier in enumerate(power_tiers):
-            item_data = {
-                "name": f"Test Power {tier}",
-                "description": f"A {tier} level power for testing",
-                "price": 100 + (i * 50),
-                "category": "powers",
-                "is_power": True,
-                "power_category": "Physical Abilities",
-                "power_tier": tier,
-                "power_max_level": 3 + i,  # Different max levels for each tier
-                "stat_boost": {"strength": 5 + i},
-                "item_type": "power"
-            }
-            
-            response = requests.post(f"{self.base_url}/shop", json=item_data)
-            
-            if response.status_code == 200:
-                item = response.json()
-                self.test_shop_items.append(item)
-                
-                # Verify all fields are saved correctly
-                if (item["is_power"] == True and 
-                    item["power_category"] == "Physical Abilities" and
-                    item["power_tier"] == tier and
-                    item["power_max_level"] == 3 + i):
-                    print(f"✅ {tier} tier item created successfully")
-                    test_results.append(True)
-                else:
-                    print(f"❌ {tier} tier item fields not saved correctly")
-                    print(f"   Expected: is_power=True, power_category='Physical Abilities', power_tier='{tier}', power_max_level={3+i}")
-                    print(f"   Got: is_power={item['is_power']}, power_category={item.get('power_category')}, power_tier={item.get('power_tier')}, power_max_level={item.get('power_max_level')}")
-                    test_results.append(False)
-            else:
-                print(f"❌ Failed to create {tier} tier item: {response.status_code} - {response.text}")
-                test_results.append(False)
-        
-        return all(test_results)
+        if self.failed > 0:
+            print("\nFAILED TESTS:")
+            for result in self.results:
+                if not result["passed"]:
+                    print(f"❌ {result['test']}: {result['message']}")
+
+def test_disciplinary_feature():
+    """Main test function for disciplinary feature"""
+    results = TestResults()
     
-    def test_purchase_flow_with_tier_system(self):
-        """Test purchasing power items and verifying tier/level system"""
-        print("\n🧪 Testing Purchase Flow with Tier System...")
+    print("🧪 TESTING DISCIPLINARY FEATURE FOR RPG QUEST APP")
+    print("=" * 60)
+    
+    # Test data
+    test_user_data = {
+        "username": "disciplinary_test_user"
+    }
+    
+    try:
+        # 1. Create or get test user
+        print("\n1️⃣ Creating test user...")
+        user_response = requests.post(f"{BACKEND_URL}/users", json=test_user_data)
         
-        if not self.test_shop_items:
-            print("❌ No test shop items available for purchase testing")
-            return False
+        if user_response.status_code not in [200, 201]:
+            results.add_result("Create test user", False, f"Failed to create user: {user_response.status_code}")
+            return results
         
-        test_results = []
+        user_data = user_response.json()
+        user_id = user_data["id"]
+        results.add_result("Create test user", True, f"User ID: {user_id}")
         
-        # Test purchasing the first power item (Base tier)
-        base_item = self.test_shop_items[0]  # Should be "Base" tier
+        # Record initial user stats
+        initial_xp = user_data["xp"]
+        initial_gold = user_data["gold"]
+        initial_ap = user_data["ability_points"]
         
-        purchase_data = {
-            "user_id": self.test_user_id,
-            "item_id": base_item["id"]
+        print(f"   Initial stats - XP: {initial_xp}, Gold: {initial_gold}, AP: {initial_ap}")
+        
+        # 2. Create quest with deadline in the past
+        print("\n2️⃣ Creating quest with past deadline...")
+        past_quest_data = {
+            "user_id": user_id,
+            "title": "Test Deadline Quest",
+            "description": "Testing failure system",
+            "xp_reward": 100,
+            "gold_reward": 50,
+            "ap_reward": 5,
+            "has_deadline": True,
+            "deadline_time": "00:00",  # midnight - past deadline
+            "repeat_frequency": "none"
         }
         
-        response = requests.post(f"{self.base_url}/shop/purchase", json=purchase_data)
+        quest_response = requests.post(f"{BACKEND_URL}/quests", json=past_quest_data)
+        if quest_response.status_code not in [200, 201]:
+            results.add_result("Create quest with past deadline", False, f"Failed: {quest_response.status_code}")
+            return results
         
-        if response.status_code == 200:
-            print("✅ Power item purchased successfully")
-            
-            # Verify item appears in powers with correct tier/level info
-            powers_response = requests.get(f"{self.base_url}/powers/{self.test_user_id}")
-            
-            if powers_response.status_code == 200:
-                powers = powers_response.json()
-                
-                if len(powers) > 0:
-                    power = powers[0]
-                    self.test_powers.append(power)
-                    
-                    # Verify power has correct initial values
-                    expected_values = {
-                        "current_level": 1,
-                        "max_level": base_item["power_max_level"],
-                        "power_tier": base_item["power_tier"],
-                        "power_category": base_item["power_category"]
-                    }
-                    
-                    all_correct = True
-                    for field, expected in expected_values.items():
-                        if power.get(field) != expected:
-                            print(f"❌ Power field {field}: expected {expected}, got {power.get(field)}")
-                            all_correct = False
-                    
-                    if all_correct:
-                        print("✅ Power created with correct tier/level information")
-                        test_results.append(True)
-                    else:
-                        test_results.append(False)
-                        
-                    # Verify item also appears in inventory
-                    inventory_response = requests.get(f"{self.base_url}/inventory/{self.test_user_id}")
-                    if inventory_response.status_code == 200:
-                        inventory = inventory_response.json()
-                        if any(item["item_name"] == base_item["name"] for item in inventory):
-                            print("✅ Power item also appears in inventory")
-                            test_results.append(True)
-                        else:
-                            print("❌ Power item not found in inventory")
-                            test_results.append(False)
-                    else:
-                        print(f"❌ Failed to get inventory: {inventory_response.status_code}")
-                        test_results.append(False)
-                else:
-                    print("❌ No powers found after purchase")
-                    test_results.append(False)
-            else:
-                print(f"❌ Failed to get user powers: {powers_response.status_code}")
-                test_results.append(False)
+        quest_data = quest_response.json()
+        quest_id = quest_data["id"]
+        results.add_result("Create quest with past deadline", True, f"Quest ID: {quest_id}")
+        
+        # 3. Call check-failures endpoint
+        print("\n3️⃣ Calling check-failures endpoint...")
+        failures_response = requests.post(f"{BACKEND_URL}/quests/{user_id}/check-failures")
+        
+        if failures_response.status_code != 200:
+            results.add_result("Call check-failures endpoint", False, f"Failed: {failures_response.status_code}")
+            return results
+        
+        failures_data = failures_response.json()
+        results.add_result("Call check-failures endpoint", True, "Endpoint responded successfully")
+        
+        # Verify response structure
+        if "failed_quests" not in failures_data or "total_demerits" not in failures_data:
+            results.add_result("Check-failures response structure", False, "Missing required fields")
         else:
-            print(f"❌ Failed to purchase power item: {response.status_code} - {response.text}")
-            test_results.append(False)
+            results.add_result("Check-failures response structure", True, "Response has required fields")
         
-        return all(test_results)
-    
-    def test_level_up_functionality(self):
-        """Test the level up functionality"""
-        print("\n🧪 Testing Level Up Functionality...")
+        # Verify the quest appears in failed_quests
+        failed_quests = failures_data["failed_quests"]
+        quest_found = any(q["id"] == quest_id for q in failed_quests)
+        results.add_result("Quest appears in failed_quests", quest_found, 
+                         f"Found {len(failed_quests)} failed quests")
         
-        if not self.test_powers:
-            print("❌ No test powers available for level up testing")
-            return False
+        # Verify demerits calculation
+        total_demerits = failures_data["total_demerits"]
+        expected_xp_demerit = 100
+        expected_gold_demerit = 50
+        expected_ap_demerit = 5
         
-        test_results = []
-        power = self.test_powers[0]
-        power_id = power["id"]
-        max_level = power["max_level"]
+        xp_correct = total_demerits["xp"] == expected_xp_demerit
+        gold_correct = total_demerits["gold"] == expected_gold_demerit
+        ap_correct = total_demerits["ap"] == expected_ap_demerit
         
-        print(f"Testing power: {power['name']} (max level: {max_level})")
+        results.add_result("XP demerits calculated correctly", xp_correct, 
+                         f"Expected: {expected_xp_demerit}, Got: {total_demerits['xp']}")
+        results.add_result("Gold demerits calculated correctly", gold_correct,
+                         f"Expected: {expected_gold_demerit}, Got: {total_demerits['gold']}")
+        results.add_result("AP demerits calculated correctly", ap_correct,
+                         f"Expected: {expected_ap_demerit}, Got: {total_demerits['ap']}")
         
-        # Test leveling up to max level
-        for expected_level in range(2, max_level + 1):
-            response = requests.post(f"{self.base_url}/powers/{power_id}/levelup")
-            
-            if response.status_code == 200:
-                updated_power = response.json()
-                if updated_power["current_level"] == expected_level:
-                    print(f"✅ Successfully leveled up to level {expected_level}")
-                    test_results.append(True)
-                else:
-                    print(f"❌ Level up failed: expected level {expected_level}, got {updated_power['current_level']}")
-                    test_results.append(False)
-            else:
-                print(f"❌ Level up request failed: {response.status_code} - {response.text}")
-                test_results.append(False)
-                break
+        # 4. Verify demerits were applied to user
+        print("\n4️⃣ Verifying demerits were applied to user...")
+        user_after_response = requests.get(f"{BACKEND_URL}/users/{user_id}")
         
-        # Test trying to level up beyond max level (should fail)
-        response = requests.post(f"{self.base_url}/powers/{power_id}/levelup")
+        if user_after_response.status_code != 200:
+            results.add_result("Get user after demerits", False, f"Failed: {user_after_response.status_code}")
+            return results
         
-        if response.status_code == 400:
-            error_data = response.json()
-            if "already at max level" in error_data.get("detail", "").lower():
-                print("✅ Correctly prevented leveling beyond max level")
-                test_results.append(True)
-            else:
-                print(f"❌ Wrong error message: {error_data.get('detail')}")
-                test_results.append(False)
-        else:
-            print(f"❌ Should have failed with 400 error, got: {response.status_code}")
-            test_results.append(False)
+        user_after_data = user_after_response.json()
         
-        return all(test_results)
-    
-    def test_powers_retrieval_with_levels(self):
-        """Test retrieving powers with all tier/level fields"""
-        print("\n🧪 Testing Powers Retrieval with Levels...")
+        expected_xp_after = max(0, initial_xp - expected_xp_demerit)
+        expected_gold_after = max(0, initial_gold - expected_gold_demerit)
+        expected_ap_after = max(0, initial_ap - expected_ap_demerit)
         
-        # Purchase multiple powers in different categories with different tiers
-        test_results = []
+        xp_applied = user_after_data["xp"] == expected_xp_after
+        gold_applied = user_after_data["gold"] == expected_gold_after
+        ap_applied = user_after_data["ability_points"] == expected_ap_after
         
-        # Create a power in a different category with lower price
-        mental_power_data = {
-            "name": "Telepathy",
-            "description": "Read minds and communicate telepathically",
-            "price": 50,  # Lower price to ensure user can afford it
-            "category": "powers",
-            "is_power": True,
-            "power_category": "Mental Abilities",
-            "power_tier": "Enhanced",
-            "power_max_level": 4,
-            "stat_boost": {"intelligence": 8},
-            "item_type": "power"
+        results.add_result("XP demerits applied to user", xp_applied,
+                         f"Expected: {expected_xp_after}, Got: {user_after_data['xp']}")
+        results.add_result("Gold demerits applied to user", gold_applied,
+                         f"Expected: {expected_gold_after}, Got: {user_after_data['gold']}")
+        results.add_result("AP demerits applied to user", ap_applied,
+                         f"Expected: {expected_ap_after}, Got: {user_after_data['ability_points']}")
+        
+        # 5. Test limitless quests are ignored
+        print("\n5️⃣ Testing limitless quests are ignored...")
+        limitless_quest_data = {
+            "user_id": user_id,
+            "title": "Limitless Quest",
+            "description": "Should not fail",
+            "xp_reward": 75,
+            "gold_reward": 25,
+            "ap_reward": 3,
+            "has_deadline": True,
+            "deadline_time": "00:00",
+            "repeat_frequency": "limitless"
         }
         
-        # Create the mental power item
-        response = requests.post(f"{self.base_url}/shop", json=mental_power_data)
-        if response.status_code == 200:
-            mental_item = response.json()
-            
-            # Purchase it
-            purchase_data = {
-                "user_id": self.test_user_id,
-                "item_id": mental_item["id"]
-            }
-            
-            # Check user's gold before purchase
-            user_response = requests.get(f"{self.base_url}/users/{self.test_user_id}")
-            if user_response.status_code == 200:
-                user = user_response.json()
-                print(f"User has {user['gold']} gold, mental power costs {mental_power_data['price']}")
-            
-            purchase_response = requests.post(f"{self.base_url}/shop/purchase", json=purchase_data)
-            if purchase_response.status_code == 200:
-                print("✅ Mental power purchased successfully")
-                
-                # Test powers retrieval
-                powers_response = requests.get(f"{self.base_url}/powers/{self.test_user_id}")
-                
-                if powers_response.status_code == 200:
-                    powers = powers_response.json()
-                    
-                    # Should have at least 2 powers now
-                    if len(powers) >= 2:
-                        print(f"✅ Retrieved {len(powers)} powers")
-                        
-                        # Verify all powers have required tier/level fields
-                        required_fields = ["power_tier", "current_level", "max_level", "power_category"]
-                        all_powers_valid = True
-                        
-                        categories = set()
-                        for power in powers:
-                            categories.add(power["power_category"])
-                            for field in required_fields:
-                                if field not in power:
-                                    print(f"❌ Power {power['name']} missing field: {field}")
-                                    all_powers_valid = False
-                        
-                        if all_powers_valid:
-                            print("✅ All powers have required tier/level fields")
-                            test_results.append(True)
-                        else:
-                            test_results.append(False)
-                        
-                        # Verify we have multiple categories
-                        if len(categories) >= 2:
-                            print(f"✅ Powers span multiple categories: {list(categories)}")
-                            test_results.append(True)
-                        else:
-                            print(f"❌ Expected multiple categories, got: {list(categories)}")
-                            test_results.append(False)
-                    else:
-                        print(f"❌ Expected at least 2 powers, got {len(powers)}")
-                        test_results.append(False)
-                else:
-                    print(f"❌ Failed to retrieve powers: {powers_response.status_code}")
-                    test_results.append(False)
-            else:
-                error_msg = purchase_response.text if purchase_response.text else "No error details"
-                print(f"❌ Failed to purchase mental power: {purchase_response.status_code} - {error_msg}")
-                test_results.append(False)
+        limitless_response = requests.post(f"{BACKEND_URL}/quests", json=limitless_quest_data)
+        if limitless_response.status_code not in [200, 201]:
+            results.add_result("Create limitless quest", False, f"Failed: {limitless_response.status_code}")
         else:
-            print(f"❌ Failed to create mental power item: {response.status_code}")
-            test_results.append(False)
+            limitless_quest = limitless_response.json()
+            limitless_quest_id = limitless_quest["id"]
+            results.add_result("Create limitless quest", True, f"Quest ID: {limitless_quest_id}")
+            
+            # Call check-failures again
+            failures2_response = requests.post(f"{BACKEND_URL}/quests/{user_id}/check-failures")
+            if failures2_response.status_code == 200:
+                failures2_data = failures2_response.json()
+                limitless_found = any(q["id"] == limitless_quest_id for q in failures2_data["failed_quests"])
+                results.add_result("Limitless quest ignored by failure system", not limitless_found,
+                                 f"Limitless quest {'found' if limitless_found else 'not found'} in failed quests")
+            else:
+                results.add_result("Check failures for limitless test", False, f"Failed: {failures2_response.status_code}")
         
-        return all(test_results)
+        # 6. Test quests without deadline are ignored
+        print("\n6️⃣ Testing quests without deadline are ignored...")
+        no_deadline_quest_data = {
+            "user_id": user_id,
+            "title": "No Deadline Quest",
+            "description": "Should not fail",
+            "xp_reward": 60,
+            "gold_reward": 20,
+            "ap_reward": 2,
+            "has_deadline": False,
+            "repeat_frequency": "none"
+        }
+        
+        no_deadline_response = requests.post(f"{BACKEND_URL}/quests", json=no_deadline_quest_data)
+        if no_deadline_response.status_code not in [200, 201]:
+            results.add_result("Create quest without deadline", False, f"Failed: {no_deadline_response.status_code}")
+        else:
+            no_deadline_quest = no_deadline_response.json()
+            no_deadline_quest_id = no_deadline_quest["id"]
+            results.add_result("Create quest without deadline", True, f"Quest ID: {no_deadline_quest_id}")
+            
+            # Call check-failures again
+            failures3_response = requests.post(f"{BACKEND_URL}/quests/{user_id}/check-failures")
+            if failures3_response.status_code == 200:
+                failures3_data = failures3_response.json()
+                no_deadline_found = any(q["id"] == no_deadline_quest_id for q in failures3_data["failed_quests"])
+                results.add_result("Quest without deadline ignored", not no_deadline_found,
+                                 f"No-deadline quest {'found' if no_deadline_found else 'not found'} in failed quests")
+            else:
+                results.add_result("Check failures for no-deadline test", False, f"Failed: {failures3_response.status_code}")
+        
+        # 7. Test daily quests are reset, not deleted
+        print("\n7️⃣ Testing daily quests are reset, not deleted...")
+        daily_quest_data = {
+            "user_id": user_id,
+            "title": "Daily Quest",
+            "description": "Should be reset, not deleted",
+            "xp_reward": 40,
+            "gold_reward": 15,
+            "ap_reward": 1,
+            "has_deadline": True,
+            "deadline_time": "00:00",
+            "repeat_frequency": "daily"
+        }
+        
+        daily_response = requests.post(f"{BACKEND_URL}/quests", json=daily_quest_data)
+        if daily_response.status_code not in [200, 201]:
+            results.add_result("Create daily quest", False, f"Failed: {daily_response.status_code}")
+        else:
+            daily_quest = daily_response.json()
+            daily_quest_id = daily_quest["id"]
+            results.add_result("Create daily quest", True, f"Quest ID: {daily_quest_id}")
+            
+            # Call check-failures
+            failures4_response = requests.post(f"{BACKEND_URL}/quests/{user_id}/check-failures")
+            if failures4_response.status_code == 200:
+                failures4_data = failures4_response.json()
+                daily_found = any(q["id"] == daily_quest_id for q in failures4_data["failed_quests"])
+                results.add_result("Daily quest appears in failures", daily_found,
+                                 f"Daily quest {'found' if daily_found else 'not found'} in failed quests")
+                
+                # Check that the quest still exists (not deleted)
+                quests_response = requests.get(f"{BACKEND_URL}/quests/{user_id}")
+                if quests_response.status_code == 200:
+                    user_quests = quests_response.json()
+                    daily_still_exists = any(q["id"] == daily_quest_id for q in user_quests)
+                    results.add_result("Daily quest still exists after failure", daily_still_exists,
+                                     f"Daily quest {'exists' if daily_still_exists else 'deleted'} after failure")
+                    
+                    # Check that it's marked as failed but not completed for daily quests
+                    if daily_still_exists:
+                        daily_quest_after = next(q for q in user_quests if q["id"] == daily_quest_id)
+                        is_failed = daily_quest_after.get("failed", False)
+                        is_completed = daily_quest_after.get("completed", False)
+                        
+                        results.add_result("Daily quest marked as failed", is_failed,
+                                         f"Failed status: {is_failed}")
+                        results.add_result("Daily quest NOT marked as completed", not is_completed,
+                                         f"Completed status: {is_completed}")
+                else:
+                    results.add_result("Get user quests after daily failure", False, f"Failed: {quests_response.status_code}")
+            else:
+                results.add_result("Check failures for daily test", False, f"Failed: {failures4_response.status_code}")
+        
+        # 8. Test that calling check-failures multiple times doesn't duplicate demerits
+        print("\n8️⃣ Testing duplicate failure prevention...")
+        user_before_duplicate = requests.get(f"{BACKEND_URL}/users/{user_id}")
+        if user_before_duplicate.status_code == 200:
+            stats_before = user_before_duplicate.json()
+            
+            # Call check-failures again
+            duplicate_response = requests.post(f"{BACKEND_URL}/quests/{user_id}/check-failures")
+            if duplicate_response.status_code == 200:
+                user_after_duplicate = requests.get(f"{BACKEND_URL}/users/{user_id}")
+                if user_after_duplicate.status_code == 200:
+                    stats_after = user_after_duplicate.json()
+                    
+                    # Stats should be the same (no additional demerits)
+                    xp_same = stats_before["xp"] == stats_after["xp"]
+                    gold_same = stats_before["gold"] == stats_after["gold"]
+                    ap_same = stats_before["ability_points"] == stats_after["ability_points"]
+                    
+                    results.add_result("No duplicate XP demerits", xp_same,
+                                     f"XP before: {stats_before['xp']}, after: {stats_after['xp']}")
+                    results.add_result("No duplicate Gold demerits", gold_same,
+                                     f"Gold before: {stats_before['gold']}, after: {stats_after['gold']}")
+                    results.add_result("No duplicate AP demerits", ap_same,
+                                     f"AP before: {stats_before['ability_points']}, after: {stats_after['ability_points']}")
+                else:
+                    results.add_result("Get user after duplicate test", False, f"Failed: {user_after_duplicate.status_code}")
+            else:
+                results.add_result("Call check-failures for duplicate test", False, f"Failed: {duplicate_response.status_code}")
+        else:
+            results.add_result("Get user before duplicate test", False, f"Failed: {user_before_duplicate.status_code}")
+        
+    except Exception as e:
+        results.add_result("Test execution", False, f"Exception occurred: {str(e)}")
     
-    def cleanup(self):
-        """Clean up test data"""
-        print("\n🧹 Cleaning up test data...")
-        
-        # Delete test shop items
-        for item in self.test_shop_items:
-            requests.delete(f"{self.base_url}/shop/{item['id']}")
-        
-        print("✅ Cleanup completed")
-    
-    def run_all_tests(self):
-        """Run all power tier and leveling tests"""
-        print("🚀 Starting Power Tier and Leveling System Tests")
-        print("=" * 60)
-        
-        if not self.setup_test_user():
-            return False
-        
-        test_results = []
-        
-        # Test 1: Shop Item Creation with Power Tiers
-        test_results.append(self.test_shop_item_creation_with_power_tiers())
-        
-        # Test 2: Purchase Flow with Tier System
-        test_results.append(self.test_purchase_flow_with_tier_system())
-        
-        # Test 3: Level Up Functionality
-        test_results.append(self.test_level_up_functionality())
-        
-        # Test 4: Powers Retrieval with Levels
-        test_results.append(self.test_powers_retrieval_with_levels())
-        
-        # Cleanup
-        self.cleanup()
-        
-        # Summary
-        print("\n" + "=" * 60)
-        print("📊 TEST SUMMARY")
-        print("=" * 60)
-        
-        test_names = [
-            "Shop Item Creation with Power Tiers",
-            "Purchase Flow with Tier System", 
-            "Level Up Functionality",
-            "Powers Retrieval with Levels"
-        ]
-        
-        for i, (name, result) in enumerate(zip(test_names, test_results)):
-            status = "✅ PASS" if result else "❌ FAIL"
-            print(f"{i+1}. {name}: {status}")
-        
-        overall_result = all(test_results)
-        print(f"\nOverall Result: {'✅ ALL TESTS PASSED' if overall_result else '❌ SOME TESTS FAILED'}")
-        
-        return overall_result
+    return results
 
 if __name__ == "__main__":
-    tester = PowerTierTester()
-    success = tester.run_all_tests()
-    exit(0 if success else 1)
+    print("🚀 Starting Disciplinary Feature Backend Tests")
+    print(f"Backend URL: {BACKEND_URL}")
+    print()
+    
+    results = test_disciplinary_feature()
+    results.print_summary()
+    
+    # Exit with appropriate code
+    exit(0 if results.failed == 0 else 1)
